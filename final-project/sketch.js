@@ -8,16 +8,15 @@
 // * Draw x and y axes
 // also good to do bar graph showing average reach for each topic 
 
-//first, set up canvas
 
+//set topic category variable 
 var currentCat = 0;
-
+//set up canvas
 function setup() {
-   
-    createCanvas(windowWidth, windowHeight);
-// //create background
-   background(250,250,250);
+   //create canvas 
+   createCanvas(windowWidth, windowHeight);
 
+//loop through the videoDatatwo array of objects and get xpoints and ypoints
    for(var i = 0; i < videoDatatwo.length; i++) {
 
    videoDatatwo[i].xpoint = map(videoDatatwo[i].Reach, 0, 47674, 150,width-100);
@@ -28,25 +27,13 @@ function setup() {
 }
 
 function draw() 
-{
+{   //create background
   background(250,250,250);
-for(var i = 0; i < videoDatatwo.length; i++) if(currentCat == 0 || currentCat == videoDatatwo[i].Topic) {
+  //if statement in main draw loop so it only draws for the current category
+for(var i = 0; i < videoDatatwo.length; i++) {
+  if(currentCat == 0 || currentCat == videoDatatwo[i].Topic) 
 
- {
-  
-//loop through the videoDatatwo array of objects and get video Message and Topic, xpoints and ypoints
-// message = "Message"
-// topic = "Topic"
-// xpoints = "Reach"
-// ypoints = "Views"
-//xpoints and ypoints are the mapped values on the screen for each reach and view number
-    
-    // var message = videoDatatwo[i].Message;
-    // var topic = videoDatatwo[i].Topic;
-    // var xpoint = map(videoDatatwo[i].Reach, 0, 47674, 150,width-100);
-    // var ypoint = map(videoDatatwo[i].Views, 0, 9248, height-150, 100);
-        
-        //if statement in main draw loop so it only draws for the current category
+ {   
         
 //set one color for each topic
 if (videoDatatwo[i].Topic == 'Culture') {
@@ -73,10 +60,7 @@ if (videoDatatwo[i].Topic == 'Culture') {
 }
 }
 
-// you needed to end your loop here
-// all of these things just need to be drawn once
 //draw header text 
-//  noStroke();
   fill(80,80,80);
   textStyle('bold');
   textFont('Arial');
@@ -84,11 +68,11 @@ if (videoDatatwo[i].Topic == 'Culture') {
   text("NIPPON TV NEWS24 FACEBOOK VIDEOS: PERFORMANCE BY TOPIC",160,50);
   textSize(20);
   textStyle(NORMAL);
-  text("227 videos posted Jan-March 2019, represented by Reach and Views",160,80);
+  text("227 videos posted Jan-March 2019, represented by Reach and Views, filtered by Topic",160,80);
   textStyle(ITALIC);
   textSize(18);
   fill('SteelBlue');
-  text("Hover to see video headline", 160, 150);
+  text("Hover to see video headline", 160, 152);
 
   //draw key ellipses
   fill('Maroon');
@@ -115,33 +99,39 @@ if (videoDatatwo[i].Topic == 'Culture') {
   textStyle(NORMAL);
   textFont('Arial');
   textSize(20);
-  text("Culture",170,height-22);
-  text("Economy",320,height-22);
-  text("Imperial",470,height-22);
-  text("Nature",620,height-22);
-  text("Politics",770,height-22);
-  text("Scitech",920,height-22);
-  text("Society",1070,height-22);
-  text("Sports",1220,height-22);
-  text("Weather",1370,height-22);
+  text("Culture",170,height-18);
+  text("Economy",320,height-18);
+  text("Imperial",470,height-18);
+  text("Nature",620,height-18);
+  text("Politics",770,height-18);
+  text("Scitech",920,height-18);
+  text("Society",1070,height-18);
+  text("Sports",1220,height-18);
+  text("Weather",1370,height-18);
 
   // draw axis labels 
   textSize(25);
-  text("Reach", width/2, height-70);
+  text("Reach", width/2, height-65);
   text("Views", 60, height/2);
   textSize(20);
-  text("47674", width-150, height-75);
-  text("14385", 75, 120);
+  // text("47674", width-150, height-75);
+  // text("14385", 75, 120);
 
 
-// here is your next loop, where you check for rollovers
+//check for rollovers
 var mouseHit = false;
+
 for(var j = 0; j < videoDatatwo.length; j++) {
+  if(currentCat == 0 || currentCat == videoDatatwo[j].Topic){
     var MouseYes1 = dist(videoDatatwo[j].xpoint,videoDatatwo[j].ypoint, mouseX, mouseY);
+
   //If the distance is equal to the size of the ellipse then change the cursor
-  if(MouseYes1 < 6) {
+
+  if(MouseYes1 < 8) {
           mouseHit = true
+
           tellMeSomething(videoDatatwo[j].Message);
+
           // fill(0,0,0);
           // ellipse(videoDatatwo[i].xpoint, videoDatatwo[i].ypoint,8,8);
           // you can redraw the… of the thing you hit, make it light up or be bigger here
@@ -156,25 +146,41 @@ for(var j = 0; j < videoDatatwo.length; j++) {
   } else {
   cursor(ARROW);
   
-
+}
+}
  //axis function
   makeAxis();
-
+  textAlign(LEFT,BOTTOM);
 }
 
 function makeAxis() {
-  // textAlign(LEFT);
-  // fill(75,75,75);
     
-    //draw xaxis
-    fill(80,80,80);
+    //draw xaxis and yaxis
     strokeWeight(2);
-    stroke(100,100,100)
+    stroke(80,80,80);
     line(150,height-100,width-100,height-100);
-    //draw yaxis
     line(150,100,150,height-100);
-   
-}
+    
+    //draw xaxis values
+      noStroke();
+      for(var x = 0; x <= 50000; x += 10000) {
+      var xvalues = x;
+      var xvalue = map(xvalues,0,50000,150, width-100);
+      textAlign(CENTER,CENTER);
+      textSize(14);
+      text(xvalues,xvalue,height-90);
+    }
+
+     //draw yaxis values 
+     for(var y = 0; y <= 15000; y += 5000) {
+      var yvalues = y;
+      var yvalue = map(yvalues,0,15000,height-100,100);
+      textAlign(RIGHT,CENTER);
+      textSize(14);
+      text(yvalues,140,yvalue);
+     } 
+  }
+
 
 function tellMeSomething(myMessage) {
    var infoBox = document.getElementById("inputResults");
@@ -191,4 +197,3 @@ $(document).ready(function () {
 
   });
   });
-};
