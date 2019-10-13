@@ -6,7 +6,7 @@ PLACE SONG TITLES.
 CREATE HOVER EVENTS THAT PULL SONG SAMPLES FROM SPOTIFY API 
 CREATE AXES AND TITLES*/
 
-//declare variables for csv, fender and gibson icons, decade array 
+//declare variables for csv, fender and gibson icons, guitarLocations and decade arrays 
 let table;
 let fender;
 let gibson;
@@ -20,18 +20,15 @@ let guitarTopMargin = 170;
 let graphWidth = 1350;
 
 function preload() {
-
-  //load table 
+  //load font and table 
   myFont = loadFont('AllAgesDemo-2DPX.ttf');
   table = loadTable('guitars.csv', 'csv', 'header');
   //consoleString.log(table);
   //load images  
   fender = loadImage('fender_icon.png');
   gibson = loadImage('les_paul_icon.png');
-  fenderLogo = loadImage('fender_logo.png');
+  fenderLogo = loadImage('Fender_logo.png');
   gibsonLogo = loadImage('Gibson_logo.png');
-  //gibsonLogo = loadImage();
-
 }
 
 function setup() {
@@ -93,13 +90,13 @@ function setup() {
   fill(255);
 
   //make vertical background lines 
-    for (let l = 0; l <= 1700; l += 160) {
-      stroke(50);
-      line(leftMargin + 150, topMargin + 315 + l, leftMargin + 150 + graphWidth, topMargin + 315 + l);
-    } 
+  for (let l = 0; l <= 1700; l += 160) {
+    stroke(50);
+    line(leftMargin + 150, topMargin + 315 + l, leftMargin + 150 + graphWidth, topMargin + 315 + l);
+  }
 
 
-//  loop through rock stars for y axis
+  //loop through rock stars for y axis
   for (let r = 0; r < table.getRowCount(); r++) {
     // fill(200, 200, 100);
     textFont("Futura");
@@ -131,22 +128,21 @@ function setup() {
     const imageURL = table.getString(r, 6);
     const songTitle = table.getString(r, 4);
     let description = table.getString(r, 7);
-    
+
     let songID = table.getString(r, 8);
-    
+
     //push new object into array guitarLocations 
     //object contains upper left corner of guitar icon + title + URL for guitar image
     const g = {
       x, y, imageURL, songTitle, description, songID,
       type: table.getString(r, 1),
       title: [table.getString(r, 1),
-              table.getString(r, 2), 
-              table.getString(r, 3)].join("       ")
+      table.getString(r, 2),
+      table.getString(r, 3)].join("       ")
     };
-    
-    
+
     guitarLocations.push(g);
-//    if (songID !== '') console.log(guitarLocations);
+    //    if (songID !== '') console.log(guitarLocations);
     if (table.getString(r, 1) === "Fender") {
       image(fender, x, y);
     } else {
@@ -157,24 +153,24 @@ function setup() {
     stroke(255);
     if (songTitle !== '') {
       if (table.getNum(r, 9) == 1) {
-          fill('orange');
-          line(x + 105, y + 17, x + 198, y + 17);
-          noStroke();
-          text(songTitle, x + 205, y + 25);
+        fill('orange');
+        line(x + 105, y + 17, x + 198, y + 17);
+        noStroke();
+        text(songTitle, x + 205, y + 25);
       }
       else {
-          fill(255);
-          line(x + 105, y + 17, x + 198, y + 17);
-          noStroke();
-          text(songTitle, x + 205, y + 25);
+        fill(255);
+        line(x + 105, y + 17, x + 198, y + 17);
+        noStroke();
+        text(songTitle, x + 205, y + 25);
       }
-  }
+    }
     //name next to guitars 
-  //text(table.getString(r, 0), x - 250, y + 25);
+    //text(table.getString(r, 0), x - 250, y + 25);
     textAlign(RIGHT);
     guitarTopMargin += 40;
   }
-  
+
   //console.log(guitarLocations);
 }
 
@@ -227,7 +223,7 @@ function makeContent(guitarLocation) {
 }
 
 function makeIframe(songIDStr) {
-  if(songIDStr !== "") {
+  if (songIDStr !== "") {
     return `<iframe src="https://open.spotify.com/embed/track/${songIDStr}" 
     width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
   }
