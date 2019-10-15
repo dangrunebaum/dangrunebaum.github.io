@@ -36,7 +36,7 @@ function setup() {
   createCanvas(1920, 2400);
   background(0);
   fill(30, 30, 30);
-  rect(0, 0, 1920, 200);
+  rect(0, 0, 1920, 205);
   noStroke();
   fill(200, 200, 100);
   textFont(myFont);
@@ -56,7 +56,7 @@ function setup() {
   fill(255);
   textSize(30);
   textStyle(NORMAL);
-  text("THE    GREAT    GUITAR    DEBATE", 950, 187);
+  text("THE    GREAT    GUITAR    DEBATE", 950, 190);
   textFont("Futura");
   textStyle(ITALIC);
   textSize(24);
@@ -73,9 +73,9 @@ function setup() {
   text("Date of Manufacture", leftMargin + 130, topMargin + 120);
   textSize(20);
   text("19             and 28             were played by 37 rockstars.", leftMargin + 975, topMargin + 200);
-  text("Number One hits in .", leftMargin + 975, topMargin + 225);
-  fill('orange');
-  text("orange.", leftMargin + 1157, topMargin + 225);
+  text("Number One hits in       .", leftMargin + 975, topMargin + 225);
+  fill('cyan');
+  text("blue", leftMargin + 1157, topMargin + 225);
   fill(210, 145, 169);
   text("Fenders", leftMargin + 1005, topMargin + 200);
   fill(183, 132, 67);
@@ -97,15 +97,15 @@ function setup() {
 
 
   //loop through rock stars for y axis
-  for (let r = 0; r < table.getRowCount(); r++) {
-    // fill(200, 200, 100);
-    textFont("Futura");
-    textAlign(RIGHT);
-    textSize(20);
-    //name in first column 
-    text(table.getString(r, 0), leftMargin + 110, topMargin + 200);
-    topMargin += 40;
-  }
+  // for (let r = 0; r < table.getRowCount(); r++) {
+  //   // fill(200, 200, 100);
+  //   textFont("Futura");
+  //   textAlign(RIGHT);
+  //   textSize(20);
+  //   //name in first column 
+  //   text(table.getString(r, 0), leftMargin + 110, topMargin + 200);
+  //   topMargin += 40;
+  // }
 
   //loop through decades for x axis and lines  
   for (let t = 0; t < decadeArray.length; t++) {
@@ -153,10 +153,16 @@ function setup() {
     stroke(255);
     if (songTitle !== '') {
       if (table.getNum(r, 9) == 1) {
-        fill('orange');
+        fill('cyan');
         line(x + 105, y + 17, x + 198, y + 17);
         noStroke();
         text(songTitle, x + 205, y + 25);
+        fill(255);
+        textFont(myFont);
+        textAlign(LEFT);
+        text("number 1", x + 450, y + 25);
+        textAlign(LEFT);
+        textFont('futura');
       }
       else {
         fill(255);
@@ -166,8 +172,8 @@ function setup() {
       }
     }
     //name next to guitars 
-    //text(table.getString(r, 0), x - 250, y + 25);
     textAlign(RIGHT);
+    text(table.getString(r, 0), x - 120, y + 25);
     guitarTopMargin += 40;
   }
 
@@ -229,5 +235,3 @@ function makeIframe(songIDStr) {
   }
   return "";
 }
-
-/*if fender color rockstar text pink, if gibson color gold, if both color blue */
