@@ -229,7 +229,7 @@ function makeContent(guitarLocation) {
 }
 
 function makeIframe(songIDStr) {
-  if (songIDStr !== "") {
+  if (songIDStr !== "0") {
     return `<iframe src="https://open.spotify.com/embed/track/${songIDStr}" 
     width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
   }
