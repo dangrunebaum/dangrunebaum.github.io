@@ -10,6 +10,7 @@ CREATE AXES AND TITLES*/
 let table;
 let fender;
 let gibson;
+let numberOneIcon;
 const guitarLocations = [];
 const decadeArray = [1940, 1950, 1960, 1970, 1980, 1990, 2000];
 
@@ -29,6 +30,7 @@ function preload() {
   gibson = loadImage('les_paul_icon.png');
   fenderLogo = loadImage('Fender_logo.png');
   gibsonLogo = loadImage('Gibson_logo.png');
+  numberOneIcon = loadImage('oneicon.png');
 }
 
 function setup() {
@@ -36,7 +38,7 @@ function setup() {
   createCanvas(1920, 2400);
   background(0);
   fill(30, 30, 30);
-  rect(0, 0, 1920, 205);
+  //rect(0, 0, 1920, 205);
   noStroke();
   fill(200, 200, 100);
   textFont(myFont);
@@ -61,11 +63,11 @@ function setup() {
   textStyle(ITALIC);
   textSize(24);
   fill(255);
-  text("The           /           rivalry defined the sound of rock. \nClick a guitar icon to explore legendary instruments played by rockstars in the Met’s “Play It Loud” exhibition.", 990, 250)
+  text("The           /           rivalry defined the sound of rockstars in the Met’s “Play It Loud” exhibition. \nClick a guitar icon to explore.", 990, topMargin + 30);
   fill(210, 145, 169);
-  text("Fender", 780, 250);
+  text("Fender", 549, topMargin + 30);
   fill(183, 132, 67);
-  text("Gibson", 868, 250);
+  text("Gibson", 638, topMargin + 30);
   fill(255);
   textAlign(LEFT);
   textSize(18);
@@ -90,10 +92,10 @@ function setup() {
   fill(255);
 
   //make vertical background lines 
-  for (let l = 0; l <= 1700; l += 160) {
-    stroke(50);
-    line(leftMargin + 150, topMargin + 315 + l, leftMargin + 150 + graphWidth, topMargin + 315 + l);
-  }
+  // for (let l = 0; l <= 1700; l += 160) {
+  //   stroke(50);
+  //   line(leftMargin + 150, topMargin + 315 + l, leftMargin + 150 + graphWidth, topMargin + 315 + l);
+  // }
 
 
   //loop through rock stars for y axis
@@ -111,8 +113,12 @@ function setup() {
   for (let t = 0; t < decadeArray.length; t++) {
     textAlign(CENTER);
     text(decadeArray[t], leftMargin + 150, 350);
-    stroke(50);
+    fill(60);
+    text(decadeArray[t], leftMargin + 150, 950);
+    text(decadeArray[t], leftMargin + 150, 1550);
+    stroke(60);
     line(leftMargin + 150, 355, leftMargin + 150, 2250);
+    fill(255);
     leftMargin += graphWidth / 6;
     text(decadeArray[t], leftMargin - 75, 2270);
   }
@@ -160,20 +166,23 @@ function setup() {
         fill(255);
         textFont(myFont);
         textAlign(LEFT);
-        text("number 1", x + 450, y + 25);
+   //     text("1", x + 450, y + 25);
+        image(numberOneIcon, x + 410, y);
         textAlign(LEFT);
         textFont('futura');
       }
       else {
+        //song titles 
         fill(255);
         line(x + 105, y + 17, x + 198, y + 17);
         noStroke();
         text(songTitle, x + 205, y + 25);
       }
     }
-    //name next to guitars 
+    //rockstar name next to guitars 
     textAlign(RIGHT);
-    text(table.getString(r, 0), x - 120, y + 25);
+    noStroke();
+    text(table.getString(r, 0), x - 30, y + 25);
     guitarTopMargin += 40;
   }
 
@@ -182,7 +191,9 @@ function setup() {
 
 //loop through song column, draw song titles and lines for each row
 //where song exists
-
+function openPageTwo(){
+  window.open("global.html")
+}
 
 function mouseClicked() {
   //see if mouse click occurs on guitar icon 
