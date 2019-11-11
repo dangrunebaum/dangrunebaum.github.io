@@ -5,7 +5,7 @@ In Major Studio I, as part of my MS in Data Visualization at Parsons, students a
 ## Ideation 
 
 For the Qualitative Data segment of the course, I chose to create a visualization based on the Met's "Play It Loud" exhibition of iconic guitars played by legendary rockstars. I decided to view the show through the prism of the rivalry between Fender and Gibson, the two most famous makers of electric guitars. 
-![Fender vs Gibson](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-qual/FENDER_VS_GIBSON_FINAL.png)
+![Fender vs Gibson](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-qual/FENDER_VS_GIBSON_SKETCH.png)
 
 ## Project 
 
