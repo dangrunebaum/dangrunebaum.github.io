@@ -5,7 +5,7 @@ FOR EACH ROW, CREATE HOVER EVENT THAT PULLS APPROPRIATE IMAGE FROM URL.
 PLACE SONG TITLES.
 CREATE HOVER EVENTS THAT PULL SONG SAMPLES FROM SPOTIFY API 
 CREATE AXES AND TITLES
-CREATE NEW ELEMENT CONTAINING 2 SOUND SAMPLES AND WAVE FORM CANVASES*/
+CREATE NEW ELEMENT CONTAINING 2 SOUND SAMPLES AND WAVE FORMS FOR FENDER/GIBSON COMPARISON*/
 
 //declare variables for graph, csv, fender and gibson icons, guitarLocations and decade arrays 
 //graph sound;
@@ -27,14 +27,14 @@ $("#select-menu").on("change",
         $(".guitarRow").remove();
         setupAux();
     })
+
 //filter function   
 function toDisplay(g) {
     if (filterSelection === "All") return true;
     let [value, field] = filterSelection.split(",");
     return g[field] === value;
 }
-// let fenderColor = (162, 224, 184);
-// let lpColor = (183, 132, 67);
+
 let numberOneIcon;
 
 //declare spacing variables
@@ -56,6 +56,8 @@ function preload() {
     fenderStrat = loadImage('images/fender_strat.png');
     gibsonLP = loadImage('images/gibson_lp2.png');
     arrow = loadImage('images/arrow.png');
+    fenderSound = loadImage('images/fendersound.png');
+    gibsonSound = loadImage('images/gibsonsound.png');
 
     //create data structure for samples
     samples = {
@@ -117,7 +119,7 @@ function setupAux() {
     textAlign(CENTER);
     noStroke();
     fill(255);
-    text("The Fender/Gibson rivalry shaped the sound of rockstars in the \nMetropolitan Museum of Art's \"Play It Loud\" exhibition. Click to explore.", width / 2, topMargin + 60);
+    text("The Fender/Gibson rivalry defined the sound of rockstars in the \nMetropolitan Museum of Art's \"Play It Loud\" exhibition. Click to explore.", width / 2, topMargin + 60);
     fill(255);
     textAlign(LEFT);
     textSize(16);
@@ -157,9 +159,9 @@ function setupAux() {
         }
 
     }
-
+    //spacing variable for sound stuff 
     let guitarsBottom;
-    //loop through decades for x axis and lines
+    //loop through decades for x axis lines and text
     for (var t = 1940; t <= 2000; t += 10) {
         var tvalues = t;
         var tvalue = map(tvalues, 1940, 2000, 150, width - 300);
@@ -184,9 +186,9 @@ function setupAux() {
     textSize(18);
     textAlign(LEFT);
     fill(255);
-    text(`${fCount} Fenders and ${gCount} Gibsons`, 320, 338);
+    text(`${fCount} Fenders and ${gCount} Gibsons were played by ${lineCount} rockstars`, 320, 338);
 
-
+    //show select-menu 
     textSize(20);
     fill(255);
     $("#select-menu").show();
@@ -203,10 +205,12 @@ function setupAux() {
             //  console.log(249, g.y);
 
         });
+    //pass spacing variable into sound stuff function     
     setupBottom(guitarsBottom);
 
 }
 
+//sound stuff function 
 let WTopMargin;
 function setupBottom(guitarsBottom) {
     WTopMargin = guitarsBottom;
@@ -226,19 +230,19 @@ function setupBottom(guitarsBottom) {
     textSize(55);
     textAlign(CENTER);
     text("FENDER  VS  GIBSON      SOUND  AND  WAVE  FORM  COMPARISON", width / 2, WTopMargin + 200);
-    textSize(22);
+    textSize(20);
     textFont("Futura");
     textAlign(LEFT);
-    text("Fender's bright attack vs Gibson's warm \nsustain divides rockstars into camps. \n \nConventional wisdom holds that Gibson's set \nneck transfers resonance between neck \nand body better than Fender's bolt-on neck. \nThe result is said to be more warmth and \nsustain in the set-neck guitar, and more twang \nin the bolt-on guitar. \n \nTest the conventional wisdom by comparing \nthe wave forms of a Fender Stratocaster and \nGibson Les Paul, both strummed in open E. \n \nThe p5.js FFT wave form analyzer shows \namplitude (volume) over time in red, and \nfrequency (pitch), from the lowest to highest \nthat humans can hear, in blue.", 1150, WTopMargin + 360);
+    text("Fender's bright attack vs Gibson's warm \nsustain divides rockstars into camps. \n \nConventional wisdom holds that Gibson's set \nneck transfers resonance between neck \nand body better than Fender's bolt-on neck. \nThe result is said to be more warmth and \nsustain in the set-neck guitar, and more twang \nin the bolt-on guitar. \n \nTest the conventional wisdom by comparing \nthe wave forms of a Fender Stratocaster and \nGibson Les Paul, both strummed in open E. \n \nThe p5.js FFT wave form analyzer shows \namplitude (volume) over time in red, and \nfrequency (pitch), from the lowest to highest \nthat humans can hear, in blue. \n \nWhat do the wave forms tell you about \nFender and Gibson's tone?", 1150, WTopMargin + 360);
     textSize(24);
     textStyle(ITALIC);
     textAlign(CENTER);
     text("Test a Fender Stratocaster against a Gibson Les Paul", width / 2, WTopMargin + 270);
-    textStyle(NORMAL);
     textAlign(LEFT);
-    textSize(18);
-    text("Click guitar strings for play/pause", 210, WTopMargin + 342);
     textSize(20);
+    text("Click strings for play/pause", 210, WTopMargin + 342);
+    textSize(20);
+    textStyle(NORMAL);
     text("Stratocaster", 210, WTopMargin + 560);
     text("Les Paul", 210, WTopMargin + 850);
     image(fenderStrat, 200, WTopMargin + 380);
@@ -256,13 +260,23 @@ function setupBottom(guitarsBottom) {
 
     //rectangles around sound samples 
     stroke(255);
-    strokeWeight(4);
+    strokeWeight(6);
     fill(0);
     rect(798, WTopMargin + 348, 202, 202);
     samples.fender.top = WTopMargin + 350;
     rect(798, WTopMargin + 648, 202, 202);
     samples.gibson.top = WTopMargin + 650;
+    strokeWeight(1);
+    stroke(0, 73, 219);
+    line(802, WTopMargin + 455, 996, WTopMargin + 455);
+    line(802, WTopMargin + 755, 996, WTopMargin + 755);
+    stroke(221, 105, 103);
+    line(802, WTopMargin + 445, 996, WTopMargin + 445);
+    line(802, WTopMargin + 745, 996, WTopMargin + 745);
 
+    //add divs for strings mouseover 
+    $("#Fstring.strings").css("left", 260).css("top", WTopMargin + 425);
+    $("#Gstring.strings").css("left", 275).css("top", WTopMargin + 715);
 }
 // new handleGuitarClick
 function handleGuitarClick(event) {
@@ -359,23 +373,22 @@ function overGuitar() {
 
 function mouseClicked() {
 
-
     //mouse positions for sound stuff 
-    if ((mouseX >= 260 && mouseX <= 580) && (mouseY >= WTopMargin + 435 && mouseY <= WTopMargin + 465)) {
+    if ((mouseX >= 260 && mouseX <= 580) && (mouseY >= WTopMargin + 425 && mouseY <= WTopMargin + 475)) {
         togglePlay("fender");
         // fill(0);
         // rect(798, topMargin + 2448, 202, 202);
         stroke(162, 224, 184);
-        strokeWeight(4);
+        strokeWeight(6);
         rect(798, WTopMargin + 348, 202, 202);
         samples.fender.top = WTopMargin + 348;
     }
-    else if ((mouseX >= 275 && mouseX <= 595) && (mouseY >= WTopMargin + 725 && mouseY <= WTopMargin + 755)) {
+    else if ((mouseX >= 275 && mouseX <= 595) && (mouseY >= WTopMargin + 715 && mouseY <= WTopMargin + 765)) {
         togglePlay("gibson");
         // fill(0);
         // rect(798, topMargin + 2748, 202, 202);
         stroke(183, 132, 67);
-        strokeWeight(4);
+        strokeWeight(6);
         rect(798, WTopMargin + 648, 202, 202);
         samples.gibson.top = WTopMargin + 648;
     }
@@ -401,6 +414,8 @@ function makeIframe(songIDStr) {
     }
     return "";
 }
+
+
 
 //sound functions 
 function draw() {
