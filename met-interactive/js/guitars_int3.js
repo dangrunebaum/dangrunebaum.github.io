@@ -141,17 +141,17 @@ function setupAux() {
         //push new object into array guitarLocations 
         //object contains upper left corner of guitar icon + title + URL for guitar image
         const g = {
-            x, y, imageURL, description, songID,
-            type: table.getString(r, 1),
-            title: [table.getString(r, 1),
-            table.getString(r, 2),
-            table.getString(r, 3)].join("       "),
-            numberOne: table.getString(r, 9),
-            category: table.getString(r, 10),
-            artist: table.getString(r, 0),
-            songTitle: table.getString(r, 4)
+            x, y, imageURL, description, songID, //x, y for guitar icon location, image, text, songID for modal 
+            type: table.getString(r, 1), //guitar make
+            title: [table.getString(r, 1), //title for modal includes make
+            table.getString(r, 2), //model
+            table.getString(r, 3)].join("       "), //and date, all joined
+            numberOne: table.getString(r, 9), //number one hits 
+            category: table.getString(r, 10), //guitar model 
+            artist: table.getString(r, 0), //rockstar
+            songTitle: table.getString(r, 4) //song title 
         };
-        if (toDisplay(g)) {
+        if (toDisplay(g)) { //if meets conditions of filter, push
 
             guitarLocations.push(g);
             y += 40;
@@ -193,6 +193,7 @@ function setupAux() {
     fill(255);
     $("#select-menu").show();
 
+    //loop through guitarLocations object for row highlight and modal 
     guitarLocations.forEach(
         (g) => {
             let div = $('<div class="guitarRow"/>'); // create div for highlight and modal click
@@ -258,7 +259,7 @@ function setupBottom(guitarsBottom) {
     text("Frequency", 830, WTopMargin + 627);
 
 
-    //rectangles around sound samples 
+    //rectangles around sound samples, lines inside  
     stroke(255);
     strokeWeight(6);
     fill(0);
@@ -281,24 +282,33 @@ function setupBottom(guitarsBottom) {
 // new handleGuitarClick
 function handleGuitarClick(event) {
     let g = event.data;
+    let boxWidth = '60%';
+    console.log(g.songID);
+    if(g.songID !== "0") {
+        if(g.description.length > 400) boxWidth = '80%';
+    }
     $.confirm({
         backgroundDismiss: true,
-        boxWidth: '60%', //modal window 30% of screen
+        boxWidth: boxWidth, //modal window 60% of screen
         boxHeight: '50%',
         useBootstrap: false,
         title: `<div class="popuptitle">
-  <span class="popuptitletext">${g.title}</span>
+  <span class="popuptitletext">${g.title}</span> 
   </div>`,
-        //image height fixed at 400px 
-        content: makeContent(g),
+         
+        content: makeContent(g), //call makeContent function for modal 
         buttons: {
             close: function () {
             },
+        },
+        //resize image to override Firefox 
+        onOpen: function() {
+            $(".popupimage").css("height","500px"); //image height fixed at 400px
         }
     });
 }
 
-//filter brands 
+//filter brands for guitar count sentence 
 function guitarCounts() {
     return [
         guitarLocations.filter((g) =>
@@ -362,15 +372,16 @@ function renderGuitarLine(g) {
     text(g.artist, g.x - 30, g.y + 25);
 }
 
-//locate guitar 
-function overGuitar() {
-    let result = guitarLocations.find(
-        (g) => (mouseX >= g.x && mouseX <= g.x + 100) && (mouseY >= g.y && mouseY <= g.y + 40)
-    );
-    // console.log(result, mouseX);
-    return result;
-}
+//locate guitar for mouseover--still used? 
+// function overGuitar() {
+//     let result = guitarLocations.find(
+//         (g) => (mouseX >= g.x && mouseX <= g.x + 100) && (mouseY >= g.y && mouseY <= g.y + 40)
+//     );
+//     // console.log(result, mouseX);
+//     return result;
+// }
 
+//mouse click function 
 function mouseClicked() {
 
     //mouse positions for sound stuff 
@@ -397,7 +408,7 @@ function mouseClicked() {
 //populate popup with image, frame, song and description  
 function makeContent(guitarLocation) {
     return `<div class="popup">
-    <img class="popupimage" 
+    <img class="popupimage" height="500px"
     style="border-color: ${guitarLocation.type === 'Gibson' ? 'rgb(183, 132, 67)' : 'rgb(162, 224, 184)'}"
     src="${guitarLocation.imageURL}"/>
     <div class="sd">
@@ -406,7 +417,7 @@ function makeContent(guitarLocation) {
     </div>
   </div>`
 }
-//spotify Iframe call 
+//spotify iFrame call 
 function makeIframe(songIDStr) {
     if (songIDStr !== "0") {
         return `<iframe src="https://open.spotify.com/embed/track/${songIDStr}" 
