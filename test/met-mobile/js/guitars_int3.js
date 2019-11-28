@@ -79,7 +79,7 @@ function preload() {
 function setup() {
 
     let cnv = createCanvas(2500, 2500);
-    // cnv.parent("canvasdiv");
+    cnv.parent("canvasdiv");
 
     fill("red");
     rect(100,100, 500, 1500);
