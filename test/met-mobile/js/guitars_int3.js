@@ -81,15 +81,15 @@ function setup() {
     let cnv = createCanvas(2500, 2500);
     cnv.parent("canvasdiv");
 
-    fill("red");
-    rect(100,100, 500, 1500);
+    // fill("red");
+    // rect(100,100, 500, 1500);
     //
     // samples.fender.fft = new p5.FFT();
     // samples.fender.sound.amp(0.2);
     // samples.gibson.fft = new p5.FFT();
     // samples.gibson.sound.amp(0.2);
 
- //   setupAux();
+   setupAux();
 
 }
 
