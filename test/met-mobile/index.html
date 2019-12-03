@@ -23,6 +23,13 @@
 </head>
 
 <body class="url">
+  <div class="header">
+    <img src="images/fender-vs-gibson.png"/>
+    <img id="menu" src="images/hamburger.png"/>
+  </div>
+  <div id="canvas">
+
+  </div>
 <!-- <div class="guitarline"></div>
     <div id="dropdown">
         <select id="select-menu">
@@ -42,9 +49,9 @@
   <!-- <div class="footer">
     <p><a onclick="openPageTwo();">Fender vs Gibson: Global Fortunes</a></p>
   </div> -->
-<div id="canvasdiv">
+<!-- <div id="canvasdiv">
 
-</div>
+</div> -->
   <!-- divs for strings mouseover -->
   <!-- <div id="Fstring" class="strings"></div>
   <div id="Gstring" class="strings"></div> -->
@@ -52,4 +59,17 @@
 </body>
 <!-- <img class="header" src="guitarheader.png"/> -->
 <script language="javascript" type="text/javascript" src="js/guitars_int3.js"></script>
+<script>
+window.addEventListener('scroll', function() {
+ 
+//  let slope;
+//  if (pageYOffset<170) slope = .7
+//  else slope = .42;
+//   window.scroll(pageYOffset*slope,pageYOffset) // example to show you half speed scrolling across
+let scrollX = -7.654212 + 1.931107*pageYOffset - 0.007196253*pageYOffset**2 + 0.00001160601*pageYOffset**3 - 8.055526*10**-9*pageYOffset**4 + 2.023629*10**-12*pageYOffset**5;
+window.scroll(scrollX,pageYOffset) // X coordinate, Y coordinate
+});
+</script>
+
 </html>
+
