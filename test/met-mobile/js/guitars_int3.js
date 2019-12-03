@@ -1,24 +1,19 @@
-/*USE P5 .CSV  TOOLS TO MAKE NAME COLUMN ON LEFT MARGIN
-PLACE GUITARS ICONS ON LINE ACCORDING TO ROW AND YEAR. FOR EACH ROW, IF GIBSON PLACE
-GIBSON ICON; IF FENDER PLACE ICON. PLACE ON X AXIS ACCORDING TO YEAR.
-FOR EACH ROW, CREATE HOVER EVENT THAT PULLS APPROPRIATE IMAGE FROM URL.
-PLACE SONG TITLES.
-CREATE HOVER EVENTS THAT PULL SONG SAMPLES FROM SPOTIFY API 
-CREATE AXES AND TITLES
-CREATE NEW ELEMENT CONTAINING 2 SOUND SAMPLES AND WAVE FORMS FOR FENDER/GIBSON COMPARISON*/
 
 //declare variables for graph, csv, fender and gibson icons, guitarLocations and decade arrays 
 //graph sound;
-const guitarTopMargin = 10;
+const guitarTopMargin = 20;
 let samples;
 let playSoundBrand = null;
 let table;
 let fender;
 let gibson;
 let guitarLocations = [];
+$("#menu").on("click", function(){
+alert("hello");
+});
 
 //current value of filter selection
-let filterSelection ="All";// $("#select-menu").val();
+let filterSelection = "All";// $("#select-menu").val();
 $("#select-menu").on("change",
     () => {
         filterSelection = $("#select-menu").val();
@@ -38,7 +33,7 @@ function toDisplay(g) {
 let numberOneIcon;
 
 //declare spacing variables
-let leftMargin = 150;
+// let leftMargin = 50;
 const topMargin = 200;
 //let graphWidth = 1350;
 
@@ -78,8 +73,8 @@ function preload() {
 
 function setup() {
 
-    let cnv = createCanvas(2500, 2500);
-    cnv.parent("canvasdiv");
+    let cnv = createCanvas(2400 * 375 / 812, 2400);
+    cnv.parent("canvas");
 
     // fill("red");
     // rect(100,100, 500, 1500);
@@ -89,7 +84,7 @@ function setup() {
     // samples.gibson.fft = new p5.FFT();
     // samples.gibson.sound.amp(0.2);
 
-   setupAux();
+    setupAux();
 
 }
 
@@ -135,7 +130,7 @@ function setupAux() {
     /*map year of manufacture onto graph, and get imageURL and description for modal.*/
     for (let r = 0, y = guitarTopMargin; r < table.getRowCount(); r++) {
         const yearValue = table.getNum(r, 3);
-        const guitarYear = map(yearValue, 1940, 2000, 150, width - 300);
+        const guitarYear = map(yearValue, 1940, 2000, 50, width - 270);
         const x = guitarYear;
         const imageURL = table.getString(r, 6);
         let description = table.getString(r, 7);
@@ -158,32 +153,47 @@ function setupAux() {
         if (toDisplay(g)) { //if meets conditions of filter, push
 
             guitarLocations.push(g);
-            y += 40;
+            y += 50;
 
         }
 
     }
     //spacing variable for sound stuff 
     let guitarsBottom;
-    //loop through decades for x axis lines and text
-    // for (var t = 1940; t <= 2000; t += 10) {
-    //     var tvalues = t;
-    //     var tvalue = map(tvalues, 1940, 2000, 150, width - 300);
-    //     fill(255);
-    //     strokeWeight(2);
-    //     stroke(60);
-    //     line(tvalue, 405, tvalue, 40 * guitarLocations.length + 405);
-    //     fill(255);
-    //     noStroke();
-    //     tvalue -= 20;
-    //     text(tvalues, tvalue, 395);
-    //     text(tvalues, tvalue, 430 + guitarLocations.length * 40);
-    //     guitarsBottom = (425 + guitarLocations.length * 40);
-    //     if (filterSelection === "All") {
-    //         fill(60);
-    //         text(tvalues, tvalue, (395 + guitarsBottom) / 2 - 13);
-    //     }
-    // }
+    // loop through decades for x axis lines and text
+    for (var t = 1940; t <= 2000; t += 10) {
+        var tvalues = t;
+        var tvalue = map(tvalues, 1940, 2000, 50, width - 250);
+        fill(255);
+        strokeWeight(2);
+        stroke(60);
+        line(tvalue, guitarTopMargin, tvalue, 50 * guitarLocations.length + 23);//check line length +405
+        fill(255);
+        noStroke();
+        tvalue -= 20;
+        textSize(16);
+        text(tvalues, tvalue, guitarTopMargin - 5);
+        text(tvalues, tvalue, 40 + guitarLocations.length * 50);
+        guitarsBottom = (425 + guitarLocations.length * 40);
+        // if (filterSelection === "All") {
+        //     fill(60);
+        //     text(tvalues, tvalue, (395 + guitarsBottom) / 2 - 13);
+        // }
+    }
+    textSize(16);
+    fill(60);
+    guitarLocations.forEach(
+        (g,i) => {
+            if (i>0 && i%10===0 && guitarLocations.length - i >= 7) {
+                for (var t = 1940; t <= 2000; t += 10) {
+                    var tvalue = map(t, 1940, 2000, 50, width - 250);
+                    text(t, tvalue - 25, g.y);
+                } 
+            }
+        }
+    )
+    //loop through guitars, add text per decade in gray after every tenth guitar
+    //except when within ten of guitarLocations.length
 
     //count make and model of guitar, place next to dropdown select-menu
     // let [fCount, gCount, lineCount] = guitarCounts();
@@ -202,7 +212,7 @@ function setupAux() {
         (g) => {
             let div = $('<div class="guitarRow"/>'); // create div for highlight and modal click
             //div is located at the top of the graph and is 99% of "width" wide and 40px tall
-            div.css("top", g.y - 5);
+            div.css("top", g.y + 45);
             div.on("click", g, handleGuitarClick);
             // console.log(246, g.y);
             $("body").append(div);
@@ -286,28 +296,26 @@ function setupBottom(guitarsBottom) {
 // new handleGuitarClick
 function handleGuitarClick(event) {
     let g = event.data;
-    let boxWidth = '60%';
+    // let boxWidth = '100%';
     console.log(g.songID);
-    if(g.songID !== "0") {
-        if(g.description.length > 400) boxWidth = '80%';
-    }
+    // if(g.songID !== "0") {
+    //     if(g.description.length > 400) boxWidth = '80%';
+    // }
     $.confirm({
         backgroundDismiss: true,
-        boxWidth: boxWidth, //modal window 60% of screen
-        boxHeight: '50%',
+        boxWidth: '90%', //modal window 90% of screen
+        boxHeight: '100%',
         useBootstrap: false,
-        title: `<div class="popuptitle">
-  <span class="popuptitletext">${g.title}</span> 
-  </div>`,
-         
+        title: `<div class="popuptitletext"></div>`,
+
         content: makeContent(g), //call makeContent function for modal 
         buttons: {
             close: function () {
             },
         },
         //resize image to override Firefox 
-        onOpen: function() {
-            $(".popupimage").css("height","500px"); //image height fixed at 400px
+        onOpen: function () {
+            $(".popupimage").css("height", "180px"); //image height fixed at 200px
         }
     });
 }
@@ -331,49 +339,52 @@ function guitarCounts() {
 
 }
 
+
 //draw guitars 
 function renderGuitarLine(g) {
     if (g.type === "Fender") {
-        image(fender, g.x, g.y);
+        image(fender, g.x, g.y, 81, 27);
     } else {
-        image(gibson, g.x, g.y);
+        image(gibson, g.x, g.y, 81, 27);
     }
     //draw #1 song titles, lines and hit icons 
     textAlign(LEFT);
     textStyle(NORMAL);
-
+    textSize(14);
     if (g.songTitle !== '') {
         if (g.numberOne == 1) {
-            stroke(255);
-            strokeWeight(1);
-            line(g.x + 105, g.y + 17, g.x + 178, g.y + 17);
+            // stroke(255);
+            // strokeWeight(1);
+            // line(g.x + 105, g.y + 17, g.x + 178, g.y + 17);
             noStroke();
-            fill('pink');
-            text(g.songTitle, g.x + 185, g.y + 25);
+            fill('#B8A2E0');
+            text(g.songTitle + " #1", g.x + 95, g.y + 33);
             fill(255);
             textFont(myFont);
             textAlign(LEFT);
-            text("hit", g.x + 420, g.y + 25);
-            image(numberOneIcon, g.x + 390, g.y + 5);
+            //      text("number one hit", g.x + 200, g.y + 33); //adjust with song title 
+            //          image(numberOneIcon, g.x + 310, g.y + 33);
         }
         else {
             //non #1 song titles and lines 
             stroke(255);
             strokeWeight(1);
-            line(g.x + 105, g.y + 17, g.x + 178, g.y + 17);
+            // line(g.x + 105, g.y + 17, g.x + 178, g.y + 17);
             textAlign(LEFT);
             textFont("Futura");
             noStroke();
-            textSize(20);
             fill(255);
-            text(g.songTitle, g.x + 185, g.y + 25);
+            text(g.songTitle, g.x + 95, g.y + 33);
         }
     }
     //rockstar names next to guitars
+    fill(255);
     textFont("Futura");
-    textAlign(RIGHT);
+    textAlign(LEFT);
+    textSize(16);
+    textStyle(BOLD);
     noStroke();
-    text(g.artist, g.x - 30, g.y + 25);
+    text(g.artist, g.x + 95, g.y + 16);
 }
 
 //locate guitar for mouseover--still used? 
@@ -412,20 +423,21 @@ function mouseClicked() {
 //populate popup with image, frame, song and description  
 function makeContent(guitarLocation) {
     return `<div class="popup">
-    <img class="popupimage" height="500px"
+    <div class="popuptitle">${guitarLocation.title}</div>
+    <img class="popupimage" 
     style="border-color: ${guitarLocation.type === 'Gibson' ? 'rgb(183, 132, 67)' : 'rgb(162, 224, 184)'}"
     src="${guitarLocation.imageURL}"/>
     <div class="sd">
-    ${makeIframe(guitarLocation.songID)}
     <p>${guitarLocation.description}</p>
     </div>
+    ${makeIframe(guitarLocation.songID)}
   </div>`
 }
 //spotify iFrame call 
 function makeIframe(songIDStr) {
     if (songIDStr !== "0") {
         return `<iframe src="https://open.spotify.com/embed/track/${songIDStr}" 
-    width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
+    width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`
     }
     return "";
 }
@@ -434,6 +446,7 @@ function makeIframe(songIDStr) {
 
 //sound functions 
 function draw() {
+
     //   background(0);
     if (playSoundBrand === null) return;
     let sample = samples[playSoundBrand];
@@ -481,3 +494,10 @@ function windowResized() {
 // const start = new Date().getTime()
 
 // console.log(new Date().getTime() - start)
+
+// scroll testing
+// window.addEventListener('scroll', function() {
+//     window.scroll(pageYOffset,pageYOffset) // X coordinate, Y coordinate
+//     //window.scroll(pageYOffset*0.5,pageYOffset) // example to show you half speed scrolling across
+
+//   });
