@@ -12,7 +12,7 @@ For the Interactive segment, I chose to expand on my qualitative data visualizat
 
 ## Filter
 
-A filter allows viewers to dig into the relationship between rockstars, Fender and Gibson by sorting according to make and model.  ![filter](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-interactive/interactive-filter.png)
+A filter allows viewers to dig into the relationship between rockstars, Fender and Gibson by sorting according to make and model. In this view, the guitars data is sorted into Gibson SGs only. ![filter](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-interactive/interactive-filter.png)
 
 ## Sound and Wave Form Comparison 
 
