@@ -1,0 +1,95 @@
+<!-- landing page: title, subtitle, intro text, go button  -->
+
+<html>
+
+<head>
+
+    <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width">
+
+    <title>Fender vs Gibson</title>
+    <link rel="icon" href="images/favicon_pick.png" type="image/png" sizes="16x16">
+
+</head>
+
+<body class="url">
+    <div class="header">
+        <img src="images/fender-vs-gibson.png" />
+
+    </div>
+    <div class="fender">
+        <img src="images/fender_strat.png" />
+    </div>
+    <div class="gibson">
+        <img src="images/gibson_lp2.png" />
+    </div>
+
+    <p class="intro">The Fender/Gibson rivalry defined the sound of rockstars in the Metropolitan Museum of Art's "Play
+        It Loud" exhibition. Tap to explore.</p>
+
+    <!-- <div class="pick"> -->
+        <img src="images/pick.png" class="pick" />
+    <!-- </div> -->
+</body>
+
+<style>
+    body {
+        background: black;
+    }
+
+    body.url {
+        cursor: url(../images/guitar_pick_orange.png)15 5, auto;
+    }
+
+    .header {
+        width: 100%;
+        text-align: center;
+        background: black;
+    }
+
+    .header>img {
+        width: 100%;
+        margin: auto;
+    }
+
+    .fender {
+        background: black;
+        float: left;
+        /* width: 80px; */
+    }
+
+    .gibson {
+        background: black;
+        float: right;
+        /* width: 80px; */
+    }
+
+    .intro {
+        position: fixed;
+        margin: auto;
+        left: 10;
+        right: 10;
+        bottom: 140;
+        font-family: Futura;
+        font-size: 20px;
+        color: white;
+        text-align: center;
+    }
+
+    .pick {
+        /* position: fixed; */
+        /* margin: auto; */
+        /* display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 5%; */
+        position: fixed;
+        margin: auto;
+        left: 10;
+        right: 10;
+        bottom: 10;
+        width: 30%;
+        /* width: 10px; */
+    }
+</style>
+
+</html>
