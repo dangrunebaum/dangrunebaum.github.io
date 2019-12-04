@@ -71,8 +71,8 @@ body.url {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    max-height: calc(90vh - 100px);
-    overflow: scroll; 
+    /* max-height: calc(100vh - 210px); */
+    overflow: auto; 
 }
 
 .sd>p {
@@ -83,7 +83,7 @@ body.url {
 }
 
 .popupimage {
-    /* height: 200px; */
+    height: 200px !important;
     border: 4px solid;
 }
 .popuptitle {
