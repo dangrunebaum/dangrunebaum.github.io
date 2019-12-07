@@ -1,0 +1,160 @@
+<!-- sound page: title, guitars, sound boxes, legend, intro text  -->
+
+<html>
+
+<head>
+
+    <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width">
+
+    <title>Fender vs Gibson</title>
+    <link rel="icon" href="images/favicon_pick.png" type="image/png" sizes="16x16">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <!-- <script language="javascript" type="text/javascript" src="./libraries/p5.min.js"></script> -->
+    <script language="javascript" type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+    <script language="javascript" type="text/javascript" src="./libraries/p5.sound.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('div.footer').click(function () {
+                window.location.href = this.id + 'https://dangrunebaum.github.io/test/met-mobile/index.html';
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+    <div class="header">
+        <img src="images/fender-vs-gibson.png" />
+    </div>
+
+    <img id="sub" src="images/sound-and-wave-form.png" />
+
+
+    <div id="canvas"></div>
+
+    <div class="fender">
+        <img src="images/fender_strat_small.png" />
+    </div>
+
+        <img class="legend" src="images/legend.png" />
+
+    <div class="gibson">
+        <img src="images/gibson_lp2_small.png" />
+    </div>
+
+
+        <p class="intro">Fender and Gibson's tone divides rockstars into camps. This wave
+            form analyzer shows amplitude in <span class="red">red</span>, and frequency in <span class="blue">blue</span>. What do the wave forms tell
+            you about Fender and Gibson's tone?</p>
+
+
+    <div class="footer"> <img src="images/pick-back.png" />
+    </div>
+
+</body>
+
+<script language="javascript" type="text/javascript" src="js/sound.js"></script>
+
+<style>
+    body {
+        background: black;
+    }
+
+    .header {
+        width: 100%;
+        text-align: center;
+        background: black;
+    }
+
+    .header>img {
+        width: 100%;
+        margin: auto;
+    }
+
+    #sub {
+        margin-top: 2px;
+        width: 80%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #canvas {
+        position: absolute;
+        top: 130px;
+        right: 0px;
+
+    }
+
+    .legend {
+        /* display: none; */
+        height: 25px;
+        position: absolute;
+        top: 300px;
+        right: 18px;
+        width: 45%;
+    }
+
+    .fender {
+        background: black;
+        float: left;
+        width: 100%;
+        margin-top: 20px;
+        margin-left: 40px;
+    }
+
+    .gibson {
+        background: black;
+        float: left;
+        width: 100%;
+        margin-top: 60px;
+        margin-left: 40px;
+    }
+
+    .intro {
+        position: fixed;
+        top: 73%;
+        margin: 10px;
+        font-family: Avenir;
+        font-size: 17px;
+        font-weight: 500;
+        color: white;
+        text-align: center;
+    }
+
+    @media (max-height: 710px) {
+        .intro {
+            height: 80px;
+            overflow-y:scroll;
+            font-size: 95%;
+        }
+    }
+
+    .red {
+        color: rgb(221, 105, 103);
+    }
+
+    .blue {
+        color: rgb(0, 73, 219);
+    }
+
+    .footer {
+        position: fixed;
+        margin: auto;
+        bottom: 10px;
+        text-align: center;
+    }
+
+    .footer>img {
+        margin-left: 140px;
+        width: 25%;
+    }
+
+</style>
+
+</html>

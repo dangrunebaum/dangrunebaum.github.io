@@ -1,0 +1,122 @@
+<!-- landing page: title, subtitle, intro text, go button  -->
+
+<html>
+
+<head>
+
+    <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width">
+
+    <title>Fender vs Gibson</title>
+    <link rel="icon" href="images/favicon_pick.png" type="image/png" sizes="16x16">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('img.pick').click(function () {
+                // alert(this.id);
+                window.location.href = "index.html" //'https://dangrunebaum.github.io/test/met-mobile/index.html';
+            });
+        });
+    </script>
+
+</head>
+
+<body class="url">
+    <div class="header">
+        <img src="images/fender-vs-gibson.png" />
+
+    </div>
+<div id="content">
+    <div id="gimages">
+        <img class="fender" src="images/fender_strat.png" />
+
+        <img class="gibson" src="images/gibson_lp2.png" />
+    </div>
+
+    <p class="intro">The debate that defined the sound of rockstars in the Met's "Play
+        It Loud" exhibition.</p>
+
+    <!-- <div class="pick"> -->
+
+    <!-- </div> -->
+</div>
+<img src="images/pick.png" class="pick" />
+
+</body>
+
+<style>
+    body {
+        background: black;
+    }
+
+    .header {
+        width: 100%;
+        text-align: center;
+        background: black;
+    }
+
+    .header>img {
+        width: 100%;
+        margin: auto;
+    }
+
+    #content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 70%;
+    }
+
+    #gimages {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .fender {
+        background: black;
+        /* float: left; */
+        width: 35%;
+        /* margin-left: 20px; */
+    }
+    .gibson {
+        background: black;
+        /* float: right; */
+        width: 37%;
+        /* margin-right: 10px; */
+    }
+
+    .intro {
+        /* position: fixed; */
+        margin: auto;
+        align-self: flex-end;
+        /* left: 10;
+        right: 10;
+        bottom: 150; */
+        font-family: Avenir;
+        font-size: 20px;
+        color: white;
+        text-align: center;
+        font-weight: 100;
+    }
+
+    .pick {
+        /* position: fixed; */
+        /* margin: auto; */
+        /* display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 5%; */
+        position: fixed;
+        margin: auto;
+        left: 10;
+        right: 10;
+        bottom: 10;
+        width: 30%;
+        /* width: 10px; */
+    }
+</style>
+
+</html>
