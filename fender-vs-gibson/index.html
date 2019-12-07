@@ -1,54 +1,20 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-
-  <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width">
-
-  <title>Fender vs Gibson</title>
-  <link rel="icon" href="images/favicon_pick.png" type="image/png" sizes="16x16">
-
-  <script language="javascript" type="text/javascript"
-    src="//cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
-  <script src="//code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-  <script language="javascript" type="text/javascript" src="./libraries/p5.sound.js"></script>
-  <link rel="stylesheet" type="text/css" href="css/guitars.css">
-  <!-- uncomment lines below to include extra p5 libraries -->
-  <!-- <script language="javascript" type="text/javascript" src="sketch-solution.js"></script> -->
-  <!-- <script language="javascript" type="text/javascript" src="sketch-solution-labeled.js"></script> -->
-  <!-- this line removes any default padding and style. you might only need one of these values set. -->
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 </head>
-
-<body class="url">
-  <div class="header">
-    <img id="sound" src="images/wave.png" />
-    <img src="images/fender-vs-gibson.png" />
-    <img id="menu" src="images/filter-64.png" />
-    <div id="filter-text"></div>
-  </div>
-
-  <div id="filter-menu">
-    <div value="All" class="chosen"><span class="indent">All Guitars</span></div>
-    <div value="Fender,type"><span class="indent">All Fenders</span></div>
-    <div value="Gibson,type"><span class="indent">All Gibsons</span></div>
-    <div value="Stratocaster,category"><span class="indent">Fender Stratocasters</span></div>
-    <div value="Telecaster,category"><span class="indent">Fender Telecasters</span></div>
-    <div value="Les Paul,category"><span class="indent">Gibson Les Pauls</span></div>
-    <div value="SG,category"><span class="indent">Gibson SGs</span></div>
-    <div value="Other,category"><span class="indent">Other Models</span></div>
-  </div>
-
-  <div id="canvas">
-
-  </div>
-
-
+<body>
+    <script>
+        alert(window.innerWidth);
+        if (window.innerWidth < 1000) {
+            window.location.href = "./met-mobile/landing.html";
+        } else {
+        window.location.href = "./met-int/index.html";
+    }
+        </script>
 </body>
-<!-- <img class="header" src="guitarheader.png"/> -->
-<script language="javascript" type="text/javascript" src="js/guitars_mobile.js"></script>
-
-
 </html>
+
