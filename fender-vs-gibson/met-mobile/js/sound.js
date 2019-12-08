@@ -1,27 +1,27 @@
 let samples;
 let playSoundBrand = null;
 
-function preload(){
+function preload() {
 
     samples = {
         fender: {
             fft: null,
             top: 10,
-            left: 73,
+            left: 23,
             sound: loadSound('sound/fender_sample.mp3')
         },
         gibson: {
             fft: null,
             top: 210,
-            left: 73,
+            left: 23,
             sound: loadSound('sound/gibson_sample.mp3')
         }
     }
-  }
-  
-  function setup() {
+}
 
-    let cnv = createCanvas(250, 375);
+function setup() {
+
+    let cnv = createCanvas(200, 375);
     cnv.parent("canvas");
     background(0);
 
@@ -30,12 +30,12 @@ function preload(){
     samples.gibson.fft = new p5.FFT();
     samples.gibson.sound.amp(0.2);
 
-     //rectangles around sound samples, lines inside  
-     stroke(255);
-     strokeWeight(2);
-     fill(0);
-    rFender = rect(70, 10, 150, 150);
-    rGibson = rect(70, 210, 150, 150);
+    //rectangles around sound samples, lines inside  
+    stroke(255);
+    strokeWeight(2);
+    fill(0);
+    rect(20, 10, 150, 150);
+    rect(20, 210, 150, 150);
 
     //text and lines inside sound squares 
     textFont("Futura");
@@ -43,13 +43,13 @@ function preload(){
     textSize(12);
     textAlign(LEFT);
     fill(255);
-    text('Click to play/pause \nFender Stratocaster', 77, 30);
-    text('Click to play/pause \nGibson Les Paul', 77, 230);
+    text('Click to play/pause \nFender Stratocaster', 27, 30);
+    text('Click to play/pause \nGibson Les Paul', 27, 230);
     strokeWeight(1);
-    stroke(221, 105, 103); 
-    line(73, 85, 216, 85);
-    line(73, 285, 216, 285);
-    
+    stroke(221, 105, 103);
+    line(23, 85, 166, 85);
+    line(23, 285, 166, 285);
+
     //  samples.fender.top = WTopMargin + 350;
     //  rect(798, WTopMargin + 648, 202, 202);
     //  samples.gibson.top = WTopMargin + 650;
@@ -61,12 +61,11 @@ function preload(){
     //  line(802, WTopMargin + 445, 996, WTopMargin + 445);
     //  line(802, WTopMargin + 745, 996, WTopMargin + 745);
 }
-let rFender;
-let rGibson;
+
 function mouseClicked() {
 
     // mouse positions for sound stuff 
-    if (mouseX >= 70 && mouseX <= 220) {
+    if (mouseX >= 20 && mouseX <= 220) {
         if (mouseY >= 10 && mouseY <= 160) {
             togglePlay("fender");
             // fill(0);
@@ -86,7 +85,7 @@ function mouseClicked() {
             // samples.gibson.top = 210;
         }
     }
-   
+
     // console.log(mouseX,mouseY);
 }
 
