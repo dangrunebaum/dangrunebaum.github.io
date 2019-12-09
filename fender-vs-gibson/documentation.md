@@ -1,6 +1,6 @@
 # Fender vs Gibson Documentation
 ## 1. Ideation 
-This project began with two goals: to determine which brand was more popular over time, and which was played by which rockstar.
+This project began with two goals: to determine which brand was more popular over time, and which was played by which rock star.\
 ![Sketch](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-qual/FENDER_VS_GIBSON_SKETCH.jpg)
 
 ## 2. Build CSV table from "Play It Loud" website.
@@ -13,7 +13,7 @@ Loop through table for graph with JavaScript, create popups with Jquery and styl
 ![Graph](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-qual/FENDER_VS_GIBSON_FINAL.png) 
 
 ## 4. Implement Filter
-Code filter of guitar makes and models with Jquery.
+Code filter of guitar makes and models with JavaScript and Jquery.
 [Script](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-int/guitars.js)
 ![Filter view](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/filter_view.png)
 
