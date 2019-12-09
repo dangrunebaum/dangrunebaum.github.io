@@ -25,7 +25,7 @@ Build visualization with p5.js FFT from p5 sound library, code interactions with
 [Script](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-int/guitars.js)
 
 ## 7. Ideation for Mobile Version 
-Given the size of the graph and waveform canvases, recreating the site for mobile screens required re-envisioning it in multi-page form.
+Given the size of the graph and waveform canvases, recreating the site for mobile screens required re-envisioning it in multi-page form with Illustrator.
 ![Sketch](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/mobile_ideation.png)
 
 ## 8. Code Mobile Site
