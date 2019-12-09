@@ -9,12 +9,14 @@ The visualization looks at the 47 Fenders and Gibsons present in “Play It Loud
 
 ## Interactivity 
 
-Popups offer detailed exhibition texts and images of each guitar retrieved dynamically from the “Play It Loud” website, alongside a Spotify iFrame that allows users to listen to a song sample featuring each guitar. With a filter, users can also dig down into which brands and guitar models were used when, and by which rockstar.  ![interactivity]
+Popups offer detailed exhibition texts and images of each guitar retrieved dynamically from the “Play It Loud” website, alongside a Spotify iFrame that allows users to listen to a song sample featuring each guitar. With a filter, users can also dig down into which brands and guitar models were used when, and by which rockstar.![Popup](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/1.%20desktop-graph.png)
 
 ## Sound and Wave Form Comparison 
 
-Central to the Fender/Gibson rivalry is the debate over tone, with some preferring Fender's brightness and others Gibson's warmth. Inspired by numerous online forums devoted to this debate, I sampled a Fender Stratocaster and Gibson Les Paul, and used p5.js's FFT sound analyzer to build an interactive that allows users to compare sound and wave forms and come to their own conclusions. ![sound]
+Central to the Fender/Gibson rivalry is the debate over tone, with some preferring Fender's brightness and others Gibson's warmth. Inspired by numerous online forums devoted to this debate, I sampled a Fender Stratocaster and Gibson Les Paul, and used p5.js's FFT sound analyzer to build an interactive that allows users to compare sound and wave forms and come to their own conclusions. ![Sound](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/2.%20desktop-sound.png)
 
 ## Mobile 
 
-I recreated the full functionality and affordances of the desktop site in mobile form, optimized for the iPhone X. Users are invited to experience the Fender vs Gibson data visualization as an accompaniment to viewing the “Play It Loud” exhibition as it travels the nation.
+I recreated the full functionality and affordances of the desktop site in mobile form, optimized for the iPhone X. Users are invited to experience the Fender vs Gibson data visualization as an accompaniment to viewing the “Play It Loud” exhibition as it travels the nation. ![Mobile](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/3.%20mobile-graph.jpg)
+
+[Fender vs Gibson Demo Video](http://www.youtube.com/watch?v=NuaQla5tAJs)
