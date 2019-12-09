@@ -1,5 +1,6 @@
 # Fender vs Gibson Documentation
 ## 1. Ideation 
+The project began with two goals: to determine which brand was more popular over time, and which was played by which rockstar.
 ![Sketch](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-qual/FENDER_VS_GIBSON_SKETCH.jpg)
 
 ## 2. Build CSV table from "Play It Loud" website.
