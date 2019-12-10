@@ -9,3 +9,6 @@ Utilizing the cultures column in the Met's collection database, I first construc
 
 ## Timeline 
 The next step was building the cultures timeline in the form of a stacked bar chart. 70 millenia of history are represented by the timeline, with columns broken down by century. The color-coded bar chart above serves as a visual key for understanding the representation by percent in the Met's collection of the top ten cultures over time. ![Timeline](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/2.%20cultures-wide.png)
+
+## Detailed Information 
+A tooltip provides specific information on the number of objects by century, allowing users to better grasp the trajectory of the Met collection's growth over time. ![Tooltip](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/3.%20cultures-tooltip.png)
