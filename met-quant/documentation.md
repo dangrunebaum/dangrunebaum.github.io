@@ -1,15 +1,16 @@
 # Culture Timeline Documentation
 
 ## 1. Ideation 
-This project began with the belief that vast size of the Metropolitan Museum of Art's collection presented the opportunity to understand the interaction of civilizations over time. I was inspired by various timelines including this Google Research Music Timeline. ![Music Timeline](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/musictimelineoverview.png)
+This project began with the belief that vast size of the Metropolitan Museum of Art's collection presented the opportunity to understand the interaction of civilizations over time. I was inspired by timelines including this Google Research Music Timeline. \
+![Music Timeline](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/musictimelineoverview.png)
 
-In the Met collection database, the culture column offered the most obvious proxy for human civilizations. I envisioned a stacked area chart as the best candidate for visualizing cultures over time in a cognitively simple graphic. ![Sketch](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/MET_CULTURES_v3.png)
+In the Met collection database, the culture column offered the most obvious proxy for human civilizations. I envisioned a stacked area chart as the best candidate for visualizing cultures over time in a cognitively simple graphic. \ 
+![Sketch](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/MET_CULTURES_v3.png)
 
 
-## 3. Code basic guitar graph with popups. 
-Loop through table for graph with JavaScript, create popups with Jquery and style with CSS.
-[Script]()
-![Graph]() 
+## 2. Prepare CSV table. 
+Due to the large size of the collection CSV, I reduced the table to the few columns required for the visualization.
+[Table](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/metobjects-sorted.csv) 
 
 ## 4. Implement Filter
 Code filter of guitar makes and models with JavaScript and Jquery.
