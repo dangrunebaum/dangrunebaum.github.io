@@ -18,6 +18,6 @@ Central to the Fender/Gibson rivalry is the debate over tone, with some preferri
 
 I recreated the full functionality and affordances of the desktop site in mobile form, optimized for the iPhone X. Users are invited to experience the Fender vs Gibson data visualization as an accompaniment to viewing the “Play It Loud” exhibition as it travels the nation. ![Mobile](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/3.%20mobile-graph.jpg)
 
-[Fender vs Gibson Demo Video](http://www.youtube.com/watch?v=NuaQla5tAJs)\
+[Fender vs Gibson Video](http://www.youtube.com/watch?v=NuaQla5tAJs)\
 [Website](https://dangrunebaum.github.io/fender-vs-gibson/index.html)\
 [Documentation](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/documentation.md)
