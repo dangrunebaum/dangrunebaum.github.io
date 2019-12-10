@@ -19,7 +19,8 @@ Normalized culture strings e.g. "Japan" and "Japanese."
 [Script](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/sketch4.js)
 
 ## 4. Draw Bar Chart 
-Loop through and count culture column with JavaScript p5.js, count cultures and draw quantitative bar chart representing objects for top ten cultures.![Script](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/sketch4.js) 
+Loop through and count culture column with JavaScript p5.js, count cultures and draw quantitative bar chart representing objects for top ten cultures. 
+[Script](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/sketch4.js) 
 
 ## 5. Get Dates and Timeframe for Each Culture 
 Got min and max year for each culture, transformed years to centuries for century array.
@@ -27,14 +28,14 @@ Got min and max year for each culture, transformed years to centuries for centur
 
 ## 6. Draw Stacked Bar Chart  
 Created object that contains century and cultureCounts fields 
-![Script](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/sketch4.js)
+[Script](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/sketch4.js)
 
 ## 7. Create Tooltip 
-Use Jquery to create and populate tooltips with century and object counts.
+Used Jquery to create and populate tooltips with century and object counts.
 [Script](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/sketch4.js) 
 
 ## Style and Create Axes
-Style with CSS and create X and Y axes, labels and ticks with JavaScript.
+Styled with CSS and coded X and Y axes, labels and ticks with JavaScript.
 [Script](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/sketch4.js) 
 
 
