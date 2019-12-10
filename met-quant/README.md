@@ -18,4 +18,4 @@ While visualizing the top ten cultures at the Met was a useful investigation, th
 
 [Culture Timeline Video]()\
 [Website](https://dangrunebaum.github.io/met-quant/)\
-[Documentation](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/documentation.md)
+[Documentation](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/documentation.md)
