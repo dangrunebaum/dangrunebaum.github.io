@@ -50,5 +50,23 @@
 <!-- <img class="header" src="guitarheader.png"/> -->
 <script language="javascript" type="text/javascript" src="js/guitars_mobile.js"></script>
 
+<script>
+  window.addEventListener('scroll', function () {
+
+    var html = jQuery('html');
+    // lock scroll position, but retain settings for later
+    console.log($("#filter-menu").css("visibility"));
+    if ($("#filter-menu").css("visibility") === "visible" ||
+      $('.jconfirm').length !== 0) {
+      var scrollPosition = [self.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft, self.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop];
+      html.css('overflow', 'hidden');
+      window.scrollTo(scrollPosition[0], scrollPosition[1]);
+    } else {
+      html.css('overflow', 'scroll');
+      // un-lock scroll position
+      window.scroll(pageXOffset, pageYOffset);
+    }
+  })
+</script>
 
 </html>
