@@ -1,8 +1,10 @@
+//sound comparison page, mobile version 
+
 let samples;
 let playSoundBrand = null;
 
 function preload() {
-
+    //create samples objects 
     samples = {
         fender: {
             fft: null,
@@ -30,7 +32,7 @@ function setup() {
     samples.gibson.fft = new p5.FFT();
     samples.gibson.sound.amp(0.2);
 
-    //rectangles around sound samples, lines inside  
+    //rectangles around sound samples  
     stroke(255);
     strokeWeight(2);
     fill(0);
@@ -49,50 +51,28 @@ function setup() {
     stroke(221, 105, 103);
     line(23, 85, 166, 85);
     line(23, 285, 166, 285);
-
-    //  samples.fender.top = WTopMargin + 350;
-    //  rect(798, WTopMargin + 648, 202, 202);
-    //  samples.gibson.top = WTopMargin + 650;
-    //  strokeWeight(1);
-    //  stroke(0, 73, 219);
-    //  line(802, WTopMargin + 455, 996, WTopMargin + 455);
-    //  line(802, WTopMargin + 755, 996, WTopMargin + 755);
-    //  stroke(221, 105, 103);
-    //  line(802, WTopMargin + 445, 996, WTopMargin + 445);
-    //  line(802, WTopMargin + 745, 996, WTopMargin + 745);
 }
 
 function mouseClicked() {
 
-    // mouse positions for sound stuff 
+    // mouse positions for sound interactions  
     if (mouseX >= 20 && mouseX <= 220) {
         if (mouseY >= 10 && mouseY <= 160) {
             togglePlay("fender");
-            // fill(0);
-            // rect(798, topMargin + 2448, 202, 202);
             stroke(162, 224, 184);
             strokeWeight(6);
-            // rect(70, 10, 150, 150);
-            // samples.fender.top = 10;
         }
         else if (mouseY >= 210 && mouseY <= 360) {
             togglePlay("gibson");
-            // fill(0);
-            // rect(798, topMargin + 2748, 202, 202);
             stroke(183, 132, 67);
             strokeWeight(6);
-            // rect(798, WTopMargin + 648, 202, 202);
-            // samples.gibson.top = 210;
         }
     }
-
-    // console.log(mouseX,mouseY);
 }
 
-//sound functions 
+//FFT analyzer functions 
 function draw() {
 
-    //   background(0);
     if (playSoundBrand === null) return;
     let sample = samples[playSoundBrand];
     let spectrum = sample.fft.analyze();
@@ -115,13 +95,6 @@ function draw() {
         vertex(x + sample.left, y + sample.top);
     }
     endShape();
-
-    // textFont("Futura");
-    // textSize(14);
-    // textAlign(LEFT);
-    // fill(255);
-    // text('click to play/pause \nFender Stratocaster', 75, 15);
-    // text('click to play/pause \nGibson Les Paul', 75, 225);
 }
 
 // fade sound if mouse is over canvas
@@ -136,5 +109,4 @@ function togglePlay(brand) {
         playSoundBrand = brand;
         sound.loop();
     }
-
 }

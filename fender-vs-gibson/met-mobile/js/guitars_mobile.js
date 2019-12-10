@@ -1,4 +1,4 @@
-// $(document).ready(function () {
+
 //declare variables for graph, csv, fender and gibson icons, guitarLocations and decade arrays 
 //graph sound;
 const guitarTopMargin = 45;
@@ -9,12 +9,10 @@ let fender;
 let gibson;
 let guitarLocations = [];
 
-
-
-
-  $("#sound").on("click", function () {
+//click sound icon sends user to sound page
+$("#sound").on("click", function () {
     window.location.href = 'sound.html';
-  });
+});
 
 
 //current value of filter selection
@@ -33,14 +31,19 @@ $("#filter-menu div").on("click",
         guitarLocations = [];
         $(".guitarRow").remove();
         setupAux();
-        window.scroll(0, 0)
+        window.scroll(0, 0);
     })
 
+//toggle filter menu visibility on click 
 $("#menu").on("click", () => {
     $("#filter-menu").toggleClass("visible");
+    if ($("#filter-menu").hasClass('visible')) {
+        // $(document).css("overflow") = "hidden"
+    } else {
+        $('html').css('overflow', 'scroll'); //allow scroll when hidden 
+    }
     event.preventDefault();
 });
-
 
 //filter function   
 function toDisplay(g) {
@@ -48,8 +51,6 @@ function toDisplay(g) {
     let [value, field] = filterSelection.split(",");
     return g[field] === value;
 }
-
-//let numberOneIcon;
 
 function preload() {
     //load font and table 
@@ -65,8 +66,6 @@ function preload() {
     fenderStrat = loadImage('images/fender_strat.png');
     gibsonLP = loadImage('images/gibson_lp2.png');
     // arrow = loadImage('images/arrow.png');
-    // fenderSound = loadImage('images/fendersound.png');
-    // gibsonSound = loadImage('images/gibsonsound.png');
 
     //create data structure for samples
     samples = {
@@ -87,24 +86,14 @@ function preload() {
 
 function setup() {
 
-    // let _width = Math.ceil(2400 * 375 / 812);
+    //variable for avoiding iPhone canvas size limit
     let _width = window.innerWidth * 2;
-
-    // let cnv = createCanvas(2400 * 375 / 812, 2400);
     let cnv = createCanvas(_width, 2400);
     cnv.parent("canvas");
 
-    // fill("red");
-    // rect(100,100, 500, 1500);
-    //
-    // samples.fender.fft = new p5.FFT();
-    // samples.fender.sound.amp(0.2);
-    // samples.gibson.fft = new p5.FFT();
-    // samples.gibson.sound.amp(0.2);
-
     setupAux();
-
 }
+
 //function with graph 
 function setupAux() {
 
@@ -163,8 +152,7 @@ function setupAux() {
         }
         $("#filter-text").text(`${selectionText}${count} ${fg}`);
     }
-    //spacing variable for sound stuff 
-    let guitarsBottom;
+
     // loop through decades for x axis lines and text
     for (var t = 1940; t <= 2000; t += 10) {
         var tvalues = t;
@@ -181,11 +169,9 @@ function setupAux() {
         text(tvalues, tvalue, guitarTopMargin - 5);
         text(tvalues, tvalue, 40 + guitarLocations.length * 50);
         guitarsBottom = (425 + guitarLocations.length * 40);
-        // if (filterSelection === "All") {
-        //     fill(60);
-        //     text(tvalues, tvalue, (395 + guitarsBottom) / 2 - 13);
-        // }
+
     }
+
     //loop through guitars, add text per decade in gray after every tenth guitar
     //except when within ten of guitarLocations.length
     textSize(16);
@@ -201,10 +187,10 @@ function setupAux() {
         }
     )
 
-    //loop through guitarLocations object for row highlight and modal 
+    //loop through guitarLocations object for row click field 
     guitarLocations.forEach(
         (g) => {
-            let div = $('<div class="guitarRow"/>'); // create div for highlight and modal click
+            let div = $('<div class="guitarRow"/>'); // create div for modal click
             //div is located at the top of the graph and is 99% of "width" wide and 40px tall
             div.css("top", g.y + 45);
             div.on("click", g, handleGuitarClick);
@@ -214,79 +200,8 @@ function setupAux() {
             //  console.log(249, g.y);
 
         });
-    //pass spacing variable into sound stuff function     
-    // setupBottom(guitarsBottom);
-
 }
 
-//sound stuff function 
-let WTopMargin;
-function setupBottom(guitarsBottom) {
-    WTopMargin = guitarsBottom;
-
-    //text line at end of graph  
-    textAlign(LEFT);
-    fill(255);
-    text("   Fenders in vintage               .  Gibsons in classic            .", 114, WTopMargin + 37);
-    fill(162, 224, 184);
-    text("surf green", 300, WTopMargin + 37);
-    fill(183, 132, 67);
-    text("goldtop", 572, WTopMargin + 37);
-
-    //text and images for sound comparison 
-    textFont(myFont);
-    fill(255);
-    textSize(55);
-    textAlign(CENTER);
-    text("FENDER  VS  GIBSON      SOUND  AND  WAVE  FORM  COMPARISON", width / 2, WTopMargin + 200);
-    textSize(20);
-    textFont("Futura");
-    textAlign(LEFT);
-    text("Fender's bright attack vs Gibson's warm \nsustain divides rockstars into camps. \n \nConventional wisdom holds that Gibson's set \nneck transfers resonance between neck \nand body better than Fender's bolt-on neck. \nThe result is said to be more warmth and \nsustain in the set-neck guitar, and more twang \nin the bolt-on guitar. \n \nTest the conventional wisdom by comparing \nthe wave forms of a Fender Stratocaster and \nGibson Les Paul, both strummed in open E. \n \nThe p5.js FFT wave form analyzer shows \namplitude (volume) over time in red, and \nfrequency (pitch), from the lowest to highest \nthat humans can hear, in blue. \n \nWhat do the wave forms tell you about \nFender and Gibson's tone?", 1150, WTopMargin + 360);
-    textSize(24);
-    textStyle(ITALIC);
-    textAlign(CENTER);
-    text("Test a Fender Stratocaster against a Gibson Les Paul", width / 2, WTopMargin + 270);
-    textAlign(LEFT);
-    textSize(20);
-    text("Click strings for play/pause", 210, WTopMargin + 342);
-    textSize(20);
-    textStyle(NORMAL);
-    text("Stratocaster", 210, WTopMargin + 560);
-    text("Les Paul", 210, WTopMargin + 850);
-    image(fenderStrat, 200, WTopMargin + 380);
-    image(gibsonLP, 195, WTopMargin + 660);
-
-    //legend for sound samples 
-    fill(221, 105, 103); //"red"
-    rect(798, WTopMargin + 570, 20, 20);
-    fill(0, 73, 219);//"blue"
-    rect(798, WTopMargin + 610, 20, 20);
-    fill(255);
-    text("Amplitude", 830, WTopMargin + 587);
-    text("Frequency", 830, WTopMargin + 627);
-
-
-    //rectangles around sound samples, lines inside  
-    stroke(255);
-    strokeWeight(6);
-    fill(0);
-    rect(798, WTopMargin + 348, 202, 202);
-    samples.fender.top = WTopMargin + 350;
-    rect(798, WTopMargin + 648, 202, 202);
-    samples.gibson.top = WTopMargin + 650;
-    strokeWeight(1);
-    stroke(0, 73, 219);
-    line(802, WTopMargin + 455, 996, WTopMargin + 455);
-    line(802, WTopMargin + 755, 996, WTopMargin + 755);
-    stroke(221, 105, 103);
-    line(802, WTopMargin + 445, 996, WTopMargin + 445);
-    line(802, WTopMargin + 745, 996, WTopMargin + 745);
-
-    //add divs for strings mouseover 
-    $("#Fstring.strings").css("left", 260).css("top", WTopMargin + 425);
-    $("#Gstring.strings").css("left", 275).css("top", WTopMargin + 715);
-}
 // new handleGuitarClick
 function handleGuitarClick(event) {
     let g = event.data;
@@ -295,7 +210,7 @@ function handleGuitarClick(event) {
     // if(g.songID !== "0") {
     //     if(g.description.length > 400) boxWidth = '80%';
     // }
-    $.confirm({
+    $.confirm({ //div is inserted
         backgroundDismiss: true,
         boxWidth: '90%', //modal window 90% of screen
         boxHeight: '100%',
@@ -306,16 +221,13 @@ function handleGuitarClick(event) {
         content: makeContent(g), //call makeContent function for modal 
         buttons: {
             close: function () {
+                $('html').css('overflow', 'scroll');
             },
         },
-        //resize image to override Firefox 
-        // onOpen: function () {
-        //     $(".jconfirm_offset").addClass("jconfirm_offset") //image height fixed at 200px
-        // }
     });
 }
 
-//filter brands for guitar count sentence 
+//filter brands for guitar count text 
 function guitarCounts() {
     return [
         guitarLocations.filter((g) =>
@@ -347,23 +259,18 @@ function renderGuitarLine(g) {
     textSize(14);
     if (g.songTitle !== '') {
         if (g.numberOne == 1) {
-            // stroke(255);
-            // strokeWeight(1);
-            // line(g.x + 105, g.y + 17, g.x + 178, g.y + 17);
+
             noStroke();
             fill('#B8A2E0');
             text(g.songTitle + " #1", g.x + 95, g.y + 33);
             fill(255);
             textFont(myFont);
             textAlign(LEFT);
-            //      text("number one hit", g.x + 200, g.y + 33); //adjust with song title 
-            //          image(numberOneIcon, g.x + 310, g.y + 33);
         }
         else {
             //non #1 song titles and lines 
             stroke(255);
             strokeWeight(1);
-            // line(g.x + 105, g.y + 17, g.x + 178, g.y + 17);
             textAlign(LEFT);
             textFont("Futura");
             noStroke();
@@ -379,30 +286,6 @@ function renderGuitarLine(g) {
     textStyle(BOLD);
     noStroke();
     text(g.artist, g.x + 95, g.y + 16);
-}
-
-//mouse click function 
-function mouseClicked() {
-
-    //mouse positions for sound stuff 
-    if ((mouseX >= 260 && mouseX <= 580) && (mouseY >= WTopMargin + 425 && mouseY <= WTopMargin + 475)) {
-        togglePlay("fender");
-        // fill(0);
-        // rect(798, topMargin + 2448, 202, 202);
-        stroke(162, 224, 184);
-        strokeWeight(6);
-        rect(798, WTopMargin + 348, 202, 202);
-        samples.fender.top = WTopMargin + 348;
-    }
-    else if ((mouseX >= 275 && mouseX <= 595) && (mouseY >= WTopMargin + 715 && mouseY <= WTopMargin + 765)) {
-        togglePlay("gibson");
-        // fill(0);
-        // rect(798, topMargin + 2748, 202, 202);
-        stroke(183, 132, 67);
-        strokeWeight(6);
-        rect(798, WTopMargin + 648, 202, 202);
-        samples.gibson.top = WTopMargin + 648;
-    }
 }
 
 //populate popup with image, frame, song and description  
@@ -426,55 +309,3 @@ function makeIframe(songIDStr) {
     }
     return "";
 }
-
-//sound functions 
-function draw() {
-
-    //   background(0);
-    if (playSoundBrand === null) return;
-    let sample = samples[playSoundBrand];
-    let spectrum = sample.fft.analyze();
-    noStroke();
-    fill(0, 73, 219); // audio frequency spectrum is blue
-    for (var i = 0; i < spectrum.length; i++) {
-        let x = map(i, 0, spectrum.length, 0, 200);
-        let h = -200 + map(spectrum[i], 0, 255, 200, 0);
-        rect(x + sample.left, 200 + sample.top, 200 / spectrum.length, h)
-    }
-
-    let waveform = sample.fft.waveform();
-    noFill();
-    beginShape();
-    stroke(221, 105, 103); // amplitude waveform is red
-    strokeWeight(1);
-    for (var i = 0; i < waveform.length; i++) {
-        let x = map(i, 0, waveform.length, 0, 198);
-        let y = map(waveform[i], -1, 1, 0, 198);
-        vertex(x + sample.left, y + sample.top);
-    }
-    endShape();
-}
-
-// fade sound if mouse is over canvas
-function togglePlay(brand) {
-    let sound = samples[brand].sound;
-    if (playSoundBrand !== null) {
-        if (sound.isPlaying()) {
-            sound.pause();
-            playSoundBrand = null;
-        }
-    } else {
-        playSoundBrand = brand;
-        sound.loop();
-    }
-
-}
-// });
-
-// function windowResized() {
-//     location.reload();
-// }
-
-// const start = new Date().getTime()
-
-// console.log(new Date().getTime() - start)
