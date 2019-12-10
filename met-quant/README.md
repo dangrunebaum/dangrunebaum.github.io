@@ -15,3 +15,7 @@ A tooltip provides specific information on the number of objects by century, all
 
 ## Conclusion 
 While visualizing the top ten cultures at the Met was a useful investigation, the process revealed less conclusive information about the interaction of civilizations over time than it did about the nature of the Met's collection itself. The collection was created through the accrual of major purchases and gifts over time. Visualizing the collection by culture thus likely says less about civilization than it does about the idiosyncracies of the acquisition process. 
+
+[]()\
+[Website](https://dangrunebaum.github.io/met-quant/)\
+[Documentation](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/documentation.md)
