@@ -8,7 +8,7 @@ Included guitar exhibition data, URLs and songIDs etc. for popup media.
 [Table](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-interactive/data/guitars.csv)
 
 ## 3. Code basic guitar graph with popups. 
-Loop through table for graph with JavaScript, create popups with Jquery and style with CSS.
+Loop through table for graph with JavaScript p5.js canvas, create popups with Jquery and style with CSS.
 [Script](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-qual/guitars.js)
 ![Graph](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-qual/FENDER_VS_GIBSON_FINAL.png) 
 
