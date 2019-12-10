@@ -1,14 +1,14 @@
 # Culture Timeline Documentation
 
 ## 1. Ideation 
-This project began with the belief that vast size of the Metropolitan Museum of Art's collection presented the opportunity to understand the interaction of civilizations over time. I was inspired by timelines including this Google Research Music Timeline. \
+This project began with the belief that vast size of the Metropolitan Museum of Art's collection presented the opportunity to understand the interaction of civilizations over time. I was inspired by timelines including this Google Research Music Timeline. <br/>
 ![Music Timeline](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/musictimelineoverview.png)
-
-In the Met collection database, the culture column offered the most obvious proxy for human civilizations. I envisioned a stacked area chart as the best candidate for visualizing cultures over time in a cognitively simple graphic. \ 
+<br/>
+In the Met collection database, the culture column offered the most obvious proxy for human civilizations. I envisioned a stacked area chart as the best candidate for visualizing cultures over time in a cognitively simple graphic. <br/>
 ![Sketch](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/MET_CULTURES_v3.png)
 
 
-## 2. Prepare CSV table. 
+## 2. Prepare CSV table 
 Due to the large size of the collection CSV, I reduced the table to the few columns required for the visualization.
 [Table](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-quant/metobjects-sorted.csv) 
 
