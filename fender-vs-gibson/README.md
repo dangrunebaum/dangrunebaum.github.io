@@ -12,7 +12,7 @@ Popups offer detailed exhibition texts and images of each guitar retrieved dynam
 
 ## Sound and Wave Form Comparison 
 
-Central to the Fender/Gibson rivalry is the debate over tone, with some preferring Fender's brightness and others Gibson's warmth. Inspired by numerous online forums devoted to this debate, I sampled a Fender Stratocaster and Gibson Les Paul, and used p5.js's FFT sound analyzer to build an interactive that allows users to compare sound and wave forms and come to their own conclusions. ![Sound](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/2.%20desktop-sound.png)
+Central to the Fender/Gibson rivalry is the debate over tone, with some preferring Fender's brightness and others Gibson's warmth. Inspired by numerous online forums devoted to this debate, I sampled a Fender Stratocaster and Gibson Les Paul, and used p5.js's FFT sound analyzer to build an interactive that allows users to compare sound and wave forms and come to their own conclusions. ![Sound](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/2.%20waveforms.png)
 
 ## Mobile 
 
