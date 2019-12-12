@@ -4,7 +4,7 @@ Inspired by the Metropolitan Museum of Art's "Play It Loud" exhibition, this dat
 
 ## Abstract 
 
-The two legendary guitar makers Fender and Gibson defined the sound of rock, designing cutting-edge instruments that powered the innovations of guitarists from Chuck Berry through to Jimi Hendrix and Tom Morello. Through a qualitative comparison, I explore the interplay between Fender and Gibson’s brand identities and the rockstars of “Play It Loud.” The visualization looks at the 47 Fenders and Gibsons present in “Play It Loud,” placed on a graph according to year of manufacture and rockstar, with accompanying data on landmark songs from “Johnny B. Goode” to number one hits like “I Love Rock ’n’ Roll.” 
+The two legendary guitar makers Fender and Gibson defined the sound of rock, designing cutting-edge instruments that powered the innovations of guitarists from Chuck Berry through to Jimi Hendrix and Tom Morello. Through a qualitative comparison, I explore the interplay between Fender and Gibson’s brand identities and the rockstars of “Play It Loud.” The visualization looks at the 47 Fenders and Gibsons present in “Play It Loud,” placed on a graph according to year of manufacture and rockstar, with accompanying data on landmark songs from “Johnny B. Goode” to number one hits like “I Love Rock ’n’ Roll.” ![Main view](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/main-graph.png)
 
 ## Interactivity 
 
