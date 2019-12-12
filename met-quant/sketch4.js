@@ -6,11 +6,11 @@
 // only keep rows with top 10 value for Culture column  
 // create data structure with only Culture, count and Object End Date values: {culture: Chinese, years: [1204, 1245, 1324, etc.]}
 // bin dates by century?
-// Deal with BC (indicated with a "-") and AD dates
+// deal with BC (indicated with a "-") and AD dates
 // save earliest and last dates for X axis
 // draw lines and fills for each Culture object
 // draw X and Y axes, marks, labels, key and title/subtitle 
-// possible interactivity: rollovers to highlights for each culture ideally with images  
+// add tooltip and animate bar graph 
 
 var marginTop = 150;
 var marginLeft = 125;
@@ -52,15 +52,15 @@ function preload() {
 }
 
 function setup() {
-  frameRate(fr);// Attempt to refresh at starting FPS
+  frameRate(fr); //attempt to refresh at starting FPS
 
-  // data for transforming single values to other values 
+  //data for transforming single values to other values 
   const nameMap = {
     Japan: "Japanese",
     India: "Indian",
     China: "Chinese"
   };
-  // function for processing culture strings 
+  //function for processing culture strings 
   function getStandardCulture(cString) {
 
     if (cString !== "" //cannot contain empty strings 
@@ -142,8 +142,6 @@ function setup() {
         if (maxYear < year) maxYear = year;
 
       }
-
-
     }
   );
   // include all years beyond 2019
@@ -192,9 +190,7 @@ function setup() {
         }
 
         centuryArray[century].cultureCounts[cIndex]++;
-
       }
-
     }
   );
 
@@ -246,7 +242,7 @@ function setup() {
   textSize(25);
   text("Top 10 Cultures in the Collection of the Metropolitan Museum of Art, by Object", 125, marginTop + 20);
   text("Top 10 Cultures by Percent over Time, 5000 BC to Present", 125, marginTop + 390);
-  // text("The Top 10 Cultures represent 145,338 objects, about one-third of the Met's Collection.", 125, marginTop + 1030);
+  text("The vast size of the Metropolitan Museum of Art's collection presented the opportunity to utilize it as a lens for understanding the \ninteraction of civilizations over time. I was interested to learn if its almost 500,000 objects contained a hidden story that could be \nuncovered with visualization techniques.The Top 10 Cultures represent 145,338 objects, or about one-third of the Met's Collection.", 125, marginTop + 1030);
   textSize(15);
   text("Century Units", 125, marginTop + 980);
 
@@ -300,6 +296,7 @@ function draw1() {
   spacing = 50;
   textSize(16);
 
+  //ticks and text
   for (let t = 0; t < centuries.length; t++) {
 
     if (centuries[t] === undefined) continue;
@@ -347,9 +344,7 @@ function draw1() {
         }
         //drawn = true;
       }
-
     };
-
   }
   //create tooltip    
   function over(e) {
@@ -368,20 +363,19 @@ function draw1() {
   translate(100, 0);
   rotate(PI / 2);
   translate(150, -100);
-  rotate(PI / 2);//is added
+  rotate(PI / 2); //is added
   translate(0, -200);
   fill("black");
-  rotate(PI / 2);//is added
+  rotate(PI / 2); //is added
   text("Percent", -475, -90);
   translate(250, 0);
-  rotate(PI / 2);//is added
-
+  rotate(PI / 2); //is added
 }
 
 function draw() {
 //animated bar chart
   var y = 145;
-  rectX += 1; // Move bar
+  rectX += 1; //move bar
   if (rectX >= 28141 * 0.035) {
     rectX = 28141 * 0.035;
   }
@@ -461,5 +455,4 @@ function draw() {
   fill(colorArray[9])
   rect(marginLeft, y + 35, rectG, 20);
   y += 25;
-
 }
