@@ -8,20 +8,20 @@ Included guitar exhibition data, URLs and songIDs etc. for popup media.
 [Table](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-interactive/data/guitars.csv)
 
 ## 3. Code basic guitar graph with popups. 
-Loop through table for graph with JavaScript p5.js canvas, create popups with Jquery and style with CSS.
+For the qualitative segment, I looped through the table to build a graph with JavaScript p5.js canvas, and created popups with Jquery, styled with CSS.
 [Script](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-qual/guitars.js)
 ![Graph](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-qual/FENDER_VS_GIBSON_FINAL.png) 
 
 ## 4. Implement Filter
-Code filter of guitar makes and models with JavaScript and Jquery.
+For the interactive segment, I coded a filter of guitar makes and models with JavaScript and Jquery.
 [Script](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-int/guitars.js)
 ![Filter view](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/filter_view.png)
 
 ## 5. Ideation for Sound and Waveform Comparison 
-Inspired by online debate and kitchen science such as [this article](https://www.cycfi.com/2013/11/sustain-myth-science/) I outlined an interactive using the p5.js FFT analyzer. ![Sound sketch](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/waveform_ideation.png) 
+Also for the interactive segment, I was inspired by online debate and kitchen science such as [this article](https://www.cycfi.com/2013/11/sustain-myth-science/),  to create a guitar sound and waveform analyzer interactive using the p5.js FFT analyzer. ![Sound sketch](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/waveform_ideation.png) 
 
 ## 6. Code Sound and Waveform 
-Build visualization with p5.js FFT from p5 sound library, code interactions with JavaScript.
+Built visualization with p5.js FFT from p5 sound library, code interactions with JavaScript.
 [Script](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/met-int/guitars.js)
 
 ## 7. Ideation for Mobile Version 
