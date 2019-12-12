@@ -1,5 +1,5 @@
 # The Met: A Culture Timeline 
-## This data visualization seeks to answer the question: Can the cultures of the Met serve as a lens for human history?
+## This data visualization seeks to answer the question: Can the cultures of the Met serve as a lens on human history?
 
 ## Abstract
 The vast size of the Metropolitan Museum of Art's collection presented the opportunity to utilize it as a proxy for understanding the interaction of civilizations over time. I was interested to learn if its almost 500,000 objects contained a hidden story that could be uncovered with visualization techniques. 
