@@ -22,6 +22,6 @@ I recreated the full functionality and affordances of the desktop site in mobile
 
 Iterating through three versions of Fender vs Gibson was a valuable learning experience. Developing the project from the qualitative through to its interactive and mobile phases taught me much about the differing design and programmatic challenges each entails, and what the Met might want from such an application. More generally, I became intimately acquainted with Fender and Gibson’s brand identities and their interactions with the trajectories of rockstars’ careers. 
 
-[Fender vs Gibson Video](http://www.youtube.com/watch?v=NuaQla5tAJs)\
+[Fender vs Gibson Video]( https://youtu.be/G30PdZWpA2s)\
 [Website](https://dangrunebaum.github.io/fender-vs-gibson/index.html)\
 [Documentation](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/documentation.md)
