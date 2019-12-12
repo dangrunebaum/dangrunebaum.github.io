@@ -242,7 +242,7 @@ function setup() {
   textSize(25);
   text("Top 10 Cultures in the Collection of the Metropolitan Museum of Art, by Object", 125, marginTop + 20);
   text("Top 10 Cultures by Percent over Time, 5000 BC to Present", 125, marginTop + 390);
-  text("The vast size of the Metropolitan Museum of Art's collection presented the opportunity to utilize it as a lens for understanding the \ninteraction of civilizations over time. I was interested to learn if its almost 500,000 objects contained a hidden story that could be \nuncovered with visualization techniques.The Top 10 Cultures represent 145,338 objects, or about one-third of the Met's Collection.", 125, marginTop + 1030);
+  text("The vast size of the Metropolitan Museum of Art's collection presented the opportunity to utilize it as a lens for understanding the \ninteraction of civilizations over time. The goal of this project was to learn if its almost 500,000 objects contained a hidden story that could be \nuncovered with visualization techniques.The Top 10 Cultures represent 145,338 objects, or about one-third of the Met's Collection.", 125, marginTop + 1030);
   textSize(15);
   text("Century Units", 125, marginTop + 980);
 
