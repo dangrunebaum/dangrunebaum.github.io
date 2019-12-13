@@ -22,20 +22,10 @@ let dataShown;
 var scale;
 let data;
 const colorArray = ["#CA99C6", "#62525F", "#E3CD9C", "#2D3029", "#5D0D00", "#C58663", "#DEA95B", "#FF7A42", "#FFD0B0", "#DE5744"];
-let fr = 480; //start frame per second
-let rectX = 0; //initialize rectX
-let rectY = 0;
-let rectZ = 0;
-let rectA = 0;
-let rectB = 0;
-let rectC = 0;
-let rectD = 0;
-let rectE = 0;
-let rectF = 0;
-let rectG = 0;
+const fr = 480; //start frame per second
+let barSize = 0;//initialize bar size for top ten display 
 //declare variable for csv 
 let table;
-let topTen;
 
 //capture counts for unique culture names 
 const o_cultures = {};
@@ -115,7 +105,7 @@ function setup() {
     return b[1] - a[1];
   }
 
-  let topTen = counts.slice(0, 10);
+  topTen = counts.slice(0, 10);
 
   console.log(topTen);
 
@@ -156,7 +146,6 @@ function setup() {
 
   const minCentury = toCentury(minYear);
   const maxCentury = toCentury(maxYear);
-
   //console.log(minCentury, maxCentury);
 
   //create century array from table 
@@ -197,7 +186,7 @@ function setup() {
   data = centuryArray;
 
   //basic draw tasks 
-  createCanvas(2100, 1500);
+  createCanvas(1920, 1400);
   background(255);
   //  var x = 125
   var y = 150
@@ -226,7 +215,7 @@ function setup() {
     y += 25
   }
   fill(255, 0, 0);
-  rect(0, 0, 2200, 100);
+  rect(0, 0, 1920, 100);
   textStyle(NORMAL);
   textAlign(LEFT);
   textSize(50);
@@ -339,7 +328,6 @@ function draw1() {
           div.attr("century", centuries[t]);
           div.attr("total", data[t].total);
           div.hover(over, out);
-          //              div.css("background", "red");
           $("body").append(div);
         }
         //drawn = true;
@@ -348,9 +336,8 @@ function draw1() {
   }
   //create tooltip    
   function over(e) {
-    // console.log("over", $(this).attr ("century"), $(this).attr("total"));
     let pos = $(this).position();
-    console.log(pos);
+    // console.log(pos);
     $(".tooltip").html(`Century: ${$(this).attr("century")}<br/>Objects: ${$(this).attr("total")}`).show();
     $(".tooltip").css("top", e.pageY + 5).css("left", pos.left + 5);
     $(this).addClass("wb");
@@ -373,86 +360,14 @@ function draw1() {
 }
 
 function draw() {
-//animated bar chart
-  var y = 145;
-  rectX += 1; //move bar
-  if (rectX >= 28141 * 0.035) {
-    rectX = 28141 * 0.035;
-  }
+  //animated bar chart
   noStroke();
-  fill(colorArray[0])
-  rect(marginLeft, y + 35, rectX, 20);
-  y += 25;
+  for (let bar = 0, y = 145; bar < 10; bar++ , y += 25) { //loop over top ten, using bar as loop variable
+    if (barSize < topTen[bar][1] * 0.035) { //topTen[bar][1] = number of objects 
+      barSize++; //move bar
+      fill(colorArray[bar]) //use bar color 
+      rect(marginLeft, y + 35, barSize, 20);
+    }
 
-  rectY += 1;
-  if (rectY >= 22633 * 0.035) {
-    rectY = 22633 * 0.035;
   }
-  fill(colorArray[1])
-  rect(marginLeft, y + 35, rectY, 20);
-  y += 25;
-
-  rectZ += 1;
-  if (rectZ >= 22346 * 0.035) {
-    rectZ = 22346 * 0.035;
-  }
-  fill(colorArray[2])
-  rect(marginLeft, y + 35, rectZ, 20);
-  y += 25;
-
-  rectA += 1;
-  if (rectA >= 20500 * 0.035) {
-    rectA = 20500 * 0.035;
-  }
-  fill(colorArray[3])
-  rect(marginLeft, y + 35, rectA, 20);
-  y += 25;
-
-  rectB += 1;
-  if (rectB >= 15667  * 0.035) {
-    rectB = 15667 * 0.035;
-  }
-  fill(colorArray[4])
-  rect(marginLeft, y + 35, rectB, 20);
-  y += 25;
-
-  rectC += 1;
-  if (rectC >= 10230  * 0.035) {
-    rectC = 10230  * 0.035;
-  }
-  fill(colorArray[5])
-  rect(marginLeft, y + 35, rectC, 20);
-  y += 25;
-
-  rectD += 1;
-  if (rectD >= 10163  * 0.035) {
-    rectD = 10163  * 0.035;
-  }
-  fill(colorArray[6])
-  rect(marginLeft, y + 35, rectD, 20);
-  y += 25;
-
-  rectE += 1;
-  if (rectE >= 7334  * 0.035) {
-    rectE = 7334  * 0.035;
-  }
-  fill(colorArray[7])
-  rect(marginLeft, y + 35, rectE, 20);
-  y += 25;
-
-  rectF += 1;
-  if (rectF >= 5427 * 0.035) {
-    rectF = 5427 * 0.035;
-  }
-  fill(colorArray[8])
-  rect(marginLeft, y + 35, rectF, 20);
-  y += 25;
-
-  rectG += 1;
-  if (rectG >= 2897 * 0.035) {
-    rectG = 2897 * 0.035;
-  }
-  fill(colorArray[9])
-  rect(marginLeft, y + 35, rectG, 20);
-  y += 25;
 }
