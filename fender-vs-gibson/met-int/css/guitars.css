@@ -1,6 +1,8 @@
 body {
+    position: relative;
     padding: 0;
     margin: 0;
+    background: black;
 }
 
 .guitarRow {
@@ -92,8 +94,8 @@ body.url {
     align-items: center;
 }
 
-/* .footer {
-    position: fixed;
+.footer {
+    position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
@@ -102,12 +104,12 @@ body.url {
     text-align: center;
     font-family: futura;
     font-size: 12;
-} */
+}
 
 a {
-    color: rgba(198, 229, 22, 0.703);
-    text-decoration: none;
-    text-transform: uppercase;
+    color: white;
+    /* text-decoration: none;
+    text-transform: uppercase; */
 }
 
 a:hover {
