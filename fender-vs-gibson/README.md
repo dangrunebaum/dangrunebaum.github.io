@@ -12,7 +12,7 @@ Popups offer detailed exhibition texts and images of each guitar retrieved dynam
 
 ## Timeline
 
-A timeline presents Fender and Gibson's key solid body guitar models launched in rock's formative years. The timeline provides a context for the exhibition guitars shown in the main graph above. 
+A timeline presents Fender and Gibson's key solid body guitar models launched in rock's formative years. The timeline provides a context for the exhibition guitars shown in the main graph above.![Timeline](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/timeline.png) 
 
 ## Sound and Wave Form Comparison 
 
