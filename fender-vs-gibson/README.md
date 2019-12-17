@@ -10,6 +10,10 @@ The two legendary guitar makers Fender and Gibson defined the sound of rock, des
 
 Popups offer detailed exhibition texts and images of each guitar retrieved dynamically from the “Play It Loud” website, alongside a Spotify iFrame that allows users to listen to a song sample featuring each guitar. With a filter, users can also dig down into which brands and guitar models were used when, and by which rockstar.![Popup](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/1.%20desktop-graph.png)
 
+## Timeline
+
+A timeline presents Fender and Gibson's key solid body guitar models launched in rock's formative years. The timeline provides a context for the exhibition guitars shown in the main graph above. 
+
 ## Sound and Wave Form Comparison 
 
 Central to the Fender/Gibson rivalry is the debate over tone, with some preferring Fender's brightness and others Gibson's warmth. Inspired by numerous online forums devoted to this debate, I sampled a Fender Stratocaster and Gibson Les Paul, and used p5.js's FFT sound analyzer to build an interactive that allows users to compare sound and wave forms and come to their own conclusions. ![Sound](https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/fender-vs-gibson/2.%20waveforms.png)
