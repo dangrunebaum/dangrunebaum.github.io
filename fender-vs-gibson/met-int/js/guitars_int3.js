@@ -5,6 +5,7 @@ FOR EACH ROW, CREATE HOVER EVENT THAT PULLS APPROPRIATE IMAGE FROM URL.
 PLACE SONG TITLES.
 CREATE HOVER EVENTS THAT PULL SONG SAMPLES FROM SPOTIFY API 
 CREATE AXES AND TITLES
+CREATE TIMELINE
 CREATE NEW ELEMENT CONTAINING 2 SOUND SAMPLES AND WAVE FORMS FOR FENDER/GIBSON COMPARISON*/
 
 //declare variables for graph, csv, fender and gibson icons, guitarLocations and decade arrays 
@@ -16,6 +17,7 @@ let table;
 let fender;
 let gibson;
 let guitarLocations = [];
+let timelineTable;
 
 //current value of filter selection
 let filterSelection = $("#select-menu").val();
@@ -46,6 +48,7 @@ function preload() {
     //load font and table 
     myFont = loadFont('font/AllAgesDemo-2DPX.ttf');
     table = loadTable('data/guitars.csv', 'csv', 'header');
+    timelineTable = loadTable('data/timeline.csv', 'csv', 'header');
     // consoleString.log(table);
     //load images  
     fender = loadImage('images/fender_icon_green.png');
@@ -56,6 +59,7 @@ function preload() {
     fenderStrat = loadImage('images/fender_strat.png');
     gibsonLP = loadImage('images/gibson_lp2.png');
     arrow = loadImage('images/arrow.png');
+    timeline = loadImage('images/timeline.png');
     // fenderSound = loadImage('images/fendersound.png');
     // gibsonSound = loadImage('images/gibsonsound.png');
 
@@ -78,7 +82,7 @@ function preload() {
 
 function setup() {
 
-    let cnv = createCanvas(windowWidth, 3250);
+    let cnv = createCanvas(windowWidth, 4600);
 
     //
     samples.fender.fft = new p5.FFT();
@@ -101,12 +105,12 @@ function setupAux() {
     textSize(70);
     textStyle(BOLD);
     fill(162, 224, 184);
-    image(fenderLogo, (width / 2) - 450, 15);
+    image(fenderLogo, (width / 2) - 450, 20);
     textAlign(CENTER);
     fill(255);
-    text("VS", width / 2, 120);
+    text("VS", width / 2, 125);
     fill(183, 132, 67);
-    image(gibsonLogo, (width / 2) + 130, 15);
+    image(gibsonLogo, (width / 2) + 130, 20);
     fill(255);
     textSize(30);
     textStyle(NORMAL);
@@ -214,17 +218,39 @@ function setupAux() {
 //sound stuff function 
 let WTopMargin;
 function setupBottom(guitarsBottom) {
-    WTopMargin = guitarsBottom;
+    WTopMargin = guitarsBottom + 1250;
 
     //text line at end of graph  
     textAlign(LEFT);
     fill(255);
-    text("   Fenders in vintage               .  Gibsons in classic            .", 114, WTopMargin + 37);
+    text("   Fenders in vintage               .  Gibsons in classic            .", 114, guitarsBottom + 30);
     fill(162, 224, 184);
-    text("surf green", 300, WTopMargin + 37);
+    text("surf green", 300, guitarsBottom + 30);
     fill(183, 132, 67);
-    text("goldtop", 572, WTopMargin + 37);
+    text("goldtop", 572, guitarsBottom + 30);
 
+    //timeline text and image
+    textFont(myFont);
+    fill(255);
+    textSize(55);
+    textAlign(CENTER);
+    text("FENDER  VS  GIBSON      TIMELINE", width/2, guitarsBottom + 240);
+    textFont('Futura');
+    textStyle(ITALIC);
+    textSize(24);
+    text('Formative years of the solid body electric guitar', width/2, guitarsBottom + 300);
+    image(timeline, leftMargin - 90, guitarsBottom + 310, 1000, 1000);
+    textStyle(NORMAL);
+    textSize(20);
+    textAlign(LEFT);
+    text('An explosion of creativity from Fender and \nGibson drove rock ’n’ roll’s formative years. \nFounding Fender in California in 1946, \nLeo Fender revolutionized the solid body electric \nguitar with the introduction of the \nTelecaster guitar and Precision bass in 1951. \nTheir radical look and sound altered the \ncourse of pop music. \n \nNot to be left behind, veteran instrument \nmaker Gibson launched a solid body named \nafter successful recording artist Les \nPaul in 1952. The instrument became the most \nsuccessful “signature” guitar in history, and \nsoon grew to a family of four models:  \nthe Junior, Special, Standard and Custom. \n \nAs rock music took over the airwaves, \nFender and Gibson created a range of \nmodels designed to appeal to young \nrockers, like Fender’s ergonomic Stratocaster \nand Gibson’s double cutaway SG. \n \nElectronic innovations such as Gibson’s hum \nreducing humbucker pickup, Fender’s innovative \nwhammy bar, and space-age models like \nFender’s Jazzmaster and Gibson’s \nFlying V capped a remarkable decade that \nredefined musical instruments for generations \nto come. ', 1100, guitarsBottom + 450);
+    // stroke(255);
+    // noStroke();
+    // textFont('Futura');
+    // textSize(20);
+    // textStyle(NORMAL);
+    // textAlign(CENTER);
+ 
     //text and images for sound comparison 
     textFont(myFont);
     fill(255);
@@ -284,8 +310,8 @@ function handleGuitarClick(event) {
     let g = event.data;
     let boxWidth = '60%';
     console.log(g.songID);
-    if(g.songID !== "0") {
-        if(g.description.length > 400) boxWidth = '80%';
+    if (g.songID !== "0") {
+        if (g.description.length > 400) boxWidth = '80%';
     }
     $.confirm({
         backgroundDismiss: true,
@@ -295,15 +321,15 @@ function handleGuitarClick(event) {
         title: `<div class="popuptitle">
   <span class="popuptitletext">${g.title}</span> 
   </div>`,
-         
+
         content: makeContent(g), //call makeContent function for modal 
         buttons: {
             close: function () {
             },
         },
         //resize image to override Firefox 
-        onOpen: function() {
-            $(".popupimage").css("height","500px"); //image height fixed at 400px
+        onOpen: function () {
+            $(".popupimage").css("height", "500px"); //image height fixed at 400px
         }
     });
 }
@@ -371,15 +397,6 @@ function renderGuitarLine(g) {
     noStroke();
     text(g.artist, g.x - 30, g.y + 25);
 }
-
-//locate guitar for mouseover--still used? 
-// function overGuitar() {
-//     let result = guitarLocations.find(
-//         (g) => (mouseX >= g.x && mouseX <= g.x + 100) && (mouseY >= g.y && mouseY <= g.y + 40)
-//     );
-//     // console.log(result, mouseX);
-//     return result;
-// }
 
 //mouse click function 
 function mouseClicked() {
