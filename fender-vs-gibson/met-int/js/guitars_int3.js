@@ -82,7 +82,7 @@ function preload() {
 
 function setup() {
 
-    let cnv = createCanvas(windowWidth, 4600);
+    let cnv = createCanvas(1800, 4600);
 
     //
     samples.fender.fft = new p5.FFT();
@@ -239,7 +239,7 @@ function setupBottom(guitarsBottom) {
     textStyle(ITALIC);
     textSize(24);
     text('Formative years of the solid body electric guitar', width/2, guitarsBottom + 300);
-    image(timeline, leftMargin - 90, guitarsBottom + 310, 1000, 1000);
+    image(timeline, leftMargin - 100, guitarsBottom + 310, 1000, 1000);
     textStyle(NORMAL);
     textSize(20);
     textAlign(LEFT);
