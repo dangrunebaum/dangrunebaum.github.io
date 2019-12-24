@@ -30,7 +30,7 @@ function setup() {
   textSize(34);
   fill("Brown");
   text(
-    "Discrimination and Internalized Homophobia as Predictors for Regular HIV Testing and PREP Awareness",
+    "Discrimination and Internalized Homophobia as Predictors for Regular HIV Testing and PrEP Awareness",
     60, 55);
   textSize(22);
   text("A Study by Rutgers University Professor Corina Lelutiu-Weinberger",60, yoffset - 20);
