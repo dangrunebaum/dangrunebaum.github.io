@@ -1,50 +1,114 @@
 <!DOCTYPE html>
 <html lang="">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Final Project </title>
-    <style> body {padding: 0; margin: 0;} </style>
-    <script type="text/javascript">
-    var videoDatatwo =[];
-    </script>
-    <script type="text/javascript" src="videodatatwo.js"></script>
-    	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
-    <script src="p5.min.js"></script>
-	<script src="sketch.js"></script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Final Project </title>
 
-  <style> body {padding: 0; margin: 0;} 
-    canvas {position: absolute; left: 0px; top: 0px; z-index: 1; vertical-align: top;} #inputResults {position: absolute; left: 160px; top: 170px; z-index:5; border-width: 5px; background-color: #B0C4DE; font: 20px sans-serif} #barChart {position: absolute; right: 200px; bottom: 200px; z-index:6} #select-menu{position: absolute; left: 160px; top: 100px; z-index:10;}</style>
-  </head>
-  <body>
+  </style>
+  <script type="text/javascript">
+    var videoDatatwo = [];
+  </script>
+  <script type="text/javascript" src="videodatatwo.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
-<img src="barchart.png" alt="Average Reach by Topic" width="400" height="271" style="position: absolute; right: 100px; bottom: 110px; z-index:6; border-width: 3px; border-style:ridge">
+  <script src="p5.min.js"></script>
+  <script src="sketch.js"></script>
 
-    <div id="inputResults"></div>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
 
-      <div id="dropdown">
-<select id="select-menu">
-            
-             <option value="0">All Topics</option>
-             <option value="Culture">Culture</option>
-             <option value="Economy">Economy</option>
-             <option value="Imperial">Imperial</option>
-             <option value="Nature">Nature</option>
-             <option value="Politics">Politics</option>
-             <option value="Scitech">Scitech</option>
-             <option value="Society">Society</option>
-             <option value="Sports">Sports</option>
-             <option value="Weather">Weather</option>
- </select>
-</div>
+    canvas {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      z-index: 1;
+      vertical-align: top;
+    }
 
+    #inputResults {
+      position: absolute;
+      left: 160px;
+      top: 170px;
+      z-index: 5;
+      border-width: 5px;
+      background-color: #B0C4DE;
+      font: 20px sans-serif
+    }
+
+    #barChart {
+      position: absolute;
+      right: 200px;
+      bottom: 200px;
+      z-index: 6
+    }
+
+    #select-menu {
+      position: absolute;
+      left: 160px;
+      top: 100px;
+      z-index: 10;
+    }
+
+    #text {
+      position: absolute;
+      right: 50px;
+      top: 130px;
+      background-color: rgb(248, 229, 231);
+      color: black;
+      font-family: Avenir;
+      font-size: 18px;
+      width: 250px;
+      height: 620px;
+      margin: 8px, 8px;
+      padding: 8px;
+      /* overflow-x: hidden;
+      overflow-x: auto; */
+      text-align: justify;
+      z-index: 11;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- <img src="barchart.png" alt="Average Reach by Topic" width="400" height="271" style="position: absolute; right: 400px; bottom: 110px; z-index:6; border-width: 3px; border-style:ridge"> -->
+  <img src="ntv.png" alt="NTV LOGO" width="75" height="75" style="position: absolute; left: 20px; top: 20px; z-index:6">
+
+  <div id="inputResults"></div>
+
+  <div id="dropdown">
+    <select id="select-menu">
+
+      <option value="0">All Topics</option>
+      <option value="Culture">Culture</option>
+      <option value="Economy">Economy</option>
+      <option value="Imperial">Imperial</option>
+      <option value="Nature">Nature</option>
+      <option value="Politics">Politics</option>
+      <option value="Scitech">Scitech</option>
+      <option value="Society">Society</option>
+      <option value="Sports">Sports</option>
+      <option value="Weather">Weather</option>
+    </select>
+  </div>
+
+  <div id="text">
+
+    Which Japanese news topics get the most attention? This interactive scatterplot analyzes 227 news clips posted to
+    Nippon TV’s Facebook page in the first quarter of 2019 according to key metrics Reach and Views. Filtering videos by
+    topic, users can assess which themes are the most watched by followers of Nippon TV. Hovering over circles shows the
+    titles of each news post. <p>This visualization was produced for a report commissioned by Japan’s leading commercial
+    network Nippon TV to better understand how to expand the audience for its international services. It was created
+    with JavaScript, p5.js, CSS and HTML.</p>
+
+  </div>
 
 </body>
 
 
 </html>
-
-
-<!--  <div id="barChart"><div>
- -->
