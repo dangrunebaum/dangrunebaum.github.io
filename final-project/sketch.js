@@ -1,10 +1,10 @@
-
 //set topic category variable 
 var currentCat = 0;
+//set dot fill color 
 var ellipseColor;
-//set up canvas
+//set up canvas, set to window size 
 function setup() {
-  //create canvas 
+
   createCanvas(windowWidth, windowHeight);
 
   //loop through the videoDatatwo array of objects and get xpoints and ypoints
@@ -29,7 +29,7 @@ colorObject = [
   { "topic": "Weather", "color": "#66ff1a" },
 ];
 
-function draw() {   
+function draw() {
   background(255, 255, 255);
   //if statement in main draw loop so it only draws for the current category
   for (var i = 0; i < videoDatatwo.length; i++) if (currentCat == 0 || currentCat == videoDatatwo[i].Topic) {
@@ -37,7 +37,7 @@ function draw() {
       ellipseColor = colorObject[f].color;
       fill(ellipseColor);
       noStroke();
-      ellipse(videoDatatwo[i].xpoint, videoDatatwo[i].ypoint, 13, 13);
+      ellipse(videoDatatwo[i].xpoint, videoDatatwo[i].ypoint, 12, 12);
     }
   }
 
@@ -54,7 +54,7 @@ function draw() {
   textStyle(ITALIC);
   textSize(18);
   fill('SteelBlue');
-  text("Hover for video headline", 160, 152);
+  text("Click for video", 160, 152);
 
 
   //draw key ellipses
@@ -92,8 +92,6 @@ function draw() {
     if (currentCat == 0 || currentCat == videoDatatwo[j].Topic) {
       var MouseYes1 = dist(videoDatatwo[j].xpoint, videoDatatwo[j].ypoint, mouseX, mouseY);
 
-      //If the distance is equal to the size of the ellipse then change the cursor
-
       if (MouseYes1 < 8) {
         mouseHit = true
 
@@ -109,9 +107,9 @@ function draw() {
 
       }
     }
+    //If the distance is equal to the size of the ellipse then change the cursor
     if (mouseHit) {
       cursor(HAND);
-
 
     } else {
       cursor(ARROW);
@@ -153,6 +151,21 @@ function makeAxis() {
   }
 }
 
+//handle clicks from p5
+function mouseClicked() {
+  //find dots on canvas that match click 
+  for (var j = 0; j < videoDatatwo.length; j++) {
+    //limit search to current category 
+    if (currentCat == 0 || currentCat == videoDatatwo[j].Topic) {
+      if (dist(videoDatatwo[j].xpoint, videoDatatwo[j].ypoint, mouseX, mouseY) < 8) {
+        //open video permalink in new tab 
+        var win = window.open(videoDatatwo[j].Permalink, "_blank");
+        win.focus();//actually go to new tab 
+        break;//stop searching for matching click 
+      }
+    }
+  }
+}
 
 function tellMeSomething(myMessage) {
   var infoBox = document.getElementById("inputResults");
@@ -163,9 +176,7 @@ $(document).ready(function () {
   $('#select-menu').change(function () {
     var selectedGroup = $('#select-menu').val();
     currentCat = selectedGroup
-    console.log(selectedGroup)
-
-
+    // console.log(selectedGroup)
 
   });
 });
