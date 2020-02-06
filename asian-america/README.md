@@ -1,6 +1,6 @@
 # Asian America
 ## Data behind the nation's fastest growing immigrant group.  
-This project presents three ways of looking at the Asian American population: 
+This project presents three ways of visualizing the Asian American population: 
 * An animated bar chart breaking down Asian Americans by country of origin. 
 * A choropleth showing the Asian American population by state. 
 * An interactive line graph depicting Asian American population growth. <br>
