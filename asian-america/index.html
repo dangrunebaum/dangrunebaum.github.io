@@ -16,6 +16,7 @@
             stroke: whitesmoke;
             font-family: Comfortaa;
         }
+
         /* Style text div */
         .fixedDiv {
             position: absolute;
@@ -28,6 +29,7 @@
             font-size: 18px;
             font-family: Comfortaa;
         }
+
         /* style axis text */
         .text {
             background-color: #CACFD6;
@@ -65,6 +67,7 @@
             color: whitesmoke;
         }
 
+        /* Header position, image and style */
         header {
             padding-top: 50px;
             position: relative;
@@ -77,14 +80,15 @@
             font-family: Comfortaa;
         }
 
+        /* Wrapper for header div */
         #wrapper {
             margin-top: 250px;
         }
 
+        /* Position and style title */
         #title {
             width: 70%;
             text-align: center;
-            /* margin-top:300px; */
             font-family: Comfortaa;
             font-size: 100px;
             font-weight: 900;
@@ -94,6 +98,7 @@
             display: inline-block;
         }
 
+        /* Position and style subtitle */
         #subtitle {
             width: 52%;
             font-family: Comfortaa;
@@ -106,6 +111,7 @@
             display: inline-block;
         }
 
+        /* Position and style div 2 */
         .fixedDiv2 {
             position: relative;
             width: 80%;
@@ -117,6 +123,7 @@
             font-family: Comfortaa;
         }
 
+        /* Style overlay for tooltip */
         .overlay {
             fill: none;
             stroke: none;
@@ -132,6 +139,7 @@
             font-family: Comfortaa;
         }
 
+        /* Style tooltip */
         .tooltip {
             fill: white;
             stroke: #000;
@@ -144,6 +152,7 @@
             font-family: Comfortaa;
         }
 
+        /* Style axes */
         .axis path,
         .axis line {
             fill: none;
@@ -161,6 +170,7 @@
             stroke: none;
         }
 
+        /* Style line and circle */
         .line {
             fill: none;
             stroke: rgb(255, 87, 51);
@@ -181,19 +191,16 @@
 
         text {
             font-family: Comfortaa;
-            /* font-weight: 500;
-            font-size: 15px; */
             fill: whitesmoke;
         }
-
     </style>
     <link href="https://fonts.googleapis.com/css?family=Comfortaa|Roboto&display=swap" rel="stylesheet">
 
     <script src="https://d3js.org/d3.v4.min.js"></script>
-   </head>
+</head>
 
 <body>
-
+    <!-- Header elements -->
     <header>
         <div id="wrapper">
             <span id="title">ASIAN AMERICA</span>
@@ -211,8 +218,8 @@
             width = 1600 - margin.left - margin.right,
             height = 950 - margin.top - margin.bottom;
 
+        // Position side div for chart 1
         var svgPosition = document.getElementById("mySvg");
-
 
         var div = d3.select("body")
             .append("div")
@@ -222,13 +229,14 @@
             .style("top", svgPosition.offsetTop + 200 + "px")
             .style("left", svgPosition.offsetLeft + 1250 + "px");
 
-
+        // Color array for chart 1 
         var colors = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
             '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
             '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
             '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
             '#66994D', '#B366CC'];
 
+        // Append chart 1 svg to body 
         var chart1 = d3.select("body")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -260,38 +268,35 @@
             .style("fill", "whitesmoke")
             .text("Population Total: 22,942,648")
 
-        // chart1.append("text")
-        //     .attr("transform", "translate(100,0)")
-        //     .attr("x", width / 2 - 400)
-        //     .attr("y", height + 170)
-        //     .attr("font-size", "20px")
-        //     .style("fill", "whitesmoke")
-        //     .text("U.S. Census Bureau, 2018 American Community Survey")
-
+        // Scale ranges 
         var x = d3.scaleBand().range([0, width - 100]).padding(0.1),
             y = d3.scaleLinear().range([height, 0]);
 
+        // Declare group element
         var g = chart1.append("g")
             .attr("transform", "translate(" + 50 + "," + 100 + ")");
 
+        //  Load data 
         d3.csv("data/asian-american-population-totals-american-community-survey-2018.csv", function (error, data) {
             if (error) {
                 throw error;
             }
-
+            // Set domains based on ethnicity and population values
             x.domain(data.map(function (d) { return d.ethnicity; }));
             y.domain([0, d3.max(data, function (d) { return d.population * 1.2; })]);
-            // console.log(data);
+
+            // Append xi axis  
             g.append("g")
                 .attr("transform", "translate(0," + height + ")")
                 .attr("fill", "whitesmoke")
                 .style("font-size", "10px")
                 .call(d3.axisBottom(x))
 
+            // Append y axis  
             g.append("g")
                 .style("font-size", "14px")
                 .call(d3.axisLeft(y).tickFormat(function (d) {
-                    return parseInt(d / 1000000) + "m"; //return parseInt(d / 1000000) + "m"
+                    return parseInt(d / 1000000) + "m"; //Shorten number and add m 
                 }).ticks(5))
                 .append("text")
                 .attr("transform", "rotate(-90)")
@@ -302,7 +307,7 @@
                 .style("font-size", "25px")
                 .text("Population");
 
-
+            // Append bars, event listeners, size and color rectangles
             g.selectAll(".bar")
                 .data(data)
                 .enter().append("rect")
@@ -314,7 +319,7 @@
                 .attr("width", x.bandwidth()).attr("fill", function (d, i) {
                     return colors[i];
                 })
-
+                // Animate bars 
                 .transition()
                 .ease(d3.easeLinear)
                 .duration(400)
@@ -356,7 +361,7 @@
             // use the text label class to remove label on mouseout
             d3.select(this).attr('class', 'bar');
             d3.select(this)
-                .transition()     // adds animation
+                .transition()     // animate mouseout 
                 .duration(400)
                 .attr('width', x.bandwidth())
                 .attr("y", function (d) { return y(d.population); })
@@ -365,12 +370,11 @@
             d3.selectAll('.val')
                 .remove()
         }
-
+        // Create chart 2 
         var chart2 = d3.select("body")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
-        // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         // D3 Projection d3.geoAlbers()?
         var projection = d3.geoAlbersUsa()
@@ -388,9 +392,6 @@
 
         var legendText = ["<1%", "1-5%", "5-10%", "10-15%", "> 15%"];
 
-        //Create SVG element and append map to the SVG
-
-
         chart2.append("text")
             .attr("transform", "translate(100,0)")
             .attr("x", width / 2 - 400)
@@ -399,14 +400,6 @@
             .style("fill", "white")
             .style("font-family", "comfortaa")
             .text("Asian Population, Percent by State")
-
-        // chart2.append("text")
-        //     .attr("transform", "translate(100,0)")
-        //     .attr("x", width / 2 - 400)
-        //     .attr("y", 95)
-        //     .style("fill", "white")
-        //     .attr("font-size", "20px")
-        //     .text("Data: World Population Review")
 
         // Append Div for tooltip to SVG
         var tooltipDiv = d3.select("body")
@@ -421,7 +414,7 @@
 
             // Load GeoJSON data and merge with states data
             d3.json("data/us-states.json", function (json) {
-                console.log(json);
+
                 // Loop through each state data value in the .csv file
                 for (var i = 0; i < data.length; i++) {
 
@@ -525,97 +518,19 @@
             .append("div")
             .attr("class", "fixedDiv2");
 
-        div2.html("Most Asian Americans arrived after 1965, comprising about one-quarter of all immigrants that arrived in the US since then. Asian Americans are highly urbanized, and the majority reside in western states such as California, which has the highest population at 5.4 million or 13.92% of the state's total population. Hawaii has the highest relative population of Asian Americans, with 526,199 Asian Americans accounting for 37.01% of the total population. Wyoming has a total 4,915 Asian Americans, making it the state with the smallest population. Montana has the smallest relative number of Asian Americans, with 7,262 people making up 0.71% of the state’s total.")
+        div2.html("Most Asian Americans arrived after 1965, comprising about one-quarter of all immigrants that arrived in the US since then. Asian Americans are highly urbanized, and the majority reside in western states such as California, which has the highest population at 5.4 million or about 14% of the state's total population. Hawaii has the highest relative population of Asian Americans, with approximately 526,000 Asian Americans accounting for 37% of the total population. Wyoming has less than 5,000 Asian Americans, making it the state with the smallest population. Montana has the smallest relative number of Asian Americans, with just over 7,000 people making up 0.8% of the state’s total.")
 
             .style("top", svgPosition.offsetTop - 1050 + "px")
-        // .style("left", svgPosition.offsetLeft + 50 + "px");
 
-        // var chart3 = d3.select("body")
-        //     .append("svg")
-        //     .attr("width", width + margin.left + margin.right)
-        //     .attr("height", height + margin.top + margin.bottom)
-        //     .append("g")
-        //     .attr("transform", "translate(" + 150 + "," + margin.top + ")");
-
-        // chart3.append("text")
-        //     .attr("transform", "translate(100,0)")
-        //     .attr("x", width / 2 - 400)
-        //     .attr("y", 30)
-        //     .attr("font-size", "40px")
-        //     .style("fill", "white")
-        //     .text("Asian Population Growth")
-
-        // //Read the data
-        // d3.csv("data/asian-american-population-growth-2010-2018.csv",
-
-
-        //     // When reading the csv, I must format variables:
-        //     // function (d) {
-        //     //     return { year: d.year, population: d.population }
-        //     // },
-
-
-        //     // Now I can use this dataset:
-        //     function (data) {
-        //         console.log(data)
-
-        //         data.forEach(function (d) {
-        //             d.year = d.year;
-        //             d.population = +d.population;
-        //         });
-
-        //         // var xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(d3.format("d"));
-        //         // Add X axis in linear format
-
-
-        //         var x = d3.scaleLinear()
-        //             // .domain([2010,2018])
-        //             .domain([2010, d3.max(data, function (d) { return +d.year; })])
-        //             .range([10, width - 100])
-
-        //         chart3.append("g")
-        //             .attr("transform", "translate(0," + height + ")")
-        //             .call(d3.axisBottom(x));
-
-        //         //   .tickFormat(d3.timeFormat("%Y")));
-
-        //         //    d3.format("04d")          y.domain([0, d3.max(data, function (d) { return d.population * 1.2; })]); // Add Y axis
-        //         var y = d3.scaleLinear()
-        //             .domain([15000000, d3.max(data, function (d) { return +d.population; })])
-        //             .range([height, 0]);
-
-        //         chart3.append("g")
-        //             .call(d3.axisLeft(y))
-        //             .append("text")
-        //             .attr("transform", "rotate(-90)")
-        //             .attr("y", -30)
-        //             .attr("dy", "-2.1em")
-        //             .attr("text-anchor", "end")
-        //             .attr("fill", "white")
-        //             .style("font-size", "20px")
-        //             .text("Population");
-
-        //         //   // Add the line
-        //         chart3.append("path")
-        //             .datum(data)
-        //             .attr("fill", "none")
-        //             .attr("stroke", "rgb(255, 87, 51)")
-        //             .attr("stroke-width", 2.5)
-        //             .attr("d", d3.line()
-        //                 .x(function (d) { return x(d.year) })
-        //                 .y(function (d) { return y(d.population) })
-        //             )
-
-        //     })
-        
-        var chart4 = d3.select("body")
+        // Create chart 3
+        var chart3 = d3.select("body")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + 0 + ")");
 
-            chart4.append("text")
+        chart3.append("text")
             // .attr("transform", "translate(100,0)")
             .attr("x", width / 2 - 400)
             .attr("y", 70)
@@ -624,7 +539,7 @@
             .style("font-family", "comfortaa")
             .text("Asian Population Growth 2010-18")
 
-            chart4.append("text")
+        chart3.append("text")
             .attr("transform", "translate(100,0)")
             .attr("x", margin.left)
             .attr("y", 810)
@@ -632,19 +547,20 @@
             .style("fill", "whitesmoke")
             .text("Fast population growth suggests Asian Americans will eventually be the nation’s largest immigrant group.")
 
+        //Parse time for x axis, define bisect line 
         var parseTime = d3.timeParse("%Y")
         bisectDate = d3.bisector(function (d) { return d.year; }).left;
-
+        //Set x and y axis ranges 
         var x4 = d3.scaleTime().range([0, width - 200]);
         var y4 = d3.scaleLinear().range([height, 0]);
 
         var line = d3.line()
             .x(function (d) { return x4(d.year); })
             .y(function (d) { return y4(d.apopulation); });
-
-        var g4 = chart4.append("g")
+        //Declare groupo variable 
+        var g4 = chart3.append("g")
             .attr("transform", "translate(" + 50 + "," + margin.top + ")");
-
+        //Load data 
         d3.csv("data/growth-data.csv", function (error, data) {
             if (error) throw error;
 
@@ -653,10 +569,10 @@
                 d.apopulation = +d.apopulation;
             });
             console.log(data);
-
+            //Set x and y domains 
             x4.domain(d3.extent(data, function (d) { return d.year; }));
             y4.domain([d3.min(data, function (d) { return d.apopulation; }) / 1.005, d3.max(data, function (d) { return d.apopulation; }) * 1.005]);
-
+            //Append axes and lines 
             g4.append("g")
                 .attr("class", "axis axis--x")
                 .attr("transform", "translate(0," + height + ")")
@@ -695,7 +611,7 @@
                 .attr("class", "y-hover-line hover-line")
                 .attr("x1", width)
                 .attr("x2", width);
-
+            //Append rollover materials 
             focus.append("circle")
                 .attr("r", 6);
 
@@ -704,7 +620,7 @@
                 .attr("dy", ".31em")
                 .attr("fill", "white");
 
-            chart4.append("rect")
+            chart3.append("rect")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                 .attr("class", "overlay")
                 .attr("width", width)
@@ -712,7 +628,8 @@
                 .on("mouseover", function () { focus.style("display", null); })
                 .on("mouseout", function () { focus.style("display", "none"); })
                 .on("mousemove", mousemove);
-
+           
+            //Rollover function 
             function mousemove() {
                 var formatComma = d3.format(",")
                 var x0 = x4.invert(d3.mouse(this)[0]),
@@ -726,9 +643,7 @@
                 focus.select(".y-hover-line").attr("x2", width + width);
             }
         });
-            /*
-asian-american-population-totals-american-community-survey-2018.csv
-*/
+
     </script>
 </body>
 
