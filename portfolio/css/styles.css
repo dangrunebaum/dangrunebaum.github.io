@@ -13,23 +13,13 @@ body {
     background-color: white;
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Balsamiq', sans-serif;
     font-size: 15px;
     line-height: 1.5;
 }
 
-#card:hover {
-    box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
-    transform: translate3D(0, -1px, 0);
-        /* box-shadow: 8px 0px 6px -6px lightgray; */
-    }
-
 a {
     color: #2D3319;
-}
-
-a:hover {
-    text-decoration: none;
 }
 
 h1 {
@@ -38,100 +28,45 @@ h1 {
 }
 
 h2 {
-    font-size: 45px;
+    margin-top: 75px;
 }
 
-h3 {
-  margin-top: 50px;
-}
-
-h1, h2 {
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
-    font-weight: 400;
-    margin: 0;
+h2, h3 {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
 }
 
 .content-wrap {
-    /* width: 800px; */
     margin: 0 auto;
     padding: 50px 40px;
-}
-
-.uppercase {
-    text-transform: uppercase;
-}
-
-.btn {
-    text-decoration: none;
-    background: white;
-    color: #2D3319;
-    padding: 10px;
-    display: inline-block;
-}
-
-/*Profile
-_____________________*/
-
-
-.download {
-    position: absolute;
-    bottom: 0;
-    right: 0;
 }
 
 /*Projects
 _____________________*/
 
 .projects {
-    background: white;
     padding-top: 5%;
 }
 
-/*Work Experience
-_____________________*/
-
-.work {
-    background: #D6E5E3;
+#card {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
 }
 
-h3~p {
-    margin: 0;
-    max-width: 1000px;
-}
-
-.job-description p :first-of-type {
-    margin-top: 0;
-}
-
-/*Education
-_____________________*/
-/* .education {
-/* sets gradient and image */
-background: linear-gradient(rgba(81, 118, 100, 0.8),
-                 rgba(159, 216, 203, 0.5)),
-                 url(portfolio-background.png) no-repeat
-/* }  */
-/* Contact_____________________
-Contact info */
-
-
-#footer {
-    background: #517664;
-    color: white;
-}
-
-contact-info a {
-    padding: 10px;
-    display: inline-block;
+#card:hover {
+    box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
+    transform: translate3D(0, -1px, 0);
+    /* box-shadow: 8px 0px 6px -6px lightgray; */
 }
 
 /* Navigation */
 
 nav {
     text-align: right;
-    background: white;
     position: fixed;
     top: 0;
     width: 100%;
@@ -146,9 +81,9 @@ nav a {
 }
 
 nav a:hover {
-/* text-decoration: underline; */
-display: inline;
-background-color: #CCFF33;
+    /* text-decoration: underline; */
+    display: inline;
+    background-color: #CCFF33;
 }
 
 .name {
@@ -165,29 +100,33 @@ background-color: #CCFF33;
     width: 2%;
 }
 
-
 @keyframes rotation {
     from {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     to {
-      transform: rotate(-359deg);
+        transform: rotate(-359deg);
     }
-  }
+}
+
+
+#footer {
+    background: white;
+    color: #517664;
+}
 
 /*Media queries
 _____________________*/
+
 @media (min-width: 900px) {
-    #card {
-        width: 1000px;
-    }
+
+}
+
 @media (max-width: 899px) {
     header {
         text-align: center;
     }
-    #card {
-        width: 300px;
-    }
+
     nav a {
         display: inline-block;
         padding: 5px 5px;
