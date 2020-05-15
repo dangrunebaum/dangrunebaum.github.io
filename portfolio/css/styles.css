@@ -66,6 +66,7 @@ _____________________*/
 /* Navigation */
 
 nav {
+    background-color: white;
     text-align: right;
     position: fixed;
     top: 0;
