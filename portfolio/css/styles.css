@@ -38,6 +38,11 @@ h2, h3 {
     width: 70%;
 }
 
+#header {
+    position: relative;
+    z-index: 1;
+}
+
 .content-wrap {
     margin: 0 auto;
     padding: 50px 40px;
@@ -97,7 +102,7 @@ nav a:hover {
     animation: rotation 20s infinite linear;
     position: absolute;
     left: 260px;
-    top: 30px;
+    top: 27px;
     width: 2%;
 }
 
@@ -114,6 +119,8 @@ nav a:hover {
 #footer {
     background: white;
     color: #517664;
+    position: absolute;
+    z-index: 1;
 }
 
 /*Media queries
@@ -134,5 +141,9 @@ _____________________*/
         text-decoration: none;
         font-size: large;
         font-weight: 400;
+    }
+
+    .spiral {
+        visibility: hidden;
     }
 }
