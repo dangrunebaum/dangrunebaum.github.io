@@ -22,7 +22,7 @@ var mymap;
 
 function preload() {
     // load the CSV data into our `table` and `japanTable` variables and clip out the header row
-    table = loadTable("japan-deadliest-quakes/data/all_week.csv", "csv", "header"); //https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/japan-deadliest-quakes/data/all_week.csv
+    table = loadTable("data/all_week.csv", "csv", "header"); //https://github.com/dangrunebaum/dangrunebaum.github.io/blob/master/japan-deadliest-quakes/data/all_week.csv
     japanTable = loadTable("data/japan_major_quakes.csv", "csv", "header");
 }
 
