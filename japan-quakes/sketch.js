@@ -29,7 +29,7 @@ var mymap;
 
 function preload() {
     // load the CSV data into our `table` and `japanTable` variables and clip out the header row
-    table = loadTable("data/all_week.csv", "csv", "header");
+    table = loadTable("data/all_month.csv", "csv", "header");
     japanTable = loadTable("data/japan_major_quakes.csv", "csv", "header");
 }
 
@@ -52,9 +52,9 @@ function setup() {
     text(`JAPAN'S DEADLIEST EARTHQUAKES 1900-PRESENT VS. CURRENT GLOBAL SEISMIC ACTIVITY`, 20, 30)
     textSize(16)
     text(`Japan's deadliest quakes`, 1170, 25)
-    text(`Weekly global quakes`, 1420, 25)
+    text(`Monthly global quakes`, 1420, 25)
     text(`DEADLIEST EARTHQUAKES WORLDWIDE 1900-PRESENT`, 20, 250)
-    text(`There have been ${table.getRowCount()} global \nSeismic events this week`, 20, 60)
+    text(`There have been ${table.getRowCount()} global \nSeismic events this month`, 20, 60)
     text(`Largest Magnitude: ${getColumnMax("mag")}`, 20, 100)
     text(`2011 Tohoku earthquake, Japan's \nlargest-recorded Seismic event \nMagnitude: 9.0`, 20, 140);
     text(`Tangshan, China, 1976. 242,000 dead`, 20, 287)
@@ -100,10 +100,6 @@ function setup() {
     rect(350, 450, 87*2, 20);
     rect(350, 475, 75*2, 20);
     rect(350, 500, 73*2, 20);
-
-
-    //text(`Greatest Depth: ${getColumnMax("depth")}`, 20, 80)
-
 }
 
 function setupMap(){
