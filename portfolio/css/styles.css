@@ -43,10 +43,6 @@ h2, h3 {
     z-index: 1;
 }
 
-.content-wrap {
-    margin: 0 auto;
-    padding: 50px 40px;
-}
 
 /*Projects
 _____________________*/
@@ -101,7 +97,7 @@ nav a:hover {
 .spiral {
     animation: rotation 20s infinite linear;
     position: absolute;
-    left: 270px;
+    left: 290px;
     top: 27px;
     width: 2%;
 }
@@ -138,6 +134,11 @@ _____________________*/
 
 @media (min-width: 900px) {
 
+.content-wrap {
+    margin: 0 auto;
+    padding: 50px 40px;
+}
+
 }
 
 @media (max-width: 899px) {
@@ -156,4 +157,10 @@ _____________________*/
     .spiral {
         visibility: hidden;
     }
+
+
+.content-wrap {
+    margin: 0 auto;
+    padding: 10px;
+}
 }
