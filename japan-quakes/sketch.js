@@ -39,57 +39,57 @@ function setup() {
     noStroke()
     textSize(20)
     textFont("Avenir");
-    text(`JAPAN'S DEADLIEST EARTHQUAKES 1900-PRESENT VS. CURRENT GLOBAL SEISMIC ACTIVITY`, 20, 30)
+    text(`JAPAN'S DEADLIEST EARTHQUAKES 1900-PRESENT VS. CURRENT GLOBAL SEISMIC ACTIVITY`, 20, 40)
     textSize(16)
-    text(`Japan's deadliest quakes`, 1170, 25)
-    text(`Monthly global quakes`, 1420, 25)
-    text(`DEADLIEST EARTHQUAKES WORLDWIDE 1900-PRESENT`, 20, 250)
-    text(`There have been ${table.getRowCount()} global \nSeismic events this month`, 20, 60)
-    text(`Largest Magnitude: ${getColumnMax("mag")}`, 20, 100)
-    text(`2011 Tohoku earthquake, Japan's \nlargest-recorded Seismic event \nMagnitude: 9.0`, 20, 140);
-    text(`Tangshan, China, 1976. 242,000 dead`, 20, 287)
-    text(`Haiti, 2010. 222,570 dead`, 20, 312)
-    text(`Nanchang, China, 1927. 200,000 dead`, 20, 337)
-    text(`Haiyuan, China, 1920. 180,000 dead`, 20, 362)
-    text(`Sumatra, Indonesia, 2004. 165,700 dead`, 20, 387)
+    text(`Japan's deadliest quakes`, 1170, 35)
+    text(`Monthly global quakes`, 1420, 35)
+    text(`DEADLIEST EARTHQUAKES WORLDWIDE 1900-PRESENT`, 20, 260)
+    text(`There have been ${table.getRowCount()} global \nSeismic events this month`, 20, 80)
+    text(`Largest Magnitude: ${getColumnMax("mag")}`, 20, 120)
+    text(`2011 Tohoku earthquake, Japan's \nlargest-recorded Seismic event \nMagnitude: 9.0`, 20, 160);
+    text(`Tangshan, China, 1976. 242,000 dead`, 20, 297)
+    text(`Haiti, 2010. 222,570 dead`, 20, 322)
+    text(`Nanchang, China, 1927. 200,000 dead`, 20, 347)
+    text(`Haiyuan, China, 1920. 180,000 dead`, 20, 372)
+    text(`Sumatra, Indonesia, 2004. 165,700 dead`, 20, 397)
     fill("#FFDB0D");
-    text(`Kanto, Japan, 1923. 142,000 dead`, 20, 412)
+    text(`Kanto, Japan, 1923. 142,000 dead`, 20, 422)
     fill(255, 255, 255);
-    text(`Ashgabat, Turkmenistan. 1948. 110,000 dead`, 20, 437)
-    text(`Szechuan, China, 2008. 87,480 dead`, 20, 462)
-    text(`Messina, Italy, 1908. 75,000 dead`, 20, 487)
-    text(`Muzaffarabad, Pakistan, 2005. 73,340 dead`, 20, 512)
+    text(`Ashgabat, Turkmenistan. 1948. 110,000 dead`, 20, 447)
+    text(`Szechuan, China, 2008. 87,480 dead`, 20, 472)
+    text(`Messina, Italy, 1908. 75,000 dead`, 20, 497)
+    text(`Muzaffarabad, Pakistan, 2005. 73,340 dead`, 20, 522)
     textSize(12)
-    text(`Sources: US Geological Survey, Japan Meteorological Agency, Statista`, 20, 590)
+    text(`Sources: US Geological Survey, Japan Meteorological Agency, Statista`, 20, 600)
 
 
     // draw one circle for largest weekly quake and one for Japan's largest-recorded quake 
     fill("#FE2412");
-    ellipse(350, 70, magnitudeMax * 6);
+    ellipse(350, 95, magnitudeMax * 6);
     fill("#FFDB0D");
-    ellipse(350, 150, 54, 54);
+    ellipse(350, 175, 54, 54);
 
     //draw key circles
     fill("#FFDB0D");
-    ellipse(1150, 20, 20);
+    ellipse(1150, 30, 20);
     fill("#FE2412");
-    ellipse(1400, 20, 20);
+    ellipse(1400, 30, 20);
 
 
     // draw bar chart for deadliest worldwide quakes 
     fill("#FE2412");
-    rect(350, 275, 242 * 2, 20);
-    rect(350, 300, 226 * 2, 20);
-    rect(350, 325, 200 * 2, 20);
-    rect(350, 350, 180 * 2, 20);
-    rect(350, 375, 166 * 2, 20);
+    rect(350, 285, 242 * 2, 20);
+    rect(350, 310, 226 * 2, 20);
+    rect(350, 335, 200 * 2, 20);
+    rect(350, 360, 180 * 2, 20);
+    rect(350, 385, 166 * 2, 20);
     fill("#FFDB0D");
-    rect(350, 400, 142 * 2, 20);
+    rect(350, 410, 142 * 2, 20);
     fill("#FE2412");
-    rect(350, 425, 110 * 2, 20);
-    rect(350, 450, 87 * 2, 20);
-    rect(350, 475, 75 * 2, 20);
-    rect(350, 500, 73 * 2, 20);
+    rect(350, 435, 110 * 2, 20);
+    rect(350, 460, 87 * 2, 20);
+    rect(350, 485, 75 * 2, 20);
+    rect(350, 510, 73 * 2, 20);
 }
 
 function setupMap() {
