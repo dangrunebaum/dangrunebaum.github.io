@@ -37,7 +37,7 @@ function setup() {
     // draw text for titles and bar chart 
     fill(255, 255, 255);
     noStroke()
-    textSize(20)
+    textSize(22)
     textFont("Avenir");
     text(`JAPAN'S DEADLIEST EARTHQUAKES 1900-PRESENT VS. CURRENT GLOBAL SEISMIC ACTIVITY`, 20, 40)
     textSize(16)
@@ -177,7 +177,7 @@ function japan() {
         "Kita Tango Earthquake, 1927. Magnitude 7.3. Intensity 6. 3,200 deaths.",
         "Sanriku earthquake, 1933. Magnitude 8.1. Intensity 5. 3,700 deaths.",
         "Tottori Earthquake, 1943. Magnitude 7.2. Intensity 6. 1,100 deaths.",
-        "Tonankai Earthquake, 1944. Magnitude 8.1. Intensity 1,200 deaths.",
+        "Tonankai Earthquake, 1944. Magnitude 8.1. Intensity 5. 1,223 deaths.",
         "Mikawa Earthquake, 1945. Magnitude 6.8. Intensity 5. 2,300 deaths.",
         "Nankai Earthquake, 1946. Magnitude 8.1. Intensity 6. 1,400 deaths.",
         "Fukui Earthquake, 1948. Magnitude 7.1. Intensity 6. 3,800 deaths.",
