@@ -101,7 +101,7 @@ nav a:hover {
 .spiral {
     animation: rotation 20s infinite linear;
     position: absolute;
-    left: 260px;
+    left: 270px;
     top: 27px;
     width: 2%;
 }
