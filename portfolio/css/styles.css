@@ -1,10 +1,3 @@
-/* #CACFD6 LIGHT GRAY
-#D6E5E3 PLATINUM
-#9FD8CB PALE ROBIN EGG BLUE
-#517664 HOOKER'S GREEN
-#2D3319 PULLMAN GREEN
-
-*/
 
 /*global styles
 _____________________*/
@@ -43,7 +36,6 @@ h2, h3 {
     z-index: 1;
 }
 
-
 /*Projects
 _____________________*/
 
@@ -59,9 +51,11 @@ _____________________*/
 }
 
 #card:hover {
+    /* This timing applies on the way IN */
+    transition-timing-function: ease-out;
+    transition: 0.2s;
     box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
     transform: translate3D(0, -1px, 0);
-    /* box-shadow: 8px 0px 6px -6px lightgray; */
 }
 
 /* Navigation */
@@ -111,7 +105,6 @@ nav a:hover {
     }
 }
 
-
 #footer {
     text-align: center;
     font-size: x-large;
@@ -133,19 +126,16 @@ nav a:hover {
 _____________________*/
 
 @media (min-width: 900px) {
-
-.content-wrap {
-    margin: 0 auto;
-    padding: 50px 40px;
-}
-
+    .content-wrap {
+        margin: 0 auto;
+        padding: 50px 40px;
+    }
 }
 
 @media (max-width: 899px) {
     header {
         text-align: center;
     }
-
     nav a {
         display: inline-block;
         padding: 5px 5px;
@@ -153,14 +143,11 @@ _____________________*/
         font-size: large;
         font-weight: 400;
     }
-
     .spiral {
         visibility: hidden;
     }
-
-
-.content-wrap {
-    margin: 0 auto;
-    padding: 10px;
-}
+    .content-wrap {
+        margin: 0 auto;
+        padding: 10px;
+    }
 }
