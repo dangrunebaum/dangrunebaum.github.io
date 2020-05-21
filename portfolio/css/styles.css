@@ -16,8 +16,13 @@ a {
 }
 
 h1 {
-    font-size: 100px;
+    font-size: xx-large;
     line-height: 1;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    width: 70%;
 }
 
 h2 {
@@ -133,6 +138,13 @@ _____________________*/
 }
 
 @media (max-width: 899px) {
+    h1, h2, h3 {
+        width: 90%;
+    }
+
+    #card {
+        width: 90%;
+    }
     header {
         text-align: center;
     }
@@ -146,8 +158,8 @@ _____________________*/
     .spiral {
         visibility: hidden;
     }
-    .content-wrap {
+    /* .content-wrap {
         margin: 0 auto;
-        padding: 10px;
-    }
+        padding: 5px;
+    } */
 }

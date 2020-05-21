@@ -111,6 +111,10 @@ _____________________*/
         padding: 10px;
     }
     h3 {
-        font-size: small;
+        font-size: medium;
+    }
+
+    .spiral {
+        visibility: hidden;
     }
 }
