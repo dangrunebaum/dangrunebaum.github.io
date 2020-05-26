@@ -23,7 +23,7 @@ function preload() {
     japanTable = loadTable("data/japan_major_quakes.csv", "csv", "header");
 }
 
-console.log(japanTable);
+// console.log(japanTable);
 
 
 function setup() {
@@ -111,6 +111,22 @@ function setupMap() {
 
     // call function (defined below) that populates the map with markers based on table contents
     drawDataPoints();
+
+    L.Control.textbox = L.Control.extend({
+		onAdd: function(map) {
+			
+		var text = L.DomUtil.create('div');
+		text.id = "info_text";
+		text.innerHTML = "Japan's Deadliest Quakes"
+		return text;
+		},
+
+		onRemove: function(map) {
+			// Nothing to do here
+		}
+	});
+	L.control.textbox = function(opts) { return new L.Control.textbox(opts);}
+	L.control.textbox({ position: 'topleft' }).addTo(mymap);
 }
 
 function drawDataPoints() {

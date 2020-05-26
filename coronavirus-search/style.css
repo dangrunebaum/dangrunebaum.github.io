@@ -1,0 +1,138 @@
+body {
+    background-color:white;
+    color: rgb(rgb(75, 75, 75));
+}
+
+.d3-tip {
+    position: absolute;
+    line-height: 100%;
+    text-align: left;
+    width: 225px;
+    max-height: fit-content;
+    padding: 4px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    background: white;
+    /* color: rgb(125, 24, 41); */
+    color: rgb(rgb(75, 75, 75));
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, .1);
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+map {
+    display: block !important;
+    margin-left: 150px;
+}
+
+#slider {
+    margin-left: 155px;
+    /* margin-right: auto; */
+    margin-top: -50px;
+    margin-bottom: 0px;
+    font-family: 'Roboto', sans-serif;
+    /* color: #7f0000; */
+}
+
+#app .my-component__vue-slider .vue-slider-process {
+    background-color: #7f0000 !important;
+ } 
+
+.button {
+    margin-left: -60px;
+    font-size: 30px;
+    position: relative;
+    top: -22px;
+    color: black;
+}
+
+.button:hover {
+    color: #7f0000;
+}
+
+.words {
+    position: relative;
+    top: -20px;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    font-size: 55px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    color: rgb(75, 75, 75);
+}
+
+/* select {
+    margin-left: 100px;
+    z-index: 10;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    color: rgb(75, 75, 75);
+    position: relative;
+    top: -15px;
+} */
+
+.wordchoice {
+    font-size: 20px;
+}
+
+.weekcount {
+    position: absolute;
+    left: 107px;
+    top: 210px;
+    z-index: 10;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+}
+
+.date {
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    color:#7f0000;
+}
+
+.date-text  {
+    color: rgb(75, 75, 75);
+}
+
+.interest {
+    color:#7f0000;
+}
+
+.interest-text {
+    color: rgb(75, 75, 75);
+}
+
+.explainer {
+    position: absolute;
+    left: 100px;
+    bottom: -100px;
+    width: 500px;
+    height: 250px;
+    margin: 8px, 8px;
+    padding: 8px;
+    z-index: 10;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: rgb(75, 75, 75);
+}
+
+img {
+    position: absolute;
+    left: 100px;
+    bottom: 30px;
+}
+
+a {
+    color: #7f0000;
+}
+
+.loading {
+    position: absolute;
+    top: 500px;
+    left: 50%;
+    font-size: 30px;
+    font-family: 'Roboto', sans-serif;
+    opacity: 50%;
+}
