@@ -173,16 +173,16 @@ function japan() {
 
     //create popup text
     var tooltipText = [
-        "Great Kanto Earthquake, 1923. Magnitude 8.3. Intensity 6. 142,000 deaths.",
-        "Kita Tango Earthquake, 1927. Magnitude 7.3. Intensity 6. 3,200 deaths.",
-        "Sanriku earthquake, 1933. Magnitude 8.1. Intensity 5. 3,700 deaths.",
-        "Tottori Earthquake, 1943. Magnitude 7.2. Intensity 6. 1,100 deaths.",
-        "Tonankai Earthquake, 1944. Magnitude 8.1. Intensity 5. 1,223 deaths.",
-        "Mikawa Earthquake, 1945. Magnitude 6.8. Intensity 5. 2,300 deaths.",
-        "Nankai Earthquake, 1946. Magnitude 8.1. Intensity 6. 1,400 deaths.",
-        "Fukui Earthquake, 1948. Magnitude 7.1. Intensity 6. 3,800 deaths.",
-        "Great Hanshin Earthquake, 1995. Magnitude 7.3. Intensity 7. 6,400 deaths.",
-        "Tohoku Earthquake, 2011. Magnitude 9.0. Intensity 7. 15,900 deaths.",
+        " <p>Great Kanto Earthquake, 1923. Magnitude 8.3. Intensity 6. 142,000 deaths.</><div class='tip'><img src='images/kanto.jpg' /></div>",
+        "<p>Kita Tango Earthquake, 1927. Magnitude 7.3. Intensity 6. 3,200 deaths.</><div class='tip'><img src='images/kita-tango.jpg' /></div>",
+        "<p>Sanriku earthquake, 1933. Magnitude 8.1. Intensity 5. 3,700 deaths.</><div class='tip'><img src='images/sanriku.jpg' /></div",
+        "<p>Tottori Earthquake, 1943. Magnitude 7.2. Intensity 6. 1,100 deaths.</><div class='tip'><img src='images/tottori.jpg' /></div",
+        "<p>Tonankai Earthquake, 1944. Magnitude 8.1. Intensity 5. 1,223 deaths.</><div class='tip'><img src='images/tonankai.jpg' /></div>",
+        "<p>Mikawa Earthquake, 1945. Magnitude 6.8. Intensity 5. 2,300 deaths.</><div class='tip'><img src='images/mikawa.jpg' /></div>",
+        "<p>Nankai Earthquake, 1946. Magnitude 8.1. Intensity 6. 1,400 deaths.</><div class='tip'><img src='images/nankai.jpg' /></div>",
+        "<p>Fukui Earthquake, 1948. Magnitude 7.1. Intensity 6. 3,800 deaths.</><div class='tip'><img src='images/fukui.jpg' /></div>",
+        "<p>Great Hanshin Earthquake, 1995. Magnitude 7.3. Intensity 7. 6,400 deaths.</><div class='tip'><img src='images/hanshin.jpg' /></div>",
+        "<p>Tohoku Earthquake, 2011. Magnitude 9.0. Intensity 7. 15,900 deaths.</><div class='tip'><img src='images/tohoku.jpg' /></div>",
     ];
 
     //get the magnitude array from japanTable
