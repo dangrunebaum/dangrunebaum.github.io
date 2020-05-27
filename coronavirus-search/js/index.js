@@ -24,7 +24,7 @@ const playWeeks = async function () {//v is a Vue instance
     for (let i=0; i < AXIS.length; i++) {
         
             colorByWeek(AXIS[i]);
-            await sleep(500); 
+            await sleep(1000); 
     }
     //   AXIS.forEach(wk => {
     //     colorByWeek(wk);
@@ -34,7 +34,7 @@ const playWeeks = async function () {//v is a Vue instance
 
 let myVue; // Vue instance for slider 
 
-// Provide for pausing as slider moves to new Weeks 
+// Provide for pausing as slider moves to new weeks 
 function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
 const GREYVALUE = -1;
@@ -52,8 +52,8 @@ const MARGIN = { top: 0, right: 0, bottom: 0, left: 0 },
     MAPWIDTH = 1440 - MARGIN.left - MARGIN.right,
     MAPHEIGHT = 750 - MARGIN.top - MARGIN.bottom;
 
-// Perceptually appropriate green values from 
-// https://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 
+// Perceptually appropriate orange-brown values from 
+// https://colorbrewer2.org/
 // const cbArray = ['rgb(225,225,225)', 'rgb(229,245,249)', 'rgb(204,236,230)', 'rgb(153,216,201)', 'rgb(102,194,164)', 'rgb(65,174,118)', 'rgb(35,139,69)', 'rgb(0,109,44)', 'rgb(0,68,27)'];
 const cbArray = ['rgb(235,235,235)', '#fff7ec','#fee8c8','#fdd49e','#fdbb84','#fc8d59','#ef6548','#d7301f','#b30000','#7f0000'];
 
@@ -67,7 +67,7 @@ function color(interest1, week) { // Interest1 is 0-1 scaled relative value of w
     // Interest1 is the regional week interest
     // Interest1 is scaled up by week interest then adjusted down by 0.35 
     // to create optimum perceptual color range
-    interest1 = Math.round(interest1 * weekInterest * 0.35);//may need to change scale value 
+    interest1 = Math.round(interest1 * weekInterest * 0.25);//may need to change scale value 
     if (interest1 >= cbArray.length) interest1 = cbArray.length - 1
     return cbArray[interest1]
 }

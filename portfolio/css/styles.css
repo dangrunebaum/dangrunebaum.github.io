@@ -89,14 +89,14 @@ nav a:hover {
 
 .name {
     position: absolute;
-    left: 20px;
+    left: 70px;
     color: #2D3319;
 }
 
 .spiral {
     animation: rotation 20s infinite linear;
     position: absolute;
-    left: 290px;
+    left: 30px;
     top: 27px;
     width: 2%;
 }
