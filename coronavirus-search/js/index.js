@@ -14,23 +14,19 @@ let w1 = 'coronavirus';
 // Range of weeks for display 
 const WEEKS = {
     min: "01-01",
-    max: "05-13" 
+    max: "05-13"
 }
 // Axis is an array of week values in order  
-const AXIS =  ["01-01", "01-08", "01-15", "01-22", "01-29", "02-05", "02-12", "02-19", "02-26", "03-04", "03-11", "03-18", "03-25", "04-01", "04-08", "04-15", "04-22", "04-29", "05-06", "05-13"];
+const AXIS = ["01-01", "01-08", "01-15", "01-22", "01-29", "02-05", "02-12", "02-19", "02-26", "03-04", "03-11", "03-18", "03-25", "04-01", "04-08", "04-15", "04-22", "04-29", "05-06", "05-13"];
 // Asynchronous function that redraws map with values for each week
 // Invoked by click on play button   
 const playWeeks = async function () {//v is a Vue instance 
-    for (let i=0; i < AXIS.length; i++) {
-        
-            colorByWeek(AXIS[i]);
-            await sleep(1000); 
+    for (let i = 0; i < AXIS.length; i++) {
+
+        colorByWeek(AXIS[i]);
+        await sleep(1000);
     }
-    //   AXIS.forEach(wk => {
-    //     colorByWeek(wk);
-    //     await sleep(500);
-    //   })
-    }
+}
 
 let myVue; // Vue instance for slider 
 
@@ -54,8 +50,7 @@ const MARGIN = { top: 0, right: 0, bottom: 0, left: 0 },
 
 // Perceptually appropriate orange-brown values from 
 // https://colorbrewer2.org/
-// const cbArray = ['rgb(225,225,225)', 'rgb(229,245,249)', 'rgb(204,236,230)', 'rgb(153,216,201)', 'rgb(102,194,164)', 'rgb(65,174,118)', 'rgb(35,139,69)', 'rgb(0,109,44)', 'rgb(0,68,27)'];
-const cbArray = ['rgb(235,235,235)', '#fff7ec','#fee8c8','#fdd49e','#fdbb84','#fc8d59','#ef6548','#d7301f','#b30000','#7f0000'];
+const cbArray = ['rgb(235,235,235)', '#fff7ec', '#fee8c8', '#fdd49e', '#fdbb84', '#fc8d59', '#ef6548', '#d7301f', '#b30000', '#7f0000'];
 
 function color(interest1, week) { // Interest1 is 0-1 scaled relative value of word
     if (interest1 === undefined || interest1 === GREYVALUE) {
@@ -74,7 +69,7 @@ function color(interest1, week) { // Interest1 is 0-1 scaled relative value of w
 // Draw page 
 function main(w1) {
     myVue = new Vue({
-        el: '#app',              
+        el: '#app',
         data: function () {
             return {
                 value: "01-01",
@@ -83,58 +78,23 @@ function main(w1) {
                 options: { // Layout and features for slider 
                     // dotSize: 14,
                     width: '70%',
-                    // height: 6,
-                    // contained: false,
-                    // direction: 'ltr',
-                    
-
-                    // interval: 1,
-                    // disabled: false,
-                    // clickable: true,
-                    // duration: 0.5,
-                    // adsorb: true,
-                    // lazy: false,
-                    // tooltip: 'active',
-                    // tooltipPlacement: 'top',
-                    // tooltipFormatter: void 0,
-                    // useKeyboard: false,
-                    // keydownHook: null,
-                    // dragOnClick: false,
-                    // enableCross: true,
-                    // fixed: false,
-                    // minRange: void 0,
-                    // maxRange: void 0,
-                    // order: true,
-                    // marks: true,
-                    // dotOptions: void 0,
-                    // process: true,
-                    // dotStyle: void 0,
-                    // railStyle: void 0,
-                    // processStyle: void 0,
-                    // tooltipStyle: void 0,
-                    // stepStyle: void 0,
-                    // stepActiveStyle: void 0,
-                    // labelStyle: void 0,
-                    // labelActiveStyle: void 0,
                 }
             }
         },
         methods: {
-                        update: function() { // Color by week when week selected on slider 
-                            console.log("value", this.value) 
-                            void colorByWeek(this.value)
-                        },
-                        play: function() { // Play button handler 
-                            playWeeks()
-                        },
-                        
-                    },
+            update: function () { // Color by week when week selected on slider 
+                console.log("value", this.value)
+                void colorByWeek(this.value)
+            },
+            play: function () { // Play button handler 
+                playWeeks()
+            },
+        },
         // week slider for controlling which week is mapped 
         components: {
             'vueSlider': window['vue-slider-component'],
         }
     })
-    // myVue = w1;
 
     // Create svg into which map is drawn  
     svg = d3.select("map")
@@ -233,20 +193,28 @@ function ready(error, data, interest) {
                 .style("stroke", "white")
                 .style("stroke-width", 0.3);
         });
-        d3.select('.loading')
+    d3.select('.loading')
         .remove()
-    svg.append("path") 
+    svg.append("path")
         .datum(topojson.mesh(data.features,
             function (a, b) { return a.id !== b.id; }))
         .attr("class", "names")
         .attr("d", path);
+
 }
+svg2 = d3.select("#graph")
+.append("svg")
+.attr("width", 200)
+.attr("height", 100)
+
+// .attr("top", 500)
+// .attr("left", 100)
 
 // Assign color based on keys in globalInterest 
 function colorByWeek(week) {
     // Show interest out of 100
     myVue.value = week;
-    myVue.weekInterest = Math.round(scaledInterestByWeek. coronavirus[week]) + ' out of 100'
+    myVue.weekInterest = Math.round(scaledInterestByWeek.coronavirus[week]) + ' out of 100'
     const interestOneByISO = {};
     Object.keys(globalInterest).forEach(
         countryName => {
@@ -256,7 +224,7 @@ function colorByWeek(week) {
                 interestOneByISO[toCode.get(countryName)] = GREYVALUE
             } else {
                 interestOneByISO[toCode.get(countryName)] =
-                globalInterest[countryName][week]
+                    globalInterest[countryName][week]
             }
         }
     )
@@ -264,7 +232,7 @@ function colorByWeek(week) {
     myData.features.forEach(function (d) { d.interestOne = interestOneByISO[d.properties.ISO_A3] });
 
     d3.selectAll('.countries > path') // already drawn so select paths and set style depending on data values
-    // 
+        // 
         .transition()
         .duration(1000)
         .style("fill", function (d) {
@@ -273,6 +241,12 @@ function colorByWeek(week) {
             }
             return color(d.interestOne, week); // otherwise
         })
+
+     circle = svg2.append("circle")
+        .attr("cx", 8 * AXIS.findIndex(v=>v===week) + 10)
+        .attr("cy", function () { return -Math.round(scaledInterestByWeek.coronavirus[week] * .9 - 90)})
+        .attr("r", 3)
+        .style("fill", "#7f0000")
 }
 // Global interest by week 
 let scaledInterestByWeek;
@@ -286,3 +260,4 @@ fetch('data/coronavirus-weekly.json', { mode: 'no-cors' })
         }
     )
     .catch((error) => console.log(error)) 
+

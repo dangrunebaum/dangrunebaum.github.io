@@ -150,3 +150,12 @@ a {
     font-family: 'Roboto', sans-serif;
     opacity: 50%;
 }
+
+#graph {
+position: relative;
+bottom: 640px;
+left: 100px;
+/* background-color: rgb(240, 240, 240); */
+border-style: groove;
+display: inline-block;
+}

@@ -15,6 +15,10 @@ a {
     color: #2D3319;
 }
 
+a:hover {
+    background-color: #CCFF33;
+}
+
 h1 {
     font-size: xx-large;
     line-height: 1;
