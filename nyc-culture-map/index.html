@@ -1,0 +1,109 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="lib/leaflet/leaflet.css" /> <!-- default styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+      background-color: black;
+      color: white;
+      font-family: 'Catamaran', sans-serif;
+    }
+
+    /* default dimensions for the leaflet map */
+    #map {
+      width: 1920px;
+      height: 800px;
+    }
+
+    .leaflet-tooltip {
+      padding: 5px 7px 5px 7px !important;
+      font-size: 20px !important;
+      box-shadow: 5px 5px 5px 5px;
+      background-color: rgb(139, 139, 139);
+      background-image: linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
+      border-radius: 4px;
+      }
+
+    #info_text {
+      position: relative;
+      left: 100px;
+      top: -80px;
+      color: white;
+      font-size: 50px;
+    }
+
+    #info_text2 {
+      position: relative;
+      left: 100px;
+      bottom: 650px;
+      font-size: 40px;
+    }
+
+    button {
+      width: 180px;
+      height: 50px;
+      font-size: 18px;
+      font-weight: 700;
+      background-color: black;
+      color: white;
+      margin-top: 5px;
+    }
+
+    button:hover {
+      transition-timing-function: ease-out;
+      transition: 0.2s;
+      box-shadow: 12px 18px 25px rgba(0, 0, 0, .25);
+      transform: translate3D(0, -1px, 0);
+    }
+
+    button:focus {
+      outline-color: white;
+    }
+
+  </style>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+</head>
+
+<body>
+
+  <!-- The container div for our leaflet map -->
+  <div id="map"></div>
+
+  <button value="0">All Groups</button>
+  <button style='background-color: #A83E38;' value="Architecture/Design">Architecture/Design</i></button>
+  <button style='background-color: #B84E3D;' value="Botanical">Botanical</i></button>
+  <button style='background-color: #C15F44;' value="Crafts">Crafts</button>
+  <button style='background-color: #BF7540;' value="Dance">Dance</button>
+  <button style='background-color: #C18F44;' value="Film/Video/Audio">Film/Video/Audio</button>
+  <button style='background-color: #C2A947;' value="Folk Arts">Folk Arts</button>
+  <button style='background-color: #C2BE47;' value="Humanities">Humanities</button>
+  <button style='background-color: #9BC144;' value="Literature">Literature</button>
+  <button style='background-color: #9BC144;' value="Multi-Discipline">Multi-Discipline</button>
+  <button style='background-color: #40BF55;' value="Museum">Museum</button>
+  <button style='background-color: #40BF97;' value="Music">Music</button>
+  <button style='background-color: #40B5BF;' value="New Media">New Media</button>
+  <button style='background-color: #3E90BB;' value="Other">Other</button>
+  <button style='background-color: #3E64BB;' value="Photography">Photography</button>
+  <button style='background-color: #5740BF;' value="Science">Science</button>
+  <button style='background-color: #8440BF;' value="Theater">Theater</button>
+  <button style='background-color: #AE40BF;' value="Visual Arts">Visual Arts</button>
+  <button style='background-color: #953255;' value="Zoo">Zoo</button>
+
+  <div>All Cultural Organizations in the Department of Cultural Affairs directory (with known discipline). Source: NYC Open Data.</div>
+  <!-- load dependencies and sketch file -->
+  <script src="lib/leaflet/leaflet.js"></script>
+  <script src="lib/p5.min.js"></script>
+  <script src="lib/lodash.min.js"></script>
+  <script src="lib/brewer.js"></script>
+  <script src="sketch.js"></script>
+
+  <!-- p5.js will create a canvas element here at runtime -->
+</body>
+
+</html>

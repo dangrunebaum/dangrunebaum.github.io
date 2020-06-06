@@ -16,6 +16,8 @@ a {
 }
 
 a:hover {
+    transition-timing-function: ease-out;
+    transition: 0.2s;
     background-color: #CCFF33;
 }
 
@@ -88,6 +90,8 @@ nav a {
 nav a:hover {
     /* text-decoration: underline; */
     display: inline;
+    transition-timing-function: ease-out;
+    transition: 0.2s;
     background-color: #CCFF33;
 }
 
@@ -128,6 +132,8 @@ nav a:hover {
 }
 
 #footer a:hover {
+    transition-timing-function: ease-out;
+    transition: 0.2s;
     background-color: #CCFF33;
 }
 
