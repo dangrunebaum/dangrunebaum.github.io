@@ -183,7 +183,7 @@ $(document).ready(function () {
         } else {
             mymap.addLayer(layers[selectedGroup])
             //and  set text content of div2 to selectedGroup and length of selectedGroup array in circles object
-            div2._container.textContent = `${selectedGroup}: ${circles[selectedGroup].length}`;
+            div2._container.textContent = `${selectedGroup}: ${circles[selectedGroup].length} Organizations`;
             div2._container.style.color = colorObject[selectedGroup];
         }
     })

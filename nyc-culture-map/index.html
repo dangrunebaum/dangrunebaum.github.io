@@ -52,7 +52,7 @@
     #info_text2 {
       position: relative;
       left: 100px;
-      bottom: 650px;
+      bottom: 630px;
       font-size: 40px;
     }
 
@@ -75,6 +75,10 @@
 
     button:focus {
       outline-color: white;
+    }
+
+    h3 {
+      padding: 10px;
     }
   </style>
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -105,8 +109,7 @@
   <button style='background-color: #AE40BF;' value="Visual Arts">Visual Arts</button>
   <button style='background-color: #953255;' value="Zoo">Zoo</button>
 
-  <div>All Cultural Organizations in the Department of Cultural Affairs directory (with known discipline). Source: NYC
-    Open Data.</div>
+  <h3>What is the cultural geography of New York City? And what, for example, is the distribution of music, museums or movie organizations? Are there more dance organizations in Brooklyn or the Bronx...? This visualization maps over 2,000 citywide organizations in the Department of Cultural Affairs directory. Color-coding shows the distribution of 18 disciplines across New York, and which discipline boasts the most organizations. Built with JavaScript, Leaflet and p5.js. Source: NYC Open Data.</h3>
   <!-- load dependencies and sketch file -->
   <script src="lib/leaflet/leaflet.js"></script>
   <script src="lib/p5.min.js"></script>
