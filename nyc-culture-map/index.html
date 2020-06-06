@@ -6,20 +6,31 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    html,
+    /* html,
     body {
       padding: 0;
       margin: 0;
       background-color: black;
       color: white;
       font-family: 'Catamaran', sans-serif;
-    }
+    } */
 
     /* default dimensions for the leaflet map */
-    #map {
+      body {
+            padding: 0;
+            margin: 0;
+            background-color: black;
+            color: white;
+            font-family: 'Catamaran', sans-serif;
+        }
+        html, body, #map {
+            height: 95%;
+            width: 100%;
+        }
+     /* #map {
       width: 1920px;
       height: 800px;
-    }
+    } */
 
     .leaflet-tooltip {
       padding: 5px 7px 5px 7px !important;
@@ -28,7 +39,7 @@
       background-color: rgb(139, 139, 139);
       background-image: linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0));
       border-radius: 4px;
-      }
+    }
 
     #info_text {
       position: relative;
@@ -65,7 +76,6 @@
     button:focus {
       outline-color: white;
     }
-
   </style>
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 </head>
@@ -95,7 +105,8 @@
   <button style='background-color: #AE40BF;' value="Visual Arts">Visual Arts</button>
   <button style='background-color: #953255;' value="Zoo">Zoo</button>
 
-  <div>All Cultural Organizations in the Department of Cultural Affairs directory (with known discipline). Source: NYC Open Data.</div>
+  <div>All Cultural Organizations in the Department of Cultural Affairs directory (with known discipline). Source: NYC
+    Open Data.</div>
   <!-- load dependencies and sketch file -->
   <script src="lib/leaflet/leaflet.js"></script>
   <script src="lib/p5.min.js"></script>
