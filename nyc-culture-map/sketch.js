@@ -129,7 +129,7 @@ function drawDataPoints() {
             color: 'T',      // the dot stroke color
             fillColor: ellipseColor, // the dot fill color
             fillOpacity: 0.9,  // use some transparency so we can see overlaps
-            radius: 50
+            radius: 35
         });
         // tooltip for cultural orgs 
         var tooltip = L.tooltip()
