@@ -108,7 +108,7 @@ function setupMap() {
     L.control.textbox = function (opts) { return new L.Control.textbox(opts); }
     L.control.textbox({ position: 'topleft' }).addTo(mymap);
     L.control.textbox2 = function (opts) { return new L.Control.textbox2(opts); }
-  div2 = L.control.textbox2({ position: 'bottomleft' }).addTo(mymap);
+  div2 = L.control.textbox2({ position: 'topleft' }).addTo(mymap);
 }
 
 function drawDataPoints() {
