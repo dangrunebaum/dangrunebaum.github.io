@@ -129,7 +129,7 @@ function drawDataPoints() {
             color: 'T',      // the dot stroke color
             fillColor: ellipseColor, // the dot fill color
             fillOpacity: 0.9,  // use some transparency so we can see overlaps
-            radius: 30
+            radius: 50
         });
         // tooltip for cultural orgs 
         var tooltip = L.tooltip()
@@ -177,7 +177,7 @@ $(document).ready(function () {
             }
             //if All Groups is pressed set div2 to empty string 
             div2._container.textContent = `${disciplines.length} Organizations`;
-            div2._container.style.color = "white";
+            div2._container.style.color = "gray";
             //or else if another layer is pressed add only 
             //the layer where selectedGroup matches the key
         } else {
