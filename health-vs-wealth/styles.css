@@ -12,15 +12,13 @@ body {
     font-family: 'Inter var', sans-serif;
     font-size: 16px;
     color: #34495e;
-    /* background: #f8f9fa; */
-        /* background: linear-gradient(black, white); */
-        background-image: url("health-wealth.jpg");
-
+    background-image: url("health-wealth.jpg");
 }
 
-#wrapper  {
+#wrapper {
     position: relative;
-    right: 300px;
+    right: 350px;
+    bottom: 20px;
 }
 
 .tooltip {
@@ -30,13 +28,18 @@ body {
     text-align: center;
     line-height: 1.4em;
     font-size: 0.9em;
+    font-weight: bold;
     border: 1px solid #ddd;
     z-index: 10;
     transition: all 0.1s ease-out;
     pointer-events: none;
     padding: 5px 7px 5px 7px !important;
     font-size: 20px !important;
-    box-shadow: 2px 2px 4px 2px rgba(47, 255, 0, 0.601);
+    transition-timing-function: ease-out;
+    transition: 0.2s;
+    /* box-shadow: 1px 1px 2px 1px rgba(102, 255, 0, 0.553); */
+    box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
+    transform: translate3D(0, 2px, 0);
 }
 
 .tooltip:before {
@@ -57,8 +60,8 @@ body {
 
 .legend {
     position: absolute;
-    right: -50px;
-    bottom: 100px;
+    right: -60px;
+    bottom: 75px;
 }
 
 .domain {
@@ -69,6 +72,15 @@ h1 {
     font-size: 50px;
 }
 
+h2 {
+    position: relative;
+    bottom: 30px;
+}
+
+a {
+    color: #34495e;
+}
+
 .tick {
     font-size: 14px;
 }
@@ -77,5 +89,4 @@ h1 {
     font-size: 24px;
     position: relative;
     bottom: 80px;
-
 }

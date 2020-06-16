@@ -23,10 +23,11 @@ async function drawScatter() {
 
   let data = await d3.json("./health-and-wealth.json")
 
+  // Initialize x and y accessor functions 
   const xAccessor = d => d.GDP
   const yAccessor = d => d.lifespan
 
-  // Add X axis
+  // Add X axis at zero point 
   var x = d3.scaleLinear()
     .domain([0, 0])
     .range([0, 0]);
@@ -40,7 +41,7 @@ async function drawScatter() {
   svg.append("text")
     .attr("x", width / 2)
     .attr("y", height + 45)
-    .attr("fill", "black")
+    .attr("fill", "#34495e")
     .style("font-size", "1.2em")
     .style("text-anchor", "middle")
     .html("GDP per Capita (logarithmic)")
@@ -48,7 +49,7 @@ async function drawScatter() {
   svg.append("text")
     .attr("x", -400)
     .attr("y", height / 2 - 400)
-    .attr("fill", "black")
+    .attr("fill", "#34495e")
     .style("font-size", "1.2em")
     .text("Healthy life expectancy at birth")
     .style("transform", "rotate(-90deg)")
@@ -69,14 +70,14 @@ async function drawScatter() {
     .append("circle")
     .attr("cx", function (d) { return x(d.GDP); })
     .attr("cy", function (d) { return y(d.lifespan); })
-    .attr("r", 6)
+    .attr("r", 7)
     .style("fill", function (d) {
       if (d.Country === "United States")
         return "#002868"
       else { return color(d.Continent) };
     })
 
-  // new X axis
+  // New X axis at data points 
   x.domain(d3.extent(data, xAccessor))
   x.range([0, width])
   svg.select(".myXaxis")
@@ -85,7 +86,7 @@ async function drawScatter() {
     .attr("opacity", "1")
     .call(d3.axisBottom(x));
 
-
+    // Initialize x and y scale functions 
     const xScale = d3.scaleLinear()
       .domain(d3.extent(data, xAccessor))
       .range([0, width])
@@ -98,7 +99,7 @@ async function drawScatter() {
 
   svg.selectAll("circle")
     .transition()
-    .delay(function (d, i) { return (i * 5) })
+    .delay(function (d, i) { return (i * 8) })
     .duration(2000)
     .attr("cx", d => xScale(xAccessor(d)))//calls d fat arrow function with value of one element in the dataset 
     .attr("cy", d => yScale(yAccessor(d)))
@@ -126,7 +127,7 @@ async function drawScatter() {
     .attr("x", 24)
     .attr("y", 9)
     .attr("dy", ".35em")
-    .style("fill", "black")
+    .style("fill", "#34495e")
     .text(function (d) { return d; });
 
     // Mouse handlers 
@@ -168,8 +169,8 @@ async function drawScatter() {
 
     // Position tooltip 
     tooltip.style("transform", `translate(`
-      + `calc( ${x}px - 635px),`
-      + `calc(100% + ${y}px - 1020px)`
+      + `calc( ${x}px - 690px),`
+      + `calc(100% + ${y}px - 1030px)`
       + `)`)
     tooltip.style("opacity", 0.9)
   }
