@@ -1,0 +1,758 @@
+[
+  {
+    "Country": "Afghanistan",
+    "Continent": "Asia",
+    "GDP": 7.494587898,
+    "lifespan": 52.59999847
+  },
+  {
+    "Country": "Albania",
+    "Continent": "Europe",
+    "GDP": 9.412399292,
+    "lifespan": 68.69999695
+  },
+  {
+    "Country": "Algeria",
+    "Continent": "Africa",
+    "GDP": 9.557951927,
+    "lifespan": 65.90000153
+  },
+  {
+    "Country": "Argentina",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 9.809971809,
+    "lifespan": 68.80000305
+  },
+  {
+    "Country": "Armenia",
+    "Continent": "Europe",
+    "GDP": 9.119423866,
+    "lifespan": 66.90000153
+  },
+  {
+    "Country": "Australia",
+    "Continent": "Oceania",
+    "GDP": 10.7210207,
+    "lifespan": 73.59999847
+  },
+  {
+    "Country": "Austria",
+    "Continent": "Europe",
+    "GDP": 10.74189281,
+    "lifespan": 73
+  },
+  {
+    "Country": "Azerbaijan",
+    "Continent": "Asia",
+    "GDP": 9.678013802,
+    "lifespan": 65.5
+  },
+  {
+    "Country": "Bangladesh",
+    "Continent": "Asia",
+    "GDP": 8.22074604,
+    "lifespan": 64.30000305
+  },
+  {
+    "Country": "Belarus",
+    "Continent": "Europe",
+    "GDP": 9.778738976,
+    "lifespan": 66.09999847
+  },
+  {
+    "Country": "Belgium",
+    "Continent": "Europe",
+    "GDP": 10.6724453,
+    "lifespan": 72
+  },
+  {
+    "Country": "Benin",
+    "Continent": "Africa",
+    "GDP": 7.663907051,
+    "lifespan": 54.29999924
+  },
+  {
+    "Country": "Bolivia",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 8.860530853,
+    "lifespan": 63.59999847
+  },
+  {
+    "Country": "Bosnia and Herzegovina",
+    "Continent": "Europe",
+    "GDP": 9.402726173,
+    "lifespan": 67.80000305
+  },
+  {
+    "Country": "Botswana",
+    "Continent": "Africa",
+    "GDP": 9.680226326,
+    "lifespan": 58.90000153
+  },
+  {
+    "Country": "Brazil",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 9.557932854,
+    "lifespan": 66.40000153
+  },
+  {
+    "Country": "Bulgaria",
+    "Continent": "Europe",
+    "GDP": 9.873218536,
+    "lifespan": 66.80000305
+  },
+  {
+    "Country": "Burkina Faso",
+    "Continent": "Africa",
+    "GDP": 7.47052002,
+    "lifespan": 53.90000153
+  },
+  {
+    "Country": "Burundi",
+    "Continent": "Africa",
+    "GDP": 6.541032791,
+    "lifespan": 53.40000153
+  },
+  {
+    "Country": "Cambodia",
+    "Continent": "Asia",
+    "GDP": 8.253352165,
+    "lifespan": 61.59999847
+  },
+  {
+    "Country": "Cameroon",
+    "Continent": "Africa",
+    "GDP": 8.133470535,
+    "lifespan": 52.70000076
+  },
+  {
+    "Country": "Canada",
+    "Continent": "N.America",
+    "GDP": 10.70124817,
+    "lifespan": 73.59999847
+  },
+  {
+    "Country": "Chad",
+    "Continent": "Africa",
+    "GDP": 7.472574711,
+    "lifespan": 48.20000076
+  },
+  {
+    "Country": "Chile",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 10.06591988,
+    "lifespan": 69.90000153
+  },
+  {
+    "Country": "China",
+    "Continent": "Asia",
+    "GDP": 9.694375992,
+    "lifespan": 69.30000305
+  },
+  {
+    "Country": "Colombia",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 9.511734009,
+    "lifespan": 67.69999695
+  },
+  {
+    "Country": "Comoros",
+    "Continent": "Africa",
+    "GDP": 7.260142326,
+    "lifespan": 57.20000076
+  },
+  {
+    "Country": "Congo (Brazzaville)",
+    "Continent": "Africa",
+    "GDP": 8.473278999,
+    "lifespan": 57.90000153
+  },
+  {
+    "Country": "Costa Rica",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 9.669425964,
+    "lifespan": 71.30000305
+  },
+  {
+    "Country": "Croatia",
+    "Continent": "Europe",
+    "GDP": 10.06575108,
+    "lifespan": 70.19999695
+  },
+  {
+    "Country": "Czech Republic",
+    "Continent": "Europe",
+    "GDP": 10.41947365,
+    "lifespan": 70.30000305
+  },
+  {
+    "Country": "Denmark",
+    "Continent": "Europe",
+    "GDP": 10.75559425,
+    "lifespan": 72.40000153
+  },
+  {
+    "Country": "Dominican Republic",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 9.626997948,
+    "lifespan": 65.80000305
+  },
+  {
+    "Country": "Ecuador",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 9.27445507,
+    "lifespan": 68.5
+  },
+  {
+    "Country": "Egypt",
+    "Continent": "Africa",
+    "GDP": 9.293959618,
+    "lifespan": 61.70000076
+  },
+  {
+    "Country": "El Salvador",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 8.911958694,
+    "lifespan": 66.09999847
+  },
+  {
+    "Country": "Estonia",
+    "Continent": "Europe",
+    "GDP": 10.32410717,
+    "lifespan": 68.59999847
+  },
+  {
+    "Country": "Ethiopia",
+    "Continent": "Africa",
+    "GDP": 7.524516582,
+    "lifespan": 58.5
+  },
+  {
+    "Country": "Finland",
+    "Continent": "Europe",
+    "GDP": 10.63605976,
+    "lifespan": 71.90000153
+  },
+  {
+    "Country": "France",
+    "Continent": "Europe",
+    "GDP": 10.57335186,
+    "lifespan": 73.80000305
+  },
+  {
+    "Country": "Gabon",
+    "Continent": "Africa",
+    "GDP": 9.718316078,
+    "lifespan": 59.70000076
+  },
+  {
+    "Country": "Gambia",
+    "Continent": "Africa",
+    "GDP": 7.376553535,
+    "lifespan": 55
+  },
+  {
+    "Country": "Georgia",
+    "Continent": "Europe",
+    "GDP": 9.229100227,
+    "lifespan": 64.5
+  },
+  {
+    "Country": "Germany",
+    "Continent": "Europe",
+    "GDP": 10.73094463,
+    "lifespan": 72.19999695
+  },
+  {
+    "Country": "Greece",
+    "Continent": "Europe",
+    "GDP": 10.13205814,
+    "lifespan": 72.40000153
+  },
+  {
+    "Country": "Guatemala",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 8.923428535,
+    "lifespan": 64.80000305
+  },
+  {
+    "Country": "Guinea",
+    "Continent": "Africa",
+    "GDP": 7.633718014,
+    "lifespan": 54.40000153
+  },
+  {
+    "Country": "Haiti",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 7.416091919,
+    "lifespan": 55.70000076
+  },
+  {
+    "Country": "Honduras",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 8.439203262,
+    "lifespan": 67.19999695
+  },
+  {
+    "Country": "India",
+    "Continent": "Asia",
+    "GDP": 8.830280304,
+    "lifespan": 60.09999847
+  },
+  {
+    "Country": "Indonesia",
+    "Continent": "Oceania",
+    "GDP": 9.362827301,
+    "lifespan": 62.09999847
+  },
+  {
+    "Country": "Iran",
+    "Continent": "Asia",
+    "GDP": 9.886064529,
+    "lifespan": 66
+  },
+  {
+    "Country": "Ireland",
+    "Continent": "Europe",
+    "GDP": 11.16332817,
+    "lifespan": 72.30000305
+  },
+  {
+    "Country": "Israel",
+    "Continent": "Asia",
+    "GDP": 10.4245739,
+    "lifespan": 73.30000305
+  },
+  {
+    "Country": "Italy",
+    "Continent": "Europe",
+    "GDP": 10.48051643,
+    "lifespan": 73.59999847
+  },
+  {
+    "Country": "Ivory Coast",
+    "Continent": "Africa",
+    "GDP": 8.236133575,
+    "lifespan": 49.5
+  },
+  {
+    "Country": "Japan",
+    "Continent": "Asia",
+    "GDP": 10.58161831,
+    "lifespan": 75
+  },
+  {
+    "Country": "Jordan",
+    "Continent": "Asia",
+    "GDP": 9.024435043,
+    "lifespan": 66.80000305
+  },
+  {
+    "Country": "Kazakhstan",
+    "Continent": "Asia",
+    "GDP": 10.111166,
+    "lifespan": 64.59999847
+  },
+  {
+    "Country": "Kenya",
+    "Continent": "Africa",
+    "GDP": 8.03267765,
+    "lifespan": 60.09999847
+  },
+  {
+    "Country": "Kyrgyzstan",
+    "Continent": "Asia",
+    "GDP": 8.151305199,
+    "lifespan": 64.09999847
+  },
+  {
+    "Country": "Laos",
+    "Continent": "Asia",
+    "GDP": 8.813603401,
+    "lifespan": 58.70000076
+  },
+  {
+    "Country": "Latvia",
+    "Continent": "Europe",
+    "GDP": 10.18411732,
+    "lifespan": 66.80000305
+  },
+  {
+    "Country": "Lebanon",
+    "Continent": "Asia",
+    "GDP": 9.507958412,
+    "lifespan": 67.09999847
+  },
+  {
+    "Country": "Liberia",
+    "Continent": "Africa",
+    "GDP": 6.630169868,
+    "lifespan": 56.09999847
+  },
+  {
+    "Country": "Lithuania",
+    "Continent": "Europe",
+    "GDP": 10.33951187,
+    "lifespan": 67.30000305
+  },
+  {
+    "Country": "Luxembourg",
+    "Continent": "Europe",
+    "GDP": 11.45392799,
+    "lifespan": 72.59999847
+  },
+  {
+    "Country": "Macedonia",
+    "Continent": "Europe",
+    "GDP": 9.503044128,
+    "lifespan": 67.5
+  },
+  {
+    "Country": "Madagascar",
+    "Continent": "Africa",
+    "GDP": 7.279894829,
+    "lifespan": 59.09999847
+  },
+  {
+    "Country": "Malawi",
+    "Continent": "Africa",
+    "GDP": 7.005932331,
+    "lifespan": 57.59999847
+  },
+  {
+    "Country": "Malaysia",
+    "Continent": "Asia",
+    "GDP": 10.23550415,
+    "lifespan": 67
+  },
+  {
+    "Country": "Mali",
+    "Continent": "Africa",
+    "GDP": 7.627428055,
+    "lifespan": 51.70000076
+  },
+  {
+    "Country": "Mauritania",
+    "Continent": "Africa",
+    "GDP": 8.196549416,
+    "lifespan": 57
+  },
+  {
+    "Country": "Mauritius",
+    "Continent": "Africa",
+    "GDP": 9.956447601,
+    "lifespan": 66.40000153
+  },
+  {
+    "Country": "Mexico",
+    "Continent": "N.America",
+    "GDP": 9.769919395,
+    "lifespan": 68.30000305
+  },
+  {
+    "Country": "Moldova",
+    "Continent": "Europe",
+    "GDP": 8.592376709,
+    "lifespan": 65
+  },
+  {
+    "Country": "Mongolia",
+    "Continent": "Asia",
+    "GDP": 9.41570282,
+    "lifespan": 62.29999924
+  },
+  {
+    "Country": "Montenegro",
+    "Continent": "Europe",
+    "GDP": 9.732954979,
+    "lifespan": 68.5
+  },
+  {
+    "Country": "Morocco",
+    "Continent": "Africa",
+    "GDP": 8.937397957,
+    "lifespan": 65.90000153
+  },
+  {
+    "Country": "Mozambique",
+    "Continent": "Africa",
+    "GDP": 7.039377689,
+    "lifespan": 54.20000076
+  },
+  {
+    "Country": "Myanmar",
+    "Continent": "Asia",
+    "GDP": 8.685232162,
+    "lifespan": 59
+  },
+  {
+    "Country": "Namibia",
+    "Continent": "Africa",
+    "GDP": 9.15621376,
+    "lifespan": 56.5
+  },
+  {
+    "Country": "Nepal",
+    "Continent": "Asia",
+    "GDP": 7.851007462,
+    "lifespan": 63.5
+  },
+  {
+    "Country": "Netherlands",
+    "Continent": "Europe",
+    "GDP": 10.8092041,
+    "lifespan": 72.30000305
+  },
+  {
+    "Country": "New Zealand",
+    "Continent": "Oceania",
+    "GDP": 10.50147724,
+    "lifespan": 73.19999695
+  },
+  {
+    "Country": "Nicaragua",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 8.614512444,
+    "lifespan": 67.5
+  },
+  {
+    "Country": "Niger",
+    "Continent": "Africa",
+    "GDP": 6.844517708,
+    "lifespan": 53.5
+  },
+  {
+    "Country": "Nigeria",
+    "Continent": "Africa",
+    "GDP": 8.577632904,
+    "lifespan": 49.70000076
+  },
+  {
+    "Country": "Norway",
+    "Continent": "Europe",
+    "GDP": 11.08562565,
+    "lifespan": 73.19999695
+  },
+  {
+    "Country": "Pakistan",
+    "Continent": "Asia",
+    "GDP": 8.561663628,
+    "lifespan": 58.5
+  },
+  {
+    "Country": "Panama",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 10.0497303,
+    "lifespan": 69.59999847
+  },
+  {
+    "Country": "Peru",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 9.434348106,
+    "lifespan": 68.09999847
+  },
+  {
+    "Country": "Philippines",
+    "Continent": "Asia",
+    "GDP": 8.985702515,
+    "lifespan": 61.90000153
+  },
+  {
+    "Country": "Portugal",
+    "Continent": "Europe",
+    "GDP": 10.26201248,
+    "lifespan": 72.40000153
+  },
+  {
+    "Country": "Romania",
+    "Continent": "Europe",
+    "GDP": 10.11209297,
+    "lifespan": 67.19999695
+  },
+  {
+    "Country": "Russia",
+    "Continent": "Europe",
+    "GDP": 10.13239002,
+    "lifespan": 64.30000305
+  },
+  {
+    "Country": "Rwanda",
+    "Continent": "Africa",
+    "GDP": 7.567531109,
+    "lifespan": 61.09999847
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Continent": "Asia",
+    "GDP": 10.79797173,
+    "lifespan": 66.30000305
+  },
+  {
+    "Country": "Senegal",
+    "Continent": "Africa",
+    "GDP": 7.850693703,
+    "lifespan": 59.59999847
+  },
+  {
+    "Country": "Serbia",
+    "Continent": "Europe",
+    "GDP": 9.584803581,
+    "lifespan": 68.19999695
+  },
+  {
+    "Country": "Sierra Leone",
+    "Continent": "Africa",
+    "GDP": 7.26616621,
+    "lifespan": 50.79999924
+  },
+  {
+    "Country": "Slovakia",
+    "Continent": "Europe",
+    "GDP": 10.35223579,
+    "lifespan": 68.90000153
+  },
+  {
+    "Country": "Slovenia",
+    "Continent": "Europe",
+    "GDP": 10.39720345,
+    "lifespan": 71.09999847
+  },
+  {
+    "Country": "South Africa",
+    "Continent": "Africa",
+    "GDP": 9.411724091,
+    "lifespan": 56.5
+  },
+  {
+    "Country": "South Korea",
+    "Continent": "Asia",
+    "GDP": 10.51157761,
+    "lifespan": 73.59999847
+  },
+  {
+    "Country": "Spain",
+    "Continent": "Europe",
+    "GDP": 10.46559429,
+    "lifespan": 74.40000153
+  },
+  {
+    "Country": "Sri Lanka",
+    "Continent": "Asia",
+    "GDP": 9.400387764,
+    "lifespan": 67.19999695
+  },
+  {
+    "Country": "Sweden",
+    "Continent": "Europe",
+    "GDP": 10.76693249,
+    "lifespan": 72.59999847
+  },
+  {
+    "Country": "Switzerland",
+    "Continent": "Europe",
+    "GDP": 10.97594547,
+    "lifespan": 74.09999847
+  },
+  {
+    "Country": "Tanzania",
+    "Continent": "Africa",
+    "GDP": 7.928911209,
+    "lifespan": 57.5
+  },
+  {
+    "Country": "Thailand",
+    "Continent": "Asia",
+    "GDP": 9.734828949,
+    "lifespan": 67.19999695
+  },
+  {
+    "Country": "Togo",
+    "Continent": "Africa",
+    "GDP": 7.287405491,
+    "lifespan": 54.70000076
+  },
+  {
+    "Country": "Tunisia",
+    "Continent": "Africa",
+    "GDP": 9.304473877,
+    "lifespan": 66.90000153
+  },
+  {
+    "Country": "Turkey",
+    "Continent": "Asia",
+    "GDP": 10.1489172,
+    "lifespan": 66.80000305
+  },
+  {
+    "Country": "Turkmenistan",
+    "Continent": "Asia",
+    "GDP": 9.749464035,
+    "lifespan": 62.20000076
+  },
+  {
+    "Country": "Uganda",
+    "Continent": "Africa",
+    "GDP": 7.45870924,
+    "lifespan": 55.70000076
+  },
+  {
+    "Country": "Ukraine",
+    "Continent": "Europe",
+    "GDP": 9.012026787,
+    "lifespan": 64.59999847
+  },
+  {
+    "Country": "United Arab Emirates",
+    "Continent": "Asia",
+    "GDP": 11.12767792,
+    "lifespan": 67.09999847
+  },
+  {
+    "Country": "United Kingdom",
+    "Continent": "Europe",
+    "GDP": 10.59694767,
+    "lifespan": 72.30000305
+  },
+  {
+    "Country": "United States",
+    "Continent": "N.America",
+    "GDP": 10.92246532,
+    "lifespan": 68.30000305
+  },
+  {
+    "Country": "Uruguay",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 9.959661484,
+    "lifespan": 69
+  },
+  {
+    "Country": "Uzbekistan",
+    "Continent": "Asia",
+    "GDP": 8.773365021,
+    "lifespan": 65.09999847
+  },
+  {
+    "Country": "Venezuela",
+    "Continent": "Latin America and the Caribbean",
+    "GDP": 9.270280838,
+    "lifespan": 66.5
+  },
+  {
+    "Country": "Vietnam",
+    "Continent": "Asia",
+    "GDP": 8.783415794,
+    "lifespan": 67.90000153
+  },
+  {
+    "Country": "Zambia",
+    "Continent": "Africa",
+    "GDP": 8.223958015,
+    "lifespan": 55.29999924
+  },
+  {
+    "Country": "Zimbabwe",
+    "Continent": "Africa",
+    "GDP": 7.553394794,
+    "lifespan": 55.59999847
+  }
+]
