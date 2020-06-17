@@ -1,8 +1,12 @@
+
+/*global styles
+_____________________*/
+
 body {
     background-color: white;
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Balsamiq', sans-serif;
     font-size: 15px;
     line-height: 1.5;
 }
@@ -12,35 +16,64 @@ a {
 }
 
 a:hover {
-    text-decoration: none;
+    transition-timing-function: ease-out;
+    transition: 0.2s;
+    background-color: #CCFF33;
 }
 
 h1 {
-    font-size: 100px;
+    font-size: xx-large;
     line-height: 1;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    width: 70%;
 }
 
 h2 {
-    font-size: 45px;
+    margin-top: 75px;
 }
 
-h3 {
-    margin-top: 50px;
-    font-size: 25px;
-    font-weight: 400;
+h2, h3 {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
 }
 
-h1, h2 {
-    margin: 0;
-    font-family: 'Comfortaa', cursive;
-    text-align: center;
-    font-weight: 400;
-    margin: 0;
+#header {
+    position: relative;
+    z-index: 1;
 }
+
+/*Projects
+_____________________*/
+
+.projects {
+    padding-top: 5%;
+}
+
+#card {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+
+#card:hover {
+    /* This timing applies on the way IN */
+    transition-timing-function: ease-out;
+    transition: 0.2s;
+    box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
+    transform: translate3D(0, -1px, 0);
+}
+
+/* Navigation */
 
 nav {
+    background-color: white;
     text-align: right;
-    background: white;
     position: fixed;
     top: 0;
     width: 100%;
@@ -57,6 +90,8 @@ nav a {
 nav a:hover {
     /* text-decoration: underline; */
     display: inline;
+    transition-timing-function: ease-out;
+    transition: 0.2s;
     background-color: #CCFF33;
 }
 
@@ -83,18 +118,43 @@ nav a:hover {
     }
 }
 
+#footer {
+    text-align: center;
+    font-size: x-large;
+    padding: 20px;
+    background: white;
+    color: #517664;
+    z-index: 1;
+}
+
+#footer a {
+    text-decoration: none;
+}
+
+#footer a:hover {
+    transition-timing-function: ease-out;
+    transition: 0.2s;
+    background-color: #CCFF33;
+}
+
 /*Media queries
 _____________________*/
 
 @media (min-width: 900px) {
     .content-wrap {
-        /* width: 800px; */
         margin: 0 auto;
-        padding: 100px 200px;
+        padding: 50px 40px;
     }
 }
 
 @media (max-width: 899px) {
+    h1, h2, h3 {
+        width: 90%;
+    }
+
+    #card {
+        width: 90%;
+    }
     header {
         text-align: center;
     }
@@ -105,16 +165,11 @@ _____________________*/
         font-size: large;
         font-weight: 400;
     }
-    .content-wrap {
-        /* width: 800px; */
-        margin: 0 auto;
-        padding: 10px;
-    }
-    h3 {
-        font-size: medium;
-    }
-
     .spiral {
         visibility: hidden;
     }
+    /* .content-wrap {
+        margin: 0 auto;
+        padding: 5px;
+    } */
 }
