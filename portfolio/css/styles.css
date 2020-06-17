@@ -5,6 +5,7 @@ body {
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
     line-height: 1.5;
+    color: gray;
 }
 
 a {
@@ -22,7 +23,7 @@ h1 {
 
 h2 {
     font-size: 35px;
-    color: gray;
+    /* color: gray; */
     padding: 50px;
 }
 
@@ -31,7 +32,6 @@ h3 {
     font-size: 25px;
     font-weight: 400;
     text-align: justify;
-    color: gray;
 }
 
 h1, h2 {
@@ -122,10 +122,18 @@ _____________________*/
     h3 {
         font-size: medium;
     }
-
+h2 {
+    font-size: medium;
+}
     .spiral {
         visibility: hidden;
     }
+    .name {
+        position: absolute;
+        left: 10px;
+        color: #2D3319;
+    }
+    
 }
 
 .hvrbox,

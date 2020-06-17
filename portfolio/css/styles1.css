@@ -172,4 +172,10 @@ _____________________*/
         margin: 0 auto;
         padding: 5px;
     } */
+    .name {
+        position: absolute;
+        left: 10px;
+        color: #2D3319;
+    }
+    
 }
