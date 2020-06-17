@@ -23,7 +23,7 @@ h1 {
 h2 {
     font-size: 35px;
     color: gray;
-    padding: 20px;
+    padding: 50px;
 }
 
 h3 {
@@ -78,6 +78,11 @@ nav a:hover {
     width: 2%;
 }
 
+header {
+    position: relative;
+    z-index: 1;
+}
+
 @keyframes rotation {
     from {
         transform: rotate(0deg);
@@ -122,7 +127,6 @@ _____________________*/
         visibility: hidden;
     }
 }
-
 
 .hvrbox,
 .hvrbox * {
@@ -189,13 +193,13 @@ _____________________*/
 
 .row {
     display: flex;
-    /* margin: 30px; */
+    /* margin: 10px; */
   }
   
   /* Create two equal columns that sits next to each other */
   .column {
     flex: 50%;
-    padding: 10px;
+    margin: 5px;
     /* height: 300px; */
   }
 
