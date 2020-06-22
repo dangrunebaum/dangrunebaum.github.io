@@ -285,7 +285,7 @@
             x.domain(data.map(function (d) { return d.ethnicity; }));
             y.domain([0, d3.max(data, function (d) { return d.population * 1.2; })]);
 
-            // Append xi axis  
+            // Append x axis  
             g.append("g")
                 .attr("transform", "translate(0," + height + ")")
                 .attr("fill", "whitesmoke")

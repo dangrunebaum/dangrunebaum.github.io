@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,700;1,400;1,500;1,700&display=swap"
+		rel="stylesheet">
+ <script src="https://d3js.org/d3.v4.min.js"></script>
+	<meta charset="utf-8">
+	<title>10 Countries</title>
+	<style type="text/css">
+
+		body {
+			color: darkgray;
+			font-family: 'DM Sans', sans-serif;
+		}
+		#main {
+			margin-top: 10px;
+		}
+
+		button {
+			width: 160px;
+			height: 60px;
+			font-size: 15px;
+			margin: 10px 10px 10px 20px;
+		}
+
+		button:hover {
+			box-shadow: 5px 6px 10px rgba(0, 0, 0, .25);
+			transform: translate3D(0, -1px, 0);
+		}
+
+		button:focus {
+			box-shadow: 5px 6px 10px rgba(0, 0, 0, .25);
+			transform: translate3D(0, -1px, 0);
+		}
+
+		h1 {
+			text-align: center;
+		}
+
+		h2 {
+			text-align: center;
+		}
+
+		h3 {
+			text-align: left;
+			padding: 0px 20px 0px 20px;
+		}
+	</style>
+</head>
+
+<body>
+		<h1>Ten Nations: Life Expectancy, Income and Population 1970-2015</h1>
+	<button id="start">START</button>
+	<button id="reset">RESET</button>
+
+	<div id="main"></div>
+
+	<h3>This visualization explores the relationships over time between three variables: life expectancy, annual GDP based on dollar purchasing power parity, and population of the world's current ten most populous nations. Above, life expectancy is indicated by the last letter of each country, income by the bottom, and population by font size. The use of text instead of traditional circles allows users to quickly identify each country without having to refer to a color key. Below, the percentage change for each variable and country provides for a rapid country-by-country comparison. Data: OECD, WHO and Penn World Table.</h3>
+
+		<h1>Ten Nations: Percentage Change 1970-2015</h1>
+		<button id="pop">POPULATION</button>
+		<button id="life">LIFE EXPECTANCY</button>
+		<button id="gdp">GDP</button>
+
+		<div id="main2"></div>
+		
+		<script type="text/javascript">
+
+		var data = [];
+		d3.csv("life-expectancy-vs-population.csv", function (d) {
+			return {
+				country: d.Country,
+				life1970: +d.Life_expectancy_1970,
+				pop1970: +d.Population_1970,
+				life2015: +d.Life_expectancy_2015,
+				pop2015: +d.Population_2015,
+				income1970: +d.Income_1970,
+				income2015: +d.Income_2015
+			};
+		}, function (error, rows) {
+			data = rows;
+			console.log(data);
+			createVisualization();
+		});
+
+		var color = d3.scaleOrdinal()
+			.domain(["Bangladesh", "Brazil", "China", "India", "Indonesia", "Japan", "Nigeria", "Pakistan", "Russia", "United States"])
+			.range(["olive", "forestgreen", "crimson", "orange", "plum", "red", "teal", "indianred", "blue", "darkblue"])
+
+		// Set the dimensions and margins of the graph
+		var margin = { top: 10, right: 30, bottom: 80, left: 100 },
+			width = 1400 - margin.left - margin.right,
+			height = 700 - margin.top - margin.bottom;
+
+		function createVisualization() {
+
+			//Create SVG element
+			var svg = d3.select("#main")
+				.append("svg")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", height + margin.top + margin.bottom)
+				.append("g")
+				.attr("transform",
+					"translate(" + margin.left + "," + margin.top + ")")
+
+			// X axis domain is life expectancy 30-90 years old 
+			var xScale = d3.scaleLinear()
+				.domain([30, 90])
+				.range([0, width]);
+			// Y axis is GDP 0 to $60,000
+			var yScale = d3.scaleLinear()
+				.domain([0, 60000])
+				.range([height, 0]);
+
+			//Add the SVG Text Element to the svg
+			var text = svg.selectAll("text")
+				.data(data)
+				.enter()
+				.append("text")
+				.attr("x", function (d) {
+					return xScale(d.life1970);
+				})
+				.attr("y", function (d) {
+					return yScale(d.income1970);
+				})
+				.text(function (d) { return d.country; })
+				.attr("font-family", "'DM Sans', sans-serif")
+				.attr("text-anchor", "end")
+				// Font-size function tied to population growth 1970-2015
+				.attr("font-size", function (d) { return d.pop1970 / 5000000 })
+				.style("fill", function (d) {
+					return color(d.country);
+				});
+
+			// Click function sets lifespan, income, population to 2015 levels
+			d3.select("#start").on("click", function () {
+				text
+					.transition()
+					.duration(5000)
+					.attr("x", function (d) {
+						return xScale(d.life2015);
+					})
+					.attr("y", function (d) {
+						return yScale(d.income2015);
+					})
+					.text(function (d) { return d.country; })
+					.attr("text-anchor", "end")
+					.attr("font-size", function (d) { return d.pop2015 / 5000000 })
+					.style("fill", function (d) {
+						return color(d.country);
+					});
+
+				// Reset function returns levels to 1970
+				d3.select("#reset").on("click", function () {
+					text
+						.transition()
+						.duration(1000)
+						.attr("x", function (d) {
+							return xScale(d.life1970);
+						})
+						.attr("y", function (d) {
+							return yScale(d.income1970);
+						})
+						.text(function (d) { return d.country; })
+						// .attr("font-family", "sans-serif")
+						.attr("text-anchor", "end")
+						.attr("font-size", function (d) { return d.pop1970 / 5000000 })
+						.style("fill", function (d) {
+							return color(d.country);
+						});
+				});
+			})
+			// Append axes
+			svg.append("g")
+				.attr("transform", "translate(0," + height + ")")
+				.call(d3.axisBottom(xScale))
+				.attr("font-size", "12");
+
+			svg.append("g")
+				.call(d3.axisLeft(yScale))
+				.attr("font-size", "12");
+
+			// Text for axes
+			svg.append("text")
+				.attr("x", width / 2)
+				.attr("y", height + 50)
+				.attr("fill", "grey")
+				.style("font-size", "1.8em")
+				.style("font-family", "'DM Sans', sans-serif")
+				.style("text-anchor", "middle")
+				.html("Life Expectancy")
+
+			svg.append("text")
+				.attr("x", -400)
+				.attr("y", height / 2 - 370)
+				.attr("fill", "grey")
+				.style("font-size", "1.8em")
+				.style("font-family", "'DM Sans', sans-serif")
+				.text("Real GDP per Capita ($)")
+				.style("transform", "rotate(-90deg)")
+				.style("text-anchor", "start")
+
+			// Bar chart
+			var bars = d3.select("#main2")
+				.append("svg")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", height + margin.top + margin.bottom)
+				.append("g")
+				.attr("transform",
+					"translate(" + margin.left + "," + margin.top + ")");
+			// Scale ranges 
+			var x = d3.scaleBand().range([0, width - 100]).padding(0.1),
+				y = d3.scaleLinear().range([height, 0]);
+			// Declare group element
+			var g = bars.append("g")
+				// .attr("transform", "translate(" + 50 + "," + 100 + ")");
+ 
+			// Set domains based on country and population values
+			x.domain(data.map(function (d) { return d.country; }));
+            y.domain([0, 800]);
+   
+               // Append x axis  
+			   g.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .attr("fill", "black")
+                .style("font-size", "16px")
+                .call(d3.axisBottom(x))
+
+            // Append y axis  
+            g.append("g")
+                .style("font-size", "14px")
+                .call(d3.axisLeft(y).tickFormat(function (d) {
+                    return parseInt(d); 
+                }).ticks(5))
+                .append("text")
+                .attr("transform", "rotate(-90)")
+				.attr("x", -150)
+                .attr("y", 15)
+                .attr("dy", "-3.1em")
+                .attr("text-anchor", "end")
+                .attr("fill", "grey")
+                .style("font-size", "25px")
+                .text("Percentage Change");
+
+   			// Append bars, set initially to population percentage gains 1970-2015	
+   				g.selectAll(".bar")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", function (d) { return x(d.country); })
+				.attr("y", function (d) {return y((d.pop2015 - d.pop1970) / d.pop1970 * 100);} )
+                .attr("height", function (d) { return  height - y((d.pop2015 - d.pop1970) / d.pop1970 * 100); })
+                .attr("width", x.bandwidth())
+				.style("fill", function (d) {
+							return color(d.country);
+						})
+		// Click function shows population 
+		d3.select("#pop").on("click", function () {
+			// console.log("click")
+			g.selectAll(".bar")
+			.transition()
+					.duration(1000)
+                .attr("x", function (d) { return x(d.country); })
+				.attr("y", function (d) {return y((d.pop2015 - d.pop1970) / d.pop1970 * 100);} )
+                .attr("height", function (d) { return  height - y((d.pop2015 - d.pop1970) / d.pop1970 * 100); })
+                .attr("width", x.bandwidth())
+				.style("fill", function (d) {
+							return color(d.country);
+						})
+					});
+
+		// Click function shows lifespan percentage gains from 1970 to 2015
+		d3.select("#life").on("click", function () {
+			g.selectAll(".bar")
+			.transition()
+					.duration(1000)
+                .attr("x", function (d) { return x(d.country); })
+				.attr("y", function (d) {return y((d.life2015 - d.life1970) / d.life1970 * 100);} )
+                .attr("height", function (d) { return  height - y((d.life2015 - d.life1970) / d.life1970 * 100); })
+                .attr("width", x.bandwidth())
+				.style("fill", function (d) {
+							return color(d.country);
+						})
+					});
+					
+		// Click function shows gdp percentage gains from 1970 to 2015
+		d3.select("#gdp").on("click", function () {
+			g.selectAll(".bar")
+			.transition()
+					.duration(1000)
+                .attr("x", function (d) { return x(d.country); })
+				.attr("y", function (d) {return y((d.income2015 - d.income1970) / d.income1970 * 100);} )
+                .attr("height", function (d) { return  height - y((d.income2015 - d.income1970) / d.income1970 * 100); })
+                .attr("width", x.bandwidth())
+				.style("fill", function (d) {
+							return color(d.country);
+						})
+					});
+
+		}
+
+	</script>
+</body>
+
+</html>
