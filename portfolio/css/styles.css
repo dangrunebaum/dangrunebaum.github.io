@@ -7,7 +7,7 @@ body {
     line-height: 1.5;
     color: gray;
 }
-
+/* 
 a {
     color: #2D3319;
 }
@@ -16,7 +16,7 @@ a:hover {
     transition-timing-function: ease-out;
     transition: 0.2s;
     text-decoration: none;
-}
+} */
 
 h1 {
     font-size: 100px;
@@ -53,6 +53,7 @@ nav {
 }
 
 nav a {
+    color: #2D3319;
     display: inline-block;
     padding: 25px 25px;
     text-decoration: none;
@@ -64,6 +65,9 @@ nav a:hover {
     /* text-decoration: underline; */
     /* display: inline; */
     background-color: #CCFF33;
+    transition-timing-function: ease-out;
+    transition: 0.5s;
+    text-decoration: none;
 }
 
 .name {
@@ -167,7 +171,7 @@ _____________________*/
     bottom: 0;
     width: 100%;
     height: 100%;
-    background: rgba(249, 249, 249, 0.751);
+    background: rgba(249, 249, 249, 0.849);
     color: rgb(25, 25, 25);
     padding: 15px;
     -moz-transition: all 0.4s ease-in-out 0s;
@@ -181,7 +185,7 @@ _____________________*/
 }
 
 .hvrbox .hvrbox-text {
-    text-align: left;
+    text-align: justify;
     font-size: 20px;
     /* font-family: 'Balsamiq', sans-serif; */
     display: inline-block;
