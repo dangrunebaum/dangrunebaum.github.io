@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="./styles.css"></link>
+        <title>NYC Shootings Map</title>
+    </head>
+    <body>
+        <!-- <div id="heading" class="heading">
+            <h2 id="metric" class="metric"></h2>
+            <div class="legend">
+                <div class="legend-text" id="legend-min"></div>
+                <div class="legend-gradient" id="legend-gradient"></div>
+                <div class="legend-text" id="legend-max"></div>
+            </div>
+        </div> -->
+        <h1>New York City Shootings Heatmap</h1>
+        <h2>22,375 Incidents</h2>
+        <div id="wrapper" class="wrapper"></div>
+        <!-- <h3>All Boroughs</h3> -->
+        <div id="wrapper2" class="wrapper2"></div>
+        <h2>Seasonal Variation</h2>
+        <div id="wrapper3" class="wrapper3"></div>
+
+        <div>This heatmap of New York City shooting incidents shows 1) annual variation in shootings by borough, 2) seasonal variation over time for all boroughs, and 3) average seasonal variation for all boroughs and all years. Brooklyn stands out as the borough with the most incidents, a finding consistent with its large population. Among seasons, summer sees the greatest number of shooting incidents. The heatmap shows a broad decline in shootings from 2006 to 2017, followed by a significant uptick in incidents through 2019. Source: <a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Shooting-Incident-Data-Historic-/833y-fsy8">NYC Open Data</a>.</div>
+
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <script src="./chart.js"></script>
+    </body>
+
+</html>
