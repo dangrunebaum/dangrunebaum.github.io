@@ -98,6 +98,7 @@ header {
     }
 }
 
+
 /*Media queries
 _____________________*/
 
@@ -223,4 +224,59 @@ _____________________*/
     flex: 50%;
     margin: 5px;
     /* height: 300px; */
+}
+
+@media (min-width: 900px) {
+    .content-wrap {
+        margin: 0 auto;
+        /* padding: 50px 40px; */
+    }
+}
+
+@media (max-width: 899px) {
+    h1, h2, h3 {
+        width: 80%;
+        font-size: smaller;
+        padding-top: 40px;
+    }
+    #card {
+        width: 80%;
+    }
+    header {
+        text-align: center;
+    }
+    nav a {
+        display: inline-block;
+        margin: 10px 20px 10px 20px;
+        text-decoration: none;
+        font-size: large;
+        font-weight: 400;
+    }
+    /* nav a:focus {
+        text-decoration: underline;
+        display: inline;
+        background-color: #CCFF33;
+        transition-timing-function: ease-out;
+        transition: 0.5s;
+        text-decoration: none;
+    } */
+    .row {
+        padding-top: 50px;
+    }
+    .spiral {
+        visibility: hidden;
+    }
+    /* .content-wrap {
+        margin: 0 auto;
+        padding: 5px;
+    } */
+    /* .name {
+        position: absolute;
+        left: 20px;
+        color: #2D3319; */
+    }
+    iframe {
+        max-width: 280px;
+        max-height: 200px;
+    }
 }
