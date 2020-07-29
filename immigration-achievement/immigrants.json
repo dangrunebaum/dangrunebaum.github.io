@@ -1,0 +1,58 @@
+[
+    {
+        "sex": "male",
+        "ethnicity": "Asian",
+        "Professional": 35.1,
+        "Managerial": 20.8,
+        "Other": 44.1
+    },
+    {
+        "sex": "female",
+        "ethnicity": "Asian",
+        "Professional": 38,
+        "Managerial": 20.3,
+        "Other": 41.7
+    },
+    {
+        "sex": "male",
+        "ethnicity": "Black",
+        "Professional": 26.5,
+        "Managerial": 12,
+        "Other": 71.5
+    },
+    {
+        "sex": "female",
+        "ethnicity": "Black",
+        "Professional": 34.1,
+        "Managerial": 13.3,
+        "Other": 52.6
+    },
+    {
+        "sex": "male",
+        "ethnicity": "Hispanic",
+        "Professional": 12.9,
+        "Managerial": 12.6,
+        "Other": 74.5
+    },
+    {
+        "sex": "female",
+        "ethnicity": "Hispanic",
+        "Professional": 23.7,
+        "Managerial": 13.5,
+        "Other": 62.8
+    },
+    {
+        "sex": "male",
+        "ethnicity": "White",
+        "Professional": 23.9,
+        "Managerial": 23.2,
+        "Other": 52.9
+    },
+    {
+        "sex": "female",
+        "ethnicity": "White",
+        "Professional": 33.2,
+        "Managerial": 19.7,
+        "Other": 47.1
+    }
+]

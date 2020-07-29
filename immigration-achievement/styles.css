@@ -1,0 +1,116 @@
+body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2em 2em;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 26px;
+    background: #1f2b38;
+    color: #ebecee;
+}
+
+.wrapper {
+    padding-bottom: 5em;
+}
+
+svg {
+    overflow: visible;
+    /* fill: #ebecee; */
+}
+
+svg text {
+    user-select: none;
+}
+
+.title {
+    position: relative;
+    margin-top: 1.3em;
+    margin-bottom: 0;
+    line-height: 1.2em;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    letter-spacing: -0.011em;
+    align-items: center;
+    color: #ebecee;
+}
+
+.description {
+    max-width: 40em;
+    margin-bottom: 2.9em;
+    font-size: 0.8em;
+    text-align: center;
+    line-height: 1.4em;
+    /* opacity: 0.5; */
+    color: lightcoral;
+}
+
+.source {
+    position: absolute;
+    bottom: 10em;
+    left: 2em;
+    opacity: 0.5;
+    font-size: 0.5em;
+    font-style: italic;
+    color: #ebecee;
+}
+
+.source a {
+    color: #ebecee;
+}
+
+.category-path {
+    fill: none;
+    stroke: white;
+}
+
+.start-label {
+    text-anchor: end;
+    dominant-baseline: middle;
+}
+
+.end-label {
+    dominant-baseline: top;
+}
+
+.label {
+    font-weight: 600;
+    fill: #ebecee;
+}
+
+.ending-marker {
+    fill: #ebecee;
+}
+
+.marker {
+    mix-blend-mode: multiply;
+}
+
+.ending-bar {
+    transition: all 0.3s ease-out;
+}
+
+.ending-value {
+    font-size: 0.6em;
+    text-anchor: end;
+    font-weight: 600;
+    font-feature-settings: 'tnum' 1;
+}
+
+.legend {
+    font-size: 0.8em;
+    /* opacity: 0.6; */
+    dominant-baseline: middle;
+    fill: #ebecee;
+}
+
+.legend-text-left {
+    text-anchor: end;
+}
+
+.legend-line {
+    stroke: grey;
+    stroke-width: 1px;
+}
