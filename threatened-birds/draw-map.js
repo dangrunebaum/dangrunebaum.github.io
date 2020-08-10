@@ -6,7 +6,7 @@ async function drawMap() {
   const countryNameAccessor = d => d.properties["NAME"]
   const countryIdAccessor = d => d.properties["ADM0_A3_IS"]
 
-  // const metric = "Individuals using the Internet (% of population)"
+  // const metric = "Threatened birds"
 
   let metricDataByCountry = {}
   dataset.forEach(d => {
