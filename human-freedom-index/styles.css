@@ -6,15 +6,14 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5em 2em;
+    /* padding: 5em 2em; */
     letter-spacing: -0.011em;
     font-family: 'Bai Jamjuree', sans-serif;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .header {
     position: relative;
-    top: -80px;
     width: 600px;
     display: flex;
     justify-content: center;
@@ -24,17 +23,31 @@ body {
     font-feature-settings: 'tnum' 1;
 }
 
-#wrapper {
+#wrapper1 {
     position: relative;
-    bottom: 100px;
+    bottom: 50px;
+}
+
+#wrapper2 {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
 }
 
 #title {
-    position: relative;
-    bottom: 70px;
+font-size: 40px;
 }
 
 .line {
+    /* fill: none; */
+    /* stroke: cornflowerblue; */
+    stroke-width: 2;
+    /* fill: cornflowerblue; */
+    fill-opacity: 0.5;
+    transition: all 0.3s ease-out;
+}
+
+.line1 {
     fill: none;
     stroke: cornflowerblue;
     stroke-width: 2;
@@ -49,18 +62,27 @@ body {
     opacity: 0.5;
 }
 
+/* .white {
+    stroke: white;
+    fill: none;
+} */
+
 .metric-label {
     fill: lightgray;
     text-anchor: middle;
-    font-size: 1.1em;
+    font-size: .9em;
     letter-spacing: 0.005em;
+}
+
+.metric-label2  {
+    font-family: 'Bai Jamjuree', sans-serif;
 }
 
 button {
     position: absolute;
-    right: -120px;
+    right: -350px;
     font-family: 'Bai Jamjuree', sans-serif;
-    font-size: 1.2em;
+    font-size: 1.5em;
     padding: 0.5em 1em;
     appearance: none;
     -webkit-appearance: none;
@@ -92,11 +114,14 @@ button:active {
 
 #explainer {
     color: white;
-    font-size: 18px;
+    font-size: 25px;
     position: relative;
-    bottom: 200px;
+    margin-bottom: 100px;
+    justify-content: center;
+    margin: 50px;
 }
 
 a {
     color: white;
 }
+
