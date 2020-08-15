@@ -116,7 +116,7 @@ button:active {
     color: white;
     font-size: 25px;
     position: relative;
-    margin-bottom: 100px;
+    bottom: 100px;
     justify-content: center;
     margin: 50px;
 }
