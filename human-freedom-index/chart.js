@@ -1,3 +1,7 @@
+/*
+1nd radar takes form of click-through reverse countdown of countries. 
+*/
+
 async function drawRadar1() {
 
     // 1. Access data
@@ -50,7 +54,7 @@ async function drawRadar1() {
             .nice()
     ))
 
-    // 6. Draw peripherals
+    // 5. Draw peripherals
 
     // g to hold background circles, lines and text 
     const axis1 = bounds1.append("g")
@@ -98,7 +102,7 @@ async function drawRadar1() {
             .text(metric)
     })
 
-    // 5. Draw data
+    // 6. Draw data (usually peripherals come before)
 
     const line1 = bounds1.append("path")
         .attr("class", "line1")
@@ -138,11 +142,9 @@ async function drawRadar1() {
 }
 drawRadar1()
 
-/////////////
 /*
-2nd radar takes form of small multiples. Each chart is roughly 200px and they form responsive
-rows that redraw on another line depending on window size. See Turning Japanese NYT small multiple
-line charts for reference. 
+2nd radar takes form of small multiples. Each chart is 250px and they form responsive
+rows of SVGs that redraw depending on window size, thanks to CSS display: flex; flex-wrap: wrap; 
 */
 
 async function drawRadar() {
@@ -151,10 +153,6 @@ async function drawRadar() {
     let dataset = await d3.json("freedom.json")
     // console.log(dataset)
 
-    // const freedomRankAccessor = d => d.freedomRank
-    // const countryAccessor = d => d.country
-    // dataset = dataset.sort((a, b) => countryAccessor(a) - countryAccessor(b))
-    // console.log(dataset)
     const metrics = [
         "Human Freedom Index",
         "Personal Freedom Index",
@@ -162,11 +160,6 @@ async function drawRadar() {
     ]
 
     dataset.forEach(drawCircle);
-    // "country": "New Zealand",
-    //     "freedomRank": 1,
-    //         "Personal Freedom Index": "9.2800",
-    //             "Economic Freedom Index": "8.4900",
-    //                 "Human Freedom Index": "8.8900"
 
     function drawCircle(countryData) {
 
@@ -272,16 +265,7 @@ async function drawRadar() {
 
         drawLine(countryData)
 
-        // const reversed = dataset.reverse()
-        // drawLine(reversed)
-        // .append("circle")
-        // .attr("cx", dimensions.width/2)
-        // .attr("cy", dimensions.height/2)
-        // .attr("r", dimensions.boundedRadius/2)
-        // .attr("class", "grid-line")
-
     }
-
 
 }
 drawRadar()

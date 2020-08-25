@@ -1,0 +1,79 @@
+body {
+  margin: 0px;
+  color: brown;
+  font-family: 'Open Sans', sans-serif;
+  background-image: url("concrete-wall.jpg");;
+  background-size: 100%;
+}
+
+a {
+  color: brown;
+}
+
+h1 {
+  font-family: 'Rock Salt', cursive;
+  color: brown;
+}
+
+.section {
+  margin: 8% 150px;
+  /* transition: opacity 1s; */
+}
+
+.song-title {
+  position: fixed;
+  top: calc(50% - 230px);
+  right: 300px; 
+  text-align: center; 
+}
+
+.song-title:not(.current) {
+  opacity: 0;
+}
+
+.viz {
+  position: fixed;
+  top: calc(50% - 250px);
+  right: 150px;
+  height: 500px;
+  width: 500px;
+  background-color: rgb(251, 251, 251);
+  /* background-color: #cdd6c4; */
+  opacity: 0.9;
+  filter: drop-shadow(0 0 0.50rem darkgray);
+}
+
+.title {
+  text-align: center;
+}
+
+/* .explainer {
+  height: 60px;
+  width: 480px;
+  position: fixed;
+  top: calc(50% + 255px);
+  right: 150px;
+  text-align: justify;
+  padding: 10px;
+  background-color: rgb(251, 251, 251);
+  opacity: 0.9;
+  filter: drop-shadow(0 0 0.50rem darkgray);
+} */
+
+.explainer-2 {
+  position: relative;
+  bottom: 105px;
+  width: 490px;
+  padding: 20px;
+}
+/* 
+text.bar {
+  fill: white;
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-anchor: end;
+} */
+
+.bar {
+  transition: 1s;
+}

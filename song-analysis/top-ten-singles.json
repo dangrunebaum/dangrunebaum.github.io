@@ -1,0 +1,492 @@
+[
+    {
+        "title": "Silent Night",
+        "artist": "Bing Crosby",
+        "year": "1935",
+        "sales": "30,000,000",
+        "keywords": [
+            [
+                "peace",
+                4
+            ],
+            [
+                "sleep",
+                4
+            ],
+            [
+                "night",
+                4
+            ],
+            [
+                "holy",
+                4
+            ],
+            [
+                "heavenly",
+                4
+            ],
+            [
+                "tender",
+                2
+            ],
+            [
+                "child",
+                2
+            ],
+            [
+                "virgin",
+                2
+            ],
+            [
+                "round",
+                2
+            ],
+            [
+                "calm",
+                2
+            ]
+        ],
+        "lyrics": "Silent night! holy night.<br>All is calm. All is bright.<br>Round yon virgin, mother and child.<br>Holy infant so tender and mild.<br>Sleep in heavenly peace.<br>Sleep in heavenly peace.<br>Silent night! holy night.<br>All is calm. All is bright.<br>Round yon virgin, mother and child.<br>Holy infant so tender and mild.<br>Sleep in heavenly peace.<br>Sleep in heavenly peace."
+    },
+    {
+        "title": "I'm Dreaming of a White Christmas",
+        "artist": "Bing Crosby",
+        "year": "1942",
+        "sales": "50,000,000",
+        "keywords": [
+            [
+                "white",
+                6
+            ],
+            [
+                "Christmas",
+                6
+            ],
+            [
+                "dreaming",
+                4
+            ],
+            [
+                "christmases",
+                2
+            ],
+            [
+                "merry",
+                2
+            ],
+            [
+                "write",
+                2
+            ],
+            [
+                "snow",
+                2
+            ],
+            [
+                "sleigh",
+                2
+            ],
+            [
+                "listen",
+                2
+            ],
+            [
+                "glisten",
+                2
+            ]
+        ],
+        "lyrics": "I'm dreaming of a white Christmas<br>Just like the ones I used to know<br>Where the treetops glisten and children listen<br>To hear sleigh bells in the snow<br><br>I'm dreaming of a white Christmas<br>With every Christmas card I write<br>May your days be merry and bright<br>And may all your Christmases be white<br><br>I'm dreaming of a white Christmas<br>Just like the ones I used to know<br>Where the treetops glisten and children listen<br>To hear sleigh bells in the snow<br><br>I'm dreaming of a white Christmas<br>With every Christmas card I write<br>May your days be merry and bright<br>And may all your Christmases be white<br><br>May your days be merry and bright<br>And may all your Christmases be white<br>And may all your Christmases be white (All your Christmases be white)<br>And may all your Christmases be white (All your Christmases be white)<br>And may all your Christmases be<br>(All your Christmases be white)<br>(All your Christmases be white)"
+    },
+    {
+        "title": "Rock Around the Clock",
+        "artist": "Bill Haley & His Comets",
+        "year": "1954",
+        "sales": "25,000,000",
+        "keywords": [
+            [
+                "rock",
+                34
+            ],
+            [
+                "gonna",
+                21
+            ],
+            [
+                "we're",
+                16
+            ],
+            [
+                "clock",
+                15
+            ],
+            [
+                "around",
+                11
+            ],
+            [
+                "tonight",
+                11
+            ],
+            [
+                "o'clock",
+                6
+            ],
+            [
+                "daylight",
+                5
+            ],
+            [
+                "till",
+                5
+            ],
+            [
+                "broad",
+                5
+            ]
+        ],
+        "lyrics": "One, two, three o'clock, four o'clock rock<br>Five, six, seven o'clock, eight o'clock rock<br>Nine, ten, eleven o'clock, twelve o'clock rock<br>We're gonna rock around the clock tonight<br><br>Put your glad rags on and join me hon'<br>We'll have some fun when the clock strikes one<br>We're gonna rock around the clock tonight<br>We're gonna rock, rock, rock, 'till broad daylight<br>We're gonna rock, gonna rock around the clock tonight<br><br>When the clock strikes two, three and four<br>If the band slows down we'll yell for more<br>We're gonna rock around the clock tonight<br>We're gonna rock, rock, rock, 'till broad daylight<br>We're gonna rock, gonna rock around the clock tonight<br><br>When the chimes ring five, six, and seven<br>We'll be right in seventh heaven<br>We're gonna rock around the clock tonight<br>We're gonna rock, rock, rock, 'till broad daylight<br>We're gonna rock, gonna rock around the clock tonight<br><br>When it's eight, nine, ten, eleven too<br>I'll be goin' strong and so will you<br>We're gonna rock around the clock tonight<br>We're gonna rock, rock, rock, 'till broad daylight<br>We're gonna rock, gonna rock around the clock tonight<br><br>When the clock strikes twelve we'll cool off then<br>Start rockin' 'round the clock again<br>We're gonna rock around the clock tonight<br>We're gonna rock, rock, rock, 'till broad daylight<br>We're gonna rock, gonna rock around the clock tonight"
+    },
+    {
+        "title": "It's Now or Never",
+        "artist": "Elvis Presley",
+        "year": "1960",
+        "sales": "20,000,000",
+        "keywords": [
+            [
+                "never",
+                6
+            ],
+            [
+                "now",
+                6
+            ],
+            [
+                "my",
+                5
+            ],
+            [
+                "it's",
+                5
+            ],
+            [
+                "love",
+                4
+            ],
+            [
+                "wait",
+                3
+            ],
+            [
+                "late",
+                3
+            ],
+            [
+                "tonight",
+                3
+            ],
+            [
+                "be",
+                3
+            ],
+            [
+                "kiss",
+                3
+            ]
+        ],
+        "lyrics": "It's now or never,<br>Come hold me tight<br>Kiss me my darling,<br>Be mine tonight<br>Tomorrow will be too late,<br>It's now or never<br>My love won't wait.<br><br>When I first saw you<br>With your smile so tender<br>My heart was captured,<br>My soul surrendered<br>I'd spend a lifetime<br>Waiting for the right time<br>Now that your near<br>The time is here at last.<br><br>It's now or never,<br>Come hold me tight<br>Kiss me my darling,<br>Be mine tonight<br>Tomorrow will be too late,<br>It's now or never<br>My love won't wait.<br><br>Just like a willow,<br>We would cry an ocean<br>If we lost true love<br>And sweet devotion<br>Your lips excite me,<br>Let your arms invite me<br>For who knows when<br>We'll meet again this way<br><br>It's now or never,<br>Come hold me tight<br>Kiss me my darling,<br>Be mine tonight<br>Tomorrow will be too late,<br>It's now or never<br>My love won't wait"
+    },
+    {
+        "title": "In The Summertime",
+        "artist": "Mungo Jerry",
+        "year": "1970",
+        "sales": "30,000,000",
+        "keywords": [
+            [
+                "dee",
+                5
+            ],
+            [
+                "when",
+                4
+            ],
+            [
+                "happy",
+                3
+            ],
+            [
+                "weather's",
+                3
+            ],
+            [
+                "if",
+                3
+            ],
+            [
+                "bring",
+                2
+            ],
+            [
+                "we",
+                2
+            ],
+            [
+                "down",
+                2
+            ],
+            [
+                "ton",
+                2
+            ],
+            [
+                "daddy's",
+                2
+            ]
+        ],
+        "lyrics": "In the summertime when the weather's high,<br>you can stretch right up and touch the sky,<br>when the weather's fine,<br>you got women, you got women on your mind.<br>Have a drink, have a drive,<br>go out and see what you can find.<br><br>If her daddy's rich, take her out for a meal.<br>If her daddy's poor, just do as you feel.<br>Speed along the land,<br>do a ton, or a ton and twentyfive.<br>When the sun goes down, you can make it,<br>make it good in a lay-by.<br><br>We're not grey people, we're not dirty, we're not mean.<br>We love everybody, but we do as we please.<br>When the weather's fine<br>we go fishing or go swimming in the sea.<br>We're always happy,<br>live's for living, yeah, that's our philosophy.<br><br>Sing along with us, dee-dee-dee-dee-dee.<br>Da-da-da-da-da...<br>Yeah, we're happy happy, da-da-da-da-dah.<br>When the winter's here, then it's party time.<br>Bring a bottle,<br>wear your bright clothes. It'll soon be summertime.<br>And we'll sing again,<br>we'll go drivin' or maybe we'll settle down.<br>If she's rich, if she's nice,<br>bring you're friends and we'll all go into town.<br>"
+    },
+    {
+        "title": "We Are the World",
+        "artist": "USA for Africa",
+        "year": "1985",
+        "sales": "20,000,000",
+        "keywords": [
+            [
+                "day",
+                23
+            ],
+            [
+                "make",
+                22
+            ],
+            [
+                "world",
+                20
+            ],
+            [
+                "children",
+                18
+            ],
+            [
+                "start",
+                17
+            ],
+            [
+                "giving",
+                17
+            ],
+            [
+                "let's",
+                16
+            ],
+            [
+                "lives",
+                12
+            ],
+            [
+                "saving",
+                11
+            ],
+            [
+                "choice",
+                11
+            ]
+        ],
+        "lyrics": "There comes a time when we hear a certain call<br>When the world must come together as one<br>There are people dying<br>Oh, and it's time to lend a hand to life<br>The greatest gift of all<br>We can't go on pretending day by day<br>That someone, somewhere will soon make a change<br>We are all a part of God's great big family<br>And the truth, <br>you know, love is all we need<br><br>We are the world, we are the children<br>We are the ones who make a brighter day<br>So let's start giving<br>There's a choice we're making<br>We're saving our own lives<br>It's true we'll make a better day<br>Just you and me<br><br>Oh, Send them your heart<br>So they'll know that someone cares<br>And their lives will be stronger and free<br>As God has shown us by turning stones to bread<br>And so we all must lend a helping hand<br><br>We are the world, we are the children<br>We are the ones who make a brighter day<br>So let's start giving<br>Oh, there's a choice we're making<br>We're saving our own lives<br>It's true we'll make a better day<br>Just you and me<br><br>When you're down and out, there seems no hope at all<br>But if you just believe there's no way we can fall<br>Well, well, well, well let us realize that a change<br>can only come<br>When we stand together as one<br><br>We are the world, we are the children<br>We are the ones who make a brighter day<br>So let's start giving<br>There's a choice we're making<br>We're saving our own lives<br>It's true we'll make a better day<br>Just you and me<br><br>We are the world, we are the children<br>We are the ones who make a brighter day<br>So let's start giving<br>There's a choice we're making<br>We're saving our own lives<br>It's true we'll make a better day<br>Just you and me<br><br>We are the world, we are the children<br>We are the ones who make a brighter day<br>So let's start giving<br>There's a choice we're making<br>We're saving our own livesIt's true we'll make a better day<br>Just you and me<br><br>We are the world, we are the children<br>We are the ones who make a brighter day<br>So let's start giving<br>There's a choice we're making<br>We're saving our own lives<br>It's true we'll make a better day<br>Just you and me"
+    },
+    {
+        "title": "Candle in the Wind",
+        "artist": "Elton John",
+        "year": "1997",
+        "sales": "33,000,000",
+        "keywords": [
+            [
+                "your",
+                8
+            ],
+            [
+                "candle",
+                7
+            ],
+            [
+                "and",
+                6
+            ],
+            [
+                "out",
+                5
+            ],
+            [
+                "legend",
+                4
+            ],
+            [
+                "long",
+                4
+            ],
+            [
+                "set",
+                4
+            ],
+            [
+                "burned",
+                4
+            ],
+            [
+                "before",
+                4
+            ],
+            [
+                "but",
+                3
+            ]
+        ],
+        "lyrics": "Goodbye Norma Jeane<br>Though I never knew you at all<br>You had the grace to hold yourself<br>While those around you crawled<br>They crawled out of the woodwork<br>And they whispered into your brain<br>They set you on the treadmill<br>And they made you change your name<br><br><br>And it seems to me you lived your life<br>Like a candle in the wind.<br>Never knowing who to cling to<br>When the rain set in.<br>I would have liked to have known you<br>But I was just a kid.<br>Your candle burned out long before<br>Your legend ever did.<br><br>Loneliness was tough<br>The toughest role you ever played<br>Hollywood created a superstar<br>And pain was the price you paid<br>Even when you died<br>All the press still hounded you<br>All the papers had to say<br>was that Marilyn was found in the nude<br><br>And it seems to me you lived your life<br>Like a candle in the wind.<br>Never knowing who to cling to<br>When the rain set in.<br>I would have liked to have known you<br>But I was just a kid.<br>Your candle burned out long before<br>Your legend ever did.<br><br>Goodbye Norma Jeane<br>Though I never knew you at all<br>You had the grace to hold yourself<br>While those around you crawled<br><br>Goodbye Norma Jeane<br>From the young man in the 22nd row<br>Who sees you as something more than sexual<br>More than just our Marilyn Monroe<br><br>And it seems to me you lived your life<br>Like a candle in the wind.<br>Never knowing who to cling to<br>When the rain set in.<br>I would have liked to have known you<br>But I was just a kid.<br>Your candle burned out long before<br>Your legend ever did.<br><br>Your candle burned out long before<br>your legend ever did."
+    },
+    {
+        "title": "Poker Face",
+        "artist": "Lady Gaga",
+        "year": "2009",
+        "sales": "20,300,000",
+        "keywords": [
+            [
+                "poker",
+                30
+            ],
+            [
+                "read",
+                30
+            ],
+            [
+                "face",
+                30
+            ],
+            [
+                "mum",
+                27
+            ],
+            [
+                "she's",
+                11
+            ],
+            [
+                "nobody",
+                11
+            ],
+            [
+                "mah",
+                9
+            ],
+            [
+                "love",
+                6
+            ],
+            [
+                "show",
+                4
+            ],
+            [
+                "hot",
+                4
+            ]
+        ],
+        "lyrics": "<br>I wanna hold 'em like they do in Texas, please<br>Fold 'em, let 'em hit me, raise it; baby, stay with me (I love it)<br>Love game intuition, play the cards with spades to start<br>And after he's been hooked, I'll play the one that's on his heart<br><br>Oh, oh-oh, oh, oh<br>Oh oh oh oh, oh oh<br>I'll get him hot, show him what I've got<br>Oh, oh-oh, oh, oh<br>Oh oh oh oh, oh oh<br>I'll get him hot, show him what I've got<br><br>Can't read my, can't read my<br>No he can't read my poker face<br>(She’s got me like nobody)<br>Can't read my, can't read my<br>No he can't read my poker face<br>(She’s got me like nobody)<br><br>Po-po-po-poker face, po-po-poker face<br>(Mum mum mum mah)<br>Po-po-po-poker face, po-po-poker face<br>(Mum mum mum mah)<br><br>I wanna roll with him, a hard pair we will be<br>A little gambling is fun when you're with me (I love it)<br>Russian roulette is not the same without a gun<br>And baby, when it's love, if it's not rough, it isn't fun (fun)<br><br>Oh, oh-oh, oh, oh<br>Oh oh oh oh, oh oh<br>I'll get him hot, show him what I've got<br>Oh, oh-oh, oh, oh<br>Oh oh oh oh, oh oh<br>I'll get him hot, show him what I've got<br><br>Can't read my, can't read my<br>No he can't read my poker face<br>(She’s got me like nobody)<br>Can't read my, can't read my<br>No he can't read my poker face<br>(She’s got me like nobody)<br><br>Po-po-po-poker face, po-po-poker face<br>(Mum mum mum mah)<br>Po-po-po-poker face, po-po-poker face<br>(Mum mum mum mah)<br>(Mum mum mum mah)<br>(Mum mum mum mah)<br><br>I won't tell you that I love you<br>Kiss or hug you<br>’Cause I'm bluffin' with my muffin<br>I'm not lying, I'm just stunnin' with my love-glue-gunnin'<br>Just like a chick in the casino<br>Take your bank before I pay you out<br>I promise this, promise this<br>Check this hand ’cause I'm marvelous<br><br>Can't read my, can't read my<br>No he can't read my poker face<br>(She’s got me like nobody)<br>Can't read my, can't read my<br>No he can't read my poker face<br>(She’s got me like nobody)<br>Can't read my, can't read my<br>No he can't read my poker face<br>(She’s got me like nobody)<br>Can't read my, can't read my<br>No he can't read my poker face<br>(She’s got me like nobody)<br>Can't read my, can't read my<br>No he can't read my poker face<br>(She’s got me like nobody)<br>Can't read my, can't read my<br>No he can't read my poker face<br>(She’s got me like nobody)<br><br>Po-po-po-poker face, po-po-poker face<br>Po-po-po-poker face, po-po-poker face<br>(She’s got me like nobody)<br>Po-po-po-poker face, po-po-poker face<br>(Mum mum mum mah)<br>Po-po-po-poker face, po-po-poker face<br>(Mum mum mum mah)<br>Po-po-po-poker face, po-po-poker face<br>(Mum mum mum mah)<br>Po-po-po-poker face, po-po-poker face<br>"
+    },
+    {
+        "title": "Rolling in the Deep",
+        "artist": "Adele",
+        "year": "2010",
+        "sales": "20,600,000",
+        "keywords": [
+            [
+                "gonna",
+                20
+            ],
+            [
+                "deep",
+                14
+            ],
+            [
+                "rolling",
+                14
+            ],
+            [
+                "met",
+                10
+            ],
+            [
+                "wish",
+                10
+            ],
+            [
+                "never",
+                10
+            ],
+            [
+                "fall",
+                9
+            ],
+            [
+                "tears",
+                9
+            ],
+            [
+                "played",
+                8
+            ],
+            [
+                "heart",
+                7
+            ]
+        ],
+        "lyrics": "There's a fire starting in my heart<br>Reaching a fever pitch and it's bringing me out the dark<br>Finally I can see you crystal clear<br>Go head and sell me out and I'll lay your ship bare<br>See how I leave with every piece of you<br>Don't underestimate the things that I will do<br>There's a fire starting in my heart<br>Reaching a fever pitch and it's bringing me out the dark<br>The scars of your love remind me of us<br>They keep me thinking that we almost had it all<br>The scars of your love they leave me breathless I can't help feeling<br>We could have had it all (you're gonna wish you never had met me)<br>Rolling in the deep(tears are gonna fall rolling in the deep)<br>You had my heart inside of your hand (you're gonna wish you never had met me)<br>And you played it to the beat (tears are gonna fall rolling in the deep)<br>Baby I have no story to be told<br>But I've heard one on you and I'm gonna make your head burn<br>Think of me in the depths of your despair<br>Making a home down there 'cause mine sure won't be shared<br>The scars of your love remind me of us(you're gonna wish you never had met me)<br>They keep me thinking that we almost had it all (tears are gonna fall rolling in the deep)<br>The scars of your love they leave me breathless I can't help feeling<br>We could have had it all (you're gonna wish you never had met me)<br>Rolling in the deep (tears are gonna fall rolling in the deep)<br>You had my heart inside of your hand (you're gonna wish you never had met me)<br>And you played it to the beat (tears are gonna fall rolling in the deep)<br>We could've had it all<br>Rolling in the deep<br>You had my heart inside your hand<br>But you played it with a beating<br>Throw your soul through every open door<br>Count your blessings to find what you look for<br>Turned my sorrow into treasured gold<br>You pay me back in kind and reap just what you sow<br>we could've had it all<br>We could've had it all (tears are gonna fall rolling in the deep)<br>It all it all it all (you're gonna wish you never had met me)<br>We could have had it all (you're gonna wish you never had met me)<br>Rolling in the deep (tears are gonna fall rolling in the deep)<br>You had my heart inside of your hand (you're gonna wish you never had met me)<br>And you played it to the beat (tears are gonna fall rolling in the deep)<br>We could've had it all (you're gonna wish you never had met me)<br>Rolling in the deep (tears are gonna fall rolling in the deep)<br>You had my heart inside your hand (you're gonna wish you never had met me)<br>But you played it you played it you played it you played it To the beat"
+    },
+    {
+        "title": "Shape of You",
+        "artist": "Ed Sheeran",
+        "year": "2017",
+        "sales": "41,500,000",
+        "keywords": [
+            [
+                "come",
+                37
+            ],
+            [
+                "love",
+                25
+            ],
+            [
+                "body",
+                17
+            ],
+            [
+                "baby",
+                14
+            ],
+            [
+                "now",
+                11
+            ],
+            [
+                "new",
+                6
+            ],
+            [
+                "something",
+                6
+            ],
+            [
+                "day",
+                6
+            ],
+            [
+                "shape",
+                6
+            ],
+            [
+                "follow",
+                6
+            ]
+        ],
+        "lyrics": "The club isn't the best place to find a lover<br>So the bar is where I go<br>Me and my friends at the table doing shots<br>Drinking faster and then we talk slow<br>Come over and start up a conversation with just me<br>And trust me I'll give it a chance now<br>Take my hand, stop<br>Put Van The Man on the jukebox<br>And then we start to dance<br>And now I'm singing like<br><br>Girl, you know I want your love<br>Your love was handmade for somebody like me<br>Come on now, follow my lead<br>I may be crazy, don't mind me<br>Say, boy, let's not talk too much<br>Grab on my waist and put that body on me<br>Come on now, follow my lead<br>Come, come on now, follow my lead<br><br>I'm in love with the shape of you<br>We push and pull like a magnet do<br>Although my heart is falling too<br>I'm in love with your body<br>Last night you were in my room<br>And now my bedsheets smell like you<br>Every day discovering something brand new<br>I'm in love with your body<br>Oh-I-oh-I-oh-I-oh-I<br>I'm in love with your body<br>Oh-I-oh-I-oh-I-oh-I<br>I'm in love with your body<br>Oh-I-oh-I-oh-I-oh-I<br>I'm in love with your body<br>Every day discovering something brand new<br>I'm in love with the shape of you<br><br>One week in we let the story begin<br>We're going out on our first date<br>You and me are thrifty<br>So go all you can eat<br>Fill up your bag and I fill up a plate<br>We talk for hours and hours about the sweet and the sour<br>And how your family is doing okay<br>Leave and get in a taxi, then kiss in the backseat<br>Tell the driver make the radio play<br>And I'm singing like<br><br>Girl, you know I want your love<br>Your love was handmade for somebody like me<br>Come on now, follow my lead<br>I may be crazy, don't mind me<br>Say, boy, let's not talk too much<br>Grab on my waist and put that body on me<br>Come on now, follow my lead<br>Come, come on now, follow my lead<br><br>I'm in love with the shape of you<br>We push and pull like a magnet do<br>Although my heart is falling too<br>I'm in love with your body<br>Last night you were in my room<br>And now my bedsheets smell like you<br>Every day discovering something brand new<br>I'm in love with your body<br>Oh-I-oh-I-oh-I-oh-I<br>I'm in love with your body<br>Oh-I-oh-I-oh-I-oh-I<br>I'm in love with your body<br>Oh-I-oh-I-oh-I-oh-I<br>I'm in love with your body<br>Every day discovering something brand new<br>I'm in love with the shape of you<br><br>Come on, be my baby, come on<br>Come on, be my baby, come on<br>Come on, be my baby, come on<br>Come on, be my baby, come on<br>Come on, be my baby, come on<br>Come on, be my baby, come on<br>Come on, be my baby, come on<br>Come on, be my baby, come on<br><br>I'm in love with the shape of you<br>We push and pull like a magnet do<br>Although my heart is falling too<br>I'm in love with your body<br>Last night you were in my room<br>And now my bedsheets smell like you<br>Every day discovering something brand new<br>I'm in love with your body<br>Come on, be my baby, come on<br>Come on, be my baby, come on<br>I'm in love with your body<br>Come on, be my baby, come on<br>Come on, be my baby, come on<br>I'm in love with your body<br>Come on, be my baby, come on<br>Come on, be my baby, come on<br>I'm in love with your body<br>Every day discovering something brand new<br>I'm in love with the shape of you"
+    }
+]
