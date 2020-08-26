@@ -17,7 +17,12 @@ h1 {
 
 .section {
   margin: 5% 150px;
-  /* transition: opacity 1s; */
+  transition: opacity 1s;
+}
+
+.section:not(.current) {
+  opacity: 0.5; 
+   /* font-weight: normal; */
 }
 
 .song-title {
