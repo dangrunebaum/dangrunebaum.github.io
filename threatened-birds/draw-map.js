@@ -1,8 +1,9 @@
 async function drawMap() {
 
   const countryShapes = await d3.json("./world-geojson.json")
+  console.log(countryShapes)
   const dataset = await d3.csv("./birds.csv")
-
+// console.log(dataset)
   const countryNameAccessor = d => d.properties["NAME"]
   const countryIdAccessor = d => d.properties["ADM0_A3_IS"]
 
@@ -44,8 +45,6 @@ async function drawMap() {
     .append("svg")
     .attr("width", dimensions.width)
     .attr("height", dimensions.height)
-
-
 
   const bounds = wrapper.append("g")
     .style("transform", `translate(${

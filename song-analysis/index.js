@@ -1,3 +1,9 @@
+/*
+Make an array of top ten bestselling song singles. Instead of computing letter frequency,
+use list of top ten keywords for each song. Left side of display shows song, right graph shows top ten keywords.
+graph will list top ten keywords on y axis with bar chart showing keyword counts on x axis
+*/
+
 // declare margin and data variables
 const margin = 100;
 let data;
@@ -142,14 +148,4 @@ function setState(nextState) {
   // call draw function when state updates 
   draw();
 }
-
-
 setup();
-
-/*
-Make an array of top ten bestselling song singles. Instead of computing letter frequency,
-use list of top ten keywords for each song. Left side of display shows song, right graph shows top ten keywords.
-
-graph will list top ten keywords on y axis with bar chart showing keyword counts on x axis
-
-*/
