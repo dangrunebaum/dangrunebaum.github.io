@@ -30,6 +30,13 @@ h1, p {
     overflow: hidden;
 }
 
+/* Styles for map */
+
+.states {
+    stroke: white;
+    fill: none;
+}
+
 /* Styles for table */
 table {
     border-collapse: collapse;

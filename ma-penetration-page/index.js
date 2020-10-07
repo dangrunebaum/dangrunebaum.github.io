@@ -1,26 +1,25 @@
-const dataPromise = d3.csv("./noJuly20.csv");
-const mapPromise = d3.json("./us.json");
+const dataPromise = d3.csv("./noJuly20.csv");// Load data
+const mapPromise = d3.json("./us.json");// Load map
 Promise.all([dataPromise, mapPromise]).then(function (values) {
   ready(values)
 });
 
 function ready([data, map]) {
-  // States defined here
+  // States assigned here
   const stateName = "New York";
 
-  // Subgroups from csv header = Eligibles, Enrolled (for stacking), y axis   
+  // Subgroups from csv header = Eligibles, Enrolled (for stacking) for y axis   
   var subgroups = data.columns.slice(9, 11)
   const s0 = subgroups[0];
   const s1 = subgroups[1];
-  // console.log(subgroups)
+
   // Groups = monthly periods that define X axis
   var groups = d3.map(data, function (d) { return (d["Report Period"]) }).keys()
-  // console.log(groups)
-  groups = groups.filter(g => g !== "")//filter out empty strings from monthly periods 
-  filteredData = data.filter(d => d["State Name"] === stateName)//include only data for Alabama
+  groups = groups.filter(g => g !== "")// Filter empty strings from monthly periods 
+  filteredData = data.filter(d => d["State Name"] === stateName)// Include only data for given state
   // cleaned data array
   const toBeData = [];
-  let yMax = 0;//yMax will be the total largest sum of Eligibles and Enrolled 
+  let yMax = 0;// yMax will be the total largest sum of Eligibles and Enrolled 
   let maxEligibles = 0;
   let maxEnrolled = 0;
   let minEnrolled;
@@ -30,18 +29,18 @@ function ready([data, map]) {
       [s1]: 0
     }
 
-    filteredData.filter(d => d["Report Period"] === group //value is array of data filtered for one period
+    filteredData.filter(d => d["Report Period"] === group // Value is array of data filtered for one period
       && (d[s0] !== ""
         || d[s1] !== ""))
-      .forEach(d => {//create sums with 2 numbers, one for each subgroup for all groups
-        if (d[s0] === "" || d[s1] === "") return;//if empty skip
-        if (d[s0] === " * " || d[s1] === " * ") return;//if asterisk skip
-        if (typeof d[s0] === "number") {// if number add 
+      .forEach(d => {// Create sums with 2 numbers, one for each subgroup for all groups
+        if (d[s0] === "" || d[s1] === "") return;// If empty skip
+        if (d[s0] === " * " || d[s1] === " * ") return;// If asterisk skip
+        if (typeof d[s0] === "number") {// If number add 
           sums[s0] += d[s1];
         }
         else
-          sums[s0] += parseInt(d[s0].replaceAll(",", "").trim());//remove comma
-        if (typeof d[s1] === "number") {//if number add 
+          sums[s0] += parseInt(d[s0].replaceAll(",", "").trim());// Remove comma
+        if (typeof d[s1] === "number") {// If number add 
           sums[s1] += d[s0];
         }
         else
@@ -50,15 +49,16 @@ function ready([data, map]) {
           console.error(d);
         }
       })
-    const thisSum = sums[s0] + sums[s1]//take sum at each step
-    yMax = (yMax < thisSum) ? thisSum : yMax //choose between values depending on yMax
-    maxEligibles = (maxEligibles < sums[s0]) ? sums[s0] : maxEligibles
-    maxEnrolled = (maxEnrolled < sums[s1]) ? sums[s1] : maxEnrolled
-    minEnrolled = (maxEnrolled > sums[s1]) ? sums[s1] : minEnrolled //check!
+    const thisSum = sums[s0] + sums[s1]// Take sum at each step
+    yMax = (yMax < thisSum) ? thisSum : yMax // Choose between values depending on yMax
+    maxEligibles = (maxEligibles < sums[s0]) ? sums[s0] : maxEligibles // Count max eligibles for text
+    maxEnrolled = (maxEnrolled < sums[s1]) ? sums[s1] : maxEnrolled // Count max enrolled
+    minEnrolled = (sums[s1] > minEnrolled) ? minEnrolled: sums[s1]  // Count min enrolled
     toBeData.push({ Period: group, ...sums })
   }
   console.log({ yMax });
-  console.log({ minEnrolled });
+  console.log({ minEnrolled }); //minEnrolled = (minEnrolled  
+  console.log({ maxEnrolled });
 
   d3.selectAll(".state")
     .append("text")
@@ -208,22 +208,24 @@ function ready([data, map]) {
       mapSvg.attr("transform", d3.event.transform)
     }))
     .append("g")
-    
-    
-    mapSvg.append("text")
-      .attr("y", 50)
-      .attr("x", 50)
-      .text("Scroll to zoom");
-  console.log(data)
+
+  mapSvg.append("text")
+    .attr("y", 40)
+    .attr("x", 40)
+    .text("Scroll to zoom");
+
+  mapSvg.append("text")
+    .attr("y", 65)
+    .attr("x", 40)
+    .text("Click-drag to pan");
+
   var countyByFips = {};
   var penetrationByFips = {}; // Create empty object for holding dataset
   data.forEach(function (d) {
     countyByFips[d.FIPS] = d["County Name"] // Create property for each ID, give it county name
     penetrationByFips[d.FIPS] = d.Penetration === "" ? 0 : d.Penetration; // Create property for each ID, give it value from penetraton rate
   });
-  // console.log(penetrationByFips);
-  console.log(countyByFips)
-  console.log(penetrationByFips)
+  // Color scale for map and table steps up to 50% then all beyond are same 
   var color = d3.scaleThreshold()
     .domain([0.1, 0.2, 0.3, 0.4, 0.5])
     .range(["#f2f0f7", "#dadaeb", "#bcbddc", "#9e9ac8", "#756bb1", "#54278f"]);
@@ -263,14 +265,22 @@ function ready([data, map]) {
       tooltipDiv.transition()
         .duration(500)
         .style("opacity", 0)
-      d3.select(this).attr('class', 'bar');
+      // remove county stroke on mouseout 
       d3.select(this)
-        .transition()     // animate mouseout 
-        .duration(400)
+        .transition()
+        .duration(500)
         .attr('stroke', 'none')
       d3.selectAll('.val')
         .remove();
     });
+
+    mapSvg.append("path")
+    .datum(topojson.mesh(map, map.objects.states, function(a, b) {
+      return a.id !== b.id;
+    }))
+    .attr("class", "states")
+    .attr("d", path)
+
 
   // Table /////////////////////
 
