@@ -1,0 +1,44 @@
+<head>
+    <title>Medicare Advantage Text</title>
+    <link rel="stylesheet" href="./styles.css">
+    </link>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <h1>
+        What Is Medicare Advantage Penetration or Enrollment in <span class="state"></span>?
+        <br>
+    </h1>
+  <p> Some <span class="enrolled"></span> <span class="state"></span> residents signed up for Medicare Advantage plans.
+    About
+    <span id="eligibles"></span> are eligible for Medicare in <span class="state"></span>.
+</p> 
+    <!-- div for bar chart -->
+    <div id="bars"></div>
+
+    <h1>
+        What Are Trends in Medicare Advantage Enrollment in <span class="state"></span>?
+        <br>
+    </h1>
+    <p><span class="state"></span> enrollment numbers for Medicare Advantage plans have increased over the last dozen
+    years. In 2008, about <span id="minEnrolled"></span> signed up for Medicare Advantage. In 2020, that number has
+    grown to some <span class="enrolled"></span>.
+</p> 
+    <!-- div for map -->
+    <div id="map"></div>
+
+    <h1>
+        What Are Noteworthy Trends in Medicare Advantage Penetration or Enrollment by County?
+    </h1>
+
+        <!-- div for table -->
+        <div id="table"></div>
+
+    <!-- load us county map topojson and d3.js -->
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="index.js"></script>
+</body>

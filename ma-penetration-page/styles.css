@@ -1,0 +1,106 @@
+
+body {
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5em 2em;
+    letter-spacing: -0.011em;
+}
+
+h1, p {
+    text-align: left;
+}
+/* Style for tooltip for bars and map */
+.tooltip {
+    position: absolute;
+    text-align: left;
+    max-width: auto;
+    max-height: auto;
+    font-size: 16px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background: rgb(50, 50, 50);
+    color: white;
+    border: 0px;
+    border-radius: 4px;
+    padding: 4px;
+    pointer-events: none;
+    box-shadow: 4px 8px 20px rgba(0, 0, 0, .5);
+    overflow: hidden;
+}
+
+/* Styles for table */
+table {
+    border-collapse: collapse;
+    table-layout: fixed; 
+    /* max-height: 500px; */
+    display:block;
+    
+}
+
+tbody {
+    width: 100%;
+    max-height:400px;
+    display:block;
+    overflow:scroll;
+}
+
+thead {
+    font-size: 0.9em;
+    letter-spacing: 0;
+    font-weight: 900;
+    /* white-space: nowrap; */
+    /* text-align:right; */
+}
+
+thead th {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    color: #f8f9fa;
+    background: #34495e;
+    padding: 1em 0.8rem;
+}
+
+th.text {
+    text-align: left;
+}
+
+th.number {
+    text-align: left;
+}
+
+td.number {
+    text-align: left;
+}
+tbody tr:nth-child(odd) {
+    background: #f0f0f3;
+}
+
+tbody tr:hover {
+    transition: all 0.1s ease-out;
+    box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .25);
+    transform: translate3D(0, 0px, 0);
+}
+
+td {
+    padding: 0.4em 0.8rem;
+}
+
+/* .number {
+    text-align: left;
+    font-feature-settings: 'tnum' 1;
+} */
+
+tbody .marker {
+    font-size: 0.7em;
+}
+
+tbody .symbol {
+    opacity: 0.6;
+}
+
+.centered {
+    text-align: center;
+}
