@@ -1,4 +1,3 @@
-
 body {
     font-size: 20px;
     font-family: Arial, Helvetica, sans-serif;
@@ -12,7 +11,9 @@ body {
 h1, p {
     text-align: left;
 }
+
 /* Style for tooltip for bars and map */
+
 .tooltip {
     position: absolute;
     text-align: left;
@@ -38,19 +39,19 @@ h1, p {
 }
 
 /* Styles for table */
+
 table {
     border-collapse: collapse;
-    table-layout: fixed; 
+    table-layout: fixed;
     /* max-height: 500px; */
-    display:block;
-    
+    display: block;
 }
 
 tbody {
     width: 100%;
-    max-height:400px;
-    display:block;
-    overflow:scroll;
+    max-height: 400px;
+    display: block;
+    overflow: scroll;
 }
 
 thead {
@@ -66,7 +67,7 @@ thead th {
     position: sticky;
     top: 0;
     color: #f8f9fa;
-    background: #34495e;
+    background: #313f4c;
     padding: 1em 0.8rem;
 }
 
@@ -81,6 +82,7 @@ th.number {
 td.number {
     text-align: left;
 }
+
 tbody tr:nth-child(odd) {
     background: #f0f0f3;
 }
@@ -94,11 +96,6 @@ tbody tr:hover {
 td {
     padding: 0.4em 0.8rem;
 }
-
-/* .number {
-    text-align: left;
-    font-feature-settings: 'tnum' 1;
-} */
 
 tbody .marker {
     font-size: 0.7em;

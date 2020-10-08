@@ -5,9 +5,9 @@ Promise.all([dataPromise, mapPromise]).then(function (values) {
 });
 
 function ready([data, map]) {
-  // States assigned here
-  const stateName = "New York";
-
+  // States assigned
+  const stateName = "Wyoming";
+console.log(map)
   // Subgroups from csv header = Eligibles, Enrolled (for stacking) for y axis   
   var subgroups = data.columns.slice(9, 11)
   const s0 = subgroups[0];
@@ -19,7 +19,7 @@ function ready([data, map]) {
   filteredData = data.filter(d => d["State Name"] === stateName)// Include only data for given state
   // cleaned data array
   const toBeData = [];
-  let yMax = 0;// yMax will be the total largest sum of Eligibles and Enrolled 
+  let yMax = 0;// yMax will be the largest sum of Eligibles and Enrolled 
   let maxEligibles = 0;
   let maxEnrolled = 0;
   let minEnrolled;
@@ -53,13 +53,11 @@ function ready([data, map]) {
     yMax = (yMax < thisSum) ? thisSum : yMax // Choose between values depending on yMax
     maxEligibles = (maxEligibles < sums[s0]) ? sums[s0] : maxEligibles // Count max eligibles for text
     maxEnrolled = (maxEnrolled < sums[s1]) ? sums[s1] : maxEnrolled // Count max enrolled
-    minEnrolled = (sums[s1] > minEnrolled) ? minEnrolled: sums[s1]  // Count min enrolled
+    minEnrolled = (sums[s1] > minEnrolled) ? minEnrolled : sums[s1]  // Count min enrolled
     toBeData.push({ Period: group, ...sums })
   }
-  console.log({ yMax });
-  console.log({ minEnrolled }); //minEnrolled = (minEnrolled  
-  console.log({ maxEnrolled });
 
+  // Text /////////////////////
   d3.selectAll(".state")
     .append("text")
     .html(stateName)
@@ -80,7 +78,6 @@ function ready([data, map]) {
     .html(formattedminEnrolled)
 
   // Bar chart /////////////////////
-
 
   var margin = { top: 10, right: 30, bottom: 50, left: 80 },
     width = 800 - margin.left - margin.right,
@@ -119,7 +116,6 @@ function ready([data, map]) {
     .attr("transform", "rotate(90)")
     .style("text-anchor", "start");
 
-
   // Add Y axis
   var y = d3.scaleLinear()
     .domain([0, yMax])
@@ -129,12 +125,12 @@ function ready([data, map]) {
     .style("font-weight", 700)
     .call(d3.axisLeft(y));
 
-  // color palette = one color per subgroup (Eligibles, Enrolled)
+  // Color palette = one color per subgroup (Eligibles, Enrolled)
   var color = d3.scaleOrdinal()
     .domain(subgroups)
     .range(['#6d53dc', '#ab91c4'])
 
-  //stack the data per subgroup
+  // Stack the data per subgroup
   var stackedData = d3.stack()
     .keys(subgroups)
     (toBeData)
@@ -147,14 +143,14 @@ function ready([data, map]) {
     .enter().append("g")
     .attr("fill", function (d) { return color(d.key); })
     .selectAll("rect")
-    // loop subgroup by subgroup (Eligibles, Enrolled) to add all rectangles
+    // Loop subgroup by subgroup (Eligibles, Enrolled) to add all rectangles
     .data(function (d) { return d; })
     .enter().append("rect")
-    .attr("x", function (d) { return x(d.data.Period); })//draws correctly
+    .attr("x", function (d) { return x(d.data.Period); })
     .attr("y", function (d) { return y(d[1]); })
     .attr("height", function (d) { return y(d[0]) - y(d[1]); })
     .attr("width", x.bandwidth())
-
+    // Show Eligibles and Enrolled in tooltip
     .on("mouseover", function (d) {
       var eligibles = d.data[" Eligibles "];
       var enrolled = d.data[" Enrolled "];
@@ -169,19 +165,19 @@ function ready([data, map]) {
         .style("top", (d3.event.pageY - 48) + "px")
       d3.select(this).attr('class', 'highlight');
       d3.select(this)
-        .transition()     // adds animation
+        .transition()
         .duration(400)
         .attr('stroke', 'black');
     })
 
-    // fade out tooltip on mouse out               
+    // Fade tooltip and county stroke on mouseout               
     .on("mouseout", function (d) {
       tooltipDiv.transition()
         .duration(500)
         .style("opacity", 0)
       d3.select(this).attr('class', 'bar');
       d3.select(this)
-        .transition()     // animate mouseout 
+        .transition()
         .duration(400)
         .attr('stroke', 'none')
       d3.selectAll('.val')
@@ -192,14 +188,15 @@ function ready([data, map]) {
 
   const mapWidth = window.innerWidth * 0.7;
   const mapHeight = window.innerHeight * 0.7;
-
-  var projection = d3.geoAlbers()
+  // Assign map projection
+  var projection = d3.geoAlbersUsa()
     .scale(1000)
     .translate([mapWidth / 2, mapHeight / 2]);
 
   var path = d3.geoPath()
     .projection(projection);
 
+  // Append svg and call zoom function
   var mapSvg = d3.select("#map").append("svg")
     .attr("width", mapWidth)
     .attr("height", mapHeight)
@@ -217,15 +214,15 @@ function ready([data, map]) {
   mapSvg.append("text")
     .attr("y", 65)
     .attr("x", 40)
-    .text("Click-drag to pan");
+    .text("Drag to move");
 
   var countyByFips = {};
-  var penetrationByFips = {}; // Create empty object for holding dataset
+  var penetrationByFips = {}; // Object for holding penetration values by county FIPS code
   data.forEach(function (d) {
     countyByFips[d.FIPS] = d["County Name"] // Create property for each ID, give it county name
     penetrationByFips[d.FIPS] = d.Penetration === "" ? 0 : d.Penetration; // Create property for each ID, give it value from penetraton rate
   });
-  // Color scale for map and table steps up to 50% then all beyond are same 
+  // Color scale for map and table steps up to 50% then penetration values beyond are same 
   var color = d3.scaleThreshold()
     .domain([0.1, 0.2, 0.3, 0.4, 0.5])
     .range(["#f2f0f7", "#dadaeb", "#bcbddc", "#9e9ac8", "#756bb1", "#54278f"]);
@@ -233,12 +230,12 @@ function ready([data, map]) {
   mapSvg.append("g")
     .attr("class", "counties")
     .selectAll("path")
-    .data(topojson.feature(map, map.objects.counties).features) // Bind TopoJSON data elements
+    .data(topojson.feature(map, map.objects.counties).features) // Bind TopoJSON county data elements
     .enter().append("path")
     .attr("d", path)
     .style("fill", function (d) {
       return color(
-        parseFloat(penetrationByFips[d.id]) / 100); // get rate value for property matching data ID
+        parseFloat(penetrationByFips[d.id]) / 100); // Get rate value for property matching data ID
       // pass rate value to color function, return color based on domain and range
     })
 
@@ -248,24 +245,23 @@ function ready([data, map]) {
         .style("opacity", 1.0);
       d3.select(this).attr('class', 'highlight');
       d3.select(this)
-        .transition()     // adds animation
+        .transition()
         .duration(400)
         .attr('stroke', 'black')
       tooltipDiv.html(
-        // set text to the matching map county id
+        // Set tooltip text to county id, penetration rate 
         countyByFips[d.id] + " County" + '<br>' +
         "Penetration Rate" + ": " + penetrationByFips[d.id])
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY - 48) + "px");
-      console.log(parseFloat(penetrationByFips[d.id]) / 100)
     })
 
-    // fade out tooltip on mouse out               
+    // Fade tooltip on mouseout               
     .on("mouseout", function (d) {
       tooltipDiv.transition()
         .duration(500)
         .style("opacity", 0)
-      // remove county stroke on mouseout 
+      // Remove county stroke on mouseout 
       d3.select(this)
         .transition()
         .duration(500)
@@ -273,9 +269,9 @@ function ready([data, map]) {
       d3.selectAll('.val')
         .remove();
     });
-
-    mapSvg.append("path")
-    .datum(topojson.mesh(map, map.objects.states, function(a, b) {
+  // Add state outline
+  mapSvg.append("path")
+    .datum(topojson.mesh(map, map.objects.states, function (a, b) {
       return a.id !== b.id;
     }))
     .attr("class", "states")
