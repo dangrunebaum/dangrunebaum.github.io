@@ -113,12 +113,6 @@
             /* font-family: Comfortaa; */
         }
 
-        /* Position and style map title */
-        /* #legend {
-            position: relative;
-            bottom: 100px;
-        } */
-
         .axis path,
         .axis line {
             fill: none;
@@ -129,7 +123,6 @@
 
     </style>
 
-    <link href="https://fonts.googleapis.com/css?family=Comfortaa|Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap"
         rel="stylesheet">
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -156,7 +149,7 @@
             width = window.innerWidth * 0.9 - margin.left - margin.right,
             height = 950 - margin.top - margin.bottom;
         // height of bar chart 
-        var barsHeight = width * 0.2;
+        var barsHeight = width * 0.1;
         // Create map 
         var map = d3.select("#map")
             .append("svg")
@@ -172,16 +165,6 @@
         var path = d3.geoPath() // path generator converts GeoJSON to SVG paths
             .projection(projection);  // tell path generator to use albersUsa projection
 
-        // map title
-        // map.append("text")
-        //     .attr("transform", "translate(100,0)")
-        //     .attr("x", width / 2 - 400)
-        //     .attr("y", 70)
-        //     .attr("font-size", "40px")
-        //     .style("fill", "dimgray")
-        //     .style("font-family", "comfortaa")
-        //     .text("ACA Rates by State")
-
         // Append Div for tooltip to SVG
         var tooltipDiv = d3.select("body")
             .append("div")
@@ -190,27 +173,24 @@
 
         // Load state population data
         d3.csv("data/2021-rates-sorted.csv", function (data) {
-            console.log(data);
 
             // create object that holds states and rateChanges
             let metricDataByState = {}
             data.forEach(d => {
                 metricDataByState[d["State"]] = +d["rateChange"] || 0
             })
-            console.log(metricDataByState)
 
             // create array of rateChanges
             const metricValues = Object.values(metricDataByState)
-            console.log(metricValues)
+
             // find min and max
             const metricValueExtent = d3.extent(metricValues)
-            console.log(metricValueExtent)
+
             // accessors hold name and id
             const stateNameAccessor = d => d.properties["name"]
             const stateIdAccessor = d => d.properties["id"]
 
             const maxChange = d3.max([-metricValueExtent[0], metricValueExtent[1]])
-            console.log(maxChange)
             const colorScale = d3.scaleLinear()
                 .domain([-13.1, -5, 3, 11.5])
                 .range(["darkgreen", "yellow", "orange", "crimson"])
@@ -299,11 +279,6 @@
                     .domain([-y0, y0])
                     .range([barsHeight, 0])
                     .nice();
-                // Append x axis  
-                // bounds.append("g")
-                //     .attr("transform", "translate(0," + barsHeight + ")")
-                //     .style("font-size", "10px")
-                //     .call(d3.axisBottom(xScale))
 
                 bounds.append("g")
                     .style("font-size", "14px")
@@ -329,7 +304,6 @@
                     .attr("width", xScale.bandwidth())
                     .attr("height", function (d) { return Math.abs(yScale(d.rateChange) - yScale(0)); })
                     .attr("fill", function (d, i) { return colorScale(d.rateChange); })
-
 
                 bounds.append("g")
                     .attr("class", "x axis")
@@ -413,18 +387,6 @@
                 .attr("y", legendHeight / 2)
                 .text("Decrease")
                 .style("text-anchor", "end")
-
-            // var div2 = d3.select("body")
-            //     .append("div")
-            //     .attr("class", "fixedDiv2")
-            // div2.html("More text about the ACA...")
-            //     .style("top", svgPosition.offsetTop - 1050 + "px")
-
-            /*
-            vertical bar graph with negative values rendering below the X axis and positive above
-            fill color uses colorScale 
-*/
-
 
         })
     </script>

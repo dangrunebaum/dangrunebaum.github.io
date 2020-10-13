@@ -1,0 +1,123 @@
+body {
+    background-color: rgb(183, 227, 241);
+    font-family: 'Source Sans Pro', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+#map {
+    background-color: rgb(183, 227, 241);
+    margin: 0;
+    padding: 0;
+    height: auto;
+    width: 100%;
+}
+
+/* Style text div */
+.fixedDiv {
+    position: absolute;
+    padding: 6px;
+    border-radius: 4px;
+    color: whitesmoke;
+    width: 250px;
+    height: 575px;
+    text-align: justify;
+    font-size: 24px;
+    font-family: Comfortaa;
+}
+
+/* On mouse hover, lighten state color */
+path:hover {
+    transition: 0.5;
+    fill-opacity: .7;
+}
+
+/* Style for Custom Tooltip */
+.tooltip {
+    position: absolute;
+    text-align: left;
+    max-width: auto;
+    height: 25;
+    /* font-family: Comfortaa; */
+    font-size: 16px;
+    font-variant: small-caps;
+    background: whitesmoke;
+    color: black;
+    border: 0px;
+    border-radius: 4px;
+    padding: 4px;
+    pointer-events: none;
+    box-shadow: 4px 8px 20px rgba(0, 0, 0, .5);
+    overflow: hidden;
+}
+
+/* Header position, image and style */
+header {
+    padding-top: 50px;
+    position: relative;
+    height: auto;
+    width: 100%;
+    background: url("test-tubes.jpg") no-repeat fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    text-align: center;
+    /* font-family: Comfortaa; */
+}
+
+/* Wrapper for header div */
+#wrapper {
+    margin-top: 250px;
+}
+
+/* Position and style title */
+#title {
+    width: 70%;
+    text-align: center;
+    /* font-family: Comfortaa; */
+    font-size: 100px;
+    font-weight: 900;
+    color: white;
+    background-color: rgba(0, 255, 225, 0.813);
+    padding: 8px;
+    display: inline-block;
+}
+
+/* Position and style subtitle */
+#subtitle {
+    width: 52%;
+    /* font-family: Comfortaa; */
+    text-align: center;
+    font-size: 40px;
+    font-weight: 700;
+    color: white;
+    background-color: rgba(17, 0, 255, 0.628);
+    padding: 8px;
+    display: inline-block;
+}
+
+/* Position and style map title */
+#map-title {
+    position: relative;
+    top: 100px;
+    text-align: center;
+    display: inline-block;
+    background-color: rgb(183, 227, 241);
+    color: dimgray;
+    font-size: 40px;
+    /* font-family: Comfortaa; */
+}
+
+/* Position and style map title */
+/* #legend {
+    position: relative;
+    bottom: 100px;
+} */
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    stroke-width: 0.5px;
+    shape-rendering: crispEdges;
+}
