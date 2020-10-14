@@ -120,12 +120,11 @@
             stroke-width: 0.5px;
             shape-rendering: crispEdges;
         }
-
     </style>
 
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap"
         rel="stylesheet">
-    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
 
 </head>
 
@@ -144,35 +143,41 @@
 
     <script>
 
-        // Set the dimensions of the canvas / graph
-        var margin = { top: 100, right: 20, bottom: 100, left: 100 },
-            width = window.innerWidth * 0.9 - margin.left - margin.right,
-            height = 950 - margin.top - margin.bottom;
-        // height of bar chart 
-        var barsHeight = width * 0.1;
-        // Create map 
-        var map = d3.select("#map")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+        const dataPromise = d3.csv("./data/2021-rates-sorted.csv");// Load data
+        const mapPromise = d3.json("./data/us-states.json");// Load map
+        Promise.all([dataPromise, mapPromise]).then(function (values) {
+            ready(values)
+        });
 
-        // D3 Projection d3.geoAlbers()?
-        var projection = d3.geoAlbersUsa()
-            .translate([width / 2, height / 2])    // translate to center of screen
-            .scale([1250]);          // scale things down so see entire US
+        function ready([data, map]) {
+            console.log(map)
 
-        // Define path generator
-        var path = d3.geoPath() // path generator converts GeoJSON to SVG paths
-            .projection(projection);  // tell path generator to use albersUsa projection
+            // Set the dimensions of the canvas / graph
+            var margin = { top: 100, right: 20, bottom: 100, left: 100 },
+                width = window.innerWidth * 0.9 - margin.left - margin.right,
+                height = 950 - margin.top - margin.bottom;
+            // height of bar chart 
+            var barsHeight = width * 0.1;
+            // Create map 
+            var map1 = d3.select("#map")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
 
-        // Append Div for tooltip to SVG
-        var tooltipDiv = d3.select("body")
-            .append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0);
+            // D3 Projection d3.geoAlbers()?
+            var projection = d3.geoAlbersUsa()
+                .translate([width / 2, height / 2])    // translate to center of screen
+                .scale([1250]);          // scale things down so see entire US
 
-        // Load state population data
-        d3.csv("data/2021-rates-sorted.csv", function (data) {
+            // Define path generator
+            var path = d3.geoPath() // path generator converts GeoJSON to SVG paths
+                .projection(projection);  // tell path generator to use albersUsa projection
+
+            // Append Div for tooltip to SVG
+            var tooltipDiv = d3.select("body")
+                .append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
 
             // create object that holds states and rateChanges
             let metricDataByState = {}
@@ -195,200 +200,158 @@
                 .domain([-13.1, -5, 3, 11.5])
                 .range(["darkgreen", "yellow", "orange", "crimson"])
 
-            // Load GeoJSON data and merge with states data
-            d3.json("data/us-states.json", function (json) {
+            // Loop through each state data value in the .csv file
+            for (var i = 0; i < data.length; i++) {
 
-                // Loop through each state data value in the .csv file
-                for (var i = 0; i < data.length; i++) {
+                // Grab State Name
+                var dataState = data[i].State;
 
-                    // Grab State Name
-                    var dataState = data[i].State;
+                // Grab data value 
+                var dataValue = data[i].rateChange / 100;
 
-                    // Grab data value 
-                    var dataValue = data[i].rateChange / 100;
+                // Find the corresponding state inside the GeoJSON
+                for (var j = 0; j < map.features.length; j++) {
+                    var mapState = map.features[j].properties.name;
 
-                    // Find the corresponding state inside the GeoJSON
-                    for (var j = 0; j < json.features.length; j++) {
-                        var jsonState = json.features[j].properties.name;
+                    if (dataState == mapState) {
 
-                        if (dataState == jsonState) {
-
-                            // Copy the data value into the JSON
-                            json.features[j].properties.rateChange = dataValue;
-                            json.features[j].properties.State = dataState;
-                            // Stop looking through the JSON
-                            // break;
-                        }
+                        // Copy the data value into the JSON
+                        map.features[j].properties.rateChange = dataValue;
+                        map.features[j].properties.State = dataState;
+    
                     }
                 }
+            }
 
-                // Bind the data to the SVG and create one path per GeoJSON feature
-                map = map.selectAll("path")
-                    .data(json.features)
-                    .enter()
-                    .append("path")
-                    .attr("d", path)
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-                    .style("stroke", "#fff")
-                    .style("stroke-width", "1.0")
-                    .attr("fill",
-                        d => {
-                            const rateChange = d.properties.rateChange;
-                            // const metricValue = metricDataByState[stateIdAccessor(d)]
-                            if (rateChange == "0") {
-                                return "whitesmoke"
-                            } else {
-                                return colorScale(rateChange * 100)
-                            }
-                        })
-                    .on("mouseover", function (d) {
-                        var rateChange = d.properties.rateChange;
-                        var tooltipState = d.properties.State;
-                        tooltipDiv.transition()
-                            .duration(200)
-                            .style("opacity", .9);
-                        //    div.text(tooltipState)
-                        tooltipDiv.html(tooltipState + "<br/>" + Math.round(rateChange * 10000) / 100 + "%")
-                            .style("left", (d3.event.pageX) + "px")
-                            .style("top", (d3.event.pageY - 48) + "px");
+            // Bind the data to the SVG and create one path per GeoJSON feature
+            map1 = map1.selectAll("path")
+                .data(map.features)
+                .enter()
+                .append("path")
+                .attr("d", path)
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .style("stroke", "#fff")
+                .style("stroke-width", "1.0")
+                .attr("fill",
+                    d => {
+                        const rateChange = d.properties.rateChange;
+                        // const metricValue = metricDataByState[stateIdAccessor(d)]
+                        if (rateChange == "0") {
+                            return "whitesmoke"
+                        } else {
+                            return colorScale(rateChange * 100)
+                        }
                     })
+                .on("mouseover", function (d) {
+                    var rateChange = d.properties.rateChange;
+                    var tooltipState = d.properties.State;
+                    tooltipDiv.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    //    div.text(tooltipState)
+                    tooltipDiv.html(tooltipState + "<br/>" + Math.round(rateChange * 10000) / 100 + "%")
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY - 48) + "px");
+                })
 
-                    // fade out tooltip on mouse out               
-                    .on("mouseout", function (d) {
-                        tooltipDiv.transition()
-                            .duration(500)
-                            .style("opacity", 0);
+                // fade out tooltip on mouse out               
+                .on("mouseout", function (d) {
+                    tooltipDiv.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                });
+
+            // bar chart begins here
+            const bars = d3.select("#bars")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", barsHeight + margin.top + margin.bottom)
+
+            const bounds = bars.append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            const xScale = d3.scaleBand()
+                .domain(data.map(function (d) { return d.State; }))
+                .range([0, width]).padding(0.1);
+
+            var y0 = Math.abs(d3.max(data, function (d) { return d.rateChange; }));
+
+            const yScale = d3.scaleLinear()
+                .domain([-y0, y0])
+                .range([barsHeight, 0])
+                .nice();
+
+            bounds.append("g")
+                .style("font-size", "14px")
+                .call(d3.axisLeft(yScale).ticks(10))
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 0)
+                .attr("x", -50)
+                .attr("dy", "-3.1em")
+                .attr("text-anchor", "end")
+                .attr("fill", "black")
+                .style("font-size", "12px")
+                .text("Percent Change");
+
+            bounds.selectAll(".bar")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .on("mouseover", onMouseOver1) //Add listener for the mouseover event
+                .on("mouseout", onMouseOut1)   //Add listener for the mouseout event
+                .attr("x", function (d) { return xScale(d.State); })
+                .attr("y", function (d) { return yScale(Math.max(0, d.rateChange)); })
+                .attr("width", xScale.bandwidth())
+                .attr("height", function (d) { return Math.abs(yScale(d.rateChange) - yScale(0)); })
+                .attr("fill", function (d, i) { return colorScale(d.rateChange); })
+
+            bounds.append("g")
+                .attr("class", "x axis")
+                .append("line")
+                .attr("y1", yScale(0))
+                .attr("y2", yScale(0))
+                .attr("x1", 0)
+                .attr("x2", width);
+
+            // mouseover event handler function
+            function onMouseOver1(d, i) {
+                d3.select(this).attr('class', 'highlight');
+                d3.select(this)
+                    .transition()     // adds animation
+                    .duration(400)
+                    .attr('stroke', 'whitesmoke')
+                // .attr("y", function (d) { return yScale(d.rateChange) - 10; })
+                // .attr("height", function (d) { return height - yScale(d.rateChange) + 10; });
+
+                bounds.append("text")
+                    .attr('class', 'val')
+                    // .attr("font-size", "16px")
+                    .style("stroke", "none")
+                    .style("fill", "black")
+                    .attr('x', 20)
+                    .attr('y', 10)
+                    .style("font-size", "20px")
+                    // .attr("transform", "rotate(90)")
+                    // .style("text-anchor", "start")
+                    .text(function () {
+                        return [d.State];  // Value of the text
                     });
+            }
 
-                // bar chart begins here
-                const bars = d3.select("#bars")
-                    .append("svg")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", barsHeight + margin.top + margin.bottom)
+            //mouseout event handler function
+            function onMouseOut1(d, i) {
+                // use the text label class to remove label on mouseout
+                d3.select(this).attr('class', 'bar');
+                d3.select(this)
+                    .transition()     // animate mouseout 
+                    .duration(400)
+                    .attr('stroke', 'none')
+                d3.selectAll('.val')
+                    .remove()
+            }
+        }
 
-                const bounds = bars.append("g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-                const xScale = d3.scaleBand()
-                    .domain(data.map(function (d) { return d.State; }))
-                    .range([0, width]).padding(0.1);
-
-                var y0 = Math.abs(d3.max(data, function (d) { return d.rateChange; }));
-
-                const yScale = d3.scaleLinear()
-                    .domain([-y0, y0])
-                    .range([barsHeight, 0])
-                    .nice();
-
-                bounds.append("g")
-                    .style("font-size", "14px")
-                    .call(d3.axisLeft(yScale).ticks(10))
-                    .append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", 0)
-                    .attr("x", -50)
-                    .attr("dy", "-3.1em")
-                    .attr("text-anchor", "end")
-                    .attr("fill", "black")
-                    .style("font-size", "12px")
-                    .text("Percent Change");
-
-                bounds.selectAll(".bar")
-                    .data(data)
-                    .enter().append("rect")
-                    .attr("class", "bar")
-                    .on("mouseover", onMouseOver1) //Add listener for the mouseover event
-                    .on("mouseout", onMouseOut1)   //Add listener for the mouseout event
-                    .attr("x", function (d) { return xScale(d.State); })
-                    .attr("y", function (d) { return yScale(Math.max(0, d.rateChange)); })
-                    .attr("width", xScale.bandwidth())
-                    .attr("height", function (d) { return Math.abs(yScale(d.rateChange) - yScale(0)); })
-                    .attr("fill", function (d, i) { return colorScale(d.rateChange); })
-
-                bounds.append("g")
-                    .attr("class", "x axis")
-                    .append("line")
-                    .attr("y1", yScale(0))
-                    .attr("y2", yScale(0))
-                    .attr("x1", 0)
-                    .attr("x2", width);
-
-                // mouseover event handler function
-                function onMouseOver1(d, i) {
-                    d3.select(this).attr('class', 'highlight');
-                    d3.select(this)
-                        .transition()     // adds animation
-                        .duration(400)
-                        .attr('stroke', 'whitesmoke')
-                    // .attr("y", function (d) { return yScale(d.rateChange) - 10; })
-                    // .attr("height", function (d) { return height - yScale(d.rateChange) + 10; });
-
-                    bounds.append("text")
-                        .attr('class', 'val')
-                        // .attr("font-size", "16px")
-                        .style("stroke", "none")
-                        .style("fill", "black")
-                        .attr('x', 20)
-                        .attr('y', 10)
-                        .style("font-size", "20px")
-                        // .attr("transform", "rotate(90)")
-                        // .style("text-anchor", "start")
-                        .text(function () {
-                            return [d.State];  // Value of the text
-                        });
-                }
-
-                //mouseout event handler function
-                function onMouseOut1(d, i) {
-                    // use the text label class to remove label on mouseout
-                    d3.select(this).attr('class', 'bar');
-                    d3.select(this)
-                        .transition()     // animate mouseout 
-                        .duration(400)
-                        .attr('stroke', 'none')
-                    d3.selectAll('.val')
-                        .remove()
-                }
-            });
-
-
-            const legendGroup = map.append("g")
-                .style("transform", `translate(${100}px, ${800}px)`)
-
-            const defs = legendGroup.append("defs")
-            const legendGradientId = "legend-gradient"
-            // const gradient = 
-            defs.append("linearGradient")
-                .attr("id", legendGradientId)
-                .selectAll("stop")
-                .data(colorScale.range())
-                .enter().append("stop")
-                .attr("stop-color", d => d)
-                .attr("offset", (d, i) => `${i * 100 / 4
-                    }%`)
-
-            const legendWidth = 400
-            const legendHeight = 50
-
-            legendGroup.append("rect")
-                .attr("height", legendHeight)
-                .attr("width", legendWidth)
-                .style("fill", `url(#${legendGradientId})`)
-
-            const legendValueRight = legendGroup.append("text")
-                .attr("class", "legend-value")
-                .attr("x", legendWidth + 10)
-                .attr("y", legendHeight / 2 )
-                .text("Increase")
-
-            const legendValueLeft = legendGroup.append("text")
-                .attr("class", "legend-value")
-                .attr("x", legendWidth - 410)
-                .attr("y", legendHeight / 2)
-                .text("Decrease")
-                .style("text-anchor", "end")
-
-        })
     </script>
 </body>
 
