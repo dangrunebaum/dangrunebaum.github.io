@@ -206,8 +206,11 @@
                 // Grab State Name
                 var dataState = data[i].State;
 
-                // Grab data value 
+                // Grab percent change value 
                 var dataValue = data[i].rateChange / 100;
+
+                 // Grab average cost value 
+                 var averageCost = data[i].AverageCost;
 
                 // Find the corresponding state inside the GeoJSON
                 for (var j = 0; j < map.features.length; j++) {
@@ -217,12 +220,13 @@
 
                         // Copy the data value into the JSON
                         map.features[j].properties.rateChange = dataValue;
+                        map.features[j].properties.averageCost = averageCost;
                         map.features[j].properties.State = dataState;
     
                     }
                 }
             }
-
+console.log(map)
             // Bind the data to the SVG and create one path per GeoJSON feature
             map1 = map1.selectAll("path")
                 .data(map.features)
@@ -244,12 +248,13 @@
                     })
                 .on("mouseover", function (d) {
                     var rateChange = d.properties.rateChange;
+                    var averageCost = d.properties.averageCost;
                     var tooltipState = d.properties.State;
                     tooltipDiv.transition()
                         .duration(200)
                         .style("opacity", .9);
                     //    div.text(tooltipState)
-                    tooltipDiv.html(tooltipState + "<br/>" + Math.round(rateChange * 10000) / 100 + "%")
+                    tooltipDiv.html(tooltipState + "<br/>" + "Rate Change: " + Math.round(rateChange * 10000) / 100 + "%" + "<br/>" + "Average Cost: " +  "$" + averageCost)
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 48) + "px");
                 })

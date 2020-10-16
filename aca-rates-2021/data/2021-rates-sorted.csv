@@ -1,52 +1,52 @@
-State,rateChange
-Maine,-13.1
-Virginia,-7.2
-Wisconsin,-5.2
-Pennsylvania,-2.6
-Hawaii,-1.7
-Delaware,-0.5
-Alaska,0
-Connecticut,0
-Illinois,0
-Iowa,0
-Kansas,0
-Louisiana,0
-Maryland,0
-Massachusetts,0
-Mississippi,0
-New Jersey,0
-North Dakota,0
-Oregon,0
-South Carolina,0
-South Dakota,0
-Texas,0
-Utah,0
-Washington,0
-West Virginia,0
-Wyoming,0
-District of Columbia,0.2
-California,0.6
-Idaho,1
-Arizona,1.1
-Michigan,1.3
-Montana,1.4
-Florida,1.8
-New York,1.8
-Minnesota,2
-Colorado,2.2
-Oklahoma,2.7
-Ohio,3.2
-Vermont,3.5
-North Carolina,4
-Missouri,4.7
-Georgia,4.8
-Rhode Island,5
-Tennessee,5
-Alabama,5.1
-Nebraska,5.4
-Nevada,6.3
-Arkansas,7
-New Mexico,9.9
-Indiana,10.2
-New Hampshire,11.5
-Kentucky,11.6
+State,rateChange,AverageCost
+Maine,-13.1,8280
+Virginia,-7.2,8832
+Wisconsin,-5.2,7008
+Pennsylvania,-2.6,6452
+Hawaii,-1.7,6874
+Delaware,-0.5,5784
+Alaska,0,8209
+Connecticut,0,7924
+Illinois,0,6204
+Iowa,0,7104
+Kansas,0,7068
+Louisiana,0,7536
+Maryland,0,6376
+Massachusetts,0,7596
+Mississippi,0,7134
+New Jersey,0,9816
+North Dakota,0,7608
+Oregon,0,7405
+South Carolina,0,8088
+South Dakota,0,6622
+Texas,0,5338
+Utah,0,4836
+Washington,0,5724
+West Virginia,0,5423
+Wyoming,0,7224
+District of Columbia,0.2,7572
+California,0.6,6926
+Idaho,1,9072
+Arizona,1.1,6193
+Michigan,1.3,6300
+Montana,1.4,6636
+Florida,1.8,5700
+New York,1.8,7159
+Minnesota,2,7872
+Colorado,2.2,5352
+Oklahoma,2.7,6216
+Ohio,3.2,7625
+Vermont,3.5,6800
+North Carolina,4,7716
+Missouri,4.7,5184
+Georgia,4.8,7320
+Rhode Island,5,5004
+Tennessee,5,7644
+Alabama,5.1,6336
+Nebraska,5.4,5004
+Nevada,6.3,7723
+Arkansas,7,7632
+New Mexico,9.9,6084
+Indiana,10.2,11808
+New Hampshire,11.5,7836
+Kentucky,11.6,11484
