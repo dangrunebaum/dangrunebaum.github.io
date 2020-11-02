@@ -4,15 +4,19 @@
 <head>
     <style>
         body {
-            background-color: rgb(183, 227, 241);
+            /* background-color: rgb(183, 227, 241); */
             font-family: 'Source Sans Pro', sans-serif;
             margin: 0;
             padding: 0;
             text-align: center;
         }
 
+        .banner {
+            width: 100%;
+        }
+
         #map {
-            background-color: rgb(183, 227, 241);
+            /* background-color: rgb(183, 227, 241); */
             margin: 0;
             padding: 0;
             height: auto;
@@ -20,7 +24,7 @@
         }
 
         /* Style text div */
-        .fixedDiv {
+        /* .fixedDiv {
             position: absolute;
             padding: 6px;
             border-radius: 4px;
@@ -30,7 +34,7 @@
             text-align: justify;
             font-size: 24px;
             font-family: Comfortaa;
-        }
+        } */
 
         /* On mouse hover, lighten state color */
         path:hover {
@@ -46,7 +50,7 @@
             height: 25;
             /* font-family: Comfortaa; */
             font-size: 16px;
-            font-variant: small-caps;
+            /* font-variant: small-caps; */
             background: whitesmoke;
             color: black;
             border: 0px;
@@ -59,14 +63,14 @@
 
         /* Header position, image and style */
         header {
-            padding-top: 50px;
-            position: relative;
-            height: auto;
-            width: 100%;
-            background: url("test-tubes.jpg") no-repeat fixed;
-            background-size: cover;
-            background-repeat: no-repeat;
-            text-align: center;
+            /* padding-top: 50px; */
+            position: fixed;
+            /* height: auto;  */
+            /* width: 100%; */
+            background: url("healthcare.com-banner.png") no-repeat fixed;
+            /* background-size: cover; */
+            /* background-repeat: no-repeat;
+            text-align: center; */
             /* font-family: Comfortaa; */
         }
 
@@ -102,15 +106,22 @@
         }
 
         /* Position and style map title */
-        #map-title {
+        #headline {
             position: relative;
             top: 100px;
             text-align: center;
             display: inline-block;
-            background-color: rgb(183, 227, 241);
+            /* background-color: rgb(183, 227, 241); */
             color: dimgray;
             font-size: 40px;
             /* font-family: Comfortaa; */
+        }
+
+        /* style and position bars */
+        #bars {
+            position: relative;
+            /* text-align: center; */
+            /* bottom: 200px; */
         }
 
         .axis path,
@@ -119,6 +130,39 @@
             stroke: #000;
             stroke-width: 0.5px;
             shape-rendering: crispEdges;
+        }
+
+        /* style article */
+        .article1 {
+            width: 50%;
+            font-size: larger;
+            font-weight: lighter;
+            text-align: left;
+            margin: 100px 25% 0% 25%;
+            line-height: normal;
+        }
+
+        .article2 {
+            position: relative;
+            top: -200px;
+            width: 50%;
+            font-size: larger;
+            font-weight: lighter;
+            text-align: left;
+            margin: 100px 0% 0% 25%;
+            line-height: normal;
+        }
+
+
+        .mapTitle {
+            font-size: 48px;
+            text-align: left;
+        }
+
+        .highlight {
+            transition: 0.3;
+            opacity: 0.5;
+            /* fill: lightgray; */
         }
     </style>
 
@@ -131,15 +175,89 @@
 <body>
     <!-- Header elements -->
     <header>
-        <div id="wrapper">
-            <span id="title">ACA RATE CHANGES 2021</span>
-            <p id="subtitle">Affordable Care Act Health Insurance Policy Rate Changes in 2021.</p>
-        </div>
+        <!-- <div id="wrapper"> -->
+        <!-- <span id="title">ACA RATE CHANGES 2021</span>
+            <p id="subtitle">Affordable Care Act Health Insurance Policy Rate Changes in 2021.</p> -->
+        <!-- </div> -->
     </header>
-    <div id="map-title">2021 Health Insurance Premium Rate Changes by State</div>
+    <img class="banner" src="healthcare.com-banner.png" alt="" />
+    <h1 id="headline">Affordable Care Act Premiums Set to Hold Steady in 2021</h1>
+    <div class="article1">
+        <strong>
+
+
+            By Dan Grunebaum | Data Journalist |
+
+            Updated on: October 27th, 2020
+
+        </strong>
+        <p>
+            Premiums for health insurance plans offered under the Affordable Care Act are set to hold steady in 2021.
+        <p>
+
+            That’s happy news for the more than 10 million Americans who buy Affordable Care Act (or Obamacare or ACA)
+            plans each year.
+        </p>
+        As of October 16, final approved rate filings for 18 states show an average weighted increase of just 0.4%.
+
+    </div>
     <div id="map"></div>
-    <div id="legend"></div>
-    <div id="bars"></div>
+
+    <div class="article2">
+        <p>
+            The price stability comes despite COVID-19 and potential risks to the ACA as the Supreme Court takes up a
+            challenge to the law in November.
+        </p>
+        The price data comes from ACASignups.net, a website that tracks premium changes based on filings with state
+        regulators.
+
+        <p>
+            The Centers for Medicare & Medicaid Services (CMS) reports the average premium for the second lowest cost
+            silver
+            plan (also called the benchmark plan) dropped by 2% to $1,486 for a typical family of four in 2021.
+        </p>
+
+        </p>
+        <div id="bars"></div>
+
+        Factors behind rising rates include skyrocketing pharmaceutical costs, hospital mergers and conglomerates
+        absorbing doctor practices.
+        <p>
+            Rates can drop when states institute reinsurance programs that reduce unsubsidized premiums.
+        </p>
+        Fears had mounted that COVID-19 would cause rates to jump. But the virus turned out to be a non-event as far as
+        ACA premiums were concerned.
+        <p>
+            “This year’s biggest story is that back in spring there was concern COVID would cause premiums to
+            skyrocket,”
+            says Charles Gaba, who runs ACASignups.net. “But instead, it’s having a negligible impact because the
+            expected
+            increase is being canceled out by a reduction in nonessential services. People are putting off procedures.
+            And
+            it looks like it will carry over to next year.”
+        </p>
+        Gaba says it took time for insurers to figure out how to price the individual ACA markets.
+        “There were a few years when they were raising rates dramatically to match actual costs,”: he says. “It’s not so
+        much that costs skyrocketed – it’s that they used to deny coverage to people with preexisting conditions but
+        then they had to start covering a whole bunch of people they’d thrown under the bus.”
+        <p>
+            “Once they figured it out, they overcorrected and ended up raising prices too much,” Gaba added. “Then they
+            had
+            to bring them down to comply with the ACA’s cost rules.”
+        </p>
+        ACA insurance plans come in different price tiers bronze, silver, gold and platinum. The average weighted
+        projected premium for 2021 is ---, up or down --% on 2020.
+        <p>
+            Enrollment in the ACA has been stable in recent years. But Gaba says COVID-19 and the Supreme Court case
+            present
+            unknowns that could swing enrollment either way, scaring people off, or into signing up.
+        </p>
+        COVID-related unemployment is another factor that could impact this year’s enrollment. People who’ve lost
+        employee coverage may flock to the exchange. But, says Gaba, “There are also people on the exchange whose income
+        has dropped off, and may be shifted over to Medicaid. An influx on one side might be canceled out on the other.”
+
+    </div>
+
 
     <script>
 
@@ -151,18 +269,25 @@
 
         function ready([data, map]) {
             console.log(map)
-
+            console.log(data)
             // Set the dimensions of the canvas / graph
-            var margin = { top: 100, right: 20, bottom: 100, left: 100 },
-                width = window.innerWidth * 0.9 - margin.left - margin.right,
-                height = 950 - margin.top - margin.bottom;
-            // height of bar chart 
-            var barsHeight = width * 0.1;
+            var margin = { top: 50, right: 20, bottom: 50, left: 50 },
+                width = window.innerWidth - margin.left - margin.right,
+                height = width * 0.7 - margin.top - margin.bottom;
+
             // Create map 
             var map1 = d3.select("#map")
                 .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
+
+            // map title
+            map1.append("text")
+                .attr("class", "mapTitle")
+                .attr("x", width / 2 - 200)
+                .attr("y", 150)
+                .style("fill", "dimgray")
+                .text("2021 ACA Premium Map")
 
             // D3 Projection d3.geoAlbers()?
             var projection = d3.geoAlbersUsa()
@@ -196,10 +321,11 @@
             const stateIdAccessor = d => d.properties["id"]
 
             const maxChange = d3.max([-metricValueExtent[0], metricValueExtent[1]])
+            // const colorScale = d3.scaleSequential(d3.interpolateViridis)
+            //     .domain([-13.1, 11.5])
             const colorScale = d3.scaleLinear()
-                .domain([-13.1, -5, 3, 11.5])
-                .range(["darkgreen", "yellow", "orange", "crimson"])
-
+                .domain([-13.1, 10.2])
+                .range(["#487494", "#FFA45A"])
             // Loop through each state data value in the .csv file
             for (var i = 0; i < data.length; i++) {
 
@@ -209,8 +335,11 @@
                 // Grab percent change value 
                 var dataValue = data[i].rateChange / 100;
 
-                 // Grab average cost value 
-                 var averageCost = data[i].AverageCost;
+                // Grab average cost value 
+                var averageCost = data[i].AverageCost;
+
+                // Grab state status 
+                var status = data[i].status;
 
                 // Find the corresponding state inside the GeoJSON
                 for (var j = 0; j < map.features.length; j++) {
@@ -222,11 +351,12 @@
                         map.features[j].properties.rateChange = dataValue;
                         map.features[j].properties.averageCost = averageCost;
                         map.features[j].properties.State = dataState;
-    
+                        map.features[j].properties.status = status;
+
                     }
                 }
             }
-console.log(map)
+            console.log(map)
             // Bind the data to the SVG and create one path per GeoJSON feature
             map1 = map1.selectAll("path")
                 .data(map.features)
@@ -241,7 +371,7 @@ console.log(map)
                         const rateChange = d.properties.rateChange;
                         // const metricValue = metricDataByState[stateIdAccessor(d)]
                         if (rateChange == "0") {
-                            return "whitesmoke"
+                            return "lightgray"
                         } else {
                             return colorScale(rateChange * 100)
                         }
@@ -250,13 +380,25 @@ console.log(map)
                     var rateChange = d.properties.rateChange;
                     var averageCost = d.properties.averageCost;
                     var tooltipState = d.properties.State;
+                    var status = d.properties.status;
                     tooltipDiv.transition()
                         .duration(200)
-                        .style("opacity", .9);
+                        .style("opacity", .9)
+                    // .attr("classed", "stateHover");
                     //    div.text(tooltipState)
-                    tooltipDiv.html(tooltipState + "<br/>" + "Rate Change: " + Math.round(rateChange * 10000) / 100 + "%" + "<br/>" + "Average Cost: " +  "$" + averageCost)
-                        .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY - 48) + "px");
+                    if (status === "Approved") {
+                        tooltipDiv.html(tooltipState + "<br/>" + "Rate Change: "
+                            + Math.round(rateChange * 10000) / 100 + "% " + '(Approved)'
+                            + "<br/>" + "Average Cost: " + "$" + averageCost)
+                            .style("left", (d3.event.pageX) + "px")
+                            .style("top", (d3.event.pageY - 48) + "px");
+                    } else {
+                        tooltipDiv.html(tooltipState + "<br/>" + "Rate Change: "
+                            + Math.round(rateChange * 10000) / 100 + "%"
+                            + "<br/>" + "Average Cost: " + "$" + averageCost)
+                            .style("left", (d3.event.pageX) + "px")
+                            .style("top", (d3.event.pageY - 48) + "px");
+                    }
                 })
 
                 // fade out tooltip on mouse out               
@@ -266,7 +408,12 @@ console.log(map)
                         .style("opacity", 0);
                 });
 
+
             // bar chart begins here
+            // height of bar chart 
+            // const legendGroup = wrapper.append("g")
+            var barsHeight = height * 0.2;
+
             const bars = d3.select("#bars")
                 .append("svg")
                 .attr("width", width + margin.left + margin.right)
@@ -277,7 +424,7 @@ console.log(map)
 
             const xScale = d3.scaleBand()
                 .domain(data.map(function (d) { return d.State; }))
-                .range([0, width]).padding(0.1);
+                .range([0, width * 0.5]).padding(0.1);
 
             var y0 = Math.abs(d3.max(data, function (d) { return d.rateChange; }));
 
@@ -317,7 +464,7 @@ console.log(map)
                 .attr("y1", yScale(0))
                 .attr("y2", yScale(0))
                 .attr("x1", 0)
-                .attr("x2", width);
+                .attr("x2", width * 0.5);
 
             // mouseover event handler function
             function onMouseOver1(d, i) {
@@ -325,22 +472,31 @@ console.log(map)
                 d3.select(this)
                     .transition()     // adds animation
                     .duration(400)
-                    .attr('stroke', 'whitesmoke')
+
+                // .attr('stroke', 'whitesmoke')
                 // .attr("y", function (d) { return yScale(d.rateChange) - 10; })
                 // .attr("height", function (d) { return height - yScale(d.rateChange) + 10; });
 
                 bounds.append("text")
                     .attr('class', 'val')
-                    // .attr("font-size", "16px")
                     .style("stroke", "none")
                     .style("fill", "black")
                     .attr('x', 20)
-                    .attr('y', 10)
-                    .style("font-size", "20px")
-                    // .attr("transform", "rotate(90)")
-                    // .style("text-anchor", "start")
+                    .attr('y', 0)
+                    .style("font-size", "14px")
                     .text(function () {
                         return [d.State];  // Value of the text
+                    });
+
+                    bounds.append("text")
+                    .attr('class', 'val')
+                    .style("stroke", "none")
+                    .style("fill", "black")
+                    .attr('x', 20)
+                    .attr('y', 15)
+                    .style("font-size", "14px")
+                    .html(function () {
+                        return [d.rateChange] + '%';  // Value of the text
                     });
             }
 
