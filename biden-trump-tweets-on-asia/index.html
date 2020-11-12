@@ -29,55 +29,42 @@
             transform: translate3D(0, 2px, 0);
         }
 
-        /*         
-        .tooltip:before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 12px;
-            height: 12px;
-            background: white;
-            border: 1px solid #ddd;
-            border-top-color: transparent;
-            border-left-color: transparent;
-            transform: translate(-50%, 50%) rotate(45deg);
-            transform-origin: center center;
-            z-index: 10;
-        } */
         #hero {
             width: 100%;
             height: auto;
         }
 
         button {
-            font-size: x-large;
+            font-size: large;
         }
 
-        #Biden {
+        #biden {
             background-color: #0542f7;
             position: relative;
             left: 100px;
+            bottom: 40px;
         }
 
-        #Reset {
+        #reset {
             position: relative;
-            left: 130px;
+            left: 170px;
+            bottom: 40px;
         }
 
-        #Trump {
+        #trump {
             background-color: rgba(217, 42, 42, 0.8);
             position: relative;
-            left: 160px;
+            left: 240px;
+            bottom: 40px;
         }
 
         #byCountry {
             background-color: rgb(113, 177, 113);
             position: relative;
-            left: 190px;
+            left: 550px;
         }
 
-        #Trump:hover {
+        #biden:hover {
             background-color: #b3b3b3;
             transition-timing-function: ease-out;
             transition: 0.2s;
@@ -85,7 +72,7 @@
             transform: translate3D(0, 2px, 0);
         }
 
-        #Biden:hover {
+        #reset:hover {
             background-color: #b3b3b3;
             transition-timing-function: ease-out;
             transition: 0.2s;
@@ -93,7 +80,7 @@
             transform: translate3D(0, 2px, 0);
         }
 
-        #Reset:hover {
+        #trump:hover {
             background-color: #b3b3b3;
             transition-timing-function: ease-out;
             transition: 0.2s;
@@ -115,10 +102,10 @@
 <div id="wrapper"></div>
 <div id="tooltip" class="tooltip"></div>
 <div id="tweet"></div>
-<button id="Biden">BIDEN</button>
-<button id="Reset">RESET</button>
-<button id="Trump">TRUMP</button>
-<button id="byCountry">COUNTRY</button>
+<button id="biden">BIDEN</button>
+<button id="reset">RESET</button>
+<button id="trump">TRUMP</button>
+<!-- <button id="byCountry">COUNTRY</button> -->
 
 <body>
     <script>
@@ -147,7 +134,7 @@
                 margin: {
                     top: 50,
                     right: 15,
-                    bottom: 50,
+                    bottom: 60,
                     left: 100,
                 },
             }
@@ -170,7 +157,7 @@
             // Text for axes
             bounds.append("text")
                 .attr("x", dimensions.width / 2)
-                .attr("y", dimensions.height - 50)
+                .attr("y", dimensions.height - 60)
                 .attr("fill", "#34495e")
                 .style("font-family", "Helvetica")
                 .style("font-size", "1.5em")
@@ -179,13 +166,12 @@
                 .html("Election Year 2020")
 
             bounds.append("text")
-                .attr("x", -400)
-                .attr("y", dimensions.width - 1400)
+                .attr("x", -250)
+                .attr("y", dimensions.width - dimensions.width - 60)
                 .attr("fill", "#34495e")
                 .style("font-family", "Helvetica")
                 .style("font-size", "1.5em")
                 .style('font-weight', "700")
-                .text("Retweets")
                 .style("transform", "rotate(-90deg)")
                 .style("text-anchor", "middle")
                 .html("Retweets")
@@ -251,16 +237,6 @@
                 .range([dimensions.boundedHeight, 0])
                 .nice()
 
-            // bounds.selectAll("circle")
-            // .style("fill", "pink")
-            // .transition()
-            // .delay(function (d, i) { return (i * 8) })
-            // .duration(2000)
-            // .attr("cx", d => xScale(xAccessor(d)))//calls d fat arrow function with value of one element in the dataset 
-            // .attr("cy", d => yScale(yAccessor(d)))
-
-            // const covidXPos = xScale(xAccessor("2019-1-20"))
-            // 
             bounds.append("rect")
                 .attr("x", 250)
                 .attr("y", 0)
@@ -339,7 +315,7 @@
                     .style("fill", "gray")
                     .style("pointer-events", "none")
 
-                // show tweets
+                // Show tweets
                 tooltip.html(tweet)
                     // Position tooltip 
                     .style("transform", `translate(`
@@ -348,7 +324,7 @@
                         + `)`)
                     .style("opacity", 1.0)
             }
-
+            // Remove tweets
             function onMouseLeave() {
                 d3.selectAll(".tooltipDot")
                     .transition()
@@ -357,16 +333,14 @@
                 tooltip.style("opacity", 0)
             }
 
-
-
             // Click handlers for Biden/Trump filter views 
-            d3.select("#Biden").on("click", function () {
+            d3.select("#biden").on("click", function () {
                 d3.selectAll(".dots")
                     .filter(function (d) { return d.person === "Trump"; })
                     .style("opacity", "0")
             })
 
-            d3.select("#Trump").on("click", function () {
+            d3.select("#trump").on("click", function () {
                 d3.selectAll(".dots")
                     .filter(function (d) { return d.person === "Biden"; })
                     .style("opacity", "0")
@@ -377,18 +351,7 @@
                     .style("opacity", "1.0")
             })
 
-
-            // d3.select("#reset").on("click", function () {
-            //     d3.selectAll(".dots")
-            //         .style("opacity", "1.0")
-            //         .style("fill", )
-
-
-
         }
 
-        /*
-        if (d.person === "Biden") d.retweets / )
-        */
     </script>
 </body>
