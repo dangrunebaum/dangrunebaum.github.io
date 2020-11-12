@@ -1,0 +1,394 @@
+<head>
+    <style>
+        .body {
+            font-family: 'Helvetica', sans-serif;
+        }
+
+        .tooltip {
+            opacity: 0;
+            padding: 0.6em 1em;
+            background: #fff;
+            color: dimgray;
+            max-width: 400px;
+            max-height: 400px;
+            text-align: left;
+            line-height: 1.4em;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1.5em;
+            font-weight: bold;
+            border: 2px solid #ddd;
+            border-radius: 2px;
+            z-index: 10;
+            /* transition: all 0.1s ease-out; */
+            pointer-events: none;
+            padding: 5px 7px 5px 7px !important;
+            font-size: 20px !important;
+            transition-timing-function: ease-out;
+            transition: 0.2s;
+            box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
+            transform: translate3D(0, 2px, 0);
+        }
+
+        /*         
+        .tooltip:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border: 1px solid #ddd;
+            border-top-color: transparent;
+            border-left-color: transparent;
+            transform: translate(-50%, 50%) rotate(45deg);
+            transform-origin: center center;
+            z-index: 10;
+        } */
+        #hero {
+            width: 100%;
+            height: auto;
+        }
+
+        button {
+            font-size: x-large;
+        }
+
+        #Biden {
+            background-color: #0542f7;
+            position: relative;
+            left: 100px;
+        }
+
+        #Reset {
+            position: relative;
+            left: 130px;
+        }
+
+        #Trump {
+            background-color: rgba(217, 42, 42, 0.8);
+            position: relative;
+            left: 160px;
+        }
+
+        #byCountry {
+            background-color: rgb(113, 177, 113);
+            position: relative;
+            left: 190px;
+        }
+
+        #Trump:hover {
+            background-color: #b3b3b3;
+            transition-timing-function: ease-out;
+            transition: 0.2s;
+            box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
+            transform: translate3D(0, 2px, 0);
+        }
+
+        #Biden:hover {
+            background-color: #b3b3b3;
+            transition-timing-function: ease-out;
+            transition: 0.2s;
+            box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
+            transform: translate3D(0, 2px, 0);
+        }
+
+        #Reset:hover {
+            background-color: #b3b3b3;
+            transition-timing-function: ease-out;
+            transition: 0.2s;
+            box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
+            transform: translate3D(0, 2px, 0);
+        }
+
+        #byCountry:hover {
+            background-color: #b3b3b3;
+            transition-timing-function: ease-out;
+            transition: 0.2s;
+            box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
+            transform: translate3D(0, 2px, 0);
+        }
+    </style>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<img src="ama-tweet-banner.png" alt="Biden vs Trump: A Year of Tweets on Asia" id="hero">
+<div id="wrapper"></div>
+<div id="tooltip" class="tooltip"></div>
+<div id="tweet"></div>
+<button id="Biden">BIDEN</button>
+<button id="Reset">RESET</button>
+<button id="Trump">TRUMP</button>
+<button id="byCountry">COUNTRY</button>
+
+<body>
+    <script>
+        // Indo-Pacific countries to filter tweets 
+        var conditions = ["Asia", "China", "Japan", "North Korea", "South Korea", "Mongolia", "Taiwan", "Hong Kong", "Brunei", "Cambodia", "Indonesia", "Laos", "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand", "Vietnam", "Timor-Leste", "Bangladesh", "Bhutan", "India", "Maldives", "Nepal", "Sri Lanka", "Oceania", "Australia", "Micronesia", "Fiji", "Kiribati", "Marshall Islands", "Nauru", "New Zealand", "Palau", "Papua New Guinea", "Samoa", "Solomon Islands", "Tonga", "Tuvalu", "Vanuatu"]
+
+        // var color2 = d3.scaleOrdinal()
+        //     .domain(["Asia", "China", "North Korea", "Japan", "Hong Kong", "South Korea", "Taiwan", "India", "Vietnam", "Thailand", "Indonesia", "Malaysia", "Singapore", "Philippines", "Sri Lanka", "Australia", "New Zealand", "Samoa"])
+        //     .range(["#384c5a", "#01aae9", "#dc3535", "#0ab493", "#EA899A", "#ed695a", "#996cb7", "#ff9459", "#800e2c", "#a3413c", "#969292", "#baca3e", "#119bf4", "#9B111E", "#E5BE01", "#A98307", "#F4A900", "#89AC76"])
+
+        // Load tweet data
+        const dataPromiseT = d3.json("./stdTrump.json");
+        const dataPromiseB = d3.json("./stdBiden.json");
+        Promise.all([dataPromiseT, dataPromiseB]).then(function (values) { // Filter for countries
+            const tweetData = values[0].concat(values[1]).filter(
+                obj => conditions.some(
+                    country => obj.tweet.includes(country)
+                )
+            )
+            ready(tweetData)
+        });
+        function ready(tweetData) {
+
+            let dimensions = {
+                width: window.innerWidth * 0.8, height: window.innerHeight * 0.9,
+                margin: {
+                    top: 50,
+                    right: 15,
+                    bottom: 50,
+                    left: 100,
+                },
+            }
+            dimensions.boundedWidth = dimensions.width - dimensions.margin.left
+                - dimensions.margin.right
+            dimensions.boundedHeight = dimensions.height - dimensions.margin.top
+                - dimensions.margin.bottom
+
+            const wrapper = d3.select("#wrapper")
+                .append("svg")
+                .attr("width", dimensions.width)
+                .attr("height", dimensions.height)
+
+            const bounds = wrapper.append("g")
+                .style("transform", `translate(${dimensions.margin.left
+                    }px, ${dimensions.margin.top
+                    }px)`)
+
+
+            // Text for axes
+            bounds.append("text")
+                .attr("x", dimensions.width / 2)
+                .attr("y", dimensions.height - 50)
+                .attr("fill", "#34495e")
+                .style("font-family", "Helvetica")
+                .style("font-size", "1.5em")
+                .style('font-weight', "700")
+                .style("text-anchor", "middle")
+                .html("Election Year 2020")
+
+            bounds.append("text")
+                .attr("x", -400)
+                .attr("y", dimensions.width - 1400)
+                .attr("fill", "#34495e")
+                .style("font-family", "Helvetica")
+                .style("font-size", "1.5em")
+                .style('font-weight', "700")
+                .text("Retweets")
+                .style("transform", "rotate(-90deg)")
+                .style("text-anchor", "middle")
+                .html("Retweets")
+
+
+            var dateParser = d3.timeParse("%Y-%m-%d");
+
+            // Initialize x and y accessor functions 
+            const xAccessor = d => dateParser(d.date);
+            const yAccessor = d => d.retweets;
+
+            // Add X axis at zero point 
+            var x = d3.scaleTime()
+                .domain([0, 0])
+                .range([0, 0]);
+            bounds.append("g")
+                .attr("class", "myXaxis") // Give a class to the X axis, to be able to call it later and modify it
+                .attr("transform", "translate(0," + dimensions.boundedHeight + ")")
+                .call(d3.axisBottom(x))
+                .attr("opacity", "0")
+            // Add Y axis
+            var y = d3.scaleLinear()
+                .domain(d3.extent(tweetData, yAccessor))
+                .range([dimensions.boundedHeight, 0]);
+            bounds.append("g")
+                .call(d3.axisLeft(y));
+
+            function drawDots(tweetData, color) {
+                bounds.append("g")
+                    .selectAll("dot")
+                    .data(tweetData)
+                    .enter()
+                    .append("circle")
+                    .attr("class", "dots")    
+                    .attr("cx", d => xScale(xAccessor(0)))//calls d fat arrow function with value of one element in the dataset 
+                    .attr("cy", d => yScale(yAccessor(d)))
+
+                    .attr("r", 5)
+                    .attr("fill", d => color(d.person))
+            }
+            function color(person) {
+                if (person === "Biden") return "#0542f7"
+                return "rgba(217, 42, 42, 0.8)"
+            }
+
+            // New X axis at data points 
+            x.domain(d3.extent(tweetData, xAccessor))
+            x.range([0, dimensions.boundedWidth])
+            bounds.select(".myXaxis")
+                .transition()
+                .duration(2000)
+                .attr("opacity", "1")
+                .call(d3.axisBottom(x));
+
+            // Initialize x and y scale functions 
+            const xScale = d3.scaleTime()
+                .domain(d3.extent(tweetData, xAccessor))
+                .range([0, dimensions.boundedWidth])
+                .nice()
+
+            const yScale = d3.scaleLinear()
+                .domain(d3.extent(tweetData, yAccessor))
+                .range([dimensions.boundedHeight, 0])
+                .nice()
+
+            // bounds.selectAll("circle")
+            // .style("fill", "pink")
+            // .transition()
+            // .delay(function (d, i) { return (i * 8) })
+            // .duration(2000)
+            // .attr("cx", d => xScale(xAccessor(d)))//calls d fat arrow function with value of one element in the dataset 
+            // .attr("cy", d => yScale(yAccessor(d)))
+
+            // const covidXPos = xScale(xAccessor("2019-1-20"))
+            // 
+            bounds.append("rect")
+                .attr("x", 250)
+                .attr("y", 0)
+                .attr("width", 1020)
+                .attr("height", dimensions.boundedHeight)
+                .style("fill", "pink")
+                .style("opacity", 0.1)
+
+            bounds.append("rect")
+                .attr("x", 00)
+                .attr("y", 0)
+                .attr("width", 250)
+                .attr("height", dimensions.boundedHeight)
+                .style("fill", "gray")
+                .style("opacity", 0.1)
+
+
+            // var img = bounds.append("image")
+            //     .attr('xlink:href', 'biden.svg')
+            //     .selectAll("img")
+            //     .data(tweetData)
+            //     .enter()
+            //     .append("img")
+            //     .attr('width', 5)
+            //     .attr('height', 5)
+            //     .attr("x", function (d) { return xScale(xAccessor(d)); })
+            //     .attr("y", function (d) { return yScale(yAccessor(d)); })
+
+            // Text for axes
+            bounds.append("text")
+                .attr("x", 250)
+                .attr("y", dimensions.height - dimensions.height - 5)
+                .attr("fill", "#34495e")
+                .style("font-family", "Helvetica")
+                .style("font-size", "1.2em")
+                .style('font-weight', "700")
+                .style("text-anchor", "start")
+                .html("‣ 1.20.2019 FIRST COVID-19 CASE IN US")
+
+
+            drawDots(tweetData, color)
+
+            bounds.selectAll("circle")
+                .transition()
+                .delay(function (d, i) { return (i * 4) })
+                .duration(2000)
+                .attr("cx", d => xScale(xAccessor(d)))//calls d fat arrow function with value of one element in the dataset 
+                .attr("cy", d => yScale(yAccessor(d)))
+
+            // Append Div for tooltip to SVG
+            const tooltip = d3.select("body")
+                .append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
+            // Mouse handlers 
+            bounds.selectAll("circle")
+                .on("mouseenter", onMouseEnter)
+                .on("mouseleave", onMouseLeave)
+            // Select tooltip  and  define  mouse function 
+            // const tooltip = d3.select("#tooltip")
+            function onMouseEnter(datum) {
+                var tweet = datum.tweet;
+
+                // Define x, y for rollover circles and tooltip 
+                const x1 = xScale(xAccessor(datum))
+                const y1 = yScale(yAccessor(datum))
+
+                const dayDot = bounds.append("circle")
+                    .attr("class", "tooltipDot")
+                    .attr("cx", xScale(xAccessor(datum)))
+                    .attr("cy", yScale(yAccessor(datum)))
+                    .transition()
+                    .duration(100)
+                    .attr("r", 8)
+                    .style("fill", "gray")
+                    .style("pointer-events", "none")
+
+                // show tweets
+                tooltip.html(tweet)
+                    // Position tooltip 
+                    .style("transform", `translate(`
+                        + `calc( ${x1}px + 70px),`
+                        + `calc(100% + ${y1}px - 1260px)`
+                        + `)`)
+                    .style("opacity", 1.0)
+            }
+
+            function onMouseLeave() {
+                d3.selectAll(".tooltipDot")
+                    .transition()
+                    .duration(200)
+                    .remove()
+                tooltip.style("opacity", 0)
+            }
+
+
+
+            // Click handlers for Biden/Trump filter views 
+            d3.select("#Biden").on("click", function () {
+                d3.selectAll(".dots")
+                    .filter(function (d) { return d.person === "Trump"; })
+                    .style("opacity", "0")
+            })
+
+            d3.select("#Trump").on("click", function () {
+                d3.selectAll(".dots")
+                    .filter(function (d) { return d.person === "Biden"; })
+                    .style("opacity", "0")
+            })
+
+            d3.select("#reset").on("click", function () {
+                d3.selectAll(".dots")
+                    .style("opacity", "1.0")
+            })
+
+
+            // d3.select("#reset").on("click", function () {
+            //     d3.selectAll(".dots")
+            //         .style("opacity", "1.0")
+            //         .style("fill", )
+
+
+
+        }
+
+        /*
+        if (d.person === "Biden") d.retweets / )
+        */
+    </script>
+</body>
