@@ -4,7 +4,20 @@
             font-family: 'Helvetica', sans-serif;
         }
 
+        h1 {
+            font-family: 'Helvetica', sans-serif;
+            font-size: xx-large;
+            text-align: center;
+            width: 100%;
+            color: #34495e;
+        }
+
+        .tick text {
+            font-size: larger;
+        }
+
         .tooltip {
+            overflow: hidden;
             opacity: 0;
             padding: 0.6em 1em;
             background: #fff;
@@ -46,6 +59,7 @@
         }
 
         #reset {
+            background-color: lightgray;
             position: relative;
             left: 170px;
             bottom: 40px;
@@ -95,6 +109,38 @@
             box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
             transform: translate3D(0, 2px, 0);
         }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+        }
+
+        #bidenCountries {
+            margin: 100px;
+        }
+
+
+        #trumpCountries {
+            margin: 100px;
+        }
+
+        #bidenIssues {
+            margin: 100px;
+        }
+
+
+        #trumpIssues {
+            margin: 100px;
+        }
+
+        svg.bubble {
+            background-color: rgba(128, 128, 128, 0.1);
+        }
+
+        .twitter-timeline {
+            margin: 200px;
+        }
     </style>
     <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
@@ -102,9 +148,33 @@
 <div id="wrapper"></div>
 <div id="tooltip" class="tooltip"></div>
 <div id="tweet"></div>
+
 <button id="biden">BIDEN</button>
 <button id="reset">RESET</button>
 <button id="trump">TRUMP</button>
+
+<h1>BIDEN VS TRUMP: TWEETS ON THE INDO-PACIFIC</h1>
+
+<div class="grid-container">
+
+    <div id="bidenCountries" class="grid1"></div>
+
+    <!-- <div id="bidenCountries" class="grid1"></div> -->
+
+    <div id="trumpCountries" class="grid2"></div>
+
+    <!-- <div id="trumpCountries" class="grid2"></div> -->
+</div>
+
+<h1>BIDEN VS TRUMP: TWEETS ON ISSUES</h1>
+
+<div class="grid-container">
+
+    <div id="bidenIssues" class="grid1"></div>
+    <div id="trumpIssues" class="grid2"></div>
+</div>
+<h1>LATEST TWEETS</h1>
+
 <!-- <button id="byCountry">COUNTRY</button> -->
 
 <body>
@@ -205,7 +275,7 @@
                     .data(tweetData)
                     .enter()
                     .append("circle")
-                    .attr("class", "dots")    
+                    .attr("class", "dots")
                     .attr("cx", d => xScale(xAccessor(0)))//calls d fat arrow function with value of one element in the dataset 
                     .attr("cy", d => yScale(yAccessor(d)))
 
@@ -237,22 +307,43 @@
                 .range([dimensions.boundedHeight, 0])
                 .nice()
 
-            bounds.append("rect")
-                .attr("x", 250)
-                .attr("y", 0)
-                .attr("width", 1020)
-                .attr("height", dimensions.boundedHeight)
-                .style("fill", "pink")
-                .style("opacity", 0.1)
+            const covidX = xScale(dateParser("2020-01-21"));
 
             bounds.append("rect")
-                .attr("x", 00)
+                .attr("x", 0)
                 .attr("y", 0)
-                .attr("width", 250)
+                .attr("width", covidX)
                 .attr("height", dimensions.boundedHeight)
                 .style("fill", "gray")
                 .style("opacity", 0.1)
 
+            bounds.append("rect")
+                .attr("x", covidX)
+                .attr("y", 0)
+                .attr("width", dimensions.boundedWidth - 250)
+                .attr("height", dimensions.boundedHeight)
+                .style("fill", "pink")
+                .style("opacity", 0.1)
+
+            bounds.append("line")
+                .attr("x1", covidX)
+                .attr("x2", covidX)
+                .attr("y1", 0)
+                .attr("y2", dimensions.boundedHeight)
+                .style("stroke", "gray")
+                .style("stroke-dasharray", ("3, 3"))
+                .style("stroke-width", 1);
+
+            // Text for axes
+            bounds.append("text")
+                .attr("x", covidX)
+                .attr("y", dimensions.height - dimensions.height - 5)
+                .attr("fill", "#34495e")
+                .style("font-family", "Helvetica")
+                .style("font-size", "1.2em")
+                .style('font-weight', "700")
+                .style("text-anchor", "start")
+                .html("‣ 1.20.2019 FIRST COVID-19 CASE IN US")
 
             // var img = bounds.append("image")
             //     .attr('xlink:href', 'biden.svg')
@@ -264,17 +355,6 @@
             //     .attr('height', 5)
             //     .attr("x", function (d) { return xScale(xAccessor(d)); })
             //     .attr("y", function (d) { return yScale(yAccessor(d)); })
-
-            // Text for axes
-            bounds.append("text")
-                .attr("x", 250)
-                .attr("y", dimensions.height - dimensions.height - 5)
-                .attr("fill", "#34495e")
-                .style("font-family", "Helvetica")
-                .style("font-size", "1.2em")
-                .style('font-weight', "700")
-                .style("text-anchor", "start")
-                .html("‣ 1.20.2019 FIRST COVID-19 CASE IN US")
 
 
             drawDots(tweetData, color)
@@ -307,8 +387,8 @@
 
                 const dayDot = bounds.append("circle")
                     .attr("class", "tooltipDot")
-                    .attr("cx", xScale(xAccessor(datum)))
-                    .attr("cy", yScale(yAccessor(datum)))
+                    .attr("cx", x1)
+                    .attr("cy", y1)
                     .transition()
                     .duration(100)
                     .attr("r", 8)
@@ -317,10 +397,12 @@
 
                 // Show tweets
                 tooltip.html(tweet)
+                    // .style("top", (event.pageY) + "px")
+                    // .style("left", (event.pageX) + "px")
                     // Position tooltip 
                     .style("transform", `translate(`
-                        + `calc( ${x1}px + 70px),`
-                        + `calc(100% + ${y1}px - 1260px)`
+                        + `calc( ${x1}px + 120px),`
+                        + `calc(100% + ${y1}px - 3000px)`
                         + `)`)
                     .style("opacity", 1.0)
             }
@@ -338,6 +420,7 @@
                 d3.selectAll(".dots")
                     .filter(function (d) { return d.person === "Trump"; })
                     .style("opacity", "0")
+                    .style("fill",)
             })
 
             d3.select("#trump").on("click", function () {
@@ -353,5 +436,573 @@
 
         }
 
+        // Biden Countries 
+        const bidenCountries = {
+            "children": [
+                {
+                    "Tag": "China",
+                    "Count": 36
+                },
+                {
+                    "Tag": "North Korea",
+                    "Count": 5
+                },
+                {
+                    "Tag": "Asia",
+                    "Count": 1
+                },
+                {
+                    "Tag": "Japan",
+                    "Count": 1
+                },
+                {
+                    "Tag": "Hong Kong",
+                    "Count": 10
+                },
+                {
+                    "Tag": "Taiwan",
+                    "Count": 3
+                },
+                {
+                    "Tag": "India",
+                    "Count": 2
+                },
+                {
+                    "Tag": "Vietnam",
+                    "Count": 1
+                },
+                {
+                    "Tag": "Malaysia",
+                    "Count": 1
+                },
+                {
+                    "Tag": "Singapore",
+                    "Count": 1
+                },
+                {
+                    "Tag": "Australia",
+                    "Count": 2
+                }
+            ]
+        };
+
+        bidenCountries.children.forEach(element => {
+            console.log(bidenCountries.children.Count);
+        });
+        // Diameter of invisible enclosing circle of OED word categories
+        const diameter = 500;
+        var color = d3.scaleOrdinal()
+            .domain(["Asia", "China", "North Korea", "Japan", "Hong Kong", "South Korea", "Taiwan", "India", "Vietnam", "Thailand", "Indonesia", "Malaysia", "Singapore", "Philippines", "Sri Lanka", "Australia", "New Zealand", "Samoa"])
+            .range(["#384c5a", "#01aae9", "#dc3535", "#0ab493", "#EA899A", "#ed695a", "#996cb7", "#ff9459", "#800e2c", "#a3413c", "#969292", "#baca3e", "#119bf4", "#9B111E", "#E5BE01", "#A98307", "#F4A900", "#89AC76"]);
+
+        var bubble = d3.pack(bidenCountries)
+            .size([diameter, diameter])
+            .padding(1.5);
+        // Enclosing circle
+        var CategoriesSvg = d3.select("#bidenCountries")
+            .append("svg")
+            .attr("width", diameter)
+            .attr("height", diameter)
+            .attr("class", "bubble");
+
+        var nodes = d3.hierarchy(bidenCountries)
+            .sum(function (d) { return d.Count; });
+
+        var node = CategoriesSvg.selectAll(".node")
+            .data(bubble(nodes).descendants())
+            .enter()
+            .filter(function (d) {
+                return !d.children;
+            })
+            .append("g")
+            .attr("class", "node")
+            .attr("transform", function (d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            });
+        // Size and color of bubbles 
+        node.append("circle")
+            .attr("r", function (d) {
+                return d.r;
+            })
+            .style("fill", function (d) {
+                return color(d.data.Tag);
+            })
+
+        // Bubble text is category tag 
+        node.append("text")
+            .attr("dy", ".05em")
+            .style("text-anchor", "middle")
+            .text(function (d) {
+                return d.data.Tag.substring(0, d.r / 2);
+            })
+            .attr("font-family", "'Montserrat', sans-serif")
+            .attr("font-size", function (d) {
+                return d.r / 6;
+            })
+            .attr("fill", "white")
+            .attr('category', function (d) { return d.data.Tag })
+            .attr("class", "category")
+            .on('mouseover', catOver)
+            .on('mouseout', catOut);
+        // Text for category counts 
+        node.append("text")
+            .attr("dy", "1.0em")
+            .style("text-anchor", "middle")
+            .text(function (d) {
+                return d.data.Count;
+            })
+            .attr("font-family", "'Montserrat', sans-serif")
+            .attr("font-size", function (d) {
+                return d.r / 6;
+            })
+            .attr("fill", "white")
+
+        d3.select("center").style("background-color", "white");
+
+        CategoriesSvg.append("text")
+            .attr("x", diameter / 2)
+            .attr("y", diameter - 5)
+            .attr("fill", "#34495e")
+            .style("font-family", "Helvetica")
+            .style("font-size", "1.2em")
+            .style('font-weight', "700")
+            .style("text-anchor", "middle")
+            .html("BIDEN")
+
+        // Trump Countries
+
+        const trumpCountries = {
+            "children": [
+                {
+                    "Tag": "China",
+                    "Count": 623
+                },
+                {
+                    "Tag": "North Korea",
+                    "Count": 183
+                },
+                {
+                    "Tag": "Asia",
+                    "Count": 11
+                },
+                {
+                    "Tag": "Japan",
+                    "Count": 109
+                },
+                {
+                    "Tag": "Hong Kong",
+                    "Count": 8
+                },
+                {
+                    "Tag": "South Korea",
+                    "Count": 42
+                },
+                {
+                    "Tag": "Taiwan",
+                    "Count": 2
+                },
+                {
+                    "Tag": "India",
+                    "Count": 39
+                },
+                {
+                    "Tag": "Vietnam",
+                    "Count": 46
+                },
+                {
+                    "Tag": "Thailand",
+                    "Count": 3
+                },
+                {
+                    "Tag": "Indonesia",
+                    "Count": 2
+                },
+                {
+                    "Tag": "Philippines",
+                    "Count": 9
+                },
+                {
+                    "Tag": "Singapore",
+                    "Count": 18
+                },
+                {
+                    "Tag": "Sri Lanka",
+                    "Count": 6
+                },
+                {
+                    "Tag": "Australia",
+                    "Count": 11
+                },
+                {
+                    "Tag": "New Zealand",
+                    "Count": 7
+                },
+                {
+                    "Tag": "Samoa",
+                    "Count": 1
+                }
+            ]
+        };
+
+        var color = d3.scaleOrdinal()
+            .domain(["Asia", "China", "North Korea", "Japan", "Hong Kong", "South Korea", "Taiwan", "India", "Vietnam", "Thailand", "Indonesia", "Malaysia", "Singapore", "Philippines", "Sri Lanka", "Australia", "New Zealand", "Samoa"])
+            .range(["#384c5a", "#01aae9", "#dc3535", "#0ab493", "#EA899A", "#ed695a", "#996cb7", "#ff9459", "#800e2c", "#a3413c", "#969292", "#baca3e", "#119bf4", "#9B111E", "#E5BE01", "#A98307", "#F4A900", "#89AC76"]);
+
+        var bubble = d3.pack(trumpCountries)
+            .size([diameter, diameter])
+            .padding(1.5);
+        // Enclosing circle
+        var CategoriesSvg = d3.select("#trumpCountries")
+            .append("svg")
+            .attr("width", diameter)
+            .attr("height", diameter)
+            .attr("class", "bubble");
+
+        var nodes = d3.hierarchy(trumpCountries)
+            .sum(function (d) { return d.Count; });
+
+        var node = CategoriesSvg.selectAll(".node")
+            .data(bubble(nodes).descendants())
+            .enter()
+            .filter(function (d) {
+                return !d.children;
+            })
+            .append("g")
+            .attr("class", "node")
+            .attr("transform", function (d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            });
+        // Size and color of bubbles 
+        node.append("circle")
+            .attr("r", function (d) {
+                return d.r;
+            })
+            .style("fill", function (d) {
+                return color(d.data.Tag);
+            })
+        CategoriesSvg.append("text")
+            .attr("x", diameter / 2)
+            .attr("y", diameter - 5)
+            .attr("fill", "#34495e")
+            .style("font-family", "Helvetica")
+            .style("font-size", "1.2em")
+            .style('font-weight', "700")
+            .style("text-anchor", "middle")
+            .html("TRUMP")
+
+        // Bubble text is category tag 
+        node.append("text")
+            .attr("dy", ".05em")
+            .style("text-anchor", "middle")
+            .text(function (d) {
+                return d.data.Tag.substring(0, d.r / 2);
+            })
+            .attr("font-family", "'Montserrat', sans-serif")
+            .attr("font-size", function (d) {
+                return d.r / 6;
+            })
+            .attr("fill", "white")
+            .attr('category', function (d) { return d.data.Tag })
+            .attr("class", "category")
+            .on('mouseover', catOver)
+            .on('mouseout', catOut);
+        // Text for category counts 
+        node.append("text")
+            .attr("dy", "1.0em")
+            .style("text-anchor", "middle")
+            .text(function (d) {
+                return d.data.Count;
+            })
+            .attr("font-family", "'Montserrat', sans-serif")
+            .attr("font-size", function (d) {
+                return d.r / 6;
+            })
+            .attr("fill", "white")
+
+        d3.select("center").style("background-color", "white");
+
+        // Biden Issues
+        const bidenIssues = {
+            "children": [
+                {
+                    "Tag": "Alliance",
+                    "Count": 8
+                },
+                {
+                    "Tag": "Authoritarian",
+                    "Count": 4
+                },
+                {
+                    "Tag": "Climate Change",
+                    "Count": 103
+                },
+                {
+                    "Tag": "Cooperation",
+                    "Count": 2
+                },
+                {
+                    "Tag": "Democracy",
+                    "Count": 79
+                },
+                {
+                    "Tag": "Human Rights",
+                    "Count": 32
+                },
+                {
+                    "Tag": "Immigration",
+                    "Count": 32
+                },
+                {
+                    "Tag": "Liberal International Order",
+                    "Count": 1
+                },
+                {
+                    "Tag": "Military",
+                    "Count": 38
+                },
+                {
+                    "Tag": "Technology",
+                    "Count": 4
+                },
+                {
+                    "Tag": "Trade",
+                    "Count": 33
+                },
+                {
+                    "Tag": "Values",
+                    "Count": 7
+                },
+            ]
+        };
+
+        bidenIssues.children.forEach(element => {
+            console.log(bidenIssues.children.Count);
+        });
+        // Diameter of invisible enclosing circle of OED word categories
+
+        var color = d3.scaleOrdinal()
+            .domain(["Alliance", "Authoritarian", "Climate Change", "Cooperation", "Democracy", "Human Rights", "Immigration", "Liberal International Order", "Military", "South China Sea", "Technology", "TPP", "Trade", "Values"])
+            .range(["#345290", "#237d6c", "#7f5d52", "#e2ad15", "#b89032", "#AF5556", "#61666c", "#cd2d32", "#6fbfbb", "#454c5a", "#a16d4d", "#e9804f", "#4f6762", "#4493c5"]);
+
+        var bubble = d3.pack(bidenIssues)
+            .size([diameter, diameter])
+            .padding(1.5);
+        // Enclosing circle
+        var CategoriesSvg = d3.select("#bidenIssues")
+            .append("svg")
+            .attr("width", diameter)
+            .attr("height", diameter)
+            .attr("class", "bubble");
+
+        var nodes = d3.hierarchy(bidenIssues)
+            .sum(function (d) { return d.Count; });
+
+        var node = CategoriesSvg.selectAll(".node")
+            .data(bubble(nodes).descendants())
+            .enter()
+            .filter(function (d) {
+                return !d.children;
+            })
+            .append("g")
+            .attr("class", "node")
+            .attr("transform", function (d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            });
+        // Size and color of bubbles 
+        node.append("circle")
+            .attr("r", function (d) {
+                return d.r;
+            })
+            .style("fill", function (d) {
+                return color(d.data.Tag);
+            })
+
+
+        // Bubble text is category tag 
+        node.append("text")
+            .attr("dy", ".05em")
+            .style("text-anchor", "middle")
+            .text(function (d) {
+                return d.data.Tag.substring(0, d.r / 2);
+            })
+            .attr("font-family", "'Montserrat', sans-serif")
+            .attr("font-size", function (d) {
+                return d.r / 6;
+            })
+            .attr("fill", "white")
+            .attr('category', function (d) { return d.data.Tag })
+            .attr("class", "category")
+            .on('mouseover', catOver)
+            .on('mouseout', catOut);
+        // Text for category counts 
+        node.append("text")
+            .attr("dy", "1.0em")
+            .style("text-anchor", "middle")
+            .text(function (d) {
+                return d.data.Count;
+            })
+            .attr("font-family", "'Montserrat', sans-serif")
+            .attr("font-size", function (d) {
+                return d.r / 6;
+            })
+            .attr("fill", "white")
+
+        d3.select("center").style("background-color", "white");
+
+        CategoriesSvg.append("text")
+            .attr("x", diameter / 2)
+            .attr("y", diameter - 5)
+            .attr("fill", "#34495e")
+            .style("font-family", "Helvetica")
+            .style("font-size", "1.2em")
+            .style('font-weight', "700")
+            .style("text-anchor", "middle")
+            .html("BIDEN")
+        // Trump Issues
+
+        const trumpIssues = {
+            "children": [
+                {
+                    "Tag": "Alliance",
+                    "Count": 7
+                },
+                {
+                    "Tag": "Climate Change",
+                    "Count": 4
+                },
+                {
+                    "Tag": "Cooperation",
+                    "Count": 15
+                },
+                {
+                    "Tag": "Democracy",
+                    "Count": 32
+                },
+                {
+                    "Tag": "Human Rights",
+                    "Count": 6
+                },
+                {
+                    "Tag": "Immigration",
+                    "Count": 218
+                },
+                {
+                    "Tag": "Military",
+                    "Count": 548
+                },
+                {
+                    "Tag": "South China Sea",
+                    "Count": 1
+                },
+                {
+                    "Tag": "TPP",
+                    "Count": 4
+                },
+                {
+                    "Tag": "Technology",
+                    "Count": 21
+                },
+                {
+                    "Tag": "Trade",
+                    "Count": 441
+                },
+                {
+                    "Tag": "Values",
+                    "Count": 22
+                },
+            ]
+        };
+
+        var color = d3.scaleOrdinal()
+            .domain(["Alliance", "Authoritarian", "Climate Change", "Cooperation", "Democracy", "Human Rights", "Immigration", "Liberal International Order", "Military", "South China Sea", "Technology", "TPP", "Trade", "Values"])
+            .range(["#345290", "#237d6c", "#7f5d52", "#e2ad15", "#b89032", "#AF5556", "#61666c", "#cd2d32", "#6fbfbb", "#454c5a", "#a16d4d", "#e9804f", "#4f6762", "#4493c5"]);
+
+        var bubble = d3.pack(trumpIssues)
+            .size([diameter, diameter])
+            .padding(1.5);
+        // Enclosing circle
+        var CategoriesSvg = d3.select("#trumpIssues")
+            .append("svg")
+            .attr("width", diameter)
+            .attr("height", diameter)
+            .attr("class", "bubble");
+
+        var nodes = d3.hierarchy(trumpIssues)
+            .sum(function (d) { return d.Count; });
+
+        var node = CategoriesSvg.selectAll(".node")
+            .data(bubble(nodes).descendants())
+            .enter()
+            .filter(function (d) {
+                return !d.children;
+            })
+            .append("g")
+            .attr("class", "node")
+            .attr("transform", function (d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            });
+        // Size and color of bubbles 
+        node.append("circle")
+            .attr("r", function (d) {
+                return d.r;
+            })
+            .style("fill", function (d) {
+                return color(d.data.Tag);
+            })
+
+
+        // Bubble text is category tag 
+        node.append("text")
+            .attr("dy", ".05em")
+            .style("text-anchor", "middle")
+            .text(function (d) {
+                return d.data.Tag.substring(0, d.r / 2);
+            })
+            .attr("font-family", "'Montserrat', sans-serif")
+            .attr("font-size", function (d) {
+                return d.r / 6;
+            })
+            .attr("fill", "white")
+            .attr('category', function (d) { return d.data.Tag })
+            .attr("class", "category")
+            .on('mouseover', catOver)
+            .on('mouseout', catOut);
+        // Text for category counts 
+        node.append("text")
+            .attr("dy", "1.0em")
+            .style("text-anchor", "middle")
+            .text(function (d) {
+                return d.data.Count;
+            })
+            .attr("font-family", "'Montserrat', sans-serif")
+            .attr("font-size", function (d) {
+                return d.r / 6;
+            })
+            .attr("fill", "white")
+
+        d3.select("center").style("background-color", "white");
+
+        // Functions for mouseover and mouseout for category bubbles 
+        function catOver(e) {
+            d3.select(this).classed("active", true)
+        }
+        function catOut() {
+            d3.select(this).classed("active", false)
+        }
+
+        CategoriesSvg.append("text")
+            .attr("x", diameter / 2)
+            .attr("y", diameter - 5)
+            .attr("fill", "#34495e")
+            .style("font-family", "Helvetica")
+            .style("font-size", "1.2em")
+            .style('font-weight', "700")
+            .style("text-anchor", "middle")
+            .html("TRUMP")
     </script>
+        <a class="twitter-timeline" href="https://twitter.com/JoeBiden" data-tweet-limit="1" data-width="399" ></a>
+        <script async src="http://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <a class="twitter-timeline" href="https://twitter.com/realDonaldTrump" data-tweet-limit="1" data-width="399" ></a>
+        <script async src="http://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 </body>
