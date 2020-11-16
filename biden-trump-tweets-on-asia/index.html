@@ -49,6 +49,10 @@
 
         button {
             font-size: large;
+            padding: 8;
+            border: lightgray;
+            background: none;
+            border-radius: 12px;
         }
 
         #biden {
@@ -71,6 +75,7 @@
             left: 240px;
             bottom: 40px;
         }
+
         #countries {
             background-color: rgb(113, 177, 113);
             position: relative;
@@ -79,35 +84,39 @@
         }
 
         #biden:hover {
-            background-color: #b3b3b3;
+            
             transition-timing-function: ease-out;
             transition: 0.2s;
             box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
             transform: translate3D(0, 2px, 0);
+            cursor: pointer;
         }
 
         #reset:hover {
-            background-color: #b3b3b3;
+            
             transition-timing-function: ease-out;
             transition: 0.2s;
             box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
             transform: translate3D(0, 2px, 0);
+            cursor: pointer;
         }
 
         #trump:hover {
-            background-color: #b3b3b3;
+            
             transition-timing-function: ease-out;
             transition: 0.2s;
             box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
             transform: translate3D(0, 2px, 0);
+            cursor: pointer;
         }
 
         #countries:hover {
-            background-color: #b3b3b3;
+            
             transition-timing-function: ease-out;
             transition: 0.2s;
             box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
             transform: translate3D(0, 2px, 0);
+            cursor: pointer;
         }
 
         #biden:focus {
@@ -115,24 +124,31 @@
             transition: 0.2s;
             box-shadow: 5px 10px 12px rgba(0, 0, 0, .5);
             transform: translate3D(0, 2px, 0);
+            outline: none;
         }
+
         #trump:focus {
             transition-timing-function: ease-out;
             transition: 0.2s;
             box-shadow: 5px 10px 12px rgba(0, 0, 0, .5);
             transform: translate3D(0, 2px, 0);
+            outline: none;
         }
+
         #reset:focus {
             transition-timing-function: ease-out;
             transition: 0.2s;
             box-shadow: 5px 10px 12px rgba(0, 0, 0, .5);
             transform: translate3D(0, 2px, 0);
+            outline: none;
         }
+
         #countries:focus {
             transition-timing-function: ease-out;
             transition: 0.2s;
             box-shadow: 5px 10px 12px rgba(0, 0, 0, .5);
             transform: translate3D(0, 2px, 0);
+            outline: none;
         }
 
         .grid-container {
@@ -235,7 +251,7 @@
         });
         function ready(tweetData) {
 
-        var color = function (person) {
+            var color = function (person) {
                 if (person === "Biden") return "#0542f7"
                 return "rgba(217, 42, 42, 0.8)"
             }
@@ -287,34 +303,34 @@
                 .style("text-anchor", "middle")
                 .html("Retweets")
 
-                // legend 
-var legendContainer = d3.select("#legend").append("svg")
-.attr("width", 1000)
-.attr("height", 120)
-// create a list of keys
-var keys = [ "Asia", "Australia", "China", "Hong Kong", "India", "Indonesia", "Japan", "Malaysia", "New Zealand", "North Korea", "Philippines", "Samoa", "Singapore", "South Korea", "Sri Lanka", "Taiwan", "Thailand", "Vietnam"]
+            // legend 
+            var legendContainer = d3.select("#legend").append("svg")
+                .attr("width", 1000)
+                .attr("height", 120)
+            // create a list of keys
+            var keys = ["Asia", "Australia", "China", "Hong Kong", "India", "Indonesia", "Japan", "Malaysia", "New Zealand", "North Korea", "Philippines", "Samoa", "Singapore", "South Korea", "Sri Lanka", "Taiwan", "Thailand", "Vietnam"]
 
-legendContainer.selectAll("dots")
-    .data(keys)
-    .enter()
-    .append("circle")
-    .attr("cx", function (d, i) { return 100 + i * 50 }) 
-    .attr("cy", 5)
-    .attr("r", 5)
-    .style("fill", function(d) { return color2(d)})
+            legendContainer.selectAll("dots")
+                .data(keys)
+                .enter()
+                .append("circle")
+                .attr("cx", function (d, i) { return 100 + i * 50 })
+                .attr("cy", 5)
+                .attr("r", 5)
+                .style("fill", function (d) { return color2(d) })
 
-    legendContainer.selectAll("countries")
-    .data(keys)
-    .enter()
-    .append("text")
-    .attr("y", function (d, i) { return -95 - i * 50 }) 
-    .attr("x", 15)
-    .attr("r", 7)
-    .style("fill", function(d) { return color2(d)})
-    .text(function (d) { return d })
-    .style("font-family", "helvetica")
-    .attr("transform", "rotate(90)")
-    .attr("text-anchor", "left")
+            legendContainer.selectAll("countries")
+                .data(keys)
+                .enter()
+                .append("text")
+                .attr("y", function (d, i) { return -95 - i * 50 })
+                .attr("x", 15)
+                .attr("r", 7)
+                .style("fill", function (d) { return color2(d) })
+                .text(function (d) { return d })
+                .style("font-family", "helvetica")
+                .attr("transform", "rotate(90)")
+                .attr("text-anchor", "left")
 
             var dateParser = d3.timeParse("%Y-%m-%d");
 
@@ -500,7 +516,7 @@ legendContainer.selectAll("dots")
 
             d3.select("#countries").on("click", function () {
                 d3.selectAll(".dots")
-                // .style("fill", "green")
+                    // .style("fill", "green")
                     .style("fill", function (d) { return color2(d.countries[0]) });
             })
 
