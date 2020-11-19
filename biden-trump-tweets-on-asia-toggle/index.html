@@ -224,13 +224,9 @@
             background-color: white;
         }
 
-#hero {
-    display: block;
-    margin: 50 100 0 100;
-    width: 80%;
-    padding: 50px;
-}
-
+        .myCssClass {
+            opacity: 0;
+        }
     </style>
     <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
@@ -251,32 +247,28 @@
 </div>
 
 <div class="footer">
-
-    <img src="tweet-hero.svg" alt="Biden vs Trump: Tweets on Asia" id="hero">
+    <img src="hero1.png" alt="Biden vs Trump: A Year of Tweets on Asia" id="hero">
 
     <div class="explainer">
         <p>
             What did US President Donald Trump and former US Vice-President Joe Biden say about Asia in the 2020
-            election cycle? Roll over the dots above to read the candidates' tweets about Asian countries. Use the buttons to filter tweets
-            by Trump or Biden, or by country. Press Reset to restore display. In total, Biden tweeted about Asia 33 times and Trump 298 times
-            during the election year from November 1, 2019 through October 31, 2020. </p>
-            <p>Below, see two sets of visualizations of Biden and Trump's tweets on Asian nations through the four-year period of Trump's presidency. The first set compares the number of times the candidates tweeted about different Asian countries, and the second compares their references to 15 terms of importance to the Indo-Pacific region. Circle sizes are normalized to account for Trump's much larger number of Tweets (20,467) than Biden's (4,264). Sources: <ahref="http://trumptwitterarchive.com/archive" style="color: #8ebf42">Trump Twitter Archive</a>,
+            election cycle? Roll over the circles to read their tweets about Asian countries. Use the buttons to filter
+            tweets
+            by Trump or Biden, or by country. In total, Biden tweeted about Asia 33 times and Trump 298 times
+            during the election year from November 1, 2019 through October 31, 2020. Sources: <a
+                href="http://trumptwitterarchive.com/archive" style="color: #8ebf42">Trump Twitter Archive</a>,
             <a href="https://www.kaggle.com/rohanrao/joe-biden-tweets" style="color: #8ebf42">Joe Biden Tweets</a>.
         </p>
     </div>
     <h1>BIDEN VS TRUMP: TWEETS ON ASIA SINCE 2016</h1>
-<p class="explainer">
-    Among Asian nations, Trump and Biden both tweeted by far the most about China. Both candidates foregrounded trade and military competition, but Trump was relatively silent on human rights issues in relation to China, while Biden was outspoken on Hong Kong. Both men devoted many tweets to North Korea, with Trump touting diplomatic progress and Biden dismissive of the President’s summit diplomacy. Given Trump’s frequent use of Twitter and willingness to conduct diplomacy by tweet, it shouldn’t be surprising that he tweeted about 16 Indo-Pacific nations in total compared to Biden’s 11.
-</p>
+
     <div class="grid-container">
         <div id="bidenCountries" class="grid1"></div>
         <div id="trumpCountries" class="grid2"></div>
     </div>
 
     <h1>BIDEN VS TRUMP: TWEETS ON ISSUES SINCE 2016</h1>
-<p class="explainer">
-    Military and trade first, or climate change and democracy? This visualization measures the number of Twitter references to 15 key terms by US President Donald Trump and US Vice-President Joe Biden since November 4, 2016, the day after Trump's election, through August 31, 2020. The terms are: Alliance, Authoritarian, Climate Change, Cooperation, Democracy, Human Rights, Immigration, Liberal International Order, Military, Multilateralism, South China Sea, Technology, TPP, Trade and Values.
-</p>
+
     <div class="grid-container">
         <div id="bidenIssues" class="grid1"></div>
         <div id="trumpIssues" class="grid2"></div>
@@ -542,12 +534,12 @@
 
                 // Show tooltip
                 tooltip.html(tweet)
-                    // .style("top", (d3.event.pageY) + "px")
-                    // .style("left", (d3.event.pageX) + "px")
+                    // .style("top", (event.pageY) + "px")
+                    // .style("left", (event.pageX) + "px")
                     // Position tooltip 
                     .style("transform", `translate(`
                         + `calc( ${x1}px + 110px),`
-                        + `calc(100% + ${y1}px - 3820px)`
+                        + `calc(100% + ${y1}px - 3120px)`
                         + `)`)
                     .style("opacity", 1.0)
             }
@@ -561,11 +553,20 @@
             }
 
             // Click handlers for Biden/Trump filter views 
-            d3.select("#biden").on("click", function () {
+            // d3.select("#biden").on("click", function () {
+            //     d3.selectAll(".dots")
+            //         .filter(function (d) { return d.person === "Trump"; })
+            //     .style("opacity", "0")
+            // })
+            //  d3.select(this).classed("myCssClass", d3.select(this).classed("myCssClass") ? false : true);
+
+            d3.select("#biden").on("click", function (d, i) {
                 d3.selectAll(".dots")
                     .filter(function (d) { return d.person === "Trump"; })
-                .style("opacity", "0")
+                // .style("opacity", "0")
+                d3.select(this).classed(".myCssClass", d3.select(this).classed(".myCssClass") ? false : true);
             })
+
 
             d3.select("#trump").on("click", function () {
                 d3.selectAll(".dots")
@@ -1144,7 +1145,7 @@
 
         CategoriesSvg.append("text")
             .attr("x", diameter / 2)
-            .attr("y", diameter - 25)
+            .attr("y", diameter - 5)
             .attr("fill", "#34495e")
             .style("font-family", "Helvetica")
             .style("font-size", "1.2em")
