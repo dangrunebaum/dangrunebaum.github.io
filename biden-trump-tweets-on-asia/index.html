@@ -5,11 +5,13 @@
         }
 
         h1 {
+            margin: auto;
             font-family: 'Helvetica', sans-serif;
-            font-size: 50px;
+            font-size: 51px;
             text-align: center;
             margin-top: 100px;
-            width: 100%;
+            padding: 20px;
+            width: 70%;
             color: #34495e;
         }
 
@@ -136,39 +138,9 @@
             cursor: pointer;
         }
 
-        /* #biden:focus {
-            transition-timing-function: ease-out;
-            transition: 0.2s;
-            box-shadow: 5px 10px 12px rgba(0, 0, 0, .5);
-            transform: translate3D(0, 2px, 0);
-            outline: none;
-        } */
-
-        /* #trump:focus {
-            transition-timing-function: ease-out;
-            transition: 0.2s;
-            box-shadow: 5px 10px 12px rgba(0, 0, 0, .5);
-            transform: translate3D(0, 2px, 0);
-            outline: none;
-        } */
-
-        /* #reset:focus {
-            transition-timing-function: ease-out;
-            transition: 0.2s;
-            box-shadow: 5px 10px 12px rgba(0, 0, 0, .5);
-            transform: translate3D(0, 2px, 0);
-            outline: none;
-        } */
-
-        /* #countries:focus {
-            transition-timing-function: ease-out;
-            transition: 0.2s;
-            box-shadow: 5px 10px 12px rgba(0, 0, 0, .5);
-            transform: translate3D(0, 2px, 0);
-            outline: none;
-        } */
-
         .grid-container {
+            position: relative;
+            left: 120px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-gap: 20px;
@@ -181,7 +153,6 @@
             grid-template-columns: 8fr 2fr;
             grid-gap: 50px;
         }
-
 
         #bidenCountries {
             margin: 100px;
@@ -216,6 +187,7 @@
             padding: 10px;
             /* border: 0.5px solid lightslategray; */
             border-radius: 4px;
+            text-align: justify;
             /* box-shadow: 22px 28px 45px rgba(0, 0, 0, .25); */
         }
 
@@ -228,7 +200,7 @@
 
         .footer {
             position: sticky;
-            top: 1500;
+            top: 1000;
             z-index: 1;
             background-color: white;
             box-shadow: 0px -12px 6px -6px rgba(178, 178, 178, 0.183);
@@ -271,14 +243,12 @@
         <p>
             What did US President Donald Trump and former US Vice-President Joe Biden say about Asia in the 2020
             election cycle? Roll over the dots above to read the candidates' tweets about Asian countries. Press the
-            buttons to filter tweets
-            by Trump or Biden, or by country. Press Reset to restore display. In total, Biden tweeted about Asia 33
-            times and Trump 298 times
-            during the election year from November 1, 2019 through October 31, 2020. </p>
-        <p>Below, see two sets of visualizations of Biden and Trump's tweets on Asian nations through the four-year
+            buttons to filter tweets by Trump or Biden, or by country. In total, Biden tweeted about Asia 33
+            times and Trump 298 times during the election year from November 1, 2019 through October 31, 2020. </p>
+        <p>Below, explore two sets of visualizations of Biden and Trump's tweets on Asian nations through the four-year
             period of Trump's presidency. The first set compares the number of times the candidates tweeted about
-            different Asian countries, and the second compares their references to 15 terms of importance to the
-            Indo-Pacific region. Circle sizes are normalized to account for Trump's much larger number of Tweets
+            different Asian countries. The second set compares their references to 15 terms of importance to the
+            Indo-Pacific region. Circle sizes are normalized to account for Trump's greater number of Tweets
             (20,467) than Biden's (4,264). Sources: <a href="http://trumptwitterarchive.com/archive"
                 style="color: #8ebf42">Trump Twitter Archive</a>,
             <a href="https://www.kaggle.com/rohanrao/joe-biden-tweets" style="color: #8ebf42">Joe Biden Tweets</a>.
@@ -921,7 +891,7 @@
             .attr("dy", ".05em")
             .style("text-anchor", "middle")
             .text(function (d) {
-                return d.data.Tag.substring(0, d.r / 4
+                return d.data.Tag.substring(0, d.r / 3
                 );
             })
             .attr("font-family", "'Montserrat', sans-serif")
