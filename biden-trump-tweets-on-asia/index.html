@@ -1,18 +1,19 @@
 <head>
     <style>
         body {
-            font-family: 'Helvetica', sans-serif;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color: #3e4149
         }
 
         h1 {
             margin: auto;
-            font-family: 'Helvetica', sans-serif;
-            font-size: 51px;
+            /* font-family: 'Montserrat', sans-serif; */
+            font-size: 45px;
             text-align: center;
             margin-top: 100px;
             padding: 20px;
             width: 70%;
-            color: #34495e;
+            color: #3e4149
         }
 
         p {
@@ -28,7 +29,7 @@
             opacity: 0;
             padding: 0.6em 1em;
             background: #fff;
-            color: dimgray;
+            color: #3e4149;
             max-width: 400px;
             max-height: 400px;
             text-align: left;
@@ -150,7 +151,7 @@
 
         .grid-container {
             position: relative;
-            left: 120px;
+            left: 80px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-gap: 20px;
@@ -158,7 +159,7 @@
 
         .grid-container1 {
             position: relative;
-            left: 50px;
+            left: 80px;
             display: grid;
             grid-template-columns: 8fr 2fr;
             grid-gap: 50px;
@@ -195,10 +196,9 @@
             height: auto;
             margin: auto;
             padding: 10px;
-            /* border: 0.5px solid lightslategray; */
-            border-radius: 4px;
-            text-align: justify;
-            /* box-shadow: 22px 28px 45px rgba(0, 0, 0, .25); */
+            line-height: 2rem;
+            text-align:justify;
+            font-size: 20px;
         }
 
         .header {
@@ -248,7 +248,7 @@
 
 <div class="footer">
 
-    <img src="tweet-hero.svg" alt="Biden vs Trump: Tweets on Asia" id="hero">
+    <img src="tweet-hero.png" alt="Biden vs Trump: Tweets on Asia" id="hero">
 
     <div class="explainer">
         <p>
@@ -265,24 +265,24 @@
             <a href="https://www.kaggle.com/rohanrao/joe-biden-tweets" style="color: #8ebf42">Joe Biden Tweets</a>.
         </p>
     </div>
-    <h1>BIDEN VS TRUMP: TWEETS ON ASIA SINCE 2016</h1>
+    <h1>Biden vs Trump: Tweets on Asia Since 2016</h1>
     <p class="explainer">
         Among Asian nations, Trump and Biden both tweeted by far the most about China. Both candidates foregrounded
         trade and military competition, but Trump was relatively silent on human rights issues in relation to China,
         while Biden was outspoken on Hong Kong. Both men devoted many tweets to North Korea, with Trump touting
         diplomatic progress and Biden dismissive of the President’s summit diplomacy. Given Trump’s frequent use of
         Twitter and willingness to conduct diplomacy by tweet, it shouldn’t be surprising that he tweeted about 16
-        Indo-Pacific nations in total compared to Biden’s 11.
+        Indo-Pacific and regions in total compared to Biden’s 11.
     </p>
     <div class="grid-container">
         <div id="bidenCountries" class="grid1"></div>
         <div id="trumpCountries" class="grid2"></div>
     </div>
 
-    <h1>BIDEN VS TRUMP: TWEETS ON ISSUES SINCE 2016</h1>
+    <h1>Biden vs Trump: Tweets on Issues Since 2016</h1>
     <p class="explainer">
-        Military and trade first, or climate change and democracy? This visualization measures the number of Twitter
-        references to 15 key terms by US President Donald Trump and US Vice-President Joe Biden. The terms are:
+        Military and trade first, or climate change and democracy? This visualization captures the number of Twitter
+        references to 15 key terms by US President Donald Trump and US Vice-President Joe Biden:
         Alliance, Authoritarian, Climate Change, Cooperation, Democracy, Human Rights, Immigration, Liberal
         International Order, Military, Multilateralism, South China Sea, Technology, TPP, Trade and Values.
     </p>
@@ -355,7 +355,7 @@
                 .attr("x", dimensions.width / 2)
                 .attr("y", dimensions.height - 98)
                 .attr("fill", "#34495e")
-                .style("font-family", "Helvetica")
+                .style("font-family", "Montserrat")
                 .style("font-size", "1.5em")
                 .style('font-weight', "700")
                 .style("text-anchor", "middle")
@@ -365,7 +365,7 @@
                 .attr("x", 0)
                 .attr("y", dimensions.height - 98)
                 .attr("fill", "#34495e")
-                .style("font-family", "Helvetica")
+                .style("font-family", "Montserrat")
                 .style("font-size", "1em")
                 .style('font-style', "italic")
                 .style("text-anchor", "left")
@@ -376,7 +376,7 @@
                 .attr("x", -280)
                 .attr("y", dimensions.width - dimensions.width - 70)
                 .attr("fill", "#34495e")
-                .style("font-family", "Helvetica")
+                .style("font-family", "Montserrat")
                 .style("font-size", "1.5em")
                 .style('font-weight', "700")
                 .style("transform", "rotate(-90deg)")
@@ -407,7 +407,7 @@
                 .attr("y", function (d, i) { return 25 + i * 38 })
                 .style("fill", function (d) { return color2(d) })
                 .text(function (d) { return d })
-                .style("font-family", "helvetica")
+                .style("font-family", "Montserrat")
                 // .attr("transform", "rotate(90)")
                 .attr("text-anchor", "left")
 
@@ -503,7 +503,7 @@
                 .attr("x", covidX)
                 .attr("y", dimensions.height - dimensions.height - 5)
                 .attr("fill", "#34495e")
-                .style("font-family", "Helvetica")
+                .style("font-family", "Montserrat")
                 .style("font-size", "1.2em")
                 .style('font-weight', "700")
                 .style("text-anchor", "start")
@@ -770,7 +770,7 @@
             .attr("x", diameter / 2)
             .attr("y", diameter - 5)
             .attr("fill", "#34495e")
-            .style("font-family", "Helvetica")
+            .style("font-family", "Montserrat")
             .style("font-size", "1.2em")
             .style('font-weight', "700")
             .style("text-anchor", "middle")
@@ -891,7 +891,7 @@
             .attr("x", diameter / 2)
             .attr("y", diameter - 5)
             .attr("fill", "#34495e")
-            .style("font-family", "Helvetica")
+            .style("font-family", "Montserrat")
             .style("font-size", "1.2em")
             .style('font-weight', "700")
             .style("text-anchor", "middle")
@@ -1061,7 +1061,7 @@
             .attr("x", diameter / 2)
             .attr("y", diameter - 5)
             .attr("fill", "#34495e")
-            .style("font-family", "Helvetica")
+            .style("font-family", "Montserrat")
             .style("font-size", "1.2em")
             .style('font-weight', "700")
             .style("text-anchor", "middle")
@@ -1202,7 +1202,7 @@
             .attr("x", diameter / 2)
             .attr("y", diameter - 5)
             .attr("fill", "#34495e")
-            .style("font-family", "Helvetica")
+            .style("font-family", "Montserrat")
             .style("font-size", "1.2em")
             .style('font-weight', "700")
             .style("text-anchor", "middle")
