@@ -7,7 +7,6 @@
 
         h1 {
             margin: auto;
-            /* font-family: 'Montserrat', sans-serif; */
             font-size: 45px;
             text-align: center;
             margin-top: 100px;
@@ -40,7 +39,6 @@
             border: 2px solid #ddd;
             border-radius: 2px;
             z-index: 10;
-            /* transition: all 0.1s ease-out; */
             pointer-events: none;
             padding: 5px 7px 5px 7px !important;
             font-size: 20px !important;
@@ -68,7 +66,7 @@
             background-color: #0542f7;
             opacity: 0.8;
             position: relative;
-            left: 150px;
+            left: 180px;
             bottom: 30;
             font-weight: 600;
         }
@@ -76,7 +74,7 @@
         #trump {
             background-color: rgba(217, 42, 42, 0.8);
             position: relative;
-            left: 200px;
+            left: 230px;
             bottom: 30px;
             font-weight: 600;
         }
@@ -84,7 +82,7 @@
         #reset {
             background-color: rgb(232, 232, 232);
             position: relative;
-            left: 250px;
+            left: 280px;
             bottom: 30px;
             font-weight: 600;
         }
@@ -102,15 +100,12 @@
             /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
             filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c9de96', endColorstr='#398235', GradientType=1);
             /* IE6-9 */
-
             position: relative;
-            /* left: 250px; */
-            bottom: -750px; 
+            bottom: -800px; 
             font-weight: 600;
         }
 
         #biden:hover {
-
             transition-timing-function: ease-out;
             transition: 0.2s;
             box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
@@ -123,7 +118,6 @@
         }
 
         #reset:hover {
-
             transition-timing-function: ease-out;
             transition: 0.2s;
             box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
@@ -132,7 +126,6 @@
         }
 
         #trump:hover {
-
             transition-timing-function: ease-out;
             transition: 0.2s;
             box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
@@ -141,7 +134,6 @@
         }
 
         #countries:hover {
-
             transition-timing-function: ease-out;
             transition: 0.2s;
             box-shadow: 22px 28px 45px rgba(0, 0, 0, .25);
@@ -162,7 +154,7 @@
             left: 80px;
             display: grid;
             grid-template-columns: 8fr 2fr;
-            grid-gap: 50px;
+            grid-gap: 20px;
         }
 
         #bidenCountries {
@@ -182,10 +174,6 @@
         #trumpIssues {
             margin: 100px;
         }
-
-        /* svg.bubble {
-            background-color: rgba(128, 128, 128, 0.1);
-        } */
 
         .twitter-timeline {
             margin: 200px;
@@ -210,7 +198,6 @@
 
         .footer {
             position: sticky;
-            top: 1000;
             z-index: 1;
             background-color: white;
             box-shadow: 0px -12px 6px -6px rgba(178, 178, 178, 0.183);
@@ -227,12 +214,14 @@
             opacity: 0;
         }
     </style>
+
     <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
+<!-- Top scatterplot display -->
 <div class="header">
 
     <div id="tooltip" class="tooltip"></div>
-
+<!-- Left grid is scatter, Right is legend -->
     <div class="grid-container1">
         <div id="wrapper" class="grid1"></div>
         <div id="legend" class="grid2">
@@ -254,8 +243,7 @@
         <p>
             What did US President Donald Trump and former US Vice-President Joe Biden say about Asia in the 2020
             election cycle? Roll over the dots above to read the candidates' tweets about Asian countries. Press the
-            buttons to filter tweets by Trump or Biden, or by country. In total, Biden tweeted about Asia 33
-            times and Trump 298 times during the election year from November 1, 2019 through October 31, 2020. </p>
+            buttons to filter tweets by Trump or Biden, or by country. Biden's 33 tweets about Asia and Trump's 298 tweets in the 2020 election year are represented by time on the X axis. The Y axis shows number of retweets, a measure that reflects Trump's greater number of followers (~90m) compared to Biden's (~20m).  </p>
         <p>Below, explore two sets of visualizations of Biden and Trump's tweets on Asian nations through the four-year
             period of Trump's presidency. The first set compares the number of times the candidates tweeted about
             different Asian countries. The second set compares their references to 15 terms of importance to the
@@ -291,15 +279,10 @@
         <div id="trumpIssues" class="grid2"></div>
     </div>
 </div>
-<!-- <h1>LATEST TWEETS</h1>
-<a class="twitter-timeline" href="https://twitter.com/JoeBiden" data-tweet-limit="1" data-width="399" ></a>
-<script async src="http://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<a class="twitter-timeline" href="https://twitter.com/realDonaldTrump" data-tweet-limit="1" data-width="399" ></a>
-<script async src="http://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
-<!-- <button id="byCountry">COUNTRY</button> -->
 
 <body>
     <script>
+        
         // Indo-Pacific countries to filter tweets 
         var conditions = ["Asia", "China", "Japan", "North Korea", "South Korea", "Mongolia", "Taiwan", "Hong Kong", "Brunei", "Cambodia", "Indonesia", "Laos", "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand", "Vietnam", "Timor-Leste", "Bangladesh", "Bhutan", "India", "Maldives", "Nepal", "Sri Lanka", "Oceania", "Australia", "Micronesia", "Fiji", "Kiribati", "Marshall Islands", "Nauru", "New Zealand", "Palau", "Papua New Guinea", "Samoa", "Solomon Islands", "Tonga", "Tuvalu", "Vanuatu"]
 
@@ -318,6 +301,7 @@
             )
             ready(tweetData)
         });
+        // Main draw function
         function ready(tweetData) {
 
             var color = function (person) {
@@ -349,7 +333,6 @@
                     }px, ${dimensions.margin.top
                     }px)`)
 
-
             // Text for axes
             bounds.append("text")
                 .attr("x", dimensions.width / 2)
@@ -371,7 +354,6 @@
                 .style("text-anchor", "left")
                 .html("Filter by Biden, Trump or Country")
 
-
             bounds.append("text")
                 .attr("x", -280)
                 .attr("y", dimensions.width - dimensions.width - 70)
@@ -383,11 +365,11 @@
                 .style("text-anchor", "middle")
                 .html("Retweets")
 
-            // legend 
+            // Legend 
             var legendContainer = d3.select("#legend").append("svg")
                 .attr("width", 200)
                 .attr("height", 720)
-            // create a list of keys
+            // Legend keys
             var keys = ["Asia", "Australia", "China", "Hong Kong", "India", "Indonesia", "Japan", "Malaysia", "New Zealand", "North Korea", "Philippines", "Samoa", "Singapore", "South Korea", "Sri Lanka", "Taiwan", "Thailand", "Vietnam"]
 
             legendContainer.selectAll("dots")
@@ -395,7 +377,7 @@
                 .enter()
                 .append("circle")
                 .attr("cx", 5)
-                .attr("cy", function (d, i) { return 20 + i * 38 })
+                .attr("cy", function (d, i) { return 20 + i * 40 })
                 .attr("r", 5)
                 .style("fill", function (d) { return color2(d) })
 
@@ -404,7 +386,7 @@
                 .enter()
                 .append("text")
                 .attr("x", 15)
-                .attr("y", function (d, i) { return 25 + i * 38 })
+                .attr("y", function (d, i) { return 25 + i * 40 })
                 .style("fill", function (d) { return color2(d) })
                 .text(function (d) { return d })
                 .style("font-family", "Montserrat")
@@ -413,7 +395,7 @@
 
             var dateParser = d3.timeParse("%Y-%m-%d");
 
-            // Initialize x and y accessor functions 
+            // Initialize X and Y accessor functions as time and retweets
             const xAccessor = d => dateParser(d.date);
             const yAccessor = d => d.retweets;
 
@@ -422,7 +404,7 @@
                 .domain([0, 0])
                 .range([0, 0]);
             bounds.append("g")
-                .attr("class", "myXaxis") // Give a class to the X axis, to be able to call it later and modify it
+                .attr("class", "myXaxis") // Give a class to the X axis, to call later and modify Xpos
                 .attr("transform", "translate(0," + dimensions.boundedHeight + ")")
                 .call(d3.axisBottom(x))
                 .attr("opacity", "0")
@@ -432,7 +414,7 @@
                 .range([dimensions.boundedHeight, 0]);
             bounds.append("g")
                 .call(d3.axisLeft(y));
-
+            // Display dots
             function drawDots(tweetData, color) {
                 bounds.append("g")
                     .selectAll("dot")
@@ -446,10 +428,6 @@
                     .attr("r", 5)
                     .attr("fill", d => color(d.person))
             }
-            // function color(person) {
-            //     if (person === "Biden") return "#0542f7"
-            //     return "rgba(217, 42, 42, 0.8)"
-            // }
 
             // New X axis at data points 
             x.domain(d3.extent(tweetData, xAccessor))
@@ -460,7 +438,7 @@
                 .attr("opacity", "1")
                 .call(d3.axisBottom(x));
 
-            // Initialize x and y scale functions 
+            // Initialize X and Y scale functions 
             const xScale = d3.scaleTime()
                 .domain(d3.extent(tweetData, xAccessor))
                 .range([0, dimensions.boundedWidth])
@@ -471,6 +449,7 @@
                 .range([dimensions.boundedHeight, 0])
                 .nice()
 
+            // Covid before/after graphics 
             const covidX = xScale(dateParser("2020-01-21"));
 
             bounds.append("rect")
@@ -507,26 +486,16 @@
                 .style("font-size", "1.2em")
                 .style('font-weight', "700")
                 .style("text-anchor", "start")
-                .html("‣ 1.20.2019 FIRST COVID-19 CASE IN US")
+                .html("‣ 1.20.2019 First COVID-19 Case in US")
 
-            // var img = bounds.append("image")
-            //     .attr('xlink:href', 'biden.svg')
-            //     .selectAll("img")
-            //     .data(tweetData)
-            //     .enter()
-            //     .append("img")
-            //     .attr('width', 5)
-            //     .attr('height', 5)
-            //     .attr("x", function (d) { return xScale(xAccessor(d)); })
-            //     .attr("y", function (d) { return yScale(yAccessor(d)); })
+            // Boolean object for button clicks
             const visState = {
                 Biden: true,
                 Trump: true
-
             }
-
+            // Call scatter function 
             drawDots(tweetData, color)
-
+            // Move dots to new Xpos 
             bounds.selectAll("circle")
                 .transition()
                 .delay(function (d, i) { return (i * 4) })
@@ -545,7 +514,6 @@
                 .on("mouseenter", onMouseEnter)
                 .on("mouseleave", onMouseLeave)
             // Select tooltip  and  define  mouse function 
-            // const tooltip = d3.select("#tooltip")
             function onMouseEnter(datum) {
                 var tweet = datum.tweet;
 
@@ -565,9 +533,6 @@
 
                 // Show tooltip
                 tooltip.html(tweet)
-                    // .style("top", (event.pageY) + "px")
-                    // .style("left", (event.pageX) + "px")
-                    // Position tooltip 
                     .style("transform", `translate(`
                         + `calc( ${x1}px + 150px),`
                         + `calc(100% + ${y1}px - 4020px)`
@@ -621,29 +586,14 @@
                 toggle = !toggle
             }
 
-            // var toggleColor = (function () {
-            //     // if color function is color, change to color2, else if color2 change to color
-            //     var currentColor = color;
-
-            //     return function () {
-            //         currentColor = currentColor == color ? color2 : color;
-            //         d3.selectAll(".dots").style("fill", currentColor);
-            //     }
-            // })();
-
-            // d3.select("#countries").on("click", function () {
-            //     d3.selectAll(".dots")
-            //         .style("fill", function (d) { return color2(d.countries[0]) });
-            // })
-
-
             d3.select("#reset").on("click", function () {
                 location.reload()
             })
 
         }
 
-        // Biden Countries 
+
+        // Biden Tweets on Asia 
         const bidenCountries = {
             "children": [
                 {
@@ -697,7 +647,7 @@
             console.log(bidenCountries.children.Count);
         });
         // Diameter of invisible enclosing circle of OED word categories
-        const diameter = 500;
+        const diameter = 600;
         var color = d3.scaleOrdinal()
             .domain(["Asia", "China", "North Korea", "Japan", "Hong Kong", "South Korea", "Taiwan", "India", "Vietnam", "Thailand", "Indonesia", "Malaysia", "Singapore", "Philippines", "Sri Lanka", "Australia", "New Zealand", "Samoa"])
             .range(["#384c5a", "#01aae9", "#dc3535", "#0ab493", "#EA899A", "#ed695a", "#996cb7", "#ff9459", "#800e2c", "#a3413c", "#969292", "#baca3e", "#119bf4", "#9B111E", "#E5BE01", "#A98307", "#F4A900", "#89AC76"]);
@@ -776,8 +726,7 @@
             .style("text-anchor", "middle")
             .html("BIDEN")
 
-        // Trump Countries
-
+        // Trump Tweets on Asia
         const trumpCountries = {
             "children": [
                 {
@@ -929,7 +878,7 @@
 
         d3.select("center").style("background-color", "white");
 
-        // Biden Issues
+        // Biden Tweets on Issues
         const bidenIssues = {
             "children": [
                 {
@@ -1066,8 +1015,8 @@
             .style('font-weight', "700")
             .style("text-anchor", "middle")
             .html("BIDEN")
-        // Trump Issues
-
+    
+        // Trump Tweets on Issues
         const trumpIssues = {
             "children": [
                 {
@@ -1208,8 +1157,6 @@
             .style("text-anchor", "middle")
             .html("TRUMP")
 
-
     </script>
-
 
 </body>
