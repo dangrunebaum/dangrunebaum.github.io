@@ -158,21 +158,21 @@
         }
 
         #bidenCountries {
-            margin: 100px;
+            margin: 100 50 100 200;
         }
 
 
         #trumpCountries {
-            margin: 100px;
+            margin: 100 200 100 50;
         }
 
         #bidenIssues {
-            margin: 100px;
+            margin: 100 50 100 200;
         }
 
 
         #trumpIssues {
-            margin: 100px;
+            margin: 100 200 100 50;
         }
 
         .twitter-timeline {
@@ -287,10 +287,24 @@
         
         // Indo-Pacific countries to filter tweets 
         var conditions = ["Asia", "China", "Japan", "North Korea", "South Korea", "Mongolia", "Taiwan", "Hong Kong", "Brunei", "Cambodia", "Indonesia", "Laos", "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand", "Vietnam", "Timor-Leste", "Bangladesh", "Bhutan", "India", "Maldives", "Nepal", "Sri Lanka", "Oceania", "Australia", "Micronesia", "Fiji", "Kiribati", "Marshall Islands", "Nauru", "New Zealand", "Palau", "Papua New Guinea", "Samoa", "Solomon Islands", "Tonga", "Tuvalu", "Vanuatu"]
-
+        // Color function to differentiate countries
         var color2 = d3.scaleOrdinal()
             .domain(["Asia", "China", "North Korea", "Japan", "Hong Kong", "South Korea", "Taiwan", "India", "Vietnam", "Thailand", "Indonesia", "Malaysia", "Singapore", "Philippines", "Sri Lanka", "Australia", "New Zealand", "Samoa"])
             .range(["#384c5a", "#01aae9", "#dc3535", "#0ab493", "#EA899A", "#ed695a", "#996cb7", "#ff9459", "#800e2c", "#a3413c", "#969292", "#baca3e", "#119bf4", "#9B111E", "#E5BE01", "#A98307", "#F4A900", "#89AC76"])
+            // Dimensions object
+            var dimensions = {
+                width: window.innerWidth * 0.8, height: window.innerHeight * 0.9,
+                margin: {
+                    top: 50,
+                    right: 15,
+                    bottom: 100,
+                    left: 100,
+                },
+            }
+            dimensions.boundedWidth = dimensions.width - dimensions.margin.left
+                - dimensions.margin.right
+            dimensions.boundedHeight = dimensions.height - dimensions.margin.top
+                - dimensions.margin.bottom
 
         // Load tweet data
         const dataPromiseT = d3.json("./stdTrump1.json");
@@ -310,21 +324,7 @@
                 if (person === "Biden") return "#0542f7"
                 return "rgba(217, 42, 42, 0.8)"
             }
-
-            let dimensions = {
-                width: window.innerWidth * 0.8, height: window.innerHeight * 0.9,
-                margin: {
-                    top: 50,
-                    right: 15,
-                    bottom: 100,
-                    left: 100,
-                },
-            }
-            dimensions.boundedWidth = dimensions.width - dimensions.margin.left
-                - dimensions.margin.right
-            dimensions.boundedHeight = dimensions.height - dimensions.margin.top
-                - dimensions.margin.bottom
-
+            // Main viz svg
             const wrapper = d3.select("#wrapper")
                 .append("svg")
                 .attr("width", dimensions.width)
@@ -649,7 +649,7 @@
             console.log(bidenCountries.children.Count);
         });
         // Diameter of invisible enclosing circle of OED word categories
-        const diameter = 600;
+        const diameter = dimensions.width / 2.7;
         var color = d3.scaleOrdinal()
             .domain(["Asia", "China", "North Korea", "Japan", "Hong Kong", "South Korea", "Taiwan", "India", "Vietnam", "Thailand", "Indonesia", "Malaysia", "Singapore", "Philippines", "Sri Lanka", "Australia", "New Zealand", "Samoa"])
             .range(["#384c5a", "#01aae9", "#dc3535", "#0ab493", "#EA899A", "#ed695a", "#996cb7", "#ff9459", "#800e2c", "#a3413c", "#969292", "#baca3e", "#119bf4", "#9B111E", "#E5BE01", "#A98307", "#F4A900", "#89AC76"]);
