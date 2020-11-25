@@ -143,15 +143,15 @@
 
         .grid-container {
             position: relative;
-            left: 80px;
+            left: 20px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            grid-gap: 20px;
+            grid-gap: 40px;
         }
 
         .grid-container1 {
             position: relative;
-            left: 80px;
+            left: 40px;
             display: grid;
             grid-template-columns: 8fr 2fr;
             grid-gap: 20px;
@@ -379,7 +379,7 @@
                 .enter()
                 .append("circle")
                 .attr("cx", 5)
-                .attr("cy", function (d, i) { return 20 + i * 40 })
+                .attr("cy", function (d, i) { return 20 + i * 38 })
                 .attr("r", 5)
                 .style("fill", function (d) { return color2(d) })
 
@@ -388,7 +388,7 @@
                 .enter()
                 .append("text")
                 .attr("x", 15)
-                .attr("y", function (d, i) { return 25 + i * 40 })
+                .attr("y", function (d, i) { return 25 + i * 38 })
                 .style("fill", function (d) { return color2(d) })
                 .text(function (d) { return d })
                 .style("font-family", "Montserrat")
