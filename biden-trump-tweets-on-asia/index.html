@@ -257,12 +257,12 @@
 
     <div class="explainer">
         <p>
-            What did US President Donald Trump and former US Vice-President Joe Biden say about Asia in the 2020
+            What did US President Donald Trump and President-Elect Joe Biden say about Asia in the 2020
             election cycle? Roll over the dots above to read the candidates' tweets about Asian countries. Press the
             buttons to filter tweets by Trump or Biden, or by country. Biden's 33 tweets about Asia and Trump's 298
             tweets in the 2020 election year are represented by time on the X axis. The Y axis shows number of retweets,
             a measure that reflects Trump's greater number of followers (~90m) compared to Biden's (~20m). </p>
-        <p>Below, explore two sets of visualizations of Biden and Trump's tweets on Asian nations through the four-year
+        <p>Below, explore two sets of visualizations of Biden and Trump's tweets on Asian countries through the four-year
             period of Trump's presidency. The first set compares the number of times the candidates tweeted about
             different Asian countries. The second set compares their references to 15 terms of importance to the
             Indo-Pacific region. Circle sizes are normalized to account for Trump's greater number of tweets
@@ -273,12 +273,12 @@
     </div>
     <h1>Biden vs Trump: Tweets on Asia Since 2016</h1>
     <p class="explainer">
-        Among Asian nations, Trump and Biden both tweeted by far the most about China. Both candidates foregrounded
+        Among Asian countries, Trump and Biden both tweeted by far the most about China. Both candidates foregrounded
         trade and military competition, but Trump was relatively silent on human rights issues in relation to China,
         while Biden was outspoken on Hong Kong. Both men devoted many tweets to North Korea, with Trump touting
         diplomatic progress and Biden dismissive of the President’s summit diplomacy. Given Trump’s frequent use of
         Twitter and willingness to conduct diplomacy by tweet, it shouldn’t be surprising that he tweeted about 16
-        Indo-Pacific nations and regions in total compared to Biden’s 11.
+        Indo-Pacific countries and regions in total compared to Biden’s 11.
     </p>
     <div class="grid-container">
         <div id="bidenCountries" class="grid1"></div>
@@ -288,7 +288,7 @@
     <h1>Biden vs Trump: Tweets on Issues Since 2016</h1>
     <p class="explainer">
         Military and trade first, or climate change and democracy? This visualization captures the number of Twitter
-        references to 15 key terms by US President Donald Trump and US Vice-President Joe Biden:
+        references to 15 key terms by US President Donald Trump and President-Elect Joe Biden:
         Alliance, Authoritarian, Climate Change, Cooperation, Democracy, Human Rights, Immigration, Liberal
         International Order, Military, Multilateralism, South China Sea, Technology, TPP, Trade and Values.
     </p>
@@ -370,7 +370,7 @@
                 .style("font-size", "1em")
                 .style('font-style', "italic")
                 .style("text-anchor", "left")
-                .html("Filter by Biden, Trump or Country")
+                .html("Filter by Biden, Trump, or Country")
 
             bounds.append("text")
                 .attr("x", -280)
@@ -395,7 +395,7 @@
                 .enter()
                 .append("circle")
                 .attr("cx", 5)
-                .attr("cy", function (d, i) { return 60 + i * 38 })
+                .attr("cy", function (d, i) { return 60 + i * 37 })
                 .attr("r", 5)
                 .style("fill", function (d) { return color2(d) })
 
@@ -404,7 +404,7 @@
                 .enter()
                 .append("text")
                 .attr("x", 15)
-                .attr("y", function (d, i) { return 65 + i * 38 })
+                .attr("y", function (d, i) { return 65 + i * 37 })
                 .style("fill", function (d) { return color2(d) })
                 .text(function (d) { return d })
                 .style("font-family", "Montserrat")
@@ -504,7 +504,7 @@
                 .style("font-size", "1.2em")
                 .style('font-weight', "700")
                 .style("text-anchor", "start")
-                .html("‣ 1.20.2019 First COVID-19 Case in US")
+                .html("‣ 1.20.2019 First COVID-19 Case in the United States")
 
             // Boolean object for button clicks
             const visState = {
