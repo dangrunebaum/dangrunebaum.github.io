@@ -1,5 +1,11 @@
 <head>
     <style>
+        /* Remove AMA navigation */
+        .container-fluid {
+            display: none;
+        }
+
+        /* General rules */
         body {
             color: #3e4149
         }
@@ -54,9 +60,10 @@
             height: auto;
         }
 
+        /* Button styles and positioning */
         button {
             font-size: large;
-            padding: 8;
+            padding: 8px;
             border: lightgray;
             background: none;
             border-radius: 10px;
@@ -154,15 +161,8 @@
             transform: translate3D(0, 2px, 0);
             cursor: pointer;
         }
-
-        .grid-container {
-            position: relative;
-            left: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-gap: 40px;
-        }
-
+        
+        /* Header layout */
         .grid-container1 {
             position: relative;
             left: 40px;
@@ -171,10 +171,19 @@
             grid-gap: 20px;
         }
 
+        /* Footer layout */
+        .grid-container {
+            position: relative;
+            left: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 40px;
+        }
+
+        /* Bubble chart positioning */
         #bidenCountries {
             margin: 100 50 100 200;
         }
-
 
         #trumpCountries {
             margin: 100 200 100 50;
@@ -183,7 +192,6 @@
         #bidenIssues {
             margin: 100 50 100 200;
         }
-
 
         #trumpIssues {
             margin: 100 200 100 50;
@@ -202,7 +210,7 @@
             text-align: justify;
             font-size: 20px;
         }
-
+        /* Header and footer positioning */
         .header {
             position: -webkit-sticky;
             position: sticky;
@@ -239,12 +247,14 @@
 
     <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
+
+<body>
 <!-- Top scatterplot display -->
 <div class="header">
 
     <div id="tooltip" class="tooltip"></div>
 
-    <!-- Left grid is scatter, Right is legend -->
+    <!-- Left grid is scatter, right is legend -->
     <div class="grid-container1">
         <div id="wrapper" class="grid1"></div>
         <div id="legend" class="grid2">
@@ -305,7 +315,6 @@
     </div>
 </div>
 
-<body>
     <script>
 
         // Indo-Pacific countries to filter tweets 
@@ -560,7 +569,7 @@
                 tooltip.html(tweet)
                     .style("transform", `translate(`
                         + `calc( ${x1}px + 150px),`
-                        + `calc(100% + ${y1}px - 4020px)`
+                        + `calc(100% + ${y1}px - 3500px)`
                         + `)`)
                     .style("opacity", 1.0)
             }
