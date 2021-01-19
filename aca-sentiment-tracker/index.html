@@ -1,0 +1,460 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>ACA Tracker</title>
+    <meta name="description" content="ACA Tracker">
+    <meta name="author" content="Dan Grunebaum">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: black;
+            background-color: rgb(255, 255, 255);
+        }
+
+        h1 {
+            font-size: xxx-large;
+            color: dimgray;
+        }
+
+        h2 {
+            color: dimgray;
+        }
+
+        h3 {
+            font-size: x-large;
+            color: #00AEBB;
+        }
+
+        path {
+            stroke: none;
+        }
+
+        /* Style for Custom Tooltip */
+        .tooltip {
+            position: absolute;
+            text-align: left;
+            font-family: 'Trebuchet MS';
+            /* font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
+            /* font-family: 'Montserrat'; */
+            max-width: 400px;
+            height: auto;
+            padding: 10px;
+            font-size: 20px;
+            background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            color: black;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+            z-index: 1;
+            box-shadow: 4px 8px 20px rgba(0, 0, 0, .5);
+        }
+
+        .bar:hover {
+            opacity: 0.7;
+        }
+    </style>
+
+</head>
+<script src="https://d3js.org/d3.v5.js"></script>
+
+<body>
+
+    <h1>Affordable Care Act Twitter Sentiment Tracker</h1>
+    <h2>Monitoring public opinion on healthcare reform in real time</h2>
+    <h3>TOP TWEETS: Apr 12, 2021 11:00 GMT</h3>
+    <div id='container'></div>
+    <div>
+        <p>Analyzed with <a href='https://pypi.org/project/vaderSentiment/'>VADER</a> ( Valence Aware Dictionary for
+            Sentiment Reasoning).</p>
+    </div>
+    <h3>TWEETS SINCE MARCH 1, 2021</h3>
+    <div id='container2'></div>
+    <script>
+
+        const tweets = [{
+            tweet: 'RT @Transition46: Open enrollment for health insurance through the Affordable Care Act is here until December 15.',
+            score: 0.4939
+        },
+        {
+            tweet: '$15/hr minimum wage has forced me to fire fifty of my half-time employees and put the other fifty on full-time, the… https://t.co/ROVUraSja2',
+            score: -0.6597
+        },
+        {
+            tweet: 'RT @LTCPLANNINGNEWS: As you get older the need for dental health remains important https://t.co/Ucj2Vdyk8y We experience many changes in #h…',
+            score: 0.2023
+        },
+        {
+            tweet: 'RT @JoyAnnReid: Clarence Thomas should step down. His wife had already barged into the Affordable Care Act issue, essentially lobbying for…',
+            score: 0.4404
+        },
+        {
+            tweet: 'RT @Michael_J_New: A new study in @WHIjournal analyzed Medicaid expansion in Oregon.\n' +
+                '\n' +
+                'It found that after Medicaid expansion, the number of…',
+            score: 0.0772
+        },
+        {
+            tweet: 'RT @Cleavon_MD: 37. Right now is attempting to strike down the Affordable Care Act, which would make 20 million people uninsured during a p…',
+            score: 0.4019
+        },
+        {
+            tweet: 'just think it’s funny how the Affordable Care Act and these $2,000 checks were both Republican ideas and yet someho… https://t.co/oW1sMdos3m',
+            score: 0.7269
+        },
+        {
+            tweet: '@_theemaverick If they do offer health insurance it’s like over $200 a month, but they brand it affordable health c… https://t.co/oHtjYtRmN4',
+            score: 0.1901
+        },
+        {
+            tweet: "Always happy to protect the Affordable Care Act and help people get the health care they need. Excited that we'll s… https://t.co/GhYQPmcyum",
+            score: 0.9501
+        },
+        {
+            tweet: 'RT @allymayn: We all should be against fascism. ‘Antifa’ is a right wing scare word like Obamacare, and they use it to lie incessantly abou…',
+            score: -0.1779
+        },
+        {
+            tweet: 'RT @DeborahDian: Millions of Americans are eligible to get an ACA discount on medical insurance. If you lost your job or had a change in in…',
+            score: 0.3182
+        },
+        {
+            tweet: 'Meet our team! Chris Crevasse focuses his practice on employee benefits, the Affordable Care Act, and other aspects… https://t.co/FWwXgzEcVf',
+            score: 0.7263
+        },
+        {
+            tweet: '@VeronikaPinkert @karencamp78 @FerretStarseed @former_timeline @ksorbs He didn’t succeed in full repeal but he cert… https://t.co/N27BVuDFng',
+            score: 0.2732
+        },
+        {
+            tweet: 'A decade after heralding Obamacare as a "big f---ing deal," Biden is mounting an ambitious rescue mission for the h… https://t.co/ksM8bNN2Hs',
+            score: 0.7506
+        },
+        {
+            tweet: "RT @tomscocca: If you respected these people, you'd make them explain how exactly the Affordable Care Act injured them so they had to take…",
+            score: 0.5574
+        },
+        {
+            tweet: "Open enrollment in New York's Affordable Care Act marketplace is now open, and will continue through January 31st,… https://t.co/t6YfypPzzX",
+            score: 0.4939
+        }, {
+            tweet: 'The Affordable Care Act is key to combating income inequality. It needs to be protected and expanded!',
+            score: 0.75
+        },
+        {
+            tweet: 'RT @RBReich: So let me get this straight: Republicans in Congress wanted to impeach Obama for passing the Affordable Care Act, but they don…',
+            score: 0.3945
+        },
+        {
+            tweet: '@qbermensch @BrianNormoyle The affordable care act is ass. It’s a hand out to insurance companies Invented by mitt… https://t.co/9IAsvNiasR',
+            score: 0.4404
+        },
+        {
+            tweet: '@GarbageTweetMan @BrianNormoyle the affordable care act still exists for that exact reason. 👎',
+            score: -0.4939
+        },
+        {
+            tweet: '@SherifMarcos @awealthofcs "Affordable Care Act" website has all the best questions:  "Is your 8 year old in jail?"… https://t.co/M8niV2wZX2',
+            score: 0.8126
+        },
+        {
+            tweet: "This was the flaw in the Affordable Care Act, too: it didn't go far enough. https://t.co/CaZoeYO0xj",
+            score: 0.4939
+        },
+        {
+            tweet: "Always happy to protect the Affordable Care Act and help people get the health care they need. Excited that we'll s… https://t.co/GhYQPmcyum",
+            score: 0.9501
+        },
+        {
+            tweet: `@letterandnumb I hope the idiot does not suggest "improved" obamacare. Considering who's in power now, the only imp… https://t.co/ltIRwflg6h`,
+            score: -0.1027
+        },
+        {
+            tweet: "This was the flaw in the Affordable Care Act, too: it didn't go far enough. https://t.co/CaZoeYO0xj",
+            score: 0.4939
+        },
+        {
+            tweet: 'RT @RBReich: So let me get this straight: Republicans in Congress wanted to impeach Obama for passing the Affordable Care Act, but they don…',
+            score: 0.3945
+        },
+        {
+            tweet: 'Nearly 11 years ago, your socialist colleagues passed the Affordable Care Act. Provisions of which nearly killed my… https://t.co/g4FLfDWGLR',
+            score: -0.3182
+        },
+        {
+            tweet: 'RT @KarenYRichardso: @BradMossEsq The far right wanted to impeach Obama over the Affordable Care Act and because he was taking daily briefi…',
+            score: 0.4939
+        },
+        {
+            tweet: '$15/hr minimum wage has forced me to fire fifty of my half-time employees and put the other fifty on full-time, the… https://t.co/ROVUraSja2',
+            score: -0.6597
+        },
+        {
+            tweet: 'RT @MikeKofiA: "Access" just like the Affordable Care Act. Universal healthcare or nothing, and hey you guys control the government now so…',
+            score: 0.6908
+        },
+        {
+            tweet: "@laurenboebert That's The Affordable Care Act to you Fascists.",
+            score: 0.34
+        },
+        {
+            tweet: 'RT @LarryGlickman: Trump’s position on “repealing and replacing” the ACA (with no actual plan for replacement) was also the mainstream GOP…',
+            score: -0.296
+        },
+        {
+            tweet: '@Angry_Staffer It’s coming... his TOTALLY NEW AND TOTALLY AMAZING plan is called “Affordable Care Act”.',
+            score: 0.8677
+        },
+        {
+            tweet: 'RT @datarade: Fascinating stuff on Obamacare/Affordable Care Act. \n' +
+                '\n' +
+                'https://t.co/SBwy5pKUug',
+            score: 0.7717
+        },
+        {
+            tweet: '@Connieski56 @SpeakerPelosi @AdamSchiff No, pre-existing conditions covered!\n' +
+                'Most important issues:\n' +
+                '1) healthcare i… https://t.co/zzo5C7i1Md',
+            score: -0.1025
+        },
+        {
+            tweet: 'RT @RBReich: So let me get this straight: Republicans in Congress wanted to impeach Obama for passing the Affordable Care Act, but they don…',
+            score: 0.3945
+        },
+        {
+            tweet: 'RT @RBReich: So let me get this straight: Republicans in Congress wanted to impeach Obama for passing the Affordable Care Act, but they don…',
+            score: 0.3945
+        },
+        {
+            tweet: 'Fascinating stuff on Obamacare/Affordable Care Act. \n' +
+                '\n' +
+                'https://t.co/SBwy5pKUug',
+            score: 0.7717
+        },
+        {
+            tweet: 'ICYMI California Endowment Supports Affordable Care Act https://t.co/BFiUqnRJ7W #Civic #Engagement https://t.co/6FBdw9VJtr',
+            score: 0.6908
+        },
+        {
+            tweet: 'Only in America would a law that coerces you into signing onto a hopelessly inadequate healthcare plan with massive… https://t.co/D9nX5K2ofx',
+            score: -0.7096
+        },
+        {
+            tweet: 'RT @devindwyer: A decade after heralding Obamacare as a "big f---ing deal," Biden is mounting an ambitious rescue mission for the health la…',
+            score: 0.7506
+        },
+        {
+            tweet: 'On March 23, 2010, the signing of the Affordable Care Act  rules were established for employers and insurance carri… https://t.co/bRmPHRnrvT',
+            score: 0.4939
+        },
+        {
+            tweet: '@DeborahTrautman @AACNursing This dude is THE go-to for all things Affordable Care Act plus he raised more in the 2… https://t.co/C7vFShUeoi',
+            score: 0.4939
+        },
+        {
+            tweet: '@vicky_dollysmom Understanding the Affordable Care Act...',
+            score: 0.4939
+        },
+
+        ]
+
+        const colorScale = d3.scaleSequential(d3.interpolateRdYlGn)
+            .domain([-0.5, 1])
+
+        //Read the data
+        ready(tweets)
+
+        function ready(data) {
+            console.log(data)
+            // Math.abs normalizes negative values, x0 is the max score
+            const x0 = Math.abs(d3.max(data, function (d) { return d.score; }));
+
+            // Set the dimensions of the canvas / graph
+            var margin = { top: 100, right: 50, bottom: 20, left: 50 },
+
+            width = 2000;
+            height = 1100;
+
+            const svg = d3.select('#container')
+                .append("svg")
+                .attr("preserveAspectRatio", "xMinYMin meet")
+                .attr("viewBox", "0 0 2000 1000");
+
+            const f = d3.format(".2f");
+
+            const xScale = d3.scaleLinear()
+                .domain([-x0, x0]) // X values are distributed between max neg and pos values (0.95)
+                .range([0, 400])
+                .nice();
+
+            const yScale = d3.scaleBand()
+                .domain(data.map(function (d) { return d.tweet; }))
+                .range([margin.top, height]).padding(0.1);
+
+            const tweetText = svg.selectAll('text')
+                .data(tweets)
+                .enter()
+                .append('text')
+                .attr('x', 100)
+                .attr("y", function (d) { return yScale(d.tweet) + 30; })
+                .text(function (d,) { return d.tweet; })
+                .style('font-size', 20)
+                .style('fill', '#033F44')
+                .attr('class', 'tweetText')
+
+            const bounds = svg.append("g");
+
+            bounds.selectAll(".bar")
+                .data(tweets)
+                .enter().append("rect")
+                .attr("class", "bar")
+                // if number is bigger than 0 return 1400, else return 1400 + d.score * 500
+                // .attr("x", function (d) { return xScale(Math.max(0, d.score)); })
+                .attr("x", function (d) {
+                    if (d.score > 0) { return 1600; }
+                    else { return 1400 + xScale(d.score); }
+                })
+                .attr("y", function (d) { return yScale(d.tweet) + 10; })
+                .attr("width", function (d) { return Math.abs(xScale(d.score) - xScale(0)); })
+                .attr("height", yScale.bandwidth())
+                .style('fill', function (d) { return `hsl(${150 * d.score}, 50%, 50%)` })
+                .on('mouseover', mouseover)
+                .on('mouseout', mouseout);
+            // .attr("fill", function (d, i) { return colorScale(d.score); })
+
+            // Call top axis on g appended to bounds 
+            bounds.append("g")
+                .style("font-size", "12px")
+                .attr("transform", "translate(1400,100)")
+                .call(d3.axisTop(xScale).ticks(10))
+
+            // // Append Div for tooltip to SVG
+            var tooltipDiv = d3.select("#container")
+                .append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
+            function mouseover(d) {
+                let score = d.score;
+                let tweet = d.tweet;
+                tooltipDiv.transition()
+                    .duration(200)
+                    .style("opacity", .98)
+                tooltipDiv.html("<strong>" + '"' + tweet + '"' + "</strong>" + "<br>" + "Sentiment score: " + f(score))
+                    .style("left", (d3.event.pageX) - 200 + "px")
+                    .style("top", (d3.event.pageY) - 150 + "px");
+            }
+
+            function mouseout(d) {
+                tooltipDiv.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            }
+
+            svg.append('text')
+                .attr('x', 1350)
+                .attr('y', 60)
+                .style('font-size', 24)
+                .text('Negative')
+
+            svg.append('text')
+                .attr('x', 1760)
+                .attr('y', 60)
+                .style('font-size', 24)
+                .text('Positive')
+
+            // Show daily sentiment average
+            let sum = 0;
+            tweets.forEach(function (d) {
+                let num = d.score
+                sum += num;
+            })
+            console.log(sum);
+            let avgScore = sum / tweets.length;
+            console.log(avgScore);
+
+            svg.append('text')
+                .attr('x', 1500)
+                .attr('y', 30)
+                .attr('font-size', 30)
+                .style('fill', 'dimgray')
+                .html(`Today's average: ${f(avgScore)}`)
+        }
+
+        // DONUT CHART //
+
+        const donut = { negative: 2, neutral: 3, positive: 5 }
+
+        var width = 600
+        height = 600
+        margin = 40
+
+        var radius = Math.min(width, height) / 2 - margin
+
+
+        ready2(donut)
+        function ready2(data) {
+
+            console.log(data)
+
+            var svg = d3.select("#container2")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+            const color = d3.scaleOrdinal()
+                .domain(data)
+                .range(['#f6814d', 'steelblue', '#b8e178']);
+
+
+            // Compute the position of each group on the pie:
+            var pie = d3.pie()
+                .value(function (d) { return d.value; })
+            var data_ready = pie(d3.entries(data))
+
+            console.log(data_ready)
+            // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+
+
+            var arcGenerator = d3.arc()
+                .innerRadius(150)         // This is the size of the donut hole
+                .outerRadius(radius)
+
+            svg.selectAll('slice')
+                .data(data_ready)
+                .enter()
+                .append('path')
+                .attr('d', arcGenerator)
+                .attr('fill', function (d) { return (color(d.data.key)) })
+                .attr("stroke", "black")
+                .style("stroke-width", "2px")
+                .style("opacity", 0.7)
+
+            console.log(data_ready[0].data.key)
+
+            svg.selectAll('slices')
+                .data(data_ready)
+                .enter()
+                .append('text')
+                .text(function (d) { return d.data.key })
+                .attr("transform", function (d) { return "translate(" + arcGenerator.centroid(d) + ")"; })
+                .style("text-anchor", "middle")
+                .style("font-size", 17)
+
+
+        }
+
+    </script>
+</body>
+
+</html>

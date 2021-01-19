@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <style>
+        @font-face {
+            font-family: 'proxima_nova_rgregular';
+            src: url('https://litmus.com/fonts/Emails/proximanova-regular-webfont.eot');
+            src: url('https://litmus.com/fonts/Emails/proximanova-regular-webfont.eot?#iefix') format('embedded-opentype'),
+                url('https://litmus.com/fonts/Emails/proximanova-regular-webfont.woff') format('woff'),
+                url('https://litmus.com/fonts/Emails/proximanova-regular-webfont.ttf') format('truetype'),
+                url('https://litmus.com/fonts/Emails/proximanova-regular-webfont.svg#proxima_nova_rgregular') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'proxima_nova_rgbold';
+            src: url('https://litmus.com/fonts/Emails/proximanova-bold-webfont.eot');
+            src: url('https://litmus.com/fonts/Emails/proximanova-bold-webfont.eot?#iefix') format('embedded-opentype'),
+                url('https://litmus.com/fonts/Emails/proximanova-bold-webfont.woff') format('woff'),
+                url('https://litmus.com/fonts/Emails/proximanova-bold-webfont.ttf') format('truetype'),
+                url('https://litmus.com/fonts/Emails/proximanova-bold-webfont.svg#proxima_nova_rgbold') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-size: 12px sans-serif;
+            font-family: "Gill Sans", "Gill Sans MT", Calibri;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .x.axis path {
+            display: none;
+        }
+
+        .y.axis path {
+            display: none;
+        }
+
+        .line {
+            fill: none;
+            /* stroke: steelblue; */
+            stroke-width: 4px;
+        }
+
+        g.tick line {
+            opacity: 0;
+        }
+
+        .svg-container {
+            display: inline-block;
+            position: relative;
+            width: 100%;
+            /* padding-bottom: 5%; */
+            vertical-align: top;
+            overflow: hidden;
+            background-color: rgba(224, 254, 255, 0.783);
+        }
+
+        .svg-content {
+            display: inline-block;
+            top: 0;
+            left: 0;
+        }
+
+        #selectButton {
+            font-family: 'proxima_nova_rgbold', Helvetica, Arial, sans-serif;
+            position: relative;
+            top: 100px;
+            left: 50px;
+            border-radius: 5px;
+            padding: 5px;
+            border: 1px solid orange;
+            color: orange;
+            font-weight: 700;
+            font-size: large;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        #selectButton:hover {
+            box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        #selectButton:focus {
+            border: 1px solid orange;
+            outline: none;
+        }
+
+        /* TABLE */
+
+        #table {
+            /* position: relative;
+            left: 60%; */
+            margin: 0 100px 100px 100px;
+            border-collapse: collapse;
+            table-layout: fixed;
+            display: block;
+            float: right;
+        }
+
+        tbody {
+            display: block;
+            /* overflow: scroll; */
+        }
+
+        thead {
+            width: 30%;
+            font-size: 1.5em;
+            letter-spacing: 0;
+            font-weight: 900;
+            /* border: 1px solid orange; */
+            color: orange;
+            border-radius: 5px;
+            /* white-space: nowrap; */
+            text-align: right;
+        }
+
+        /* thead th {
+            width: auto;
+            position: sticky;
+            top: 0;
+            padding: 1em 2.5rem;
+        } */
+
+        tr {
+            width: 30%;
+            padding: 1em 2.5rem;
+            text-align: right;
+        }
+
+        /* th.text {
+            text-align: left;
+        } */
+
+        th.number {
+            font-size: 1.1em;
+            text-align: right;
+            padding: 1em 2.5rem;
+        }
+
+        td.number {
+            text-align: right;
+            font-size: 1.5em;
+            padding: 1em 2.5rem;
+        }
+
+        tbody tr:nth-child(odd) {
+            background: #f0f0f3;
+        }
+
+        tbody tr:hover {
+            transition: all 0.1s ease-out;
+            box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .25);
+            transform: translate3D(0, -1px, 0);
+        }
+
+        td {
+            padding: 0.4em 0.8rem;
+        }
+
+        /* .number {
+    text-align: left;
+    font-feature-settings: 'tnum' 1;
+} */
+
+        tbody .marker {
+            font-size: 0.7em;
+        }
+
+        tbody .symbol {
+            opacity: 0.6;
+        }
+
+        .centered {
+            text-align: center;
+        }
+
+        /* tbody .text {
+    font-size: 0.9em;
+    font-weight: 700;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+} */
+
+        h1 {
+            color: dimgray;
+            text-align: left;
+            position: relative;
+            left: 100px;
+        }
+
+        p {
+            margin-left: 100px;
+            font-size: 25px;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<body>
+
+    <select id="selectButton"></select>
+    <div id="wrapper"></div>
+    <div id="table"></div>
+    <h1>Silver Plans Decline in Popularity over Time</h1>
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Feugiat sed lectus vestibulum mattis ullamcorper velit. Aliquet risus feugiat in ante metus dictum
+        at tempor. Luctus venenatis lectus magna fringilla urna. Aenean vel elit scelerisque mauris pellentesque
+        pulvinar pellentesque. Ornare lectus sit amet est. Pellentesque habitant morbi tristique senectus et netus et
+        malesuada fames. Nisi quis eleifend quam adipiscing vitae proin sagittis nisl. Urna id volutpat lacus laoreet
+        non curabitur gravida arcu. Orci ac auctor augue mauris augue neque gravida. Massa tincidunt nunc pulvinar
+        sapien et ligula. Semper eget duis at tellus at urna condimentum mattis. Etiam non quam lacus suspendisse
+        faucibus.
+
+    </p>
+    <p>
+        Eros in cursus turpis massa. Pellentesque diam volutpat commodo sed egestas egestas fringilla. Quis vel eros
+        donec ac odio tempor orci dapibus. A condimentum vitae sapien pellentesque habitant morbi tristique senectus et.
+        Elit ullamcorper dignissim cras tincidunt lobortis. Ut lectus arcu bibendum at varius vel pharetra vel. Maecenas
+        volutpat blandit aliquam etiam erat velit scelerisque in dictum. Convallis tellus id interdum velit laoreet id
+        donec ultrices tincidunt. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus. Commodo nulla
+        facilisi nullam vehicula ipsum a arcu cursus. Sem viverra aliquet eget sit amet tellus cras adipiscing enim.
+        Mauris vitae ultricies leo integer. Nam at lectus urna duis convallis convallis tellus id interdum. Sollicitudin
+        tempor id eu nisl nunc. Sit amet risus nullam eget felis eget. Et ultrices neque ornare aenean euismod. Dolor
+        sit amet consectetur adipiscing.
+    </p>
+    <p>
+        Sem nulla pharetra diam sit amet. Viverra tellus in hac habitasse platea dictumst vestibulum rhoncus est.
+        Vestibulum sed arcu non odio euismod. Odio pellentesque diam volutpat commodo sed. Libero id faucibus nisl
+        tincidunt. Nisl purus in mollis nunc sed id semper risus in. Mattis ullamcorper velit sed ullamcorper morbi.
+        Faucibus a pellentesque sit amet porttitor. Quis commodo odio aenean sed. Nisi lacus sed viverra tellus in hac
+        habitasse platea. Nec dui nunc mattis enim ut tellus elementum.
+    </p>
+
+    <script>
+
+        var margin = {
+            top: 100,
+            right: 100,
+            bottom: 100,
+            left: 100
+        },
+            width = 900 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+        var yearParser = d3.timeParse("%Y");
+
+        var x = d3.scaleTime()
+            .range([0, width]);
+
+        var y = d3.scaleLinear()
+            .range([height, 0]);
+
+        var color = d3.scaleOrdinal()
+            .range(["#cd7f32", "silver", "gold"]);
+
+        var xAxis = d3.axisBottom(x)
+        .ticks(5);
+
+        var yAxis = d3.axisLeft(y);
+
+        var table = d3.select("#table");
+
+        var line = d3.line().curve(d3.curveNatural)
+            .x(function (d) {
+                return x(d.year);
+            })
+            .y(function (d) {
+                return y(d.enrollment);
+            });
+
+        const chart = d3.select("#wrapper").append("svg")
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 900 500")
+            .classed("svg-content", true)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        // Load data
+        const dataPromise = d3.csv("./metal-enrollment-state-2017-2020.csv");
+        Promise.all([dataPromise]).then(function (values) {
+            ready(values)
+        });
+
+        function ready([data]) {
+
+            // Set color domain key to metal names
+            color.domain(d3.keys(data[0]).filter(function (key) {
+                return key !== "State" && key !== "Year" && key !== 'Consumers';
+            }));
+
+            data.forEach(function (d) {
+                d.year = yearParser(d.Year);
+            });
+            // Call update function for start state 'Total'
+            update("Total")
+
+            var mouseG = chart.append("g")
+                .attr("class", "mouse-over-effects");
+
+            mouseG.append("path") // Black vertical line to follow mouse
+                .attr("class", "mouse-line")
+                .style("stroke", "black")
+                .style("stroke-width", "1px")
+                .style("stroke-dasharray", "2, 4")
+                .style("opacity", "0");
+
+            var lines = document.getElementsByClassName('line');
+
+            var mousePerLine = mouseG.selectAll('.mouse-per-line')
+                .data(metals)
+                .enter()
+                .append("g")
+                .attr("class", "mouse-per-line");
+
+            mousePerLine.append("circle")
+                .attr("r", 7)
+                .style("stroke", function (d) {
+                    return color(d.name);
+                })
+                .style("fill", "none")
+                .style("stroke-width", "2px")
+                .style("opacity", "0");
+
+            mousePerLine.append("text")
+                .attr("transform", "translate(10, -10)");
+
+            mouseG.append('rect') // append a rect to catch mouse movements on canvas
+                .attr('width', width) // can't catch mouse events on a g element
+                .attr('height', height)
+                .attr('fill', 'none')
+                .attr('pointer-events', 'all')
+                .on('mouseout', function () { // on mouse out hide line, circles and text
+                    d3.select(".mouse-line")
+                        .style("opacity", "0");
+                    d3.selectAll(".mouse-per-line circle")
+                        .style("opacity", "0");
+                    d3.selectAll(".mouse-per-line text")
+                        .style("opacity", "0");
+                })
+                .on('mouseover', function () { // on mouse in show line, circles and text
+                    d3.select(".mouse-line")
+                        .style("opacity", "1");
+                    d3.selectAll(".mouse-per-line circle")
+                        .style("opacity", "1");
+                    d3.selectAll(".mouse-per-line text")
+                        .style("opacity", "1");
+                })
+                .on('mousemove', function () { // mouse moving over canvas
+                    var mouse = d3.mouse(this);
+                    d3.select(".mouse-line")
+                        .attr("d", function () {
+                            var d = "M" + mouse[0] + "," + height;
+                            d += " " + mouse[0] + "," + 0;
+                            return d;
+                        });
+console.log(data)
+                    d3.selectAll(".mouse-per-line")
+                        .attr("transform", function (d, i) {
+                            // console.log(width/mouse[0])
+                            var xyear = x.invert(mouse[0]),
+                                bisect = d3.bisector(function (d) { return d.year; }).right;
+                            idx = bisect(d.values, xyear);
+
+                            var beginning = 0,
+                                end = lines[i].getTotalLength(),
+                                target = null;
+
+                            while (true) {
+                                target = Math.floor((beginning + end) / 2);
+                                pos = lines[i].getPointAtLength(target);
+                                if ((target === end || target === beginning) && pos.x !== mouse[0]) {
+                                    break;
+                                }
+                                if (pos.x > mouse[0]) end = target;
+                                else if (pos.x < mouse[0]) beginning = target;
+                                else break; //position found
+                            }
+
+                            d3.select(this).select('text')
+                                .style("fill", "dimgray")
+                                // .text(function () { return d.values; });
+                                .text(y.invert(pos.y).toFixed(0));
+                            return "translate(" + mouse[0] + "," + pos.y + ")";
+                        });
+                });
+
+            // Chart text
+            chart.append("text")
+                .attr("transform", "translate(100,0)")
+                .attr("x", width / 2 - margin.left)
+                .attr("y", -80)
+                .style("font-size", "25px")
+                .style("font-weight", 700)
+                .style("text-anchor", "middle")
+                .style("fill", "dimgray")
+                .style("font-family", "'Gill Sans', 'Gill Sans MT'")
+                .text("Affordable Care Act Enrollment by State and Metal, 2017-2020");
+
+            chart.append("text")
+                .attr("transform", "translate(100,0)")
+                .attr("x", width / 2 - margin.left)
+                .attr("y", height + 60)
+                .style("font-size", "12px")
+                .style("font-weight", 700)
+                .style("text-anchor", "middle")
+                .style("fill", "dimgray")
+                .style("font-family", "'Gill Sans', 'Gill Sans MT'")
+                .text("Source: U.S. Centers for Medicare & Medicaid Services, Open Enrollment Period Public Use Files.");
+
+
+            chart.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", -80)
+                .attr("x", -200)
+                .style("text-anchor", "start")
+                .style("fill", "dimgray")
+                .style("font-size", 20)
+                .text("Enrollment");
+
+            // States array for dropdown
+            const allStates = ["Total", "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"]
+
+            // Add options to the button
+            d3.select("#selectButton")
+                .selectAll('myOptions')
+                .data(allStates)
+                .enter()
+                .append('option')
+                .text(function (d) { return d; }) // text in the menu
+                .attr("value", function (d) { return d; }) // value returned by button
+
+            // When the dropdown changes, run the update function
+            d3.select("#selectButton").on("change", function (d) {
+                // recover the option that has been chosen
+                selectedOption = d3.select(this).property("value")
+                // run updateChart function with selected option
+                update(selectedOption)
+            })
+
+            // Function updates chart
+            function update(selectedState) {
+                // Filter data to update line to selected state
+                const filteredData = data.filter(d => d.State === `${selectedState}`)
+                // console.log(filteredData)
+                // Remove existing objects
+                chart.selectAll(".metal")
+                    .remove();
+
+                metals = color.domain().map(function (name) {
+                    return {
+                        name: name,
+                        values: filteredData.map(function (d) { // Map year and enrollment figures to values array
+                            return {
+                                year: d.year,
+                                enrollment: +d[name].replace(',', '').replace(',', '')
+                            };
+                        })
+                    };
+                });
+
+                x.domain(d3.extent(filteredData, function (d) {
+                    return d.year;
+                }));
+
+                y.domain([
+                    d3.min(metals, function (c) {
+                        return d3.min(c.values, function (v) {
+                            return v.enrollment;
+                        });
+                    }),
+                    d3.max(metals, function (c) {
+                        return d3.max(c.values, function (v) {
+                            return v.enrollment;
+                        });
+                    })
+                ]);
+                // Remove y and x axes before redrawing them
+                d3.select('#yAxis')
+                    .remove();
+
+                chart.append("g")
+                    .attr("class", "y axis")
+                    .attr('id', 'yAxis')
+                    .call(yAxis);
+
+                d3.select('#xAxis')
+                    .remove();
+
+                chart.append("g")
+                    .attr("class", "x axis")
+                    .attr('id', 'xAxis')
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis);
+
+                const metal = chart.selectAll(".metal")
+                    .data(metals)
+                    .enter().append("g")
+                    .attr("class", "metal");
+
+                metal.append("path")
+                    .attr("class", "line")
+                    .attr("d", function (d) {
+                        return line(d.values);
+                    })
+                    .style("stroke", function (d) {
+                        return color(d.name);
+                    })
+
+                metal.append("text")
+                    .datum(function (d) {
+                        return {
+                            name: d.name,
+                            value: d.values[d.values.length - 1]
+                        };
+                    })
+                    .attr("transform", function (d) {
+                        return "translate(" + x(d.value.year) + "," + y(d.value.enrollment) + ")";
+                    })
+                    .attr("x", 3)
+                    .attr("dy", ".35em")
+                    .style("fill", "dimgray")
+                    .text(function (d) {
+                        return d.name;
+                    });
+
+
+                // TABLE //
+
+                d3.select('.table')
+                    .remove();
+
+                g = table.append('g')
+                    .attr('class', 'table');
+
+                // Define accessor functions
+                const year = d => d.Year
+                const bronze = d => d.Bronze
+                const silver = d => d.Silver
+                const gold = d => d.Gold
+                const total = d => d.Consumers
+                const columns = [
+                    { label: "Year", type: 'number', format: year },
+                    { label: "Bronze", type: 'number', format: bronze },
+                    { label: "Silver", type: 'number', format: silver },
+                    { label: "Gold", type: 'number', format: gold },
+                    { label: "Total", type: 'number', format: total },
+                ]
+                g.append("thead").append("tr")
+                    .selectAll("thead")
+                    .data(columns)
+                    .enter().append("th")
+                    .text(d => d.label)
+                    .attr("class", d => d.type)
+
+                const body = g.append("tbody")
+                const numberOfRows = 4
+                filteredData.slice(0, numberOfRows).forEach(d => {
+                    body.append("tr")
+                        .selectAll("td")
+                        .data(columns)
+                        .enter().append("td")
+                        .text(column => column.format(d))
+                        .attr("class", column => column.type)
+                        .style("background", column => column.background && column.background(d))
+                        .style("transform", column => column.transform && column.transform(d))
+                })
+
+            }
+
+        }
+
+    </script>
+</body>
+
+</html>

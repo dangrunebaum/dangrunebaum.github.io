@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <style>
+        body {
+            font-size: 12px sans-serif;
+            font-family: "Gill Sans", "Gill Sans MT", Calibri;
+        }
+
+        svg {
+            background-color: white;
+            color: black;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .x.axis path {
+            display: none;
+        }
+
+        .y.axis path {
+            display: none;
+        }
+
+        .line {
+            fill: none;
+            /* stroke: steelblue; */
+            stroke-width: 4px;
+        }
+
+        g.tick line {
+            opacity: 0;
+        }
+
+        .svg-container {
+            display: inline-block;
+            position: relative;
+            width: 100%;
+            /* padding-bottom: 5%; */
+            vertical-align: top;
+            overflow: hidden;
+            background-color: rgba(224, 254, 255, 0.783);
+        }
+
+        .svg-content {
+            display: inline-block;
+            top: 0;
+            left: 0;
+        }
+
+        #selectButton {
+            position: relative;
+            top: 70px;
+            left: 50px;
+            border-radius: 5px;
+            border: 1px solid orange;
+            color: dimgray;
+            font-weight: 700;
+        }
+
+        #selectButton:hover {
+            color: orange;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<body>
+
+    <select id="selectButton"></select>
+    <div id="wrapper"></div>
+
+    <script>
+
+        var margin = {
+            top: 100,
+            right: 100,
+            bottom: 50,
+            left: 100
+        },
+            width = 900 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+
+        var parseyear = d3.timeParse("%Y");
+
+        var x = d3.scaleTime()
+            .range([0, width]);
+
+        var y = d3.scaleLinear()
+            .range([height, 0]);
+
+        var color = d3.scaleOrdinal()
+            .range(["#cd7f32", "silver", "gold"]);
+
+        var xAxis = d3.axisBottom(x);
+
+        var yAxis = d3.axisLeft(y);
+
+        var line = d3.line().curve(d3.curveNatural)
+            .x(function (d) {
+                return x(d.year);
+            })
+            .y(function (d) {
+                return y(d.enrollment);
+            });
+
+        var chart = d3.select("#wrapper").append("svg")
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 900 500")
+            .classed("svg-content", true)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+        // 
+        const dataPromise = d3.csv("./metal-enrollment-state-2017-2020.csv");// Load data
+        Promise.all([dataPromise]).then(function (values) {
+            ready(values)
+        });
+
+        function ready([data]) {
+
+            var state = "New York";
+            data = data.filter(d => d.State === `${state}`)
+            console.log(data);
+
+            // Set color domain key to metal names
+            color.domain(d3.keys(data[0]).filter(function (key) {
+                return key !== "State" && key !== "Year" && key !== 'Consumers';
+            }));
+
+            data.forEach(function (d) {
+                d.year = parseyear(d.Year);
+            });
+            // Create metals object. Map color domain keys to metal names
+            var metals = color.domain().map(function (name) {
+                return {
+                    name: name,
+                    values: data.map(function (d) { // Map year and enrollment figures to values array
+                        return {
+                            year: d.year,
+                            enrollment: +d[name].replace(',', '').replace(',', '')
+                        };
+                    })
+                };
+            });
+            console.log(metals);
+
+            x.domain(d3.extent(data, function (d) {
+                return d.year;
+            }));
+
+            y.domain([
+                d3.min(metals, function (c) {
+                    return d3.min(c.values, function (v) {
+                        return v.enrollment;
+                    });
+                }),
+                d3.max(metals, function (c) {
+                    return d3.max(c.values, function (v) {
+                        return v.enrollment;
+                    });
+                })
+            ]);
+
+            chart.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+            var metal = chart.selectAll(".metal")
+                .data(metals)
+                .enter().append("g")
+                .attr("class", "metal");
+
+            metal.append("path")
+                .attr("class", "line")
+                .attr("d", function (d) {
+                    return line(d.values);
+                })
+                .style("stroke", function (d) {
+                    return color(d.name);
+                })
+
+            metal.append("text")
+                .datum(function (d) {
+                    return {
+                        name: d.name,
+                        value: d.values[d.values.length - 1]
+                    };
+                })
+                .attr("transform", function (d) {
+                    return "translate(" + x(d.value.year) + "," + y(d.value.enrollment) + ")";
+                })
+                .attr("x", 3)
+                .attr("dy", ".35em")
+                .style("fill", "dimgray")
+                .text(function (d) {
+                    return d.name;
+                });
+
+            var mouseG = chart.append("g")
+                .attr("class", "mouse-over-effects");
+
+            mouseG.append("path") // this is the black vertical line to follow mouse
+                .attr("class", "mouse-line")
+                .style("stroke", "dimgray")
+                .style("stroke-width", "1px")
+                .style("opacity", "0");
+
+            var lines = document.getElementsByClassName('line');
+
+            var mousePerLine = mouseG.selectAll('.mouse-per-line')
+                .data(metals)
+                .enter()
+                .append("g")
+                .attr("class", "mouse-per-line");
+
+            mousePerLine.append("circle")
+                .attr("r", 7)
+                .style("stroke", function (d) {
+                    return color(d.name);
+                })
+                .style("fill", "none")
+                .style("stroke-width", "2px")
+                .style("opacity", "0");
+
+            mousePerLine.append("text")
+                .attr("transform", "translate(10,3)");
+
+            mouseG.append('rect') // append a rect to catch mouse movements on canvas
+                .attr('width', width) // can't catch mouse events on a g element
+                .attr('height', height)
+                .attr('fill', 'none')
+                .attr('pointer-events', 'all')
+                .on('mouseout', function () { // on mouse out hide line, circles and text
+                    d3.select(".mouse-line")
+                        .style("opacity", "0");
+                    d3.selectAll(".mouse-per-line circle")
+                        .style("opacity", "0");
+                    d3.selectAll(".mouse-per-line text")
+                        .style("opacity", "0");
+                })
+                .on('mouseover', function () { // on mouse in show line, circles and text
+                    d3.select(".mouse-line")
+                        .style("opacity", "1");
+                    d3.selectAll(".mouse-per-line circle")
+                        .style("opacity", "1");
+                    d3.selectAll(".mouse-per-line text")
+                        .style("opacity", "1");
+                })
+                .on('mousemove', function () { // mouse moving over canvas
+                    var mouse = d3.mouse(this);
+                    d3.select(".mouse-line")
+                        .attr("d", function () {
+                            var d = "M" + mouse[0] + "," + height;
+                            d += " " + mouse[0] + "," + 0;
+                            return d;
+                        });
+
+                    d3.selectAll(".mouse-per-line")
+                        .attr("transform", function (d, i) {
+                            // console.log(width/mouse[0])
+                            var xyear = x.invert(mouse[0]),
+                                bisect = d3.bisector(function (d) { return d.year; }).right;
+                            idx = bisect(d.values, xyear);
+
+                            var beginning = 0,
+                                end = lines[i].getTotalLength(),
+                                target = null;
+
+                            while (true) {
+                                target = Math.floor((beginning + end) / 2);
+                                pos = lines[i].getPointAtLength(target);
+                                if ((target === end || target === beginning) && pos.x !== mouse[0]) {
+                                    break;
+                                }
+                                if (pos.x > mouse[0]) end = target;
+                                else if (pos.x < mouse[0]) beginning = target;
+                                else break; //position found
+                            }
+
+                            d3.select(this).select('text')
+                                .style("fill", "dimgray")
+                                .text(y.invert(pos.y).toFixed(0));
+
+                            return "translate(" + mouse[0] + "," + pos.y + ")";
+                        });
+                });
+
+            // Chart text
+            chart.append("text")
+                .attr("transform", "translate(100,0)")
+                .attr("x", width / 2 - margin.left)
+                .attr("y", -80)
+                .style("font-size", "25px")
+                .style("font-weight", 700)
+                .style("text-anchor", "middle")
+                .style("fill", "dimgray")
+                .style("font-family", "'Gill Sans', 'Gill Sans MT'")
+                .text("Affordable Care Act Enrollment by Metal, 2017-2020");
+
+            chart.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", -80)
+                .attr("x", -200)
+                .style("text-anchor", "start")
+                .style("fill", "dimgray")
+                .style("font-size", 20)
+                .text("Enrollment");
+        }
+
+    </script>
+</body>
+
+</html>

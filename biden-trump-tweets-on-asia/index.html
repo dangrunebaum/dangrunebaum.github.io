@@ -161,7 +161,7 @@
             transform: translate3D(0, 2px, 0);
             cursor: pointer;
         }
-        
+
         /* Header layout */
         .grid-container1 {
             position: relative;
@@ -210,6 +210,7 @@
             text-align: justify;
             font-size: 20px;
         }
+
         /* Header and footer positioning */
         .header {
             position: -webkit-sticky;
@@ -243,77 +244,88 @@
         .opacity0 {
             opacity: 0;
         }
+
+        .home-icon {
+            position: absolute;
+            top: -10px;
+            left: 0px;
+            width: 30px;
+            height: 27px;
+            cursor: pointer;
+        }
     </style>
 
     <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
 
 <body>
-<!-- Top scatterplot display -->
-<div class="header">
+    <!-- Top scatterplot display -->
+    <div class="header">
+        <a href="https://asiamattersforamerica.org/"><img src="home-icon.png" class="home-icon" alt="Home"></a> 
+        <div id="tooltip" class="tooltip"></div>
 
-    <div id="tooltip" class="tooltip"></div>
+        <!-- Left grid is scatter, right is legend -->
+        <div class="grid-container1">
+            <div id="wrapper" class="grid1"></div>
+            <div id="legend" class="grid2">
+            </div>
+        </div>
 
-    <!-- Left grid is scatter, right is legend -->
-    <div class="grid-container1">
-        <div id="wrapper" class="grid1"></div>
-        <div id="legend" class="grid2">
+        <button id="biden">BIDEN</button>
+        <button id="trump">TRUMP</button>
+        <button id="countries">COUNTRIES</button>
+        <button id="reset">RESET</button>
+
+    </div>
+
+    <div class="footer">
+        <img src="tweet-hero.png" alt="Biden vs Trump: Tweets on Asia" id="hero">
+
+        <div class="explainer">
+            <p>
+                What did US President Donald Trump and President-Elect Joe Biden say about Asia in the 2020
+                election cycle? Roll over the dots above to read the candidates' tweets about Asian countries. Press the
+                buttons to filter tweets by Trump or Biden, or by country. Biden's 33 tweets about Asia and Trump's 298
+                tweets in the 2020 election year are represented by time on the X axis. The Y axis shows number of
+                retweets,
+                a measure that reflects Trump's greater number of followers (~90m) compared to Biden's (~20m). </p>
+            <p>Below, explore two sets of visualizations of Biden and Trump's tweets on Asian countries through the
+                four-year
+                period of Trump's presidency. The first set compares the number of times the candidates tweeted about
+                different Asian countries. The second set compares their references to 15 terms of importance to the
+                Indo-Pacific region. Circle sizes are normalized to account for Trump's greater number of tweets
+                (20,467) than Biden's (4,264). Sources: <a href="http://trumptwitterarchive.com/archive"
+                    style="color: #8ebf42">Trump Twitter Archive</a>,
+                <a href="https://www.kaggle.com/rohanrao/joe-biden-tweets" style="color: #8ebf42">Joe Biden Tweets</a>.
+            </p>
+        </div>
+        <h1>Biden vs Trump: Tweets on Asia Since 2016</h1>
+        <p class="explainer">
+            Among Asian countries, Trump and Biden both tweeted by far the most about China. Both candidates
+            foregrounded
+            trade and military competition, but Trump was relatively silent on human rights issues in relation to China,
+            while Biden was outspoken on Hong Kong. Both men devoted many tweets to North Korea, with Trump touting
+            diplomatic progress and Biden dismissive of the President’s summit diplomacy. Given Trump’s frequent use of
+            Twitter and willingness to conduct diplomacy by tweet, it shouldn’t be surprising that he tweeted about 16
+            Indo-Pacific countries and regions in total compared to Biden’s 11.
+        </p>
+        <div class="grid-container">
+            <div id="bidenCountries" class="grid1"></div>
+            <div id="trumpCountries" class="grid2"></div>
+        </div>
+
+        <h1>Biden vs Trump: Tweets on Issues Since 2016</h1>
+        <p class="explainer">
+            Military and trade first, or climate change and democracy? This visualization captures the number of Twitter
+            references to 15 key terms by US President Donald Trump and President-Elect Joe Biden:
+            Alliance, Authoritarian, Climate Change, Cooperation, Democracy, Human Rights, Immigration, Liberal
+            International Order, Military, Multilateralism, South China Sea, Technology, TPP, Trade and Values.
+        </p>
+        <div class="grid-container">
+            <div id="bidenIssues" class="grid1"></div>
+            <div id="trumpIssues" class="grid2"></div>
         </div>
     </div>
-
-    <button id="biden">BIDEN</button>
-    <button id="trump">TRUMP</button>
-    <button id="countries">COUNTRIES</button>
-    <button id="reset">RESET</button>
-
-</div>
-
-<div class="footer">
-    <img src="tweet-hero.png" alt="Biden vs Trump: Tweets on Asia" id="hero">
-
-    <div class="explainer">
-        <p>
-            What did US President Donald Trump and President-Elect Joe Biden say about Asia in the 2020
-            election cycle? Roll over the dots above to read the candidates' tweets about Asian countries. Press the
-            buttons to filter tweets by Trump or Biden, or by country. Biden's 33 tweets about Asia and Trump's 298
-            tweets in the 2020 election year are represented by time on the X axis. The Y axis shows number of retweets,
-            a measure that reflects Trump's greater number of followers (~90m) compared to Biden's (~20m). </p>
-        <p>Below, explore two sets of visualizations of Biden and Trump's tweets on Asian countries through the
-            four-year
-            period of Trump's presidency. The first set compares the number of times the candidates tweeted about
-            different Asian countries. The second set compares their references to 15 terms of importance to the
-            Indo-Pacific region. Circle sizes are normalized to account for Trump's greater number of tweets
-            (20,467) than Biden's (4,264). Sources: <a href="http://trumptwitterarchive.com/archive"
-                style="color: #8ebf42">Trump Twitter Archive</a>,
-            <a href="https://www.kaggle.com/rohanrao/joe-biden-tweets" style="color: #8ebf42">Joe Biden Tweets</a>.
-        </p>
-    </div>
-    <h1>Biden vs Trump: Tweets on Asia Since 2016</h1>
-    <p class="explainer">
-        Among Asian countries, Trump and Biden both tweeted by far the most about China. Both candidates foregrounded
-        trade and military competition, but Trump was relatively silent on human rights issues in relation to China,
-        while Biden was outspoken on Hong Kong. Both men devoted many tweets to North Korea, with Trump touting
-        diplomatic progress and Biden dismissive of the President’s summit diplomacy. Given Trump’s frequent use of
-        Twitter and willingness to conduct diplomacy by tweet, it shouldn’t be surprising that he tweeted about 16
-        Indo-Pacific countries and regions in total compared to Biden’s 11.
-    </p>
-    <div class="grid-container">
-        <div id="bidenCountries" class="grid1"></div>
-        <div id="trumpCountries" class="grid2"></div>
-    </div>
-
-    <h1>Biden vs Trump: Tweets on Issues Since 2016</h1>
-    <p class="explainer">
-        Military and trade first, or climate change and democracy? This visualization captures the number of Twitter
-        references to 15 key terms by US President Donald Trump and President-Elect Joe Biden:
-        Alliance, Authoritarian, Climate Change, Cooperation, Democracy, Human Rights, Immigration, Liberal
-        International Order, Military, Multilateralism, South China Sea, Technology, TPP, Trade and Values.
-    </p>
-    <div class="grid-container">
-        <div id="bidenIssues" class="grid1"></div>
-        <div id="trumpIssues" class="grid2"></div>
-    </div>
-</div>
 
     <script>
 
