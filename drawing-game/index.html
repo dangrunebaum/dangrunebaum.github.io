@@ -45,147 +45,152 @@
 </head>
 
 <body>
+    <!-- Create a button to trigger the transition -->
+    <button onclick="triggerTransitionDelay()">Trigger transition</button>
     <figure></figure>
 
     <script src="https://d3js.org/d3.v6.min.js"></script>
 
     <script>
 
-        (async () => {
 
-            ////////////////////////////////////
-            ///////////// SVG Setup ////////////
-            ////////////////////////////////////
+        ////////////////////////////////////
+        ///////////// SVG Setup ////////////
+        ////////////////////////////////////
 
-            // margins for SVG
-            const margin = {
-                left: 120,
-                right: 100,
-                top: 100,
-                bottom: 200
+        // margins for SVG
+        const margin = {
+            left: 120,
+            right: 100,
+            top: 100,
+            bottom: 200
+        }
+
+        const svgWidth = 600
+        const svgHeight = svgWidth * 1.0
+
+        // helper calculated variables for inner width & height
+        const height = svgHeight + margin.top + margin.bottom
+        const width = svgWidth + margin.left + margin.right
+
+        // add SVG
+        const svg = d3.select('figure')
+            .append('svg')
+            .attr("viewBox", `0 0 ${height} ${width}`) // responsive width & height
+            .append('g')
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+        ////////////////////////////////////
+        ///////// Data Wrangling ///////////
+        ////////////////////////////////////
+
+        // Create an array of 100x100 values to generate 10000 points spaced 1px apart.
+        const array = [];
+        for (let i = 1; i <= 100; i++) {
+            for (let j = 1; j <= 100; j++) {
+                array.push({ i, j })
             }
-
-            const svgWidth = 600
-            const svgHeight = svgWidth * 1.0
-
-            // helper calculated variables for inner width & height
-            const height = svgHeight + margin.top + margin.bottom
-            const width = svgWidth + margin.left + margin.right
-
-            // add SVG
-            const svg = d3.select('figure')
-                .append('svg')
-                .attr("viewBox", `0 0 ${height} ${width}`) // responsive width & height
-                .append('g')
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-
-            ////////////////////////////////////
-            ///////// Data Wrangling ///////////
-            ////////////////////////////////////
-
-            // Create an array of 100x100 values to generate 10000 points spaced 1px apart.
-            const array = [];
-            for (let i = 1; i <= 100; i++) {
-                for (let j = 1; j <= 100; j++) {
-                    array.push({ i, j })
-                }
-            }
-            console.log(array)
+        }
+        console.log(array)
 
 
-            ////////////////////////////////////
-            /////////////// Scales /////////////
-            ////////////////////////////////////
+        ////////////////////////////////////
+        /////////////// Scales /////////////
+        ////////////////////////////////////
 
-            xScale = d3.scaleLinear()
-                .domain([0, 100])
-                .range([0, svgWidth])
+        xScale = d3.scaleLinear()
+            .domain([0, 100])
+            .range([0, svgWidth])
 
-            // svg.append('g')
-            //     .attr("transform", "translate(0," + svgHeight + ")")
-            //     .call(d3.axisBottom(xScale));
+        // svg.append('g')
+        //     .attr("transform", "translate(0," + svgHeight + ")")
+        //     .call(d3.axisBottom(xScale));
 
-            yScale = d3.scaleLinear()
-                .domain([0, 100])
-                .range([svgHeight, 0])
+        yScale = d3.scaleLinear()
+            .domain([0, 100])
+            .range([svgHeight, 0])
 
-            // svg.append('g')
-            //     .call(d3.axisLeft(yScale));
+        // svg.append('g')
+        //     .call(d3.axisLeft(yScale));
 
 
-            ////////////////////////////////////
-            /////////////// Draw items /////////
-            ////////////////////////////////////
+        ////////////////////////////////////
+        /////////////// Draw items /////////
+        ////////////////////////////////////
 
-            let circles = svg.selectAll('mycircles')
+
+        let circles = svg.selectAll('mycircles')
+            .data(array)
+            .enter()
+            .append('circle')
+            .attr('cx', function (d, i) { return xScale(d.i); })
+            .attr('cy', function (d, i) { return yScale(d.j); })
+            .attr('r', 3)
+            .style('fill', function (d, i) { return `hsl(${d.i}, 50%, 50%)`; })
+            .attr('class', 'circles')
+            .on('mouseover', mouseover)
+            .on('mouseout', mouseout)
+
+
+
+        // svg.selectAll('mycircles')
+        //     .data(array)
+        //     .enter()
+        //     .filter(function(d) { return xScale(d.i <20); })
+        //     .append('circle')
+        //     .attr('cx', function (d, i) { return xScale(d.i); })
+        //     .attr('cy', function (d, i) { return yScale(d.j); })
+        //     .attr('r', 2)
+        //     .filter(function(d) { return xScale(d.i <20); })
+        //     .style('fill', 'fuchsia')
+
+
+
+        ////////////////////////////////////
+        /////////////// Interactions ///////
+        ////////////////////////////////////
+
+        // variable to capture mouse movement
+
+        function mouseover() {
+            d3.select(this)
+                .attr('r', 5)
+                .style('fill', 'none')
+                .transition()
+                .delay(500)
+                .style('fill', "fuchsia")
+
+        }
+
+        function mouseout(d) {
+            // console.log('out')
+        }
+
+        function click() {
+
+            svg.selectAll('mycircles')
                 .data(array)
                 .enter()
+                .filter(function (d) { return xScale(d.i > 20 && d.i < 50); })
                 .append('circle')
                 .attr('cx', function (d, i) { return xScale(d.i); })
                 .attr('cy', function (d, i) { return yScale(d.j); })
                 .attr('r', 3)
-                .style('fill', function (d, i) { return `hsl(${d.i}, 50%, 50%)`; })
-                .attr('class', 'circles')
-                .on('mouseover', mouseover)
-                .on('mouseout', mouseout)
-                .on('click', click);
+                .style('fill', 'fuchsia')
 
+        }
 
-            // svg.selectAll('mycircles')
-            //     .data(array)
-            //     .enter()
-            //     .filter(function(d) { return xScale(d.i <20); })
-            //     .append('circle')
-            //     .attr('cx', function (d, i) { return xScale(d.i); })
-            //     .attr('cy', function (d, i) { return yScale(d.j); })
-            //     .attr('r', 2)
-            //     .filter(function(d) { return xScale(d.i <20); })
-            //     .style('fill', 'fuchsia')
+        // Animation
+        function triggerTransitionDelay() {
 
-
-
-            ////////////////////////////////////
-            /////////////// Interactions ///////
-            ////////////////////////////////////
-
-            // variable to capture mouse movement
-
-            function mouseover() {
-                d3.select(this)
-                    .attr('r', 5)
-                    .style('fill', 'none')
-                    .transition()
-                    .delay(500)
-                    .style('fill', "fuchsia")
-
-            }
-
-
-            function mouseout(d) {
-                // console.log('out')
-            }
-
-            function click() {
-
-                svg.selectAll('mycircles')
-                    .data(array)
-                    .enter()
-                    .filter(function (d) { return xScale(d.i > 20 && d.i < 50); })
-                    .append('circle')
-                    .attr('cx', function (d, i) { return xScale(d.i); })
-                    .attr('cy', function (d, i) { return yScale(d.j); })
-                    .attr('r', 3)
-                    .style('fill', 'fuchsia')
-
-            }
-
-            ////////////////////////////////////
-            /////////////// Legend /////////////
-            ////////////////////////////////////
-
-
-
-        })()
+            d3.selectAll("circle.circles")
+                .transition()
+                .duration(20000)
+                // .attr("cy", 300)
+                // .attr('cx', -50)
+                // .delay(function (i) { return (i) })
+                .style('opacity', 0)
+        }
 
     </script>
 </body>
