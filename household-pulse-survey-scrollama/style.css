@@ -1,6 +1,8 @@
 body {
   margin: 0;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: white;
+  color: gray;
 }
 
 header {
@@ -24,6 +26,7 @@ g.tick line {
 }
 
 g.tick text {
+  color: black;
   font-weight: 700;
 }
 
@@ -39,7 +42,8 @@ g.tick text {
   width: 100vw;
   /* font-size: 5em; */
   padding: 2em;
-  background: rgb(230, 230, 230);
+  background: rgb(245, 245, 245);
+  color: black;
 }
 
 section#outro p {
@@ -85,16 +89,18 @@ figure {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  /* background-color: #3b3b3b; */
-  /* background-color: rgb(233, 233, 233); */
-  font-size: 2em;
+  font-size: 1.75em;
+  font-weight: 200;
 }
 
 .step:last-child {
   margin-bottom: 0;
 }
 
-.step.is-active {
-  /* background-color: rgb(222, 212, 224);  */
-  color: #3b3b3b;
+.active {
+ color: black;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  -o-transition: all .5s;
+  transition: all .5s;
 }

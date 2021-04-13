@@ -6,7 +6,7 @@ function init() {
     scroller
         .setup({
             step: "#scrolly article .step",
-            offset: 0.5,
+            offset: 0.4,
             debug: true
         })
         .onStepEnter(handleStepEnter)
@@ -18,7 +18,7 @@ function init() {
 function handleStepEnter(response) {
     console.log(response)
     // add css active pseudo class
-    // response.element.classList.add('active')
+    response.element.classList.add('active')
 
     // get the data step attribute which has our "stacked, grouped, or percent value"
     var chartType = response.element.getAttribute("data-step")
@@ -29,10 +29,11 @@ function handleStepEnter(response) {
 
 function handleStepExit(response) {
     console.log(response)
+    response.element.classList.remove('active')
     d3.selectAll('.line') // Remove lines but leave bars
         .transition() // Transition method
-        // .duration(2000) // Set timing (ms)
-        // .ease(d3.easeLinear) // Set easing 
+        .duration(300) // Set timing (ms)
+        .ease(d3.easeLinear) // Set easing 
         .remove();
 
     d3.selectAll('.labels')
@@ -40,8 +41,6 @@ function handleStepExit(response) {
 
     // svg.selectAll('.axis')
     //     .remove();
-
-    // response.element.classList.remove('active')
 }
 
 // kick things off by calling init function
@@ -142,25 +141,7 @@ function transitionAnxiety() {
                     (d.values)
             })
             .attr('class', 'line')
-
-        /////////////// Axes /////////////
-        svg.append('g')
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(xScale))
-            .selectAll("text")
-            .attr("transform", "translate(-10,0)rotate(-45)")
-            .style("text-anchor", "end")
-            .attr('class', 'axis');
-
-        // Draw the labels
-        // svg.append('text')
-        //     .attr('x', width / 2)
-        //     .attr('y', -50)
-        //     .style('text-anchor', 'middle')
-        //     .style('font-size', '2.5em')
-        //     .style('fill', 'dimgray')
-        //     .text('Household Pulse Survey')
-
+        
         // Remove old labels before drawing new ones
         d3.selectAll('.labels')
             .remove();
@@ -250,6 +231,7 @@ function transitionDepression() {
         // Remove old labels before drawing new ones
         d3.selectAll('.labels')
             .remove();
+            
         // Draw the labels
         svg.append('text')
             .attr('x', width / 2)
@@ -265,18 +247,6 @@ function transitionDepression() {
             .style('fill-opacity', 1)
             .text('Symptoms of Depressive Disorder')
             .attr('class', 'labels')
-
-        ////////////////////////////////////
-        /////////////// Axes /////////////
-        ////////////////////////////////////
-
-        svg.append('g')
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(xScale))
-            .selectAll("text")
-            .attr("transform", "translate(-10,0)rotate(-45)")
-            .style("text-anchor", "end")
-            .attr('class', 'axis');
 
     })()
 
@@ -355,7 +325,7 @@ function transitionRace() {
             .attr('y', -50)
             .style('text-anchor', 'middle')
             .style('font-size', '1.5em')
-            .style('fill', 'dimgray')
+            .style('fill', '#303030')
             .style('fill-opacity', 0)
             .transition() // Transition method
             .duration(2000) // Set timing (ms)
@@ -461,7 +431,7 @@ function transitionAge() {
             .attr('y', -50)
             .style('text-anchor', 'middle')
             .style('font-size', '1.5em')
-            .style('fill', 'dimgray')
+            .style('fill', '#303030')
             .style('fill-opacity', 0)
             .transition() // Transition method
             .duration(2000) // Set timing (ms)
@@ -617,7 +587,7 @@ function transitionTreatment() {
     svg.append('text')
         .attr('x', width - 125)
         .attr('y', -20)
-        .style('font-size', '0.75em')
+        .style('font-size', '1.0em')
         .style("fill", "#69b3a2")
         .text('Peak COVID-19');
 
