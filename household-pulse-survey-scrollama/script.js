@@ -36,11 +36,9 @@ function handleStepExit(response) {
         .ease(d3.easeLinear) // Set easing 
         .remove();
 
+        // Stop labels from writing atop eachother
     d3.selectAll('.labels')
         .remove();
-
-    // svg.selectAll('.axis')
-    //     .remove();
 }
 
 // kick things off by calling init function
@@ -79,7 +77,7 @@ const svg = d3.select('figure')
     .append('g')
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
-
+// First chart change function shows anxiety line
 function transitionAnxiety() {
 
     (async () => {
@@ -102,9 +100,7 @@ function transitionAnxiety() {
             .key(function (d) { return d.Subgroup })
             .entries(filterData)
 
-
         /////////////// Scales /////////////
-
         const xScale = d3.scaleBand()
             .domain(data.map(function (d) { return d['Time Period Label']; }))
             .range([0, width])
@@ -156,7 +152,6 @@ function transitionAnxiety() {
             .transition() // Transition method
             .duration(2000) // Set timing (ms)
             .ease(d3.easeLinear) // Set easing
-
             .style('fill-opacity', 1)
             .text('Symptoms of Anxiety Disorder')
             .attr('class', 'labels')
@@ -266,17 +261,14 @@ function transitionRace() {
             function (d) { d.Value = +d.Value; }
         )
 
-
         // Reshape data with keys set to Subgroups of each Group
         let sumstat = d3.nest()
             .key(function (d) { return d.Subgroup })
             .entries(filterData)
 
-
         ////////////////////////////////////
         /////////////// Scales /////////////
         ////////////////////////////////////
-
         const xScale = d3.scaleBand()
             .domain(data.map(function (d) { return d['Time Period Label']; }))
             .range([0, width])
@@ -330,7 +322,6 @@ function transitionRace() {
             .transition() // Transition method
             .duration(2000) // Set timing (ms)
             .ease(d3.easeLinear) // Set easing
-
             .style('fill-opacity', 1)
             .text('Symptoms of Anxiety or Depressive Disorders by Race')
             .attr('class', 'labels')
@@ -375,11 +366,9 @@ function transitionAge() {
             .key(function (d) { return d.Subgroup })
             .entries(filterData)
 
-
         ////////////////////////////////////
         /////////////// Scales /////////////
         ////////////////////////////////////
-
         const xScale = d3.scaleBand()
             .domain(data.map(function (d) { return d['Time Period Label']; }))
             .range([0, width])
@@ -479,7 +468,6 @@ function transitionTreatment() {
             .key(function (d) { return d.Subgroup })
             .entries(filterData)
 
-
         ////////////////////////////////////
         /////////////// Scales /////////////
         ////////////////////////////////////
@@ -488,9 +476,6 @@ function transitionTreatment() {
             .domain(data.map(function (d) { return d['Time Period Label']; }))
             .range([0, width])
             .paddingInner(1)
-
-        // console.log(filterData.map(d => d.Value))
-        // console.log(d3.extent(filterData, function (d) { return +d.Value; }))
 
         const yScale = d3.scaleLinear()
             .domain(d3.extent(filterData, function (d) { return d.Value; }))
@@ -543,7 +528,7 @@ function transitionTreatment() {
 
 }
 
-// Async function draws Covid case count bar chart
+// Anonymous async function draws Covid case count bar chart
 (async () => {
 
     // Data wrangling

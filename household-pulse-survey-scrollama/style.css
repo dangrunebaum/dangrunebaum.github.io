@@ -13,6 +13,11 @@ header {
   background-image: url('kristina-tripkovic.jpg');
   color: white;
   font-size: 5em;
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 /* Style scales */
@@ -29,10 +34,6 @@ g.tick text {
   color: black;
   font-weight: 700;
 }
-
-/* p　{
-    font-size: 20px;
-} */
 
 #outro {
   /* display: flex; */
@@ -96,11 +97,14 @@ figure {
 .step:last-child {
   margin-bottom: 0;
 }
-
+/* Change text color on scroll */
 .active {
- color: black;
+  color: black;
   -webkit-transition: all .5s;
   -moz-transition: all .5s;
   -o-transition: all .5s;
   transition: all .5s;
+}
+.scrollama__debug-offset {
+  visibility: hidden;
 }
