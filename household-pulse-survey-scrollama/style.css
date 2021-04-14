@@ -20,6 +20,10 @@ header {
   background-size: cover;
 }
 
+.parallax-window {
+  min-height: 400px;
+  background: transparent;
+}
 /* Style scales */
 
 .domain {
