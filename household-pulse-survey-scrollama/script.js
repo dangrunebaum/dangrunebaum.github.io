@@ -8,7 +8,7 @@
     window.onscroll = function(){
       [].slice.call(parallax).forEach(function(el,i){
   
-        var windowYOffset = window.pageYOffset,
+        var windowYOffset = -window.pageYOffset,
             elBackgrounPos = "10% " + (windowYOffset * speed) + "px";
   
         el.style.backgroundPosition = elBackgrounPos;
@@ -72,6 +72,7 @@ function changeChart(value) {
     else if (value === 'race') transitionRace();
     else if (value === 'age') transitionAge();
     else if (value === 'treatment') transitionTreatment();
+    else if (value === 'covid')  transitionCovid();
 
 }
 
@@ -96,6 +97,29 @@ const svg = d3.select('figure')
     .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`) // responsive width & height
     .append('g')
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+function transitionCovid() {
+
+            
+        // Remove old labels before drawing new ones
+        d3.selectAll('.labels')
+            .remove();
+        // Draw the labels
+        svg.append('text')
+            .attr('x', width / 2)
+            .attr('y', -50)
+            .style('text-anchor', 'middle')
+            .style('font-size', '1.5em')
+            .style('fill', '#303030')
+            .style('fill-opacity', 0)
+            .transition() // Transition method
+            .duration(1000) // Set timing (ms)
+            .ease(d3.easeLinear) // Set easing
+            .style('fill-opacity', 1)
+            .text('COVID-19 Daily Case Count')
+            .attr('class', 'labels')
+
+}
 
 // First chart change function shows anxiety line
 function transitionAnxiety() {
@@ -258,7 +282,6 @@ function transitionDepression() {
             .transition() // Transition method
             .duration(2000) // Set timing (ms)
             .ease(d3.easeLinear) // Set easing
-
             .style('fill-opacity', 1)
             .text('Symptoms of Depressive Disorder')
             .attr('class', 'labels')

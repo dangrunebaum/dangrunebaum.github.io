@@ -20,10 +20,6 @@ header {
   background-size: cover;
 }
 
-.parallax-window {
-  min-height: 400px;
-  background: transparent;
-}
 /* Style scales */
 
 .domain {
@@ -94,7 +90,7 @@ figure {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  font-size: 1.75em;
+  font-size: 2.0em;
   font-weight: 200;
 }
 
