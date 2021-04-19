@@ -162,7 +162,7 @@ svg {
     color: gray;
 }
 
-@media only screen and (max-width: 375px) {
+@media only screen and (max-width: 600px) {
     #wrapper1 {
         width: 160%;
     }
