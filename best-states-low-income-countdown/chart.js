@@ -115,9 +115,9 @@ async function drawRadar1() {
 
         const line1 = bounds1.select(".line1")
             .datum(metrics1)
-            // .transition() // Transition method
-            // .duration(300) // Set timing (ms)
-            // .ease(d3.easeLinear) // Set easing
+            .transition() // Transition method
+            .duration(200) // Set timing (ms)
+            .ease(d3.easeLinear) // Set easing
             .attr("d", lineGenerator1)
             .style("transform", `translate(${dimensions1.boundedRadius1}px, ${dimensions1.boundedRadius1}px)`)
     }
