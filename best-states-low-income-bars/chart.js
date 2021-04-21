@@ -86,10 +86,37 @@
     // enter a second time = loop subgroup per subgroup to add all rectangles
     .data(function (d) { return d; })
     .enter().append("rect")
+    .attr("class", "bars")
     .attr("y", function (d) { return y(d.data.State); })
     .attr("x", function (d) { return x(d[0]); })
     .attr("width", function (d) { return (x(d[1]) - x(d[0])); })
     .attr("height", y.bandwidth())
+    .on("mouseover", mouseover)
+    .on("mouseout", mouseout);
+
+  ////////////////////////////////////
+  /////////////// Legend /////////////
+  ////////////////////////////////////
+
+  function mouseover(d) {
+
+    svg.append('text')
+      .attr('class', 'score')
+      .attr('x', x(d.data.ScoreRank) + 5)
+      .attr('y', y(d.data.State) + 6)
+      .style('fill', '#0B5BD6')
+      .style('font-size', '0.5em')
+      .style('font-weight', 600)
+      .html(d.data.ScoreRank + ' points');
+
+  }
+
+  function mouseout() {
+
+    d3.selectAll('.score')
+      .attr('opacity', 0)
+
+  }
 
   ////////////////////////////////////
   /////////////// Legend /////////////

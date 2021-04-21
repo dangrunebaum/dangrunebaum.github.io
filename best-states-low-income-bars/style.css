@@ -16,3 +16,7 @@ g.tick text {
   color: black;
   font-weight: 600;
 }
+
+rect.bars:hover {
+opacity: 0.9;
+}
