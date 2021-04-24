@@ -1,24 +1,24 @@
 
-// Header parallax function
-(function(){
+// Header parallax function for dynamic image movement
+(function () {
 
     var parallax = document.querySelectorAll("header"),
         speed = 0.5;
-  
-    window.onscroll = function(){
-      [].slice.call(parallax).forEach(function(el,i){
-  
-        var windowYOffset = -window.pageYOffset,
-            elBackgrounPos = "10% " + (windowYOffset * speed) + "px";
-  
-        el.style.backgroundPosition = elBackgrounPos;
-  
-      });
+
+    window.onscroll = function () {
+        [].slice.call(parallax).forEach(function (el, i) {
+
+            var windowYOffset = -window.pageYOffset,
+                elBackgrounPos = "10% " + (windowYOffset * speed) + "px";
+
+            el.style.backgroundPosition = elBackgrounPos;
+
+        });
     };
-  
-  })();
-  
-// initialize scrollama
+
+})();
+
+// Initialize scrollama
 var scroller = scrollama();
 
 function init() {
@@ -34,13 +34,13 @@ function init() {
 
 }
 
-// scrollama event handlers
+// Scrollama event handlers
 function handleStepEnter(response) {
     console.log(response)
-    // add css active pseudo class
+    // Add css active pseudo class for style interactivity
     response.element.classList.add('active')
 
-    // get the data step attribute which has our "stacked, grouped, or percent value"
+    // Geet the data step attribute which has our function values
     var chartType = response.element.getAttribute("data-step")
     changeChart(chartType)
 
@@ -56,14 +56,14 @@ function handleStepExit(response) {
         .ease(d3.easeLinear) // Set easing 
         .remove();
 
-        // Stop labels from writing atop eachother
+    // Stop labels from writing atop eachother
     d3.selectAll('.labels')
         .remove();
 }
 
-// kick things off by calling init function
+// Kick things off by calling init function
 init();
-
+// Update chart function
 function changeChart(value) {
 
     // if (value === 'covid') transitionCovid();
@@ -72,7 +72,7 @@ function changeChart(value) {
     else if (value === 'race') transitionRace();
     else if (value === 'age') transitionAge();
     else if (value === 'treatment') transitionTreatment();
-    else if (value === 'covid')  transitionCovid();
+    else if (value === 'covid') transitionCovid();
 
 }
 
@@ -100,24 +100,23 @@ const svg = d3.select('figure')
 
 function transitionCovid() {
 
-            
-        // Remove old labels before drawing new ones
-        d3.selectAll('.labels')
-            .remove();
-        // Draw the labels
-        svg.append('text')
-            .attr('x', width / 2)
-            .attr('y', -50)
-            .style('text-anchor', 'middle')
-            .style('font-size', '1.5em')
-            .style('fill', '#303030')
-            .style('fill-opacity', 0)
-            .transition() // Transition method
-            .duration(1000) // Set timing (ms)
-            .ease(d3.easeLinear) // Set easing
-            .style('fill-opacity', 1)
-            .text('COVID-19 Daily Case Count')
-            .attr('class', 'labels')
+    // Remove old labels before drawing new ones
+    d3.selectAll('.labels')
+        .remove();
+    // Draw the labels
+    svg.append('text')
+        .attr('x', width / 2)
+        .attr('y', -50)
+        .style('text-anchor', 'middle')
+        .style('font-size', '1.5em')
+        .style('fill', '#303030')
+        .style('fill-opacity', 0)
+        .transition() // Transition method
+        .duration(1000) // Set timing (ms)
+        .ease(d3.easeLinear) // Set easing
+        .style('fill-opacity', 1)
+        .text('COVID-19 Daily Case Count')
+        .attr('class', 'labels')
 
 }
 
@@ -181,7 +180,7 @@ function transitionAnxiety() {
                     (d.values)
             })
             .attr('class', 'line')
-        
+
         // Remove old labels before drawing new ones
         d3.selectAll('.labels')
             .remove();
@@ -270,7 +269,7 @@ function transitionDepression() {
         // Remove old labels before drawing new ones
         d3.selectAll('.labels')
             .remove();
-            
+
         // Draw the labels
         svg.append('text')
             .attr('x', width / 2)
@@ -618,12 +617,5 @@ function transitionTreatment() {
         .style('font-size', '1.0em')
         .style("fill", "#69b3a2")
         .text('Peak COVID-19');
-
-    // svg.append('text')
-    //     .attr('x', width - 120)
-    //     .attr('dy', '-.75em')
-    //     .style('font-size', '0.75em')
-    //     .style('font-weight', 300)
-    //     .text('300,416 new cases')
 
 })()

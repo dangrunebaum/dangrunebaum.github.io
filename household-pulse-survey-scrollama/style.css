@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'Proxima Nova';
   background-color: white;
   color: gray;
 }
@@ -35,22 +35,6 @@ g.tick text {
   font-weight: 700;
 }
 
-#outro {
-  /* display: flex; */
-  /* justify-content: center;
-    align-items: center; */
-  /* height: 100vh; */
-  width: 100vw;
-  /* font-size: 5em; */
-  padding: 2em;
-  background: rgb(245, 245, 245);
-  color: black;
-}
-
-section#outro p {
-  font-size: 1.25em;
-}
-
 /* Scrollama sticky side example styles with some modifications https://github.com/russellgoldenberg/scrollama/blob/master/docs/sticky-side/index.html */
 
 #scrolly {
@@ -62,9 +46,9 @@ section#outro p {
 
 article {
   position: relative;
-  /* padding: 1rem; */
   flex-basis: 33%;
   min-width: 20rem;
+  font-weight: 200;
 }
 
 figure {
@@ -97,7 +81,7 @@ figure {
 .step:last-child {
   margin-bottom: 0;
 }
-/* Change text color on scroll */
+/* Change text shade on scroll */
 .active {
   color: black;
   -webkit-transition: all .5s;
@@ -107,4 +91,21 @@ figure {
 }
 .scrollama__debug-offset {
   visibility: hidden;
+}
+
+/* Style outro */
+
+#outro {
+  width: 60%; 
+  margin: 0 auto; 
+  color: #303030;
+}
+
+section#outro h1 {
+  font-size: 3em;
+}
+
+section#outro p {
+  font-size: 1.5em;
+  font-weight: 300;
 }
