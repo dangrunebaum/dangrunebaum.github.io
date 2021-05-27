@@ -1,4 +1,5 @@
 
+
 // Header parallax function for dynamic image movement
 (function () {
 
@@ -26,7 +27,7 @@ function init() {
     scroller
         .setup({
             step: "#scrolly article .step",
-            offset: 0.3,
+            offset: 0.5,
             debug: true
         })
         .onStepEnter(handleStepEnter)
@@ -106,7 +107,7 @@ const margin = {
 }
 
 const svgWidth = 1000
-const svgHeight = svgWidth * 0.6
+const svgHeight = svgWidth * 0.7
 
 // Variables for inner width & height
 const height = svgHeight - margin.top - margin.bottom
@@ -140,6 +141,21 @@ function appendXscale() {
             .attr("transform", "translate(-10,0)rotate(-45)")
             .style("text-anchor", "end")
 
+        // Peripherals
+        svg.append('text')
+            .attr('x', 0)
+            .attr('y', height + 130)
+            .style('font-size', '1.5em')
+            .text('2020')
+
+        svg.append('text')
+            .attr('x', width)
+            .attr('y', height + 130)
+            .style("text-anchor", "end")
+            .style('font-size', '1.5em')
+            .text('2021')
+
+
     })()
 }
 appendXscale();
@@ -162,18 +178,24 @@ function transitionCovid() {
             .range([0, width]);
 
         const yScale2 = d3.scaleLinear() // Scale for Covid case count
-            .domain(d3.extent(data2, function (d) { return +d.cases; }))
+            // .domain(d3.extent(data2, function (d) { return +d.cases; }))
+            .domain([0, 301000])
             .range([height, 0])
 
+        // console.log(d3.extent(data2, function (d) { return +d.cases; }))
+
+        d3.selectAll('rect') // Remove bars
+            .remove();
+
         // Draw Covid bars
-        svg.selectAll("mybars")
+        svg.selectAll("covidBars")
             .data(data2)
             .enter()
             .append("rect")
             .attr("x", function (d) { return xScale2(d.date); })
             .attr("y", function (d) { return yScale2(0); })
             .attr("width", xScale2.bandwidth())
-            .attr("height", function (d) { return height - yScale2(0); })
+            .attr("height", function (d) { return (height) - yScale2(0); }) // always equal to 0
             .style("fill", "#69b3a2");
 
         // Animation
@@ -181,8 +203,11 @@ function transitionCovid() {
             .transition()
             .duration(2000)
             .attr("y", function (d) { return yScale2(+d.cases); })
-            .attr("height", function (d) { return height - yScale2(d.cases); })
-            .delay(function (d, i) { console.log(i); return (i * 5) })
+            .attr("height", function (d) { return height - yScale2(+d.cases); })
+            .delay(function (d, i) { return (i * 5) })
+
+        d3.selectAll('.labels') // Remove labels
+            .remove();
 
         // Labels
         svg.append('text')
@@ -198,28 +223,43 @@ function transitionCovid() {
             .text('COVID-19 Daily Case Count')
             .attr('class', 'labels')
 
+        d3.selectAll('.legend') // Remove legend
+            .remove();
+
         // Legend
         const legend = svg.append('g')
             .attr('class', 'legend')
 
         legend.append('line')
-            .attr('x', 0)
-            .attr('y1', height + 130)
-            .attr('x2', 50)
-            .attr('y2', height + 130)
+            .attr('x1', width / 2 - 70)
+            .attr('y1', height + 125)
+            .attr('x2', width / 2 - 10)
+            .attr('y2', height + 125)
             .style('stroke-width', 4)
             .style("stroke", "#69b3a2");
 
         legend.append('text').attr('font-size', '1.25em')
-            .attr('x', 60)
-            .attr('y', height + 130)
-            .attr('dominant-baseline', 'middle')
+            .attr('x', width / 2)
+            .attr('y', height + 125)
+            .style('dominant-baseline', 'middle')
+            .style('text-anchor', 'start')
             .transition() // Transition method
-            .duration(5000) // Set timing (ms)
+            .duration(3000) // Set timing (ms)
             .ease(d3.easeLinear) // Set easing
             .text('COVID-19 Cases')
 
-        // Covid case count label
+        d3.selectAll('.labels') // Remove labels
+            .remove();
+
+        // Append Y axis
+        svg.append('g')
+            .call(d3.axisLeft(yScale2)
+                .ticks(3))
+            .attr('class', 'axis')
+            .call(g => g.select('g g.axis g.tick text')
+            .remove()) // Remove 0 from y axis;
+
+        // // Covid case count label
         svg.append('text')
             .attr('x', width - 140)
             .attr('y', -20)
@@ -229,7 +269,7 @@ function transitionCovid() {
             .transition() // Transition method
             .duration(2000) // Set timing (ms)
             .ease(d3.easeLinear) // Set easing
-            .delay(5000)
+            .delay(3000)
             .style('fill-opacity', 1)
             .text('Peak COVID-19')
             .attr('class', 'labels')
@@ -244,7 +284,7 @@ function transitionCovid() {
             .transition() // Transition method
             .duration(2000) // Set timing (ms)
             .ease(d3.easeLinear) // Set easing
-            .delay(5000)
+            .delay(3000)
             .style('fill-opacity', 1)
             .text('300,416 new cases')
             .attr('class', 'labels')
@@ -252,6 +292,7 @@ function transitionCovid() {
     })()
 
 }
+
 
 // Second chart shows national anxiety line 
 function transitionAnxiety() {
@@ -284,12 +325,15 @@ function transitionAnxiety() {
             .x(function (d) { return xScale(d['Time Period Label']); })
             .y(function (d) { return yScale(d.Value); })
 
+        d3.selectAll('.line') // Remove lines
+            .remove();
+
         // Draw the anxiety line
         const path = svg.append("path")
             .datum(filterData)
-            .attr('class', 'line')
             .attr('d', line)
             .style('stroke', 'indianred')
+            .attr('class', 'line');
 
         // Variable to hold total length for line animation
         const totalLength = path.node().getTotalLength();
@@ -303,6 +347,9 @@ function transitionAnxiety() {
             .attr("stroke-dashoffset", 0)// Set final value of dash-offset for transition
             .attr("fill", "none")
             .attr("stroke", "url(#line-gradient)");
+
+        d3.selectAll('.labels') // Remove labels
+            .remove();
 
         // Labels
         svg.append('text')
@@ -318,23 +365,33 @@ function transitionAnxiety() {
             .text('Symptoms of Anxiety Disorder, United States')
             .attr('class', 'labels')
 
+        d3.selectAll('.legend') // Remove legend
+            .remove();
+
         // Legend
         const legend = svg.append('g')
             .attr('class', 'legend')
 
         legend.append('line')
-            .attr('x', 0)
-            .attr('y1', height + 130)
-            .attr('x2', 50)
-            .attr('y2', height + 130)
+            .attr('x1', width / 2 - 70)
+            .attr('y1', height + 125)
+            .attr('x2', width / 2 - 10)
+            .attr('y2', height + 125)
             .style('stroke-width', 4)
             .style("stroke", "indianred");
 
         legend.append('text').attr('font-size', '1.25em')
-            .attr('x', 60)
-            .attr('y', height + 130)
-            .attr('dominant-baseline', 'middle')
+            .attr('x', width / 2)
+            .attr('y', height + 125)
+            .style('dominant-baseline', 'middle')
+            .style('text-anchor', 'start')
+            .transition() // Transition method
+            .duration(3000) // Set timing (ms)
+            .ease(d3.easeLinear) // Set easing
             .text('Anxiety Symptoms, Last 7 Days')
+
+        d3.selectAll('.axis') // Remove Y axis
+            .remove();
 
         // Append Y axis
         svg.append('g')
@@ -342,6 +399,9 @@ function transitionAnxiety() {
                 .tickFormat(d => d + '%')
                 .ticks(5))
             .attr('class', 'axis');
+
+        d3.selectAll('.labels') // Remove labels
+            .remove();
 
         svg.append('text')
             .attr('x', -150)
@@ -398,16 +458,18 @@ function transitionVaccine() {
             .domain(d3.extent(data2, function (d) { return +d.total_vaccinations; }))
             .range([height, 0])
 
+        d3.selectAll('rect') // Remove bars
+            .remove();
+
         // Draw vaccine bars
-        svg.selectAll("myBars")
+        svg.selectAll("vaccineBars")
             .data(data2)
             .enter()
             .append("rect")
             .attr("x", function (d) { return xScale2(d.date); })
-            .attr("width", xScale2.bandwidth())
-            // no bar at the beginning thus:
-            .attr("height", function (d) { return height - yScale2(0); }) // always equal to 0
             .attr("y", function (d) { return yScale2(0); })
+            .attr("width", xScale2.bandwidth())
+            .attr("height", function (d) { return height - yScale2(0); }) // always equal to 0
             .style("fill", "royalblue")
             .style("opacity", 0.8);
 
@@ -416,8 +478,11 @@ function transitionVaccine() {
             .transition()
             .duration(2000)
             .attr("y", function (d) { return yScale2(+d.total_vaccinations); })
-            .attr("height", function (d) { return height - yScale2(d.total_vaccinations); })
-            .delay(function (d, i) { console.log(i); return (i * 5) })
+            .attr("height", function (d) { return height - yScale2(+d.total_vaccinations); })
+            .delay(function (d, i) { return (i * 5) })
+
+        d3.selectAll('.line') // Remove lines
+            .remove();
 
         // Draw anxiety line
         svg.selectAll("myline")
@@ -439,6 +504,9 @@ function transitionVaccine() {
             })
             .attr('class', 'line')
 
+        d3.selectAll('.labels') // Remove labels
+            .remove();
+
         // Labels
         svg.append('text')
             .attr('x', width / 2)
@@ -453,37 +521,43 @@ function transitionVaccine() {
             .text('Symptoms of Anxiety Disorder and COVID-19 Vaccines')
             .attr('class', 'labels')
 
+        d3.selectAll('.legend') // Remove legend
+            .remove();
+
         // Legend
         const legend = svg.append('g')
             .attr('class', 'legend')
 
         legend.append('line')
-            .attr('x', 0)
-            .attr('y1', height + 130)
-            .attr('x2', 50)
-            .attr('y2', height + 130)
+            .attr('x1', 150)
+            .attr('y1', height + 125)
+            .attr('x2', 200)
+            .attr('y2', height + 125)
             .style('stroke-width', 4)
             .style("stroke", "indianred");
 
         legend.append('text').attr('font-size', '1.25em')
-            .attr('x', 60)
-            .attr('y', height + 130)
+            .attr('x', 210)
+            .attr('y', height + 125)
             .attr('dominant-baseline', 'middle')
             .text('Anxiety Symptoms, Last 7 Days')
 
         legend.append('line')
-            .attr('x1', 350)
-            .attr('y1', height + 130)
-            .attr('x2', 400)
-            .attr('y2', height + 130)
+            .attr('x1', 500)
+            .attr('y1', height + 125)
+            .attr('x2', 550)
+            .attr('y2', height + 125)
             .style('stroke-width', 4)
             .style("stroke", "blue");
 
         legend.append('text').attr('font-size', '1.25em')
-            .attr('x', 410)
-            .attr('y', height + 130)
+            .attr('x', 560)
+            .attr('y', height + 125)
             .attr('dominant-baseline', 'middle')
             .text('COVID-19 Vaccines')
+
+        d3.selectAll('.axis') // Remove Y axis
+            .remove();
 
         // Append Y axis
         svg.append('g')
@@ -491,6 +565,9 @@ function transitionVaccine() {
                 .tickFormat(d => d + '%')
                 .ticks(5))
             .attr('class', 'axis');
+
+        d3.selectAll('.labels') // Remove labels
+            .remove();
 
         svg.append('text')
             .attr('x', -150)
@@ -560,6 +637,9 @@ function transitionStates() {
             .attr("fill", "none")
             .attr("stroke", "url(#line-gradient)");
 
+        d3.selectAll('.labels') // Remove labels
+            .remove();
+
         // Labels
         svg.append('text')
             .attr('x', width / 2)
@@ -574,23 +654,33 @@ function transitionStates() {
             .text('State Where Anxiety Eased the Most')
             .attr('class', 'labels')
 
+        d3.selectAll('.legend') // Remove legend
+            .remove();
+
         // Legend
         const legend = svg.append('g')
             .attr('class', 'legend')
 
         legend.append('line')
-            .attr('x', 0)
-            .attr('y1', height + 130)
-            .attr('x2', 50)
-            .attr('y2', height + 130)
+            .attr('x1', width / 2 - 70)
+            .attr('y1', height + 125)
+            .attr('x2', width / 2 - 10)
+            .attr('y2', height + 125)
             .style('stroke-width', 4)
             .style("stroke", "#FFA45A");
 
         legend.append('text').attr('font-size', '1.25em')
-            .attr('x', 60)
-            .attr('y', height + 130)
-            .attr('dominant-baseline', 'middle')
+            .attr('x', width / 2)
+            .attr('y', height + 125)
+            .style('dominant-baseline', 'middle')
+            .style('text-anchor', 'start')
+            .transition() // Transition method
+            .duration(3000) // Set timing (ms)
+            .ease(d3.easeLinear) // Set easing
             .text('Wyoming')
+
+        d3.selectAll('.axis') // Remove Y axis
+            .remove();
 
         // Append Y axis
         svg.append('g')
@@ -598,6 +688,9 @@ function transitionStates() {
                 .tickFormat(d => d + '%')
                 .ticks(5))
             .attr('class', 'axis');
+
+        d3.selectAll('.labels') // Remove labels
+            .remove();
 
         svg.append('text')
             .attr('x', -150)
