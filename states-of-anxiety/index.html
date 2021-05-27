@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- our stylsheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h2 class="title">Anxiety and the COVID-19 Vaccine</h2>
+        <h4 class="title">Which state saw anxiety ease the most?</h4>
+    </header>
+    <main>
+        <section id="scrolly">
+            <article>
+                <div class="step" data-step="covid">
+                    <p>The COVID-19 pandemic started in winter 2020, arriving in waves.</p>
+                </div>
+                <div class="step" data-step="anxiety">
+                    <p>In April 2020, the CDC's Household Pulse Survey began to track the pandemic's mental health
+                        impact.</p>
+                    <p>The Household Pulse Survey shows anxiety rising nationwide to a year-end peak before plunging in 2021.</p>
+                </div>
+                <div class="step" data-step="vaccine">
+                    <p>The rise of COVID-19 vaccines saw a dramatic easing in the national anxiety rate.</p>
+                </div>
+                <div class="step" data-step="states">
+                    <p>
+                        The state where anxiety dropped the most in 2021 is Wyoming.
+                    </p>
+                    <p>
+                        The number of residents reporting anxiety symptoms dropped by 52% from January to April.
+                    </p>
+                </div>
+                <!-- <div class="step" data-step="dropdown">
+                    <p>Use this interactive graph to see how the pandemic drove anxiety levels in your state.</p>
+                </div>
+                -->
+            </article>
+
+            <figure>
+                <p></p>
+            </figure>
+        </section>
+
+        <section id="outro">
+            <h1>See how the pandemic drove anxiety levels in your state.</h1>
+        </section>
+    </main>
+
+    <!-- include d3, intersection observer, and scrollama -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/intersection-observer"></script>
+    <script src="https://unpkg.com/scrollama"></script>
+    <!-- include our script last -->
+    <script src="script.js"></script>
+</body>
+
+</html>
