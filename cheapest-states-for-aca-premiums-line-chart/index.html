@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <style>
+        /* Style scales */
+        
+        .domain {
+            opacity: 0;
+        }
+        
+        g.tick line {
+            opacity: 0;
+        }
+        
+        g.tick text {
+            font-weight: 700;
+            font-size: 1.5em;
+        }
+        
+        h1 {
+            color: rgb(72, 72, 72);
+            font-family: Montserrat;
+            text-align: center;
+        }
+        
+        h2 {
+            color: rgb(72, 72, 72);
+            font-family: Montserrat;
+            text-align: center;
+        }
+        
+        h3 {
+            color: rgb(72, 72, 72);
+            font-family: Montserrat;
+            text-align: center;
+        }
+        /* Styles for hover/dropdown  */
+        
+        #dropdown {
+            font-family: 'proxima_nova_rgbold', Helvetica, Arial, sans-serif;
+            position: relative;
+            top: 35%;
+            left: 15%;
+            border-radius: 5px;
+            padding: 5px;
+            border: 1px solid rgb(72, 72, 72);
+            color: rgb(72, 72, 72);
+            font-weight: 700;
+            font-size: 1em;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        
+        #dropdown:hover {
+            box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        #dropdown:focus {
+            border: 1px solid dimgray;
+            outline: none;
+        }
+        
+        .stateLines {
+            z-index: 1;
+        }
+        /* On screens that are 600px or less, pin to top */
+        
+        @media screen and (max-width: 600px) {
+            #dropdown {
+                top: 0;
+                left: 0;
+                font-size: 0.5em;
+            }
+        }
+        /* Tooltip materials */
+        
+        .tooltip2 {
+            width: auto;
+            height: fit-content;
+            padding: 4px 10px;
+            border: 1px solid lightgray;
+            border-radius: 4px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: absolute;
+            background-color: white;
+            font-size: 14px;
+            text-align: left;
+            pointer-events: none;
+            -webkit-transition: all 0.25s;
+            -moz-transition: all 0.25s;
+            -ms-transition: all 0.25s;
+            -o-transition: all 0.25s;
+            transition: all 0.25s;
+        }
+        
+        .tooltip2 div {
+            margin: 3px 0;
+        }
+        
+        .tooltip-val {
+            font-weight: bold;
+            font-family: 'Trebuchet MS';
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Affordable Care Act Premiums</h1>
+    <h2>2017-2021</h2>
+
+    <select id="dropdown"></select>
+    <figure></figure>
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <script>
+        (async() => {
+
+            ////////////////////////////////////
+            ///////////// SVG Setup ////////////
+            ////////////////////////////////////
+
+            // Margins for SVG
+            const margin = {
+                left: 100,
+                right: 20,
+                top: 100,
+                bottom: 150
+            }
+
+            const svgWidth = 1000
+            const svgHeight = svgWidth * 0.6
+
+            // Helper calculated variables for inner width & height
+            const height = svgHeight - margin.top - margin.bottom
+            const width = svgWidth - margin.left - margin.right
+
+            // Add SVG
+            const svg = d3.select('figure')
+                .append('svg')
+                .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`) // responsive width & height
+                .append('g')
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+            ////////////////////////////////////
+            ///////////// Interactions /////////
+            ////////////////////////////////////
+
+            // Create dropdown
+            d3.select("#dropdown")
+                .selectAll('options')
+                .data(['US average', 'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'])
+                .join('option')
+                .text(d => d)
+                .attr("value", d => d)
+                // Listener function sets selectedOption to value property
+            d3.select("#dropdown").on("change", function(d) {
+                let selectedOption = d3.select(this).property("value")
+                    // console.log(selectedOption);
+                update(selectedOption);
+            })
+
+            ////////////////////////////////////
+            ///////////// Data Wrangling ///////
+            ////////////////////////////////////
+
+            let data = await d3.csv('./State_Average_Benchmark_Premiums_Only.csv')
+
+            // Reshape data with arrays of Value and Year
+            data = data.map((val) => ({
+                key: val.State,
+                values: [{
+                    Value: +val[2017],
+                    Year: "2017"
+                }, {
+                    Value: +val[2018],
+                    Year: "2018"
+                }, {
+                    Value: +val[2019],
+                    Year: "2019"
+                }, {
+                    Value: +val[2020],
+                    Year: "2020"
+                }, {
+                    Value: +val[2021],
+                    Year: "2021"
+                }]
+            }))
+
+            ////////////////////////////////////
+            ///////////// Scales     ///////////
+            ////////////////////////////////////
+
+            const timeRange = ["2017", "2018", "2019", "2020", "2021"];
+
+            const xScale = d3.scaleBand()
+                .domain(timeRange.map(function(d) {
+                    return d;
+                }))
+                // .domain(d3.extent(timeRange, function(d) {
+                //     return d;
+                // }))
+                .range([0, width])
+                .paddingInner(1)
+
+            const yScale = d3.scaleLinear()
+                // .domain(d3.extent(data, function (d) { return d.values; }))
+                .domain([200, 850])
+                .range([height, 0])
+                .nice();
+
+            ////////////////////////////////////
+            ///////// Background Lines /////////
+            ////////////////////////////////////
+
+            svg.selectAll("myline")
+                .data(data)
+                .enter()
+                .append("path")
+                .attr("fill", "none")
+                .attr("stroke", "lightgray")
+                .attr("stroke-width", 1.5)
+                .attr('opacity', 0.5)
+                .attr("d", function(d) {
+                    return d3.line()
+                        .curve(d3.curveNatural)
+                        .x(function(d, i) {
+                            return xScale(d.Year);
+                        })
+                        .y(function(d) {
+                            return yScale(d.Value);
+                        })
+                        (d.values)
+                })
+
+            ////////////////////////////////////
+            ///////////// Update function //////
+            ////////////////////////////////////
+
+            // Update viz for selected state
+            function update(selectedOption) {
+
+                // Filter for selected state
+                let filterData = data.filter(function(d) {
+                    return d.key === selectedOption;
+                });
+
+                // Remove tooltip on update
+                d3.select('.tooltip2')
+                    .remove();
+
+                // Remove lines before redrawing on update
+                d3.selectAll('.stateLines')
+                    .remove();
+
+                // Stop axis from overwriting
+                svg.selectAll('.dropdownAxis')
+                    .remove();
+
+                svg.append('g') // Append and rotate x axis
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(xScale))
+                    .selectAll("text")
+                    .attr("transform", "translate(-10,0)rotate(-45)")
+                    .style("text-anchor", "end")
+                    .attr('class', 'dropdownAxis');
+
+                // Draw y axis
+                svg.append('g')
+                    .call(d3.axisLeft(yScale)
+                        .tickFormat(d => '$' + d)
+                        .ticks(5))
+                    .attr('class', 'dropdownAxis');
+
+                svg.append('text')
+                    .attr('x', -150)
+                    .attr('y', -60)
+                    .attr("transform", "rotate(-90)")
+                    .style("font-family", "Proxima Nova")
+                    .style('text-anchor', 'middle')
+                    .text('Premiums (dollars)')
+
+                // Color generator
+                myColor = function getRandomColor() {
+                    var letters = '0123456789ABCDEF';
+                    var color = '#';
+                    for (var i = 0; i < 6; i++) {
+                        color += letters[Math.floor(Math.random() * 16)];
+                    }
+                    return color;
+                }
+
+                ///////////////////////////////////
+                ///////////// Draw   //////////////
+                ///////////////////////////////////
+
+                svg.selectAll("myline")
+                    .data(filterData)
+                    .enter()
+                    .append("path")
+                    .attr("fill", "none")
+                    .attr("stroke", function(d) {
+                        return myColor(d.key)
+                    })
+                    .attr("stroke-width", 5)
+                    .attr("d", function(d) {
+
+                        return d3.line()
+                            .curve(d3.curveNatural)
+                            .x(function(d, i) {
+                                return xScale(d.Year);
+                            })
+                            .y(function(d) {
+                                return yScale(d.Value);
+                            })
+                            (d.values)
+                    })
+                    .attr('class', 'stateLines')
+                    .on("mouseover", mouseover);
+                // .on("mouseout", mouseout);
+
+                // Tooltip materials
+                const tooltip2 = d3.select("body").append("div")
+                    .attr("class", "tooltip2")
+                    .style("display", "none");
+
+                const tooltipVal = tooltip2.append("div");
+
+                tooltipVal.append("span")
+                    .attr("class", "tooltip-val");
+
+                // Tooltip located according to mouse's X position
+                function mouseover(d) {
+                    // Show tooltip
+                    d3.select(".tooltip2").style("display", "block")
+
+                    xPos = d3.mouse(this)[0];
+                    if (xPos < width / 4) {
+                        tooltip2.attr("style", "left:" + (d3.event.pageX + 20) + "px; top:" + (d3.event.pageY - 50) + "px;");
+                        tooltip2.select(".tooltip-val").html("2017 monthly premium: " + '$' + d.values[0].Value)
+                    } else if (xPos >= width * 0.25 && xPos < width * 0.5) {
+                        tooltip2.attr("style", "left:" + (d3.event.pageX + 20) + "px; top:" + (d3.event.pageY - 50) + "px;");
+                        tooltip2.select(".tooltip-val").html("2018 monthly premium: " + '$' + d.values[1].Value)
+                    } else if (xPos >= width * 0.5 && xPos < width * 0.75) {
+                        tooltip2.attr("style", "left:" + (d3.event.pageX + 20) + "px; top:" + (d3.event.pageY - 50) + "px;");
+                        tooltip2.select(".tooltip-val").html("2019 monthly premium: " + '$' + d.values[2].Value)
+                    } else if (xPos >= width * 0.75 && xPos < width) {
+                        tooltip2.attr("style", "left:" + (d3.event.pageX + 20) + "px; top:" + (d3.event.pageY - 50) + "px;");
+                        tooltip2.select(".tooltip-val").html("2020 monthly premium: " + '$' + d.values[3].Value)
+                    }
+
+                }
+
+                // function mouseout() {
+
+                //     d3.select('.tooltip')
+                //     .transition()
+                //     .duration(2000)
+                //     .attr('fill-opacity', 0)
+
+                // }
+
+            }
+
+            // Initialize 
+            update('US average')
+
+            // // Legend
+            const legend = svg.append('g')
+                .attr('class', 'legend')
+
+            legend.append('line')
+                .attr('x', 0)
+                .attr('y1', height + 130)
+                .attr('x2', 50)
+                .attr('y2', height + 130)
+                .style('stroke-width', 4)
+                .style("stroke", "lightgray");
+
+            legend.append('text').attr('font-size', '1.25em')
+                .attr('x', 60)
+                .attr('y', height + 130)
+                .attr('dominant-baseline', 'middle')
+                .style('font-family', 'Helvetica')
+                .text('Other States')
+
+
+        })()
+    </script>
+</body>
+
+</html>
