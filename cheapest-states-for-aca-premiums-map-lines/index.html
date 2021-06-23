@@ -11,39 +11,39 @@
 
     <style>
         /* Style scales */
-        
         .domain {
             opacity: 0;
         }
-        
+
         g.tick line {
             opacity: 0;
         }
-        
+
         g.tick text {
             font-weight: 700;
             font-size: 1.5em;
         }
-        
+
         h1 {
             color: rgb(72, 72, 72);
             font-family: Montserrat;
             text-align: center;
         }
-        
+
         h2 {
             color: rgb(72, 72, 72);
             font-family: Montserrat;
             text-align: center;
         }
-        
+
         h3 {
             color: rgb(72, 72, 72);
             font-family: Montserrat;
             text-align: center;
         }
+
         /* Styles for hover/dropdown  */
-        
+
         #dropdown {
             font-family: 'proxima_nova_rgbold', Helvetica, Arial, sans-serif;
             position: relative;
@@ -58,22 +58,22 @@
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
             transition: box-shadow 0.3s ease-in-out;
         }
-        
+
         #dropdown:hover {
             box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
             transition: opacity 0.3s ease-in-out;
         }
-        
+
         #dropdown:focus {
             border: 1px solid dimgray;
             outline: none;
         }
-        
+
         .stateLines {
             z-index: 1;
         }
+
         /* On screens that are 600px or less, pin to top */
-        
         @media screen and (max-width: 600px) {
             #dropdown {
                 top: 0;
@@ -81,8 +81,47 @@
                 font-size: 0.5em;
             }
         }
+
+        /* Style for Custom Tooltip */
+        .tooltip {
+            position: absolute;
+            text-align: left;
+            max-width: 400px;
+            height: auto;
+            padding: 10px;
+            font-size: 16px;
+            font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+            background-color: rgb(236, 244, 254);
+            color: black;
+            border: 0px;
+            border-radius: 4px;
+            pointer-events: none;
+            z-index: 1;
+            box-shadow: 4px 8px 20px rgba(0, 0, 0, .5);
+        }
+
+        /* Legend Position and Style */
+        .legend {
+            position: absolute;
+            left: 75%;
+            top: 15%;
+            font-size: 14px;
+            color: white;
+        }
+
+
+        #states {
+            stroke: white;
+            transition: fill-opacity 0.2s ease-in-out;
+        }
+
+        /* On mouse hover, lighten state color */
+        #states:hover {
+            fill-opacity: 0.5;
+        }
+
         /* Tooltip materials */
-        
+
         .tooltip2 {
             width: auto;
             height: fit-content;
@@ -101,11 +140,11 @@
             -o-transition: all 0.25s;
             transition: all 0.25s;
         }
-        
+
         .tooltip2 div {
             margin: 3px 0;
         }
-        
+
         .tooltip-val {
             font-weight: bold;
             font-family: 'Trebuchet MS';
@@ -114,7 +153,7 @@
 </head>
 
 <body>
-
+    <div id="map"></div>
     <h1>Affordable Care Act Premiums</h1>
     <h2>2017-2021</h2>
 
@@ -124,7 +163,204 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
 
     <script>
-        (async() => {
+
+        // MAP
+
+        // Set the dimensions of the graph
+        const margin = { top: 50, right: 20, bottom: 50, left: 20 },
+            width = 1600 - margin.left - margin.right,
+            height = 950 - margin.top - margin.bottom;
+
+        // Create chart 
+        const chart = d3.select("#map")
+            .append("svg")
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 1600 950")
+
+        // Set projection type
+        const projection = d3.geoAlbersUsa()
+            .translate([width / 2, height / 2]) // Translate to center of screen
+            .scale([1700]); // scale map down so see entire US
+
+        // Define path generator
+        const path = d3.geoPath() // Path generator that will convert GeoJSON to SVG paths
+            .projection(projection); // Tell path generator to use albersUsa projection
+
+
+        // Append div for tooltip to SVG
+        const tooltipDiv = d3.select("body")
+            .append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+        // Array to hold stroke death rates
+        dataValueArray = [];
+
+        const dataPromise = d3.csv("./State_Average_Benchmark_Premium.csv");// Load data
+        const mapPromise = d3.json("https://content-static.stg.healthcare.inc/data/us-states.json");// Load map
+        Promise.all([dataPromise, mapPromise]).then(function (values) {
+            ready(values)
+        });
+
+        function ready([data, map]) {
+            // console.log(map)
+            // Load GeoJSON data and merge with states data
+            // Loop through each state's data value in the .csv file
+            for (let i = 0; i < data.length; i++) {
+
+                // Grab State name
+                const dataState = data[i].State;
+
+                // Grab data value for map
+                const premium = +data[i]["2021"];
+
+                // Grab data for tooltip
+                const premiumRank = +data[i].premiumRank;
+                const premiumChange = +data[i]["2020–21"];
+
+                // Find the corresponding state inside the GeoJSON
+                for (var j = 0; j < map.features.length; j++) {
+                    var mapState = map.features[j].properties.name;
+
+                    if (dataState == mapState) {
+
+                        // Copy the data value into the map
+                        map.features[j].properties.premium = premium;
+                        map.features[j].properties.premiumRank = premiumRank;
+                        map.features[j].properties.premiumChange = premiumChange;
+
+                    }
+                }
+                dataValueArray.push(+premium)
+            }
+            // console.log(dataValueArray)
+            console.log(map)
+            const colorScale = d3.scaleLinear()
+                .domain(d3.extent(dataValueArray))
+                .range(["#E0F3DB", "#084081"])
+
+
+            // Bind  data to the SVG and create one path per GeoJSON feature
+            chart.selectAll("path")
+                .data(map.features)
+                .enter()
+                .append("path")
+                .attr("d", path)
+                .attr("id", "states")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .attr("fill",
+                    d => {
+                        const dataValue = d.properties.premium;
+                        return colorScale(dataValue)
+                    })
+                .on("mouseover", function (d) { // Show tooltip
+                    var tooltipState = d.properties.name;
+                    var tooltipPremium = d.properties.premium;
+                    var tooltipPremiumRank = d.properties.premiumRank;
+                    var tooltipPremiumChange = d.properties.premiumChange;
+
+                    tooltipDiv.transition()
+                        .duration(200)
+                        .style("opacity", .98);
+                    tooltipDiv.html("<strong>" + tooltipState + "</strong>" + "<br>" +
+                        "Rank: " + tooltipPremiumRank + "<br>" +
+                        "Premium: " + "$" + tooltipPremium + "<br>" +
+                        "2021 change: " + tooltipPremiumChange + "%" + "<br>"
+
+                    )
+                        .style("left", (d3.event.pageX) + 30 + "px")
+                        .style("top", (d3.event.pageY) - 48 + "px");
+                })
+
+                // Fade tooltip on mouseout               
+                .on("mouseout", function (d) {
+                    tooltipDiv.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                });
+
+            // Legend
+            const legendGroup = chart.append("g")
+                .attr("transform", `translate(${width / 2 + 100},
+            ${100})`)
+
+            const defs = chart.append("defs")
+            const legendGradientId = "legend-gradient"
+
+            const gradient = defs.append("linearGradient")
+                .attr("id", legendGradientId)
+                .selectAll("stop")
+                .data(colorScale.range())
+                .enter().append("stop")
+                .attr("stop-color", d => d)
+                .attr("offset", (d, i) => `${i * 100
+                    }%`)
+
+            const legendWidth = 200
+            const legendHeight = 20
+            const legendGradient = legendGroup.append("rect")
+                .attr("x", -legendWidth / 2)
+                .attr("height", legendHeight)
+                .attr("width", legendWidth)
+                .style("fill", `url(#${legendGradientId})`)
+
+            const legendValueLeft = legendGroup.append("text")
+                .attr("class", "legend-value")
+                .attr("x", -legendWidth / 2 - 10)
+                .attr("y", legendHeight / 2 + 5)
+                .style("font-family", "'Gill Sans', 'Gill Sans MT'")
+                .style("font-size", 24)
+                .style("text-anchor", "end")
+                .style("font-weight", 700)
+                .text("Cheapest")
+
+            // Peripherals
+            const legendValueRight = legendGroup.append("text")
+                .attr("class", "legend-value")
+                .attr("x", legendWidth / 2 + 10)
+                .attr("y", legendHeight / 2 + 5)
+                .style("font-family", "'Gill Sans', 'Gill Sans MT'")
+                .style("font-size", 24)
+                .style("font-weight", 700)
+                .text("Priciest")
+
+            chart.append("text")
+                .attr("transform", "translate(100,0)")
+                .attr("x", width / 2)
+                .attr("y", 50)
+                .style("font-size", "40px")
+                .style("font-weight", 700)
+                .style("text-anchor", "middle")
+                .style("font-family", "'Gill Sans', 'Gill Sans MT'")
+                .text("Cheapest States for ACA Premiums");
+
+            // chart.append("text")
+            //     .attr("transform", "translate(100,0)")
+            //     .attr("x", width / 2)
+            //     .attr("y", 105)
+            //     .attr("font-size", "30px")
+            //     .style("text-anchor", "middle")
+            //     .style("fill", "#303030")
+            //     .style("font-family", "'Gill Sans', 'Gill Sans MT'")
+            //     .text("Score out of 100");
+
+
+            // chart.append("text")
+            //     .attr("transform", "translate(100,0)")
+            //     .attr("x", width / 2)
+            //     .attr("y", 850)
+            //     .attr("font-size", "18px")
+            //     .style("text-anchor", "middle")
+            //     .style("fill", "dimgray")
+            //     .style("font-family", "'Gill Sans', 'Gill Sans MT'")
+            //     .text("HCI analysis");
+
+
+        }
+
+        // LINE CHART
+
+        (async () => {
 
             ////////////////////////////////////
             ///////////// SVG Setup ////////////
@@ -163,10 +399,10 @@
                 .join('option')
                 .text(d => d)
                 .attr("value", d => d)
-                // Listener function sets selectedOption to value property
-            d3.select("#dropdown").on("change", function(d) {
+            // Listener function sets selectedOption to value property
+            d3.select("#dropdown").on("change", function (d) {
                 let selectedOption = d3.select(this).property("value")
-                    // console.log(selectedOption);
+                // console.log(selectedOption);
                 update(selectedOption);
             })
 
@@ -179,37 +415,23 @@
             // Reshape data with arrays of Value and Year
             data = data.map((val) => ({
                 key: val.State,
-                values: [{
-                    Value: +val[2017],
-                    Year: "2017"
-                }, {
-                    Value: +val[2018],
-                    Year: "2018"
-                }, {
-                    Value: +val[2019],
-                    Year: "2019"
-                }, {
-                    Value: +val[2020],
-                    Year: "2020"
-                }, {
-                    Value: +val[2021],
-                    Year: "2021"
-                }]
+                values: [
+                    { Value: +val[2017], Year: "2017" },
+                    { Value: +val[2018], Year: "2018" },
+                    { Value: +val[2019], Year: "2019" },
+                    { Value: +val[2020], Year: "2020" },
+                    { Value: +val[2021], Year: "2021" }
+                ]
             }))
-
+            console.log(data);
             ////////////////////////////////////
-            ///////////// Scales     ///////////
+            ///////////// Global variables /////
             ////////////////////////////////////
 
             const timeRange = ["2017", "2018", "2019", "2020", "2021"];
 
             const xScale = d3.scaleBand()
-                .domain(timeRange.map(function(d) {
-                    return d;
-                }))
-                // .domain(d3.extent(timeRange, function(d) {
-                //     return d;
-                // }))
+                .domain(timeRange.map(function (d) { return d; }))
                 .range([0, width])
                 .paddingInner(1)
 
@@ -231,15 +453,11 @@
                 .attr("stroke", "lightgray")
                 .attr("stroke-width", 1.5)
                 .attr('opacity', 0.5)
-                .attr("d", function(d) {
+                .attr("d", function (d) {
                     return d3.line()
                         .curve(d3.curveNatural)
-                        .x(function(d, i) {
-                            return xScale(d.Year);
-                        })
-                        .y(function(d) {
-                            return yScale(d.Value);
-                        })
+                        .x(function (d, i) { return xScale(d.Year); })
+                        .y(function (d) { return yScale(d.Value); })
                         (d.values)
                 })
 
@@ -251,13 +469,14 @@
             function update(selectedOption) {
 
                 // Filter for selected state
-                let filterData = data.filter(function(d) {
+                let filterData1 = data.filter(function (d) {
                     return d.key === selectedOption;
                 });
 
                 // Remove tooltip on update
                 d3.select('.tooltip2')
                     .remove();
+
 
                 // Remove lines before redrawing on update
                 d3.selectAll('.stateLines')
@@ -300,37 +519,33 @@
                     return color;
                 }
 
+
                 ///////////////////////////////////
-                ///////////// Draw   //////////////
+                ///////////// Draw        /////////
                 ///////////////////////////////////
 
                 svg.selectAll("myline")
-                    .data(filterData)
+                    .data(filterData1)
                     .enter()
                     .append("path")
                     .attr("fill", "none")
-                    .attr("stroke", function(d) {
-                        return myColor(d.key)
-                    })
+                    .attr("stroke", function (d) { return myColor(d.key) })
                     .attr("stroke-width", 5)
-                    .attr("d", function(d) {
+                    .attr("d", function (d) {
 
                         return d3.line()
                             .curve(d3.curveNatural)
-                            .x(function(d, i) {
-                                return xScale(d.Year);
-                            })
-                            .y(function(d) {
-                                return yScale(d.Value);
-                            })
+                            .x(function (d, i) { return xScale(d.Year); })
+                            .y(function (d) { return yScale(d.Value); })
                             (d.values)
                     })
                     .attr('class', 'stateLines')
                     .on("mouseover", mouseover);
-                // .on("mouseout", mouseout);
+            }
 
-                // Tooltip materials
-                const tooltip2 = d3.select("body").append("div")
+               // Tooltip materials
+
+               const tooltip2 = d3.select("body").append("div")
                     .attr("class", "tooltip2")
                     .style("display", "none");
 
@@ -361,16 +576,6 @@
 
                 }
 
-                // function mouseout() {
-
-                //     d3.select('.tooltip')
-                //     .transition()
-                //     .duration(2000)
-                //     .attr('fill-opacity', 0)
-
-                // }
-
-            }
 
             // Initialize 
             update('US average')
@@ -396,6 +601,7 @@
 
 
         })()
+
     </script>
 </body>
 
