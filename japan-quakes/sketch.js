@@ -1,3 +1,4 @@
+
 // an array for the magnitude
 var magnitudes;
 // an array for depth
@@ -93,7 +94,11 @@ function setup() {
 }
 
 function setupMap() {
-
+/*
+var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+});
+*/
     // create map
     mymap = L.map('quake-map').setView([38.00, 139.50], 3.0);
 

@@ -40,7 +40,7 @@ var pointsData = {
       "geometry": {
         "type": "Point",
         "coordinates": [
-		  139.68124866485596,
+          139.68124866485596,
           35.676158419079826
         ]
       }
