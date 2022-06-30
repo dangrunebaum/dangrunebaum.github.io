@@ -1,0 +1,612 @@
+<!-- 
+  Trigger Blue county circles sized by vote count to grow from nothing 
+  while Red shrinks to nothing over 2 seconds, then the process reverses by 4 seconds.
+  For second map, animate county paths with fill color alternating based on
+  vote percentages. In the first 2 seconds the county animates from blue to red,
+  then from 2 to 4 seconds animates from red to blue.
+-->
+
+<head>
+  <style>
+    
+    body {
+      font-family: "open sans", sans-serif;
+      text-align: center;
+      background-color: black;
+    }
+
+    h1,
+    p {
+      padding: 5px 0px 0px 0px;
+      color: white;
+    }
+
+    /* Styles for map */
+
+    #mapText {
+      position: relative;
+      bottom: 50px;
+      left: 85%;
+      font-size: 10px;
+    }
+
+    .countyOutline {
+      stroke-width: 0.07;
+      stroke: white;
+      fill: none;
+    }
+
+    .highlight {
+      stroke-width: 1;
+    }
+
+    .states {
+      stroke-width: 0.15;
+      stroke: white;
+      fill: none;
+    }
+
+    /* Tooltip for barchart and map */
+    .tooltip {
+      position: absolute;
+      text-align: left;
+      max-width: auto;
+      max-height: auto;
+      font-size: 16px;
+      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+      background: rgb(25, 25, 25);
+      color: white;
+      border: 0px;
+      border-radius: 4px;
+      padding: 4px;
+      pointer-events: none;
+      box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    #state-borders {
+      fill: none;
+      stroke: #fff;
+      stroke-width: 0px;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+      pointer-events: none;
+    }
+
+    .background {
+      fill: none;
+      pointer-events: all;
+    }
+
+    button {
+      padding: 10px;
+      border-radius: 20px;
+      font-size: 1em;
+      font-weight: 300;
+      margin: 5px auto;
+      color: silver;
+      transition-duration: 0.1s;
+      background-color: black;
+      border: 2px solid silver;
+    }
+
+    #playButton {
+      margin-right: 10px;
+    }
+
+    #playButton:hover {
+      /* background-color: rgb(80, 80, 80); */
+      color: green;
+      border-color: green;
+    }
+
+    #resetButton:hover {
+      /* background-color: rgb(80, 80, 80); */
+      color: red;
+      border-color: red;
+    }
+
+    button:active {
+      transform: translateY(2px);
+      color: limegreen;
+    }
+
+    @font-face {
+      font-family: "Open Sans Light";
+      font-style: normal;
+      font-weight: 300;
+      src: url(https://fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTRa1RVmPjeKy21_GQJaLlJI.woff) format("woff");
+    }
+
+    #explainer {
+      margin: 0 10% 0 10%;
+      padding-bottom: 0px;
+      /* left: 5%; */
+      margin-bottom: 10px;
+      text-align: left;
+
+      color: rgb(150, 150, 150);
+      font-family: "Open Sans Light";
+      /* font-weight: 300; */
+    }
+
+    .columns {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .column {
+      flex: 50%;
+    }
+
+    /* Remove Hawaii circle elements */
+    #map1>svg>g>circle:nth-child(n+144):nth-child(-n+147) {
+      opacity: 0;
+    }
+  </style>
+  <script src="https://d3js.org/topojson.v2.min.js"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<div id="titleDiv"></div>
+<h1>Visualizing the 2020 Presidential Election</h1>
+<div id="buttons">
+  <button id="playButton" onclick="rba()">Play</button>
+  <button id="resetButton" onclick="reset()">Reset</button>
+</div>
+<div class="columns">
+  <div id="map1" class="column"></div>
+  <div id="map2" class="column"></div>
+</div>
+<div id="explainer">
+  Two different ways of visualizing county voting patterns in the 2020 US
+  Presidential Election highlight the complexity of the nation's politics. The
+  left map encodes Trump and Biden's margin of victory by circle size to
+  visualize the stark divisions between urban and rural counties. The right map
+  shows voting percent by county, demonstrating that, despite the urban/rural
+  divide, sizable Republican and Democratic constituences exist in most of the
+  country's 3,006 counties. Press play to oscillate between red and blue
+  America. Press reset to stop.
+</div>
+
+<body>
+  <script>
+    let redAndBlueAmerica;
+    let toggleRba;
+    let myTimeout;
+    // click function calls setInterval, which calls redAndBlueAmerica draw function,
+    // then again inside setInterval in 4s intervals
+    // function rba() {
+    //   redAndBlueAmerica();
+    //    myTimeout = setInterval(redAndBlueAmerica, 4000);
+    //   toggleRba = !toggleRba;
+    // };
+
+    function rba() {
+      if (!toggleRba) {
+        redAndBlueAmerica();
+        myTimeout = setInterval(redAndBlueAmerica, 4000);
+      } else {
+        window.clearInterval(myTimeout);
+        toggleRba = null;
+      }
+    }
+    // Reload page on click
+    function reset() {
+      location.reload();
+    }
+
+    (async () => {
+      ///////////// DATA WRANGLING //////////////////
+
+      const data = await d3.csv("./county_2020_pres_election.csv"); // Load data
+      const map = await d3.json(
+        "https://content-static.qa.healthcare.inc/data/ma-tracker/us.json"
+      ); // Load map
+
+      // Separate data into blue and red
+      const blueData = data.filter((d) => d.diff < 0);
+      const redData = data.filter((d) => d.diff > 0);
+
+      // Remove all counties with Alaska FIPS codes (starting with 2)
+      map.objects.counties.geometries = map.objects.counties.geometries.filter(
+        (county) => Math.trunc(county.id / 1000) != 2
+      );
+      // Remove Hawaii counties
+      map.objects.counties.geometries = map.objects.counties.geometries.filter(
+        (county) =>
+          county.id != 15001 &&
+          county.id != 15003 &&
+          county.id != 15007 &&
+          county.id != 15009
+      );
+
+      // Objects associate county FIPS with voting and geographic values,
+      // for use in fill functions and tooltip
+      const demPerByFips = {};
+      const gopPerByFips = {};
+      const stateByFips = {};
+      const countyByFips = {};
+
+      data.forEach((d, i) => {
+        demPerByFips[d.county_fips] = +d.per_dem;
+        gopPerByFips[d.county_fips] = +d.per_gop;
+        stateByFips[d.county_fips] = d.state_name;
+        countyByFips[d.county_fips] = d.county_name; // Create property for each ID, give it county name
+      });
+
+      ///////////// SVG SETUP /////////////////
+
+      // Append divs for tooltips to SVG
+      const tooltipDiv = d3
+        .select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+      const tooltipDiv2 = d3
+        .select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+      // Append div for title to SVG
+      const titleSvg = d3
+        .select("#titleDiv")
+        .append("svg")
+        .attr("viewBox", `0 0 1200 130`);
+
+      // Define dimensions
+      const mapWidth = 800;
+      const mapHeight = 600;
+
+      // Assign map projection
+      const projection = d3
+        .geoAlbersUsa()
+        .scale(1000)
+        .translate([mapWidth / 2, mapHeight / 2 - 20]);
+
+      const path1 = d3.geoPath().projection(projection);
+      const path2 = d3.geoPath().projection(projection);
+
+      // Append svg
+      const mapSvg = d3
+        .select("#map1")
+        .append("svg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", `0 0 ${mapWidth} ${mapHeight}`);
+
+      const mapSvg2 = d3
+        .select("#map2")
+        .append("svg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", `0 0 ${mapWidth} ${mapHeight}`);
+
+      const g = mapSvg.append("g");
+      const g2 = mapSvg2.append("g");
+
+      ////////////// SCALES ////////////////
+
+      // Square root scale to size vote count circles
+      const pop2Radius = d3.scaleSqrt().domain([0, 1000000]).range([0, 15]);
+
+      // Color functions
+      const color = d3.scaleLinear([0.3, 1], ["steelblue", "red"]);
+      const colorDem = d3.scaleLinear([0, 1], ["rgb(20,20,20)", "steelblue"]);
+      const colorGop = d3.scaleLinear([0, 1], ["rgb(20,20,20)", "red"]);
+
+      // Draw county paths
+      g.append("g")
+        .attr("id", "counties")
+        .attr("class", "countyOutline")
+        .selectAll("#counties path")
+        .data(topojson.feature(map, map.objects.counties).features) // Bind TopoJSON county data elements
+        .enter()
+        .append("path")
+        .attr("d", path1)
+        .attr("fill", "rgb(20, 20, 20");
+
+      g2.append("g")
+        .attr("id", "counties2")
+        .attr("class", "countyOutline")
+        .selectAll("#counties2 path")
+        .data(topojson.feature(map, map.objects.counties).features) // Bind TopoJSON county data elements
+        .enter()
+        .append("path")
+        .attr("d", path2)
+        .attr("fill", "rgb(20, 20, 20")
+        .on("mouseover", mouseover2)
+        .on("mouseout", mouseout2);
+
+      d3.selectAll("#counties2 path")
+        .data(topojson.feature(map, map.objects.counties).features)
+        .attr("opacity", 0.6)
+        .attr("fill", (d) => color(gopPerByFips[d.id]));
+
+      /////////// Legend //////////////
+
+      g2.selectAll("legendRects")
+        .data([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+        .join("rect")
+        .attr("x", (d) => d * 12 + 70)
+        .attr("y", mapHeight - 81)
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("fill", (d) => color(d / 10))
+        .attr("opacity", 0.6);
+
+      g2.append("text")
+        .attr("x", 30)
+        .attr("y",  mapHeight - 72)
+        .attr("fill", "white")
+        .attr("opacity", 0.6)
+        .attr("font-size", "0.75em")
+        .text("Biden");
+
+      g2.append("text")
+        .attr("x", 195)
+        .attr("y",  mapHeight - 72)
+        .attr("fill", "white")
+        .attr("opacity", 0.6)
+        .attr("font-size", "0.75em")
+        .text("Trump");
+
+      // Population size legend 
+
+      // // Add legend: circles
+      var valuesToShow = [100000, 1000000].reverse();
+      var xCircle = mapWidth - 100;
+      var xLabel = mapWidth - 50;
+      var yCircle = mapHeight - 70;
+
+      g.selectAll("legendCircles")
+        .data(valuesToShow)
+        .enter()
+        .append("circle")
+        .attr("cx", xCircle)
+        .attr("cy", function (d) {
+          return yCircle - pop2Radius(d);
+        }) // Align bottoms
+        .attr("r", function (d) {
+          return pop2Radius(d);
+        })
+        .style("fill", "none")
+        .attr("opacity", 0.6)
+        .attr("stroke", "white");
+
+      // Add legend: segments
+      g
+        .selectAll("legend")
+        .data(valuesToShow)
+        .enter()
+        .append("line")
+        .attr("x1", function (d) {
+          return xCircle + pop2Radius(d);
+        })
+        .attr("x2", xLabel - 4)
+        .attr("y1", function (d) {
+          return yCircle - pop2Radius(d);
+        })
+        .attr("y2", function (d) {
+          return yCircle - pop2Radius(d);
+        })
+        .attr("opacity", 0.6)
+        .attr("stroke", "white")
+        .style("stroke-dasharray", "2,2");
+
+      // labels
+      g
+        .append("text")
+        .attr("x", xLabel)
+        .attr("y", function (d) {
+          return yCircle - pop2Radius(100000);
+        })
+        .text(" 100,000")
+        .attr("fill", "white")
+        .attr("opacity", 0.6)
+        .style("font-size", 10)
+        .attr("alignment-baseline", "middle");
+
+     g
+        .append("text")
+        .attr("x", xLabel)
+        .attr("y", function (d) {
+          return yCircle - pop2Radius(1000000);
+        })
+        .text(" 1,000,000")
+        .attr("fill", "white")
+        .attr("opacity", 0.6)
+        .style("font-size", 10)
+        .style("color", "white")
+        .attr("alignment-baseline", "middle");
+
+
+      ////////////// DRAW CIRCLES ////////////////
+
+      // Draw blue circles based on vote margin size
+      g.selectAll("circles")
+        .data(blueData)
+        .join("circle")
+        .attr("class", "blue")
+        .attr("cx", (d) => projection([d.lng, d.lat])[0])
+        .attr("cy", (d) => projection([d.lng, d.lat])[1])
+        // .attr("r", 0.1)
+        .attr("r", (d) => pop2Radius(Math.abs(d.diff))) // Make positive
+        .style("fill", "steelblue")
+        .attr("fill-opacity", 0.6)
+        .on("mouseover", mouseover)
+        .on("mouseout", mouseout);
+
+      g.selectAll("circles")
+        .data(redData)
+        .join("circle")
+        .attr("class", "red")
+        .attr("cx", (d) => projection([d.lng, d.lat])[0])
+        .attr("cy", (d) => projection([d.lng, d.lat])[1])
+        // .attr("r", 0.1)
+        .attr("r", (d) => pop2Radius(Math.abs(d.diff))) // Make positive
+        .style("fill", "red")
+        .attr("fill-opacity", 0.6)
+        .on("mouseover", mouseover)
+        .on("mouseout", mouseout);
+
+      const formatNumber = d3.format(",");
+
+      function mouseover(d) {
+        // console.log(d);
+        tooltipDiv.transition().duration(100).style("opacity", 1.0);
+        d3.select(this).attr("class", "highlight");
+        d3.select(this).transition().duration(400).attr("stroke", "white");
+        tooltipDiv
+          .html(
+            // Set tooltip text to state, county id, vote difference
+            d.diff < 0
+              ? d.state_name +
+              "<br>" +
+              d.county_name +
+              "<br>" +
+              "Democratic margin of victory: " +
+              formatNumber(Math.abs(d.diff)) +
+              " votes"
+              : d.state_name +
+              "<br>" +
+              d.county_name +
+              "<br>" +
+              "Republican margin of victory: " +
+              formatNumber(Math.abs(d.diff)) +
+              " votes"
+          )
+          .style("left", d3.event.pageX + 10 + "px")
+          .style("top", d3.event.pageY - 70 + "px");
+      }
+
+      // Fade tooltip on mouseout
+      function mouseout(d) {
+        tooltipDiv.transition().duration(500).style("opacity", 0);
+        // Remove county stroke on mouseout
+        d3.select(this).transition().duration(500).attr("stroke", "none");
+        d3.selectAll(".val").remove();
+      }
+
+      function mouseover2(d) {
+        tooltipDiv2.transition().duration(100).style("opacity", 1.0);
+        d3.select(this).attr("class", "highlight");
+        d3.select(this).transition().duration(400).attr("stroke", "white");
+        tooltipDiv2
+          .html(
+            // Set tooltip text to state, county id, vote difference
+            stateByFips[d.id] +
+            "<br>" +
+            countyByFips[d.id] +
+            "<br>" +
+            "GOP percent of vote: " +
+            Math.round(gopPerByFips[d.id] * 10000) / 100 +
+            "%" +
+            "<br>" +
+            "Democratic percent of vote: " +
+            Math.round(demPerByFips[d.id] * 10000) / 100 +
+            "%"
+          )
+          .style("left", d3.event.pageX + 10 + "px")
+          .style("top", d3.event.pageY - 70 + "px");
+      }
+
+      // Fade tooltip on mouseout
+      function mouseout2(d) {
+        tooltipDiv2.transition().duration(500).style("opacity", 0);
+        // Remove county stroke on mouseout
+        d3.select(this).transition().duration(500).attr("stroke", "none");
+        d3.selectAll(".val").remove();
+      }
+
+      // Add state outlines
+      g.append("path")
+        .datum(
+          topojson.mesh(map, map.objects.states, function (a, b) {
+            return a.id !== b.id;
+          })
+        )
+        .attr("class", "states")
+        .attr("d", path1);
+
+      g2.append("path")
+        .datum(
+          topojson.mesh(map, map.objects.states, function (a, b) {
+            return a.id !== b.id;
+          })
+        )
+        .attr("class", "states")
+        .attr("d", path2);
+
+      // Add title text
+      titleSvg
+        .append("text")
+        .attr("x", 600)
+        .attr("y", 100)
+        .attr("class", "titleText")
+        .attr("font-size", "5em")
+        .attr("text-anchor", "middle")
+        .attr("fill", "black")
+        .attr("stroke", "white")
+        .attr("stroke-width", "1px")
+        .text("Red and Blue America");
+
+      /////////////// CLICK FUNCTION //////////////////
+
+      // Select circles and animate radius size for top map based on voting difference,
+      // alternating between red and blue
+      redAndBlueAmerica = function (d) {
+        d3.selectAll(".blue")
+          .attr("r", 0.1)
+          .transition()
+          .duration(2000)
+          .attr("r", (d) => pop2Radius(Math.abs(d.diff)))
+          .transition()
+          .duration(2000)
+          .attr("r", 0.1);
+
+        d3.selectAll(".red")
+          .attr("r", (d) => pop2Radius(Math.abs(d.diff)))
+          .transition()
+          .duration(2000)
+          // .delay(2000)
+          .attr("r", 0.1)
+          .transition()
+          .duration(2000)
+          .attr("r", (d) => pop2Radius(Math.abs(d.diff)));
+
+        // Select counties for bottom map and animate between red and blue fill values based on
+        // voting percentages
+        d3.selectAll("#counties2 path")
+          .data(topojson.feature(map, map.objects.counties).features)
+          .attr("opacity", 0.6)
+          .attr("fill", (d) => colorGop(gopPerByFips[d.id]))
+          .transition()
+          .duration(2000)
+          .attr("fill", (d) => colorDem(demPerByFips[d.id]))
+          .transition()
+          .duration(2000)
+          .attr("fill", (d) => colorGop(gopPerByFips[d.id]));
+
+        //  Select title text and alternate color
+        //  between red and blue
+        d3.selectAll(".titleText")
+          .transition()
+          .duration(2000)
+          .attr("stroke", "steelblue")
+          .attr("stroke-width", "2px")
+          .transition()
+          .duration(2000)
+          .attr("stroke", "red")
+          .transition()
+          .duration(2000)
+          .attr("stroke", "silver")
+          .attr("stroke-width", "1px");
+      };
+
+      // END OF ASYNC FUNCTION
+    })();
+  </script>
+</body>
