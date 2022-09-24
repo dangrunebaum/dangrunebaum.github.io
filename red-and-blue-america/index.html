@@ -325,7 +325,7 @@
         .attr("opacity", 0.6)
         .attr("fill", (d) => color(gopPerByFips[d.id]));
 
-      /////////// Legend //////////////
+      /////////// LEGEND //////////////
 
       g2.selectAll("legendRects")
         .data([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
@@ -355,7 +355,6 @@
 
       // Population size legend 
 
-      // // Add legend: circles
       var valuesToShow = [100000, 1000000].reverse();
       var xCircle = mapWidth - 100;
       var xLabel = mapWidth - 50;
@@ -396,7 +395,7 @@
         .attr("stroke", "white")
         .style("stroke-dasharray", "2,2");
 
-      // labels
+      // Legend Labels
       g
         .append("text")
         .attr("x", xLabel)
@@ -421,7 +420,6 @@
         .style("font-size", 10)
         .style("color", "white")
         .attr("alignment-baseline", "middle");
-
 
       ////////////// DRAW CIRCLES ////////////////
 
@@ -605,6 +603,25 @@
           .attr("stroke", "silver")
           .attr("stroke-width", "1px");
       };
+
+
+      //////// MAP LABELS /////////////////
+
+      g.append("text")
+        .attr("x", mapWidth / 2)
+        .attr("y", 20)
+        .style("text-anchor", "middle")
+        .style("font-size", "1.5em")
+        .style("fill", "white")
+        .text("Margin of Victory");
+
+        g2.append("text")
+        .attr("x", mapWidth / 2)
+        .attr("y", 20)
+        .style("text-anchor", "middle")
+        .style("font-size", "1.5em")
+        .style("fill", "white")
+        .text("Voting Percentage");
 
       // END OF ASYNC FUNCTION
     })();
