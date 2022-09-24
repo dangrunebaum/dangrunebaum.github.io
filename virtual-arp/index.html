@@ -55,6 +55,14 @@ Additional affordances: dropdown that accesses several sets of synth sounds. The
         right: 50px;
         width: 15%;
       }
+
+
+  @media screen and (max-width: 600px) {
+h1 {
+  font-size:medium;
+  margin: 50px 70px 5px 40px;
+}
+  }
     </style>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="./sampleArrays.js"></script>
@@ -79,7 +87,7 @@ Additional affordances: dropdown that accesses several sets of synth sounds. The
 
     <script>
       // Set the dimensions and margins of the graph
-      const margin = { top: 100, right: 100, bottom: 100, left: 100 };
+      const margin = { top: 100, right: 50, bottom: 100, left: 50 };
       const svgWidth = 2000;
       const svgHeight = svgWidth * 0.4;
       const width = svgWidth - margin.left - margin.right;
