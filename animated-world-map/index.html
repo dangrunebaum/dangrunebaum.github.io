@@ -1,0 +1,307 @@
+<!-- 
+ANIMATED WORLD MAP
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- <link href="css/styles.css" rel="stylesheet"> -->
+
+<style>
+  body {
+    /* background-color: black; */
+    /* background-color: rgb(240,240,240); */
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+  }
+
+  /* hide axis lines and ticks */
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .x.axis path {
+    display: none;
+  }
+
+  .y.axis path {
+    display: none;
+  }
+
+  g.tick line {
+    opacity: 0;
+  }
+
+  g.tick text {
+    opacity: 50%;
+  }
+
+  /* Stroke for country outlines */
+  path {
+    /* stroke: none; */
+    stroke: white;
+    stroke-width: 0.25px;
+    transition: fill-opacity 0.2s ease-in-out;
+  }
+
+  /* Lat and long lines */
+  .graticule {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 0.15px;
+  }
+
+  #title {
+    width: 100%;
+    margin: 30px auto 10px auto;
+    text-align: center;
+    color: rgb(70, 70, 50);
+  }
+
+  rect {
+    shape-rendering: crispEdges;
+  }
+
+  /* On screens that are 600px or less, pin to top */
+  @media screen and (max-width: 600px) {
+    #dropdown {
+      top: 0;
+      left: 0;
+      font-size: 0.5em;
+    }
+  }
+</style>
+</head>
+
+<body>
+  <!-- <select id="dropdown"></select> -->
+  <h1 id="title">World Population by Country</h1>
+  <div id="map"></div>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <!-- <script src="https://unpkg.com/topojson@3"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/d3-array@3"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/d3-geo@3"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/d3-geo-projection@4"></script>
+  <script>
+    (async () => {
+
+      ////////////// DATA WRANGLING /////////////
+
+      const map = await d3.json("./custom.geo2.json");
+      // map["features"].forEach(country => 
+      // console.log(country["properties"].admin))
+      // console.log(map["features"][0].geometry.coordinates);
+      const mapFeatures = map["features"];
+      // console.log(mapFeatures)
+      // create array of country population values
+      const populationArray = mapFeatures.map(d => d.properties.pop_est);
+      // count world population (7654087391)
+      //     const initialValue = 0;
+      //     console.log(populationArray.reduce((previousValue, currentValue) => previousValue + currentValue,
+      // initialValue));
+
+      //outside accumulator to hold the running total
+      let c = 0;
+      //new obj to hold results with running total                                          
+      let popArrWithRunningTotal = populationArray.map(d => ({ ...d, runningTotal: c += d, currentCountryPop: d }))
+
+      //show results, use console.table if in a browser console
+      // console.table(popArrWithRunningTotal)
+
+      ///////////// SVG SETUP ////////////
+
+      const svgWidth = 1000;
+      const svgHeight = svgWidth;
+
+      // Append svg to map div
+      mapSvg = d3
+        .select("#map")
+        .append("svg")
+        .attr("class", "mapSvg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`); // responsive width & height
+
+      ///////////// MAP SETUP ////////////
+
+      // Define projection
+      const projection = d3.geoGilbert()
+        .translate([svgWidth / 2, svgHeight / 2 - 180]) // Translate to center of screen
+        .scale([220]); // Scale
+
+      // Define path generator to convert geojson to svgs
+      const path = d3.geoPath().projection(projection);
+
+      // Append g for best practice
+      const g = mapSvg.append("g");
+
+
+      let formatComma = d3.format(",")
+      ///////// DRAW MAP ///////////
+
+      //Display world map
+      g.selectAll("path")
+        .data(mapFeatures)
+        .enter()
+        .append("path")
+        .attr("d", path)
+        .attr("fill", "white")
+        .on("mouseover", mouseover);
+
+      /////// DRAW STATIC ELEMENTS ///////////////
+
+      // 'World' label, color updates in animate function
+      const world = g.append("text")
+        .attr("x", svgWidth / 2 + 100)
+        .attr("y", 20)
+        .attr("text-anchor", "start")
+        .attr("font-size", "1em")
+        .attr("font-weight", 700)
+        .text("World");
+
+      // Lat long lines
+      const graticule = d3.geoGraticule();
+      // Display lines
+      g.append("path")
+        .datum(graticule)
+        .attr("class", "graticule")
+        .attr("d", path)
+        .attr("stroke-width", "5px");
+
+      ///////// SCALES /////////////////
+
+      // Population scale 
+      // const linearScale = d3.scaleLinear()
+      //   .domain([0, 1500000000])
+      //   .range([0, 200]);
+
+      // // Draw the population X axis
+      // const formatNumber = d3.format(".1s")
+      // g.append("g")
+      //   .attr("transform", "translate(500,50)")
+      //   .call(d3.axisBottom(linearScale).ticks(3, "~s"));
+      const xScale = d3.scaleLinear()
+        .domain([0, 7654087391]) // world population
+        .range([0, 200])
+        .nice();
+
+      const formatNumber = d3.format(".1s")
+      g.append("g")
+        .attr("transform", "translate(600,60)")
+        .call(d3.axisBottom(xScale).ticks(5, "~s"));
+
+      ////////// ANIMATE FUNCTION ////////////
+
+      // Interval function triggers 
+      // callback that animates countries, stepping up with n
+      let n = 0;
+      const interval = setInterval(stepThruCountries, 200);
+      function stepThruCountries() {
+        d3.select(".text1") // prevent redraw
+          .remove();
+        d3.select(".text2") // prevent redraw
+          .remove();
+        d3.select(".text3") // prevent redraw
+          .remove();
+        d3.select(".text4") // prevent redraw
+          .remove();
+
+        // update color of 'world' text
+        world.attr("fill", `hsl(${n * 1.8}, 50%, 50%)`);
+
+        n++;
+        d3.select(`.mapSvg > g > path:nth-child(${n})`) // step thru country paths
+          .transition()
+          .duration(100)
+          .attr("fill", `hsl(${n * 1.8}, 50%, 50%)`) // step thru hsl hue based on n
+        // .attr("stroke-width", n * 1);
+        if (n === 174) clearInterval(interval); // stop at last country
+
+        // Show country name
+        g.append("text")
+          .attr("x", svgWidth / 2 - 100)
+          .attr("y", 20)
+          .attr("class", "text1")
+          .attr("text-anchor", "end")
+          .attr("font-weight", 700)
+          .attr("fill", `hsl(${n * 1.8}, 50%, 50%)`)
+          .text(mapFeatures[n].properties.admin); // admin = country
+
+        // Show population number
+        g.append("text")
+          .attr("x", svgWidth / 2 - 100)
+          .attr("y", 40)
+          .attr("class", "text2")
+          .attr("text-anchor", "end")
+          .attr("font-size", "1em")
+          .attr("font-weight", 700)
+          .attr("fill", `hsl(${n * 1.8}, 50%, 50%)`)
+          .text(formatComma(mapFeatures[n].properties.pop_est));
+
+        // Show population running total number
+        g.append("text")
+          .attr("x", svgWidth / 2 + 100)
+          .attr("y", 40)
+          .attr("class", "text3")
+          .attr("text-anchor", "start")
+          .attr("font-size", "1em")
+          .attr("font-weight", 700)
+          .attr("fill", `hsl(${n * 1.8}, 50%, 50%)`)
+          .text(formatComma(Math.round(popArrWithRunningTotal[n].runningTotal)));
+
+        // Circle position shows population
+        // g.append("circle")
+        //   .attr("cx", svgWidth / 2 + linearScale(mapFeatures[n].properties.pop_est))
+        //   .attr("cy", 45)
+        //   .attr("r", 3)
+        //   .attr("fill", `hsl(${n * 1.8}, 50%, 50%`)
+        //   .attr("opacity", 0.5)
+        // .transition()
+        // .duration(100)
+        // .attr("r", sqrtScale(mapFeatures[n].properties.pop_est))
+
+        // Show region region_wb
+        // Show country name
+        g.append("text")
+          .attr("x", svgWidth / 2)
+          .attr("y", 20)
+          .attr("class", "text4")
+          .attr("text-anchor", "middle")
+          .attr("font-weight", 700)
+          .attr("font-size", "0.75em")
+          .attr("fill", `hsl(${n * 1.8}, 50%, 50%)`)
+          .text(mapFeatures[n].properties.continent); // admin = country
+
+
+        // show population with rects: xpos is sum of populations in all previous array items
+        // and length is pop size
+
+        g.append("rect")
+          .attr("x", svgWidth / 2 + xScale(popArrWithRunningTotal[n].runningTotal - popArrWithRunningTotal[n].currentCountryPop) + 100) // set xpos to 0
+          .attr("y", 50)
+          .attr("height", 10)
+          .attr("fill", `hsl(${n * 1.8}, 50%, 50%`)
+          .transition()
+          .duration(50)
+          .attr("width", xScale(popArrWithRunningTotal[n].currentCountryPop) + 2); // add 5 to remove white areas;
+
+        // end of timeout function
+      };
+
+      ////////// INTERACTIONS //////////////
+
+
+      function mouseover(d) {
+        console.log(d.properties.admin, formatComma(d.properties.pop_est));
+      }
+
+      // end of async function
+    })();
+  </script>
+</body>
+
+</html>
