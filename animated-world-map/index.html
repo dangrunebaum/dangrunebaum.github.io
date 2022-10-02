@@ -80,7 +80,7 @@ ANIMATED WORLD MAP
 
 <body>
   <!-- <select id="dropdown"></select> -->
-  <h1 id="title">World Population by Country</h1>
+  <h1 id="title">World Population by Country and Continent</h1>
   <div id="map"></div>
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <!-- <script src="https://unpkg.com/topojson@3"></script> -->
@@ -155,13 +155,13 @@ ANIMATED WORLD MAP
       /////// DRAW STATIC ELEMENTS ///////////////
 
       // 'World' label, color updates in animate function
-      const world = g.append("text")
-        .attr("x", svgWidth / 2 + 100)
-        .attr("y", 20)
-        .attr("text-anchor", "start")
-        .attr("font-size", "1em")
-        .attr("font-weight", 700)
-        .text("World");
+      // const world = g.append("text")
+      //   .attr("x", svgWidth / 2 + 100)
+      //   .attr("y", 20)
+      //   .attr("text-anchor", "start")
+      //   .attr("font-size", "1em")
+      //   .attr("font-weight", 700)
+      //   .text("World");
 
       // Lat long lines
       const graticule = d3.geoGraticule();
@@ -211,7 +211,7 @@ ANIMATED WORLD MAP
           .remove();
 
         // update color of 'world' text
-        world.attr("fill", `hsl(${n * 1.8}, 50%, 50%)`);
+        // world.attr("fill", `hsl(${n * 1.8}, 50%, 50%)`);
 
         n++;
         d3.select(`.mapSvg > g > path:nth-child(${n})`) // step thru country paths
@@ -230,6 +230,16 @@ ANIMATED WORLD MAP
           .attr("font-weight", 700)
           .attr("fill", `hsl(${n * 1.8}, 50%, 50%)`)
           .text(mapFeatures[n].properties.admin); // admin = country
+
+          // Show continent
+        //   const world = g.append("text")
+        // .attr("x", svgWidth / 2 + 100)
+        // .attr("y", 20)
+        // .attr("text-anchor", "start")
+        // .attr("font-size", "1em")
+        // .attr("font-weight", 700)
+        // .attr("fill", `hsl(${n * 1.8}, 50%, 50%)`)
+        // .text("World");
 
         // Show population number
         g.append("text")
@@ -264,15 +274,13 @@ ANIMATED WORLD MAP
         // .duration(100)
         // .attr("r", sqrtScale(mapFeatures[n].properties.pop_est))
 
-        // Show region region_wb
-        // Show country name
+        // Show continent name
         g.append("text")
-          .attr("x", svgWidth / 2)
+          .attr("x", svgWidth / 2 + 100)
           .attr("y", 20)
           .attr("class", "text4")
-          .attr("text-anchor", "middle")
+          .attr("text-anchor", "start")
           .attr("font-weight", 700)
-          .attr("font-size", "0.75em")
           .attr("fill", `hsl(${n * 1.8}, 50%, 50%)`)
           .text(mapFeatures[n].properties.continent); // admin = country
 
