@@ -12,8 +12,6 @@ ANIMATED WORLD MAP
 
 <style>
   body {
-    /* background-color: black; */
-    /* background-color: rgb(240,240,240); */
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
   }
 
@@ -58,13 +56,26 @@ ANIMATED WORLD MAP
 
   #title {
     width: 100%;
-    margin: 30px auto 10px auto;
+    margin: 30px auto 20px auto;
     text-align: center;
-    color: rgb(70, 70, 50);
+    font-size: 3em;
+    color: rgb(100, 100, 100);
+    text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
   }
 
   rect {
     shape-rendering: crispEdges;
+  }
+
+  .tooltip {
+    position: absolute;
+    text-align: left;
+    max-width: 400px;
+    height: auto;
+    padding: 10px;
+    font-size: 1.25em;
+    font-family: Proxima Nova, sans-serif;
+    box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.5);
   }
 
   /* On screens that are 600px or less, pin to top */
@@ -150,7 +161,38 @@ ANIMATED WORLD MAP
         .append("path")
         .attr("d", path)
         .attr("fill", "white")
-        .on("mouseover", mouseover);
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseout", mouseout);
+
+      //////////////// INTERACTIONS ///////////////
+
+      const Tooltip = d3.select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        // .style("opacity", 0)
+        .style("background-color", "white")
+        .style("border-radius", "5px")
+        .style("padding", "5px");
+
+      function mouseover(d) {
+        Tooltip.style("opacity", 0.9);
+      }
+
+      function mousemove(d) {
+        Tooltip.html("<b>" +
+          d.properties.admin + "<br>" +
+          "</b>" +
+          formatComma(d.properties.pop_est)
+        )
+          .style("left", d3.event.pageX + 10 + "px")
+          .style("top", d3.event.pageY - 60 + "px");
+      }
+
+      function mouseout(d) {
+        Tooltip.style("opacity", 0);
+      }
+
 
       /////// DRAW STATIC ELEMENTS ///////////////
 
@@ -180,10 +222,6 @@ ANIMATED WORLD MAP
       //   .range([0, 200]);
 
       // // Draw the population X axis
-      // const formatNumber = d3.format(".1s")
-      // g.append("g")
-      //   .attr("transform", "translate(500,50)")
-      //   .call(d3.axisBottom(linearScale).ticks(3, "~s"));
       const xScale = d3.scaleLinear()
         .domain([0, 7654087391]) // world population
         .range([0, 200])
@@ -227,11 +265,12 @@ ANIMATED WORLD MAP
           .attr("y", 20)
           .attr("class", "text1")
           .attr("text-anchor", "end")
+          .attr("font-size", "1.5em")
           .attr("font-weight", 700)
           .attr("fill", `hsl(${n * 1.8}, 50%, 50%)`)
           .text(mapFeatures[n].properties.admin); // admin = country
 
-          // Show continent
+        // Show continent
         //   const world = g.append("text")
         // .attr("x", svgWidth / 2 + 100)
         // .attr("y", 20)
@@ -280,6 +319,7 @@ ANIMATED WORLD MAP
           .attr("y", 20)
           .attr("class", "text4")
           .attr("text-anchor", "start")
+          .attr("font-size", "1.5em")
           .attr("font-weight", 700)
           .attr("fill", `hsl(${n * 1.8}, 50%, 50%)`)
           .text(mapFeatures[n].properties.continent); // admin = country
@@ -303,9 +343,9 @@ ANIMATED WORLD MAP
       ////////// INTERACTIONS //////////////
 
 
-      function mouseover(d) {
-        console.log(d.properties.admin, formatComma(d.properties.pop_est));
-      }
+      // function mouseover(d) {
+      //   console.log(d.properties.admin, formatComma(d.properties.pop_est));
+      // }
 
       // end of async function
     })();

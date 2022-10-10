@@ -4,219 +4,210 @@ Virtual arp is an interactive musical instrument. Rollover the screen from top t
 Additional affordances: dropdown that accesses several sets of synth sounds. The update function triggered by dropdown changes variable representing sound array.
 -->
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title></title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="" />
-    <style>
-      /* Style scales */
-      body {
-        font-family: helvetica neue;
-        background-color: black;
-        color: aliceblue;
-      }
 
-      h1 {
-        margin: 50px 350px 5px 60px;
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title></title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="" />
+  <style>
+    /* Style scales */
+    body {
+      font-family: helvetica neue;
+      background-color: black;
+      color: aliceblue;
+    }
 
-      /* hide scales */
-      .domain {
-        opacity: 0;
-      }
+    h1 {
+      margin: 50px 350px 5px 60px;
+    }
 
-      g.tick line {
-        opacity: 0;
-      }
+    /* hide scales */
+    .domain {
+      opacity: 0;
+    }
 
-      g.tick text {
-        opacity: 0;
-      }
+    g.tick line {
+      opacity: 0;
+    }
 
-      /* #data-viz {
+    g.tick text {
+      opacity: 0;
+    }
+
+    /* #data-viz {
         width: 60%;
       } */
 
-      button {
-        font-size: 1em;
+    button {
+      font-size: 1em;
+    }
+
+    select {
+      font-size: 1em;
+      font-weight: 700;
+    }
+
+    img {
+      position: absolute;
+      top: 50px;
+      right: 50px;
+      width: 15%;
+    }
+
+    @media screen and (max-width: 600px) {
+      h1 {
+        font-size: medium;
+        margin: 50px 70px 5px 40px;
       }
+    }
+  </style>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="./sampleArrays.js"></script>
+</head>
 
-      select {
-        font-size: 1em;
-        font-weight: 700;
-      }
+<body>
+  <h1>
+    Virtual ARP reproduces sounds of the influential 1970s ARP Odyssey
+    synthesizer, featured in music from Kraftwerk to Yellow Magic Orchestra.
+    Press <button id="playButton"><b>play</b></button> then roll over the
+    screen to trigger samples, or press
+    <button id="randomButton" onclick="randomSound();"><b>random</b></button>
+    to generate random sounds.
+    <select></select>
+  </h1>
+  <img src="./arp-odyssey.jpg" />
+  <div id="data-viz">
+    <!-- One audio element for samples  -->
+    <audio id="audioElement" src=""></audio>
+    <audio id="audioElementRandom" src=""></audio>
+  </div>
 
-      img {
-        position: absolute;
-        top: 50px;
-        right: 50px;
-        width: 15%;
-      }
+  <script>
+    // Set the dimensions and margins of the graph
+    const margin = { top: 100, right: 50, bottom: 100, left: 50 };
+    const svgWidth = 2000;
+    const svgHeight = svgWidth * 0.4;
+    const width = svgWidth - margin.left - margin.right;
+    const height = svgHeight - margin.top - margin.bottom;
 
+    // Append the svg object to the body of the page
+    const svg = d3
+      .select("body")
+      .append("svg")
+      .attr("preserveAspectRatio", "xMidYMid meet")
+      .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`) // responsive width & height
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  @media screen and (max-width: 600px) {
-h1 {
-  font-size:medium;
-  margin: 50px 70px 5px 40px;
-}
-  }
-    </style>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="./sampleArrays.js"></script>
-  </head>
+    // create dropdown
+    d3.select("select")
+      .selectAll("options")
+      .data(["Arp1", "Arp2"])
+      .join("option")
+      .text((d) => d)
+      .attr("value", (d) => d);
 
-  <body>
-    <h1>
-      Virtual ARP reproduces sounds of the influential 1970s ARP Odyssey
-      synthesizer, featured in music from Kraftwerk to Yellow Magic Orchestra.
-      Press <button id="playButton"><b>play</b></button> then roll over the
-      screen to trigger samples, or press
-      <button id="randomButton" onclick="randomSound();"><b>random</b></button>
-      to generate random sounds.
-      <select></select>
-    </h1>
-    <img src="./arp-odyssey.jpg" />
-    <div id="data-viz">
-      <!-- One audio element for samples  -->
-      <audio id="audioElement" src=""></audio>
-      <audio id="audioElementRandom" src=""></audio>
-    </div>
+    // listener function sets selectedOption to value property of this object
+    d3.select("select").on("change", function (d) {
+      let selectedOption = d3.select(this).property("value");
+      // call update function with selectedOption
+      update(selectedOption);
+    });
 
-    <script>
-      // Set the dimensions and margins of the graph
-      const margin = { top: 100, right: 50, bottom: 100, left: 50 };
-      const svgWidth = 2000;
-      const svgHeight = svgWidth * 0.4;
-      const width = svgWidth - margin.left - margin.right;
-      const height = svgHeight - margin.top - margin.bottom;
+    // X scale
+    const x = d3.scaleLinear().domain([0, 1]).range([0, width]).nice();
 
-      // Append the svg object to the body of the page
-      const svg = d3
-        .select("body")
-        .append("svg")
-        .attr("preserveAspectRatio", "xMidYMid meet")
-        .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`) // responsive width & height
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    console.table(Arp1);
+    // Y scale
+    const y = d3
+      .scaleBand()
+      .domain(Arp1.map((d, i) => i))
+      .range([0, height])
+      .padding(0.3);
 
-      // create dropdown
-      d3.select("select")
-        .selectAll("options")
-        .data(["Arp1", "Arp2"])
-        .join("option")
-        .text((d) => d)
-        .attr("value", (d) => d);
+    function update(selectedOption) {
+      //Draw bars
+      svg
+        .selectAll("bars")
+        .data(Arp1)
+        .join("rect")
+        .attr("x", x(0))
+        .attr("y", (d, i) => y(i))
+        .attr("width", width)
+        .attr("height", y.bandwidth())
+        .attr("stroke", "white")
+        .attr("stroke-width", 0.1) // show outline of bar
+        .attr("fill", (d, i) => `hsl(${i * 20}, 100%, 50%)`)
+        .attr("fill-opacity", 0) // hide interior of bar
+        .attr("rx", 5)
+        .attr("class", "bars")
+        // .on("click", click)
+        .on("mouseover", mouseover)
+        .on("mouseout", mouseout);
 
-      // listener function sets selectedOption to value property of this object
-      d3.select("select").on("change", function (d) {
-        let selectedOption = d3.select(this).property("value");
-        // call update function with selectedOption
-        update(selectedOption);
-      });
-
-      // X scale
-      const x = d3.scaleLinear().domain([0, 1]).range([0, width]).nice();
-
-      // Y scale
-      const y = d3
-        .scaleBand()
-        .domain(Arp2.map((d, i) => i))
-        .range([0, height])
-        .padding(0.3);
-
-      function update(selectedOption) {
-        //Draw bars
-        svg
-          .selectAll("bars")
-          .data(Arp2)
-          .join("rect")
-          .attr("x", x(0))
-          .attr("y", (d, i) => y(i))
-          .attr("width", width)
-          .attr("height", y.bandwidth())
-          .attr("stroke", "white")
-          .attr("stroke-width", 0.1) // show outline of bar
-          .attr("fill", (d, i) => `hsl(${i * 20}, 100%, 50%)`)
-          .attr("fill-opacity", 0) // hide interior of bar
-          .attr("rx", 5)
-          .attr("class", "bars")
-          // .on("click", click)
-          .on("mouseover", mouseover)
-          .on("mouseout", mouseout);
-
-        // Trigger audio on mouseover
-        let music;
-        function mouseover(d) {
-          console.log(d)
-          // set variable to audio element
-          music = document.querySelector("#audioElement");
-          // set url to harpsichord samples
-          const url = `arp-samples/${selectedOption}/${d}`;
-          // console.log(d);
-          console.log(url);
-          // set src attribute of html audio element to url of sample
-          music.setAttribute("src", url);
-          // play sample
-          music.play();
-          // show colored bars on rollover
-          d3.select(this).attr("fill-opacity", 0.7);
-        }
-      }
-
-      function mouseout(d) {
-        d3.select(this).transition().duration(300).attr("fill-opacity", 0);
-        // music.pause()
-      }
-      update("Arp1");
-
-      // Trigger audio
-      // function click(d) {
-      //   const words = document.getElementById('audioElement');
-      //   const url = `words/${d.toLowerCase()}.mp3`
-      //   words.setAttribute('src', url)
-      //   words.play()
-      // }
-
-      // Random number generator inside SetTimeout function triggers audio
-      let toggleRandomSound;
-      let number;
-      let randomMusic;
-      function randomSound() {
-        setInterval(randomNumber, 300);
-      }
-      function randomNumber() {
-        number = Math.round(Math.random() * 11);
-        // let letter = number;
-        // let newLetter;
-        // if (letter == 1) {
-        //   newLetter = "C"
-        // } else if (letter == 2) {
-        //   newLetter = "D"
-        // } else {
-        //   newLetter = "E"
-        // }
-        // console.log(newLetter)
+      // Trigger audio on mouseover
+      let music;
+      function mouseover(d) {
+        console.log(d);
         // set variable to audio element
-        randomMusic = document.querySelector("#audioElementRandom");
-        // set url to random element in array
-        // console.log(number);
-        const url = `arp-samples/Arp2/${number}.wav`;
+        music = document.querySelector("#audioElement");
+        // set url to harpsichord samples
+        const url = `arp-samples/${selectedOption}/${d}`;
+        // console.log(d);
         console.log(url);
         // set src attribute of html audio element to url of sample
-        randomMusic.setAttribute("src", url);
+        music.setAttribute("src", url);
         // play sample
-        randomMusic.play();
-        // show colored bars
-        d3.select(`body > svg > g > rect:nth-child(${number})`)
-          .attr("fill-opacity", 0.7)
-          .transition()
-          .duration(500)
-          .attr("fill-opacity", 0);
+        music.play();
+        // show colored bars on rollover
+        d3.select(this).attr("fill-opacity", 0.7);
       }
+    }
 
-    </script>
-  </body>
+    function mouseout(d) {
+      d3.select(this).transition().duration(300).attr("fill-opacity", 0);
+      // music.pause()
+    }
+    update("Arp1");
+
+    // Trigger audio
+    // function click(d) {
+    //   const words = document.getElementById('audioElement');
+    //   const url = `words/${d.toLowerCase()}.mp3`
+    //   words.setAttribute('src', url)
+    //   words.play()
+    // }
+
+    // Random number generator inside SetTimeout function triggers audio
+    let toggleRandomSound;
+    let number;
+    let randomMusic;
+    function randomSound() {
+      setInterval(randomNumber, 600);
+    }
+    function randomNumber() {
+      number = Math.round(Math.random() * 16);
+      // set variable to audio element
+      randomMusic = document.querySelector("#audioElementRandom");
+      // set url to random element in array
+      // console.log(number);
+      const url = `arp-samples/Arp2/${number}.wav`;
+      console.log(url);
+      // set src attribute of html audio element to url of sample
+      randomMusic.setAttribute("src", url);
+      // play sample
+      randomMusic.play();
+      // show colored bars
+      d3.select(`body > svg > g > rect:nth-child(${number})`)
+        .attr("fill-opacity", 0.7)
+        .transition()
+        .duration(500)
+        .attr("fill-opacity", 0);
+    }
+  </script>
+</body>
+
 </html>
