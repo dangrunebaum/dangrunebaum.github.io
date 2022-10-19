@@ -1,0 +1,282 @@
+<!-- 
+Show source countries for top 20 spend Medicare Part D prescription drugs. 
+-->
+
+<head>
+  <style>
+    body {
+      font-family: "open sans", sans-serif;
+      text-align: center;
+    }
+
+    h1,
+    p {
+      margin: 5px 0px 25px 0px;
+      color: rgb(50, 50, 50);
+    }
+
+    @font-face {
+      font-family: "Open Sans Light";
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTRa1RVmPjeKy21_GQJaLlJI.woff)
+        format("woff");
+    }
+
+    #explainer {
+      margin: 10% 10% 0 10%;
+      padding-bottom: 0px;
+      /* left: 5%; */
+      margin-bottom: 10px;
+      text-align: left;
+      /* color: rgb(150, 150, 150); */
+      font-family: "Proxima Nova";
+      font-size: larger;
+      /* font-weight: 400; */
+    }
+
+    .tooltip {
+      position: absolute;
+      text-align: left;
+      max-width: 400px;
+      height: auto;
+      padding: 10px;
+      font-size: 14px;
+      background-color: white;
+      color: black;
+      border: 0px;
+      border-radius: 5px;
+      z-index: 1;
+      box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.5);
+    }
+    svg {
+      margin: 10px;
+      width: 40vw;
+    }
+  </style>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<h1>Country of Origin: 14 of The top 20 Medicare Drugs Are Made Abroad</h1>
+<!-- <h4>are made abroad</h4> -->
+<div id="legend"></div>
+  <div id="viz"></div>
+</div>
+<div id="explainer">
+  According to the Customs and Border Patrol, 70% of the top 20 Medicare Part D drugs are
+  made overseas.
+</div>
+
+<body>
+  <script>
+    (async () => {
+
+      ///////// SVG SETUP //////////
+
+      const width = 800;
+      const height = width;
+
+      const svg = d3
+        .select("#viz")
+        .append("svg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", `0 0 ${width} ${height}`); // responsive
+
+      const tooltip = d3.select("body")
+        .append("div")
+        .attr("opacity", 0)
+        .attr("class", "tooltip");
+
+      ///////// SCALES /////////////
+
+      // Color palette
+      const color = d3
+        .scaleOrdinal()
+        .domain([
+          "USA",
+          "Switzerland",
+          "Japan",
+          "Italy",
+          "Ireland",
+          "Germany",
+          "France",
+          "Denmark",
+          "China"
+        ])
+        .range([
+          "gray",
+          "#3cb44b",
+          "#ffe119",
+          "#4363d8",
+          "#f58231",
+          "#42d4f4",
+          "#f032e6",
+          "#fabed4",
+          "#469990"
+        ]);
+
+///////// DATA WRANGLING /////////////
+
+      const data = await d3.csv("./top-20-prescription-drugs-medicare-2020.csv"); // Load data
+
+      data.forEach((d) => {
+        d.cost = +d["Total Medicare Spending 2020"];
+      });
+
+      const nest = d3
+        .nest() // allows elements in an array to be grouped into a hierarchical tree structure
+        .key((d) => d["Country of Origin"]) // levels in the tree are specified by key functions. can have multiple keys
+        .key((d) => d["Brand Name"])
+        .rollup((d) => {
+          // Specifies a rollup function to be applied on each group of leaf elements. The return value of the rollup function will replace the array of leaf values in either the associative array returned by nest.map or nest.object; for nest.entries, it replaces the leaf entry.values with entry.value.
+          return d3.sum(d, (d) => d.cost);
+        });
+
+      // Treemap layout
+      const treemap = d3
+        .treemap()
+        .size([width, height])
+        .padding(1)
+        .round(true);
+  
+      // Create hierarchical layout
+      const root = d3
+        .hierarchy({ values: nest.entries(data) }, function (d) {
+          return d.values;
+        })
+        .sum(function (d) {
+          return d.value;
+        })
+        .sort(function (a, b) {
+          return b.value - a.value;
+        });
+
+      treemap(root);
+
+  ///////////// DRAW /////////////
+
+   const node = svg
+        .selectAll(".node")
+        .data(root.leaves())
+        .enter()
+        .append("rect")
+        .attr("class", "node")
+        .attr("x", function (d) {
+          return d.x0 + "px";
+        })
+        .attr("y", function (d) {
+          return d.y0 + "px";
+        })
+        .attr("width", function (d) {
+          return d.x1 - d.x0 + "px";
+        })
+        .attr("height", function (d) {
+          return d.y1 - d.y0 + "px";
+        })
+        .attr("fill", (d) =>
+         d.parent.data.key === "USA" ? "gray" : "teal"
+        )
+        .on("mouseover", mouseover)
+        .on("mouseout", mouseout);
+
+      // Text for drug type
+      svg
+        .selectAll("text")
+        .data(root.leaves())
+        .enter()
+        .append("text")
+        .attr("x", function (d) {
+          return d.x0 + 8;
+        }) // +5 to adjust position (more right)
+        .attr("y", function (d) {
+          return d.y0 + 20;
+        }) // +15 to adjust position (lower)
+        .text(function (d) {
+          return d.data.key;
+        })
+        .attr("font-size", "16px")
+        .attr("fill", "white");
+
+     // Text for country
+     svg
+        .selectAll("text")
+        .data(root.leaves())
+        .enter()
+        .append("text")
+        .attr("x", function (d) {
+          return d.x0 + 10;
+        }) // +5 to adjust position (more right)
+        .attr("y", function (d) {
+          return d.y0 + 40;
+        }) // +15 to adjust position (lower)
+        .text(function (d) {
+          return d.value;
+        })
+        .attr("font-size", "16px")
+        .attr("fill", "white");
+
+      /////////////// INTERACTIONS ////////////////
+
+      function mouseover(d) {
+
+        const numberFormat = d3.format(",")
+        tooltip
+        .html("<b>" +
+                  d.data.key +
+                  "</b>" +
+                  "<br>" +
+                  "<b>Cost: </b>" +
+                  "$" + numberFormat(d.value) +
+                  "<br>" +
+                  "<b>Country of origin: </b>" +
+                  d.parent.data.key)
+        .style("left", d3.event.pageX + 10 + "px")
+        .style("top", d3.event.pageY - 60 + "px")
+        .style("opacity", 1);
+
+    d3.select(this)
+      .attr("stroke", "black")
+      }
+
+      function mouseout() {
+        tooltip
+        .style("opacity", 0);
+        d3.select(this)
+        .attr("stroke", "none")
+      }
+
+////////////////////// LEGEND //////////////////////
+
+      const svg1 = d3
+        .select("#legend")
+        .append("svg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", `0 0 500 50`); // responsive
+
+      svg1.selectAll("squares")
+        .data(["USA", "Abroad"])
+        .join("rect")
+        .attr("x", (d, i) => i * 150)
+        .attr("y", 20)
+        .attr("width", 30)
+        .attr("height", 30)
+        .attr("fill", (d) =>
+         d === "USA" ? "gray" : "teal"
+        );
+
+        svg1.selectAll("labels")
+        .data(["USA", "Abroad"])
+        .join("text")
+        .attr("x", (d, i) => i * 150 + 50)
+        .attr("y", 40)
+        .attr("width", 30)
+        .attr("height", 30)
+        .attr("fill", (d) =>
+         d === "USA" ? "gray" : "teal"
+        )
+        .text(d => d);
+
+      // END OF ASYNC FUNCTION
+    })();
+  </script>
+</body>
