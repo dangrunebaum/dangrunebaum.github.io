@@ -1,0 +1,277 @@
+<!-- 
+  INTERNATIONAL PRICE COMPARISONS 2018 MEDICARE PART D TOP SPEND DRUGS
+Compare prescription drug costs between the average US retail, Canada online, and international online prices. 
+-->
+
+<head>
+  <style>
+    body {
+      font-family: "open sans", sans-serif;
+      text-align: center;
+    }
+
+    h1,
+    p {
+      margin: 5px 0px 25px 0px;
+      color: rgb(50, 50, 50);
+    }
+
+    @font-face {
+      font-family: "Open Sans Light";
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTRa1RVmPjeKy21_GQJaLlJI.woff)
+        format("woff");
+    }
+
+    #explainer {
+      margin: 10% 10% 0 10%;
+      padding-bottom: 0px;
+      margin-bottom: 10px;
+      text-align: left;
+      font-family: "Proxima Nova";
+      font-size: larger;
+      /* font-weight: 400; */
+    }
+
+    #dropdown {
+      font-family: "proxima_nova_rgbold", Helvetica, Arial, sans-serif;
+      border-radius: 5px;
+      padding: 5px;
+      border: 1px solid rgb(72, 72, 72);
+      color: rgb(72, 72, 72);
+      font-weight: 700;
+      font-size: 1em;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+      transition: box-shadow 0.3s ease-in-out;
+    }
+
+    #dropdown:hover {
+      box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    #dropdown:focus {
+      border: 1px solid dimgray;
+      outline: none;
+    }
+
+    /* Style scales */
+    .domain {
+      opacity: 0;
+    }
+
+    g.tick line {
+      opacity: 0;
+    }
+
+    g.tick text {
+      font-weight: 700;
+      font-size: 1.5em;
+      color: rgb(30, 30, 30);
+    }
+    #us {
+      color: gray;
+    }
+    #intl {
+      color: teal;
+    }
+    #canada {
+      color: seagreen;
+    }
+  </style>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<h1>How Much Can You Save Buying Prescription Medications Abroad?</h1>
+<h3>International Price Comparisons 2018 Medicare Part D Top Spend Drugs</h3>
+<select id="dropdown"></select>
+<h4>Average US Retail Price: <span id="us"></span></h4>
+<h4>Average International Online Pharmacy Price: <span id="intl"></span></h4>
+<h4>Average Canadian Online Pharmacy Price: <span id="canada"></span></h4>
+<div id="data-viz"></div>
+<div id="explainer">
+  PharmacyChecker.com evaluated the top Medicare Part D Drugs in the U.S. by
+  spending in 2018 and compared average US retail prices to average
+  international online and Canadian online pharmacy prices.
+</div>
+
+<body>
+  <script>
+    (async () => {
+      ///////////// DATA WRANGLING //////////////////
+
+      const data = await d3.csv(
+        "./prescription-drugs-international-price-comparison.csv"
+      ); // Load data
+      // Create  array of percentage savings for each row in dataset
+      const dataArray = [];
+      data.forEach((d, i) => {
+        dataArray.push({
+          drug: d["Brand Name Drug"],
+
+          values: [
+            +d.US,
+            100 - +d["International Mail order Savings"],
+            100 - +d["Canadian Mail order Savings"],
+          ],
+          usPrice: Math.round(d["Average US Retail Price"]),
+          intlPrice: Math.round(
+            d["Average International Online Pharmacy Price"]
+          ),
+          canadaPrice: Math.round(d["AverageCanadianOnlinePharmacyPrice"]),
+          intlSavings: Math.round(d["International Mail order Savings"]),
+          canadaSavings: Math.round(d["Canadian Mail order Savings"]),
+        });
+      });
+
+      // List of subgroups = US, intl and Canadian prices by percentage
+      const subgroups = [
+        "US",
+        "International Mail-order",
+        "Canadian Mail-order",
+      ];
+
+      ///////// DROPDOWN /////////////////
+
+      // Dropdown lists all drugs
+      d3.select("#dropdown")
+        .selectAll("options")
+        .data(data.map((d) => d["Brand Name Drug"]))
+        .join("option")
+        .text((d) => d)
+        .attr("value", (d) => d);
+
+      d3.select("#dropdown").on("change", function (d) {
+        let selectedOption = d3.select(this).property("value");
+        update(selectedOption); // SelectedOption = Brand Name Drug
+      });
+
+      ///////////// SVG SETUP /////////////////
+
+      // Set the dimensions and margins of the graph
+      const margin = { top: 50, right: 100, bottom: 100, left: 200 };
+
+      const svgWidth = 800;
+      const svgHeight = svgWidth * 0.4;
+      const width = svgWidth - margin.left - margin.right;
+      const height = svgHeight - margin.top - margin.bottom;
+
+      // Append the svg object to the body of the page
+      var svg = d3
+        .select("#data-viz")
+        .append("svg")
+        .attr("class", "vizSvg")
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`) // responsive width & height
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      ///////// SCALES /////////////
+
+      // X scale and axis
+      const xScale = d3.scaleLinear().domain([0, 100]).range([0, width]);
+
+      svg
+        .append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(
+          d3
+            .axisBottom(xScale)
+            .tickFormat((d) => d + "%")
+            .ticks(5)
+        );
+
+      // Y scale for axis only
+      const yScale = d3
+        .scaleBand()
+        .domain(subgroups)
+        .range([0, height])
+        .padding(0.1);
+
+      svg.append("g").call(d3.axisLeft(yScale));
+
+      const color = d3
+        .scaleOrdinal()
+        .domain([0, 1, 2])
+        .range(["gray", "teal", "seagreen"]);
+      ///////////// UPDATE BARS ////////////
+
+      // Variables to hold old and new data
+      let previous = null;
+      let current = null;
+
+      let bars;
+      function update(selectedOption) {
+        d3.selectAll("rect").remove();
+
+        let filterData = dataArray.filter((d) => d.drug === selectedOption);
+        // console.log(filterData)
+        // variables for animating transition of circles
+        previous = current; // previous is updated to the existing array
+        current = filterData; // current is updated to the incoming array
+        // console.log(previous[0].values, current[0].values)
+        // Y scale for bars only
+        const yScale2 = d3
+          .scaleBand()
+          .domain([0, 1, 2])
+          .range([0, height])
+          .padding(0.1);
+
+        // Initial draw
+        if (previous === null) {
+          bars = svg
+            .selectAll("rect")
+            .data(filterData[0].values)
+            .join("rect")
+            .attr("class", "bars")
+            .attr("x", xScale(0))
+            .attr("y", (d, i) => yScale2(i))
+            .attr("width", (d) => xScale(d))
+            .attr("height", yScale2.bandwidth())
+            .attr("fill", (d, i) => color(i))
+            .attr("rx", "5px");
+        } else {
+          console.log(current);
+          // Redraw and update width to new position
+          bars = svg
+            .selectAll("rect")
+            .data(previous[0].values)
+            .join("rect")
+            .attr("class", "bars")
+            .attr("x", xScale(0))
+            .attr("y", (d, i) => yScale2(i))
+            .attr("width", (d) => xScale(d))
+            .attr("height", yScale2.bandwidth())
+            .attr("fill", (d, i) => color(i))
+            .attr("rx", "5px");
+
+          bars
+            .data(current[0].values)
+            .join("rect")
+            .attr("y", (d, i) => yScale2(i))
+            .transition()
+            .duration(1000)
+            .attr("width", (d) => xScale(d));
+        }
+
+        ////////////// LABELS ///////////
+
+        // Show price and percentage savings info above bars
+        // fill in text with values
+        const formatComma = d3.format(",");
+        document.querySelector("#us").innerText =
+          "$" + formatComma(filterData[0].usPrice);
+        document.querySelector("#intl").innerText = `$${formatComma(
+          filterData[0].intlPrice
+        )},  Savings: ${filterData[0].intlSavings}%`;
+        document.querySelector("#canada").innerText = `$${formatComma(
+          filterData[0].canadaPrice
+        )},  Savings: ${filterData[0].canadaSavings}%`;
+      }
+      update("Abilify");
+
+      // END OF ASYNC FUNCTION
+    })();
+  </script>
+</body>
