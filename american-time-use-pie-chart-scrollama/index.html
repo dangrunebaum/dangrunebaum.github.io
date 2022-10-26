@@ -1,0 +1,414 @@
+<!-- 
+Make the states blink randomly with different colors by using a number variable inside the selector with string template.
+ -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <style>
+      body {
+        margin: 0;
+        font-family: "Proxima Nova";
+      }
+
+      h1 {
+        font-size: 2em;
+        margin: 0 auto;
+        width: 100%;
+        text-align: center;
+      }
+
+      h2 {
+        font-size: 1em;
+        margin: 0 auto;
+        width: 100%;
+        text-align: center;
+      }
+
+      #scrolly {
+        position: relative;
+        /* background-color: #f3f3f3; */
+        padding: 1rem;
+      }
+
+      article {
+        position: relative;
+        padding: 0;
+        width: 40vw;
+        margin: 0 auto;
+      }
+
+      #data_viz {
+        position: -webkit-sticky;
+        position: sticky;
+        left: 0;
+        width: 32vw;
+        margin: auto;
+        /* background-color: #8a8a8a; */
+        z-index: 0;
+      }
+
+      .step {
+        margin: 0 auto 2rem auto;
+        position: relative;
+        top: 200px;
+        /* color: #fff; */
+        /* background-color: rgba(0, 0, 0, 0.1); */
+      }
+
+      .step:last-child {
+        margin-bottom: 0;
+      }
+
+      /* .step.is-active p {
+  color: #3b3b3b;
+} */
+
+      .step p {
+        text-align: center;
+        padding: 1rem;
+        font-size: 1.5rem;
+        /* background-color: rgba(0, 0, 0, 0.75); */
+        background-color: whitesmoke;
+        opacity: 0.9;
+        color: black;
+        box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(rgb(225, 225, 225), white);
+        /* background-color: #3b3b3b; */
+      }
+
+      .scrollama__debug-offset {
+        opacity: 0;
+      }
+
+      @media only screen and (max-width: 600px) {
+        figure {
+          width: 95%;
+        }
+
+        article {
+          width: 95%;
+        }
+
+        .step p {
+          text-align: center;
+          padding: 1rem;
+          font-size: 1.25rem;
+          background-color: #36535df0;
+          /* background-color: #3b3b3b; */
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- <header>Sticky Overlay Example</header> -->
+    <main>
+      <section id="scrolly">
+        <h1>How Much Time Do Americans Spend on Healthcare?</h1>
+        <h2>American Time Use Survey</h2>
+        <figure id="data_viz"></figure>
+        <article>
+          <div class="step" data-step="top">
+            <p>
+              Every day, Americans spend an average 4.8 minutes on
+              health-related <span style="color: teal">self care</span>.
+            </p>
+          </div>
+          <div class="step" data-step="one">
+            <p>
+              Time spent on
+              <span style="color: steelblue">medical services</span> adds less
+              than 4 minutes, for a total of 8.4 minutes each day.
+            </p>
+          </div>
+          <div class="step" data-step="two">
+            <p>
+              <span style="color: rebeccapurple">Caring for adults</span> at an
+              average 1.8 minutes makes for 10.2 minutes spent on healthcare per
+              day.
+            </p>
+          </div>
+          <div class="step" data-step="three">
+            <p>
+              <span style="color: indianred">Caring for children's health</span>
+              at 0.6 minute brings the total to 10.8 minutes.
+            </p>
+          </div>
+          <div class="step" data-step="four">
+            <p>
+              That doesn't seem like a lot, but most people aren't sick. For example, only 7% of the population
+              participate in health-related <span style="color: teal">self care</span> on a given day.
+            </p>
+          </div>
+          <div class="step" data-step="five">
+            <p>
+              Looking at just those people, we see they spend over an hour on
+              <span style="color: teal">self care</span> each day.
+            </p>
+          </div>
+          <!-- <div class="step" data-step="six">
+            <p>
+              And among them, older Americans participate in self care in far
+              greater percentages.
+            </p> -->
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <!-- include d3, intersection observer, and scrollama -->
+    <script src="//d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/intersection-observer"></script>
+    <script src="https://unpkg.com/scrollama"></script>
+    <script>
+      // d3 for convenience
+      var main = d3.select("main");
+      var scrolly = main.select("#scrolly");
+      var figure = scrolly.select("#data_viz");
+      var article = scrolly.select("article");
+      var step = article.selectAll(".step");
+      // Initialize scrollama
+      var scroller = scrollama();
+      // Window resize listener event
+      function handleResize() {
+        // Update height of step elements
+        var stepH = Math.floor(window.innerHeight * 0.75);
+        step.style("height", stepH + "px");
+        var figureHeight = window.innerHeight / 2;
+        var figureMarginTop = (window.innerHeight - figureHeight) / 2;
+        figure
+          .style("height", figureHeight + "px")
+          .style("top", figureMarginTop + "px");
+
+        // Tell scrollama to update new element dimensions
+        scroller.resize();
+      }
+      // Scrollama event handlers
+      function handleStepEnter(response) {
+        //   console.log(response);
+        // response.element.classList.add('active')
+        // Get the data step attribute
+        var chartType = response.element.getAttribute("data-step");
+        changeChart(chartType);
+      }
+      function init() {
+        // Force resize on load to ensure proper dimensions are sent to scrollama
+        handleResize();
+        // Setup the scroller, initialize trigger observations, bind scrollama event handlers
+        scroller
+          .setup({
+            step: "#scrolly article .step",
+            offset: 0.85,
+            debug: false,
+          })
+          .onStepEnter(handleStepEnter)
+          .onStepExit(handleStepExit);
+        // Setup resize event
+        window.addEventListener("resize", handleResize);
+      }
+
+      function handleStepExit(response) {
+        d3.select("#img").remove();
+        // response.element.classList.remove('active')
+      }
+
+      // Kick things off
+      init();
+
+      function changeChart(value) {
+        if (value === "top") clear();
+        else if (value === "one") transitionOne();
+        else if (value === "two") transitionTwo();
+        else if (value === "three") transitionThree();
+        else if (value === "four") transitionFour();
+        else if (value === "five") transitionFive();
+      }
+
+      // Set the dimensions
+      const width = 450,
+        height = 450,
+        margin = 40;
+      // Append svg to map div
+      svg = d3
+        .select("#data_viz")
+        .append("svg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", `0 0 ${width} ${height}`)
+        .append("g")
+        .attr("transform", `translate(${width / 2},${height / 2.3})`); // responsive width & height
+
+      svg
+        .append("text")
+        .attr("x", 0)
+        .attr("y", 205)
+        .attr("id", "label")
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .attr("fill", "gray")
+        .attr("font-size", "1.2em")
+        .text("60 Minutes");
+
+      ///////// Data Wrangling ///////////
+
+      // let data = await d3.csv("./time-spent-on-health-transposed.csv");
+      const data = {
+        "Medical services": 0.06,
+        "Health-related self care": 0.08,
+        "Children's health": 0.01,
+        "Caring for household adults": 0.03,
+        Remainder: 0.82,
+      };
+      console.log(data);
+
+      ////////// Initial Draw ///////////
+
+      // Compute the position of each group
+      const pie = d3.pie().value((d) => d[1]);
+
+      const data_ready = pie(Object.entries(data));
+      console.log(data_ready);
+      // The radius of the pieplot
+      const radius = Math.min(width, height) / 2 - margin;
+
+      const arc = d3.arc().outerRadius(radius).innerRadius(100);
+
+      // Build the pie chart with the arc function
+      svg
+        .selectAll("pies")
+        .data(data_ready)
+        .join("path")
+        .attr("class", "arc")
+        .attr("d", arc)
+        .attr("fill", "lightgray");
+      // .attr("fill", function (d) {
+      //   return color(d.data[1]);
+      // })
+      // .attr("stroke", "black")
+      // .style("stroke-width", "1px")
+      // .style("opacity", 0.7);
+
+      // Show self-care
+      d3.select(`path.arc:nth-child(3)`)
+        .transition()
+        .duration(500)
+        .attr("fill", "teal");
+
+      console.log(data_ready);
+      // Add text labels
+      svg
+        .selectAll("pieText")
+        .data(data_ready)
+        .join("text")
+        .attr("class", "pieText")
+        .attr("transform", function (d) {
+          return "translate(" + arc.centroid(d) + ")";
+        })
+        .attr("dy", "0.5em")
+        .style("text-anchor", "middle")
+        .style("font-size", "0.75em")
+        .style("font-weight", "300")
+        .style("fill", "lightgray")
+        .text((d) =>
+          d.data[0] === "Children's health" ? ".6" : (d.value * 6000) / 100
+        );
+
+      // Reset fill to gray on first scroll for all slices except self care
+      function clear() {
+        d3.select(`path.arc:nth-child(4)`)
+          .transition()
+          .duration(50)
+          .attr("fill", "lightgray");
+
+        d3.select(`path.arc:nth-child(5)`)
+          .transition()
+          .duration(50)
+          .attr("fill", "lightgray");
+
+        d3.select(`path.arc:nth-child(2)`)
+          .transition()
+          .duration(500)
+          .attr("fill", "lightgray");
+
+        d3.select(`#data_viz > svg > g > path:nth-child(6)`)
+          .transition()
+          .duration(500)
+          .attr("fill", "lightgray");
+
+        // Show self-care
+        d3.select(`path.arc:nth-child(3)`)
+          .transition()
+          .duration(500)
+          .attr("fill", "teal");
+
+        d3.selectAll(".pieText").attr("opacity", 1);
+      }
+
+      // Show medical services
+      function transitionOne() {
+        d3.select(`path.arc:nth-child(2)`)
+          .transition()
+          .duration(500)
+          .attr("fill", "steelblue");
+      }
+
+      // Show caring for adult household members
+
+      function transitionTwo() {
+        d3.select(`path.arc:nth-child(5)`)
+          .transition()
+          .duration(50)
+          .attr("fill", "rebeccapurple");
+      }
+
+      // Show children's health
+      function transitionThree() {
+        d3.select(`path.arc:nth-child(4)`)
+          .transition()
+          .duration(50)
+          .attr("fill", "indianred");
+      }
+
+      function transitionFour() {
+        d3.select("#centerText").remove();
+        d3.select("#label").attr("opacity", 1);
+        d3.selectAll("path").attr("fill", "lightgray");
+
+        svg
+          .append("svg:image")
+          .attr("id", "img")
+          .attr("x", -78)
+          .attr("y", -50)
+          .attr("width", 150)
+          // .attr('height', 24)
+          .attr(
+            "xlink:href",
+            "./percent-participating-self-care-with-text.svg"
+          );
+      }
+
+      function transitionFive() {
+        d3.selectAll(".arc").attr("fill", "teal");
+        d3.selectAll("line").attr("stroke", "teal");
+        d3.selectAll(".pieText").attr("opacity", 0);
+        d3.select("#label").attr("opacity", 0);
+        svg
+        .append("text")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("id", "centerText")
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .attr("fill", "teal")
+        .attr("font-size", "1.5em")
+        .text("64 minutes");
+      }
+    </script>
+  </body>
+</html>
