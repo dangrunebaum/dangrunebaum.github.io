@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<!-- LIFE EXPECTANCY MAP AND CALCULATOR 
+WORLD LIFE EXPECTANCY DATA: WHO 2019 PERIOD TABLE https://en.wikipedia.org/wiki/List_of_countries_by_life_expectancy#World_Health_Organization_(2019)
+US DATA: CDC https://www.cdc.gov/nchs/data-visualization/state-life-expectancy/index_2019.htm, https://stacks.cdc.gov/view/cdc/113251
+-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+  </head>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+      color: #01665e;
+    }
+
+    /* On mouse hover, lighten state color */
+    path:hover {
+      fill-opacity: 0.5;
+    }
+
+    /* Style for tooltip */
+    .tooltip {
+      position: absolute;
+      text-align: left;
+      max-width: 400px;
+      height: auto;
+      padding: 10px;
+      font-size: 16px;
+      font-family: Proxima Nova;
+      background-color: whitesmoke;
+      color: black;
+      border: 0px;
+      border-radius: 4px;
+      pointer-events: none;
+      z-index: 1;
+      box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.5);
+    }
+    /* Smaller tooltip for mobile */
+    @media screen and (max-width: 600px) {
+      .tooltip {
+        padding: 2px;
+        font-size: 12px;
+      }
+    }
+
+    #map {
+      margin-bottom: 100px;
+    }
+
+    /* Bar chart styles */
+    .input-group-addon {
+      min-width: 300px;
+    }
+
+    .btn {
+      width: 20%;
+      height: 32px;
+      border: none;
+      background: #19b4fa;
+      color: white;
+      font-weight: 700;
+      border-radius: 4px;
+    }
+
+    .btn:hover {
+      border-width: 1px;
+      background: #179ad6;
+    }
+
+    .input-group {
+      font-size: 1em;
+    }
+
+    /* Style scales */
+    .domain {
+      opacity: 0;
+    }
+
+    g.tick line {
+      opacity: 0;
+    }
+
+    g.tick text {
+      font-size: 0.75em;
+      /* color: #36535d; */
+      color: #2c2f30;
+    }
+
+    #barChart {
+      width: 90%;
+    }
+
+    #explainer {
+      width: 90%;
+    }
+
+    #barChart > svg > g > g:nth-child(1) > g:nth-child(2n + 1) > text {
+      opacity: 0;
+    }
+
+    output {
+      stroke: #2c2f30;
+      border-width: 1px;
+    }
+
+    #expected_years_remaining {
+      font-size: 1em;
+    }
+
+    #probability_of_death {
+      font-size: 1em;
+    }
+  </style>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+
+  <body>
+    <h1>Life Expectancy: Your State and the World</h1>
+    <h4>
+      Life expectancy in the U.S. ranges from 74 to 81 years. This map shows
+      life expectancy by state with equivalent countries worldwide.
+    </h4>
+    <div id="map"></div>
+    <h1>Life Expectancy Calculator</h1>
+    <div class="input-group">
+      <span class="input-group-addon">Age</span>
+      <input
+        class="form-control"
+        type="number"
+        id="age"
+        placeholder="0"
+        onchange="removeOutline()"
+      />
+    </div>
+    <br />
+    <div class="input-group">
+      <span class="input-group-addon">Sex</span>
+      <!-- Add event listener to respond to changes -->
+      <select id="dropdown" onchange="removeOutline()"></select>
+    </div>
+    <br />
+    <div>
+      <button type="button" class="btn" id="calculate">Calculate!</button>
+    </div>
+    <br />
+    <div class="input-group">
+      <span class="input-group-addon">Expected Years Remaining:</span>
+      <output
+        class="form-control"
+        type="number"
+        id="expected_years_remaining"
+      ></output>
+    </div>
+    <br />
+    <div class="input-group">
+      <span class="input-group-addon"
+        >Probability of Death within One Year:</span
+      >
+      <output
+        class="form-control"
+        type="number"
+        id="probability_of_death"
+        placeholder=""
+      ></output>
+    </div>
+    <div id="barChart"></div>
+    <div id="explainer">
+      For this <a href="https://www.ssa.gov/oact/STATS/table4c6.html">table</a>,
+      the period life expectancy at a given age is the average remaining number
+      of years expected prior to death for a person at that exact age, born on
+      January 1, using the mortality rates for 2019 over the course of his or
+      her remaining life. Source: Social Security 2022 Trustees Report (TR).
+    </div>
+    <script>
+      /////////// LIFE EXPECTANCY MAP ////////////////
+
+      // Async function for loading data
+      (async () => {
+        const map = await d3.json(
+          "https://content-static.healthcare.inc/data/us-states.json"
+        ); // Load map
+
+        const mapData = await d3.csv(
+          "./U.S._State_Life_Expectancy_by_Sex__2019_with_equivalent_country_and_centroids.csv"
+        );
+
+        const dataValueArray = [];
+        // // Loop through each state's data value in the .csv file
+        for (let i = 0; i < mapData.length; i++) {
+          // Grab state name
+          const dataState = mapData[i].State;
+
+          // Grab data value for map
+          const lifeExpectancy = +mapData[i].Life_expectancy;
+          // Grab equivalent country for map tooltip
+          const equivalentCountry = mapData[i].Country;
+          // Grab centroid latitude
+          const latitude = mapData[i].Latitude;
+          // Grab centroid latitude
+          const longitude = mapData[i].Longitude;
+
+          // Find the corresponding state inside the GeoJSON
+          for (var j = 0; j < map.features.length; j++) {
+            const mapState = map.features[j].properties.name;
+
+            // Copy the data into the map
+            if (dataState == mapState) {
+              map.features[j].properties.lifeExpectancy = lifeExpectancy;
+              map.features[j].properties.equivalentCountry = equivalentCountry;
+              map.features[j].properties.latitude = +latitude;
+              map.features[j].properties.longitude = +longitude;
+            }
+          }
+          dataValueArray.push(
+            lifeExpectancy,
+            equivalentCountry,
+            longitude,
+            latitude
+          );
+        }
+
+        // Append the svg object to the body of the page
+        mapSvg = d3
+          .select("#map")
+          .append("svg")
+          .attr("preserveAspectRatio", "xMidYMid meet")
+          .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`) // responsive width & height
+          .append("g")
+          .attr(
+            "transform",
+            "translate(" + margin.left + "," + margin.top + ")"
+          );
+
+        const projection = d3
+          .geoAlbersUsa()
+          .scale(700)
+          .translate([width / 2, height / 2]);
+
+        const path = d3.geoPath().projection(projection);
+
+        const color = d3
+          .scaleThreshold()
+          .domain([75, 76, 77, 78, 79, 80])
+          .range([
+            "#8c510a",
+            "#d8b365",
+            "#f7e4b2",
+            "#d4d4d4",
+            "#b5ebe3",
+            "#5ab4ac",
+            "#01665e",
+          ]);
+
+        const color2 = d3
+          .scaleLinear()
+          .domain([75, 80])
+          .range(["#b5ebe3", "#01665e"]);
+
+        // Append div for tooltip to SVG
+        const tooltipDiv = d3
+          .select("body")
+          .append("div")
+          .attr("class", "tooltip")
+          .style("opacity", 0);
+
+        ///////////// DRAW /////////////
+
+        const states = mapSvg
+          .selectAll("path")
+          .data(map.features)
+          .join("path")
+          .attr("d", path)
+          .attr("fill", "none") // set initial color to none
+          .attr("stroke-width", 0.5)
+          .attr("stroke", "white")
+          .on("mouseover", mouseover)
+          .on("mouseout", mouseout);
+
+        // Interval function triggers callback
+        // that animates states in, stepping up with n
+        let n = 0;
+        const interval = setInterval(stepThruStates, 50);
+
+        function stepThruStates() {
+          n++;
+          d3.select(`#map > svg > g > path:nth-child(${n})`)
+            .transition()
+            .duration(100)
+            .attr("fill", (d) => {
+              return color(d.properties.lifeExpectancy);
+            });
+        }
+
+        // State names placed according to centroid coordinates
+        mapSvg
+          .selectAll("stateNames")
+          .data(mapData)
+          .join("text")
+          .attr("x", (d) => {
+            return projection([+d.Longitude, +d.Latitude])[0];
+          })
+          .attr("y", (d) => {
+            return projection([+d.Longitude, +d.Latitude])[1] + 5;
+          })
+          .style("text-anchor", "middle")
+          .style("font-size", "0.4em")
+          .style("fill", "black")
+          .transition()
+          .duration(500)
+          // .delay(3000)
+          .delay((d, i) => (i*50) + 3000)
+          .attr("opacity", 1)
+          .text((d) => (d.State === "District of Columbia" ? "" : d.Country));
+
+        // Interactions
+        function mouseover(d) {
+
+          const tooltipState = d.properties.name;
+          tooltipDiv.transition().duration(200).style("opacity", 0.98);
+          tooltipDiv
+            .html(
+              "<strong>" +
+                d.properties.name +
+                "</strong>" +
+                "<br>" +
+                "Life expectancy: " +
+                d.properties.lifeExpectancy +
+                "<br>" +
+                "Equivalent country: " +
+                d.properties.equivalentCountry
+            )
+            .style("left", d3.event.pageX + 10 + "px")
+            .style("top", d3.event.pageY - 80 + "px");
+        }
+
+        function mouseout() {
+          tooltipDiv.transition().duration(500).style("opacity", 0);
+        }
+
+        // Legend
+        const countryArray = [
+          "Bangladesh",
+          "Libya",
+          "Hungary",
+          "China",
+          "Turkey",
+          "Colombia",
+          "Kuwait",
+        ];
+
+        const yearsArray = [
+          "74-75",
+          "75-76",
+          "76-77",
+          "77-78",
+          "78-79",
+          "79-80",
+          "80-81",
+        ];
+
+        const legendColor = d3
+          .scaleOrdinal()
+          .domain(countryArray)
+          .range([
+            "#8c510a",
+            "#d8b365",
+            "#f7e4b2",
+            "#d4d4d4",
+            "#b5ebe3",
+            "#5ab4ac",
+            "#01665e",
+          ]);
+
+        const legendColor2 = d3
+          .scaleOrdinal()
+          .domain(yearsArray)
+          .range([
+            "#8c510a",
+            "#d8b365",
+            "#f7e4b2",
+            "#d4d4d4",
+            "#b5ebe3",
+            "#5ab4ac",
+            "#01665e",
+          ]);
+
+        mapSvg
+          .selectAll("dots")
+          .data(countryArray.reverse())
+          .join("circle")
+          .attr("cx", width - 50)
+          .attr("cy", (d, i) => i * 20 + 130)
+          .attr("r", 7)
+          .attr("fill", (d) => legendColor(d));
+
+        mapSvg
+          .selectAll("countryText")
+          .data(countryArray)
+          .join("text")
+          .attr("x", width + 10)
+          .attr("y", (d, i) => i * 20 + 133)
+          .attr("fill", (d) => legendColor(d))
+          .attr("font-size", "0.75em")
+          .text((d) => d);
+
+        mapSvg
+          .selectAll("yearsText")
+          .data(yearsArray.reverse())
+          .join("text")
+          .attr("x", width - 35)
+          .attr("y", (d, i) => i * 20 + 133)
+          .attr("fill", (d) => legendColor2(d))
+          .attr("font-size", "0.75em")
+          .text((d) => d);
+
+        // End of async function
+      })();
+
+      /////////// LIFE EXPECTANCY CALCULATOR ////////////////
+
+      let data;
+      // Async function for loading data
+      (async () => {
+        // Load data
+        data = await d3.csv("./life-table-2019.csv");
+        // Call draw function inside async to access data
+        draw();
+        // Make sure that before calculate gets called, its variables are defined
+        document
+          .getElementById("calculate")
+          .addEventListener("click", calculate);
+
+        // End of async function
+      })();
+
+      // Select dropdown for gender
+      d3.select("#dropdown")
+        .selectAll("options")
+        .data(["Male", "Female"])
+        .join("option")
+        .text((d) => d)
+        .attr("value", (d) => d);
+
+      // Listener function sets selectedOption to value property
+      d3.select("select").on("change", function (d) {
+        let selectedOption = d3.select(this).property("value");
+      });
+
+      // Click function updates input fields and rect outline
+      function calculate() {
+        // Variable to hold age input by user
+        let inputAge = document.getElementById("age").value;
+
+        // Variable to hold sex input by user
+        let inputGender = document.getElementById("dropdown").value;
+
+        // Filter data based on match
+        filterData = data.filter(function (d) {
+          return +d.age === +inputAge;
+        });
+        // Assign variables to calculated life expectancy
+        let m_life_expectancy = +filterData[0].m_life_expectancy;
+        let f_life_expectancy = +filterData[0].f_life_expectancy;
+        let m_death_probability = +filterData[0].m_death_probability;
+
+        // Show life expectancy for correct gender on page
+        if (inputGender === "Female") {
+          document.getElementById("expected_years_remaining").value =
+            Math.round(f_life_expectancy);
+        } else {
+          document.getElementById("expected_years_remaining").value =
+            Math.round(m_life_expectancy);
+        }
+
+        // Show death probability for correct gender on page
+        document.getElementById("probability_of_death").value =
+          Math.round(m_death_probability * 1000) / 1000;
+
+        //  draw new outline on selected bar
+        svg
+          .selectAll("bars")
+          .data(filterData)
+          .join("rect")
+          .attr("class", "outline")
+          .attr("x", (d) => x(d.age))
+          .attr("y", function (d) {
+            if (inputGender === "Female") {
+              return y(+d.f_life_expectancy);
+            } else {
+              return y(+d.m_life_expectancy);
+            }
+          })
+          .attr("width", x.bandwidth())
+          .attr("height", function (d) {
+            if (inputGender === "Female") {
+              return height - y(+d.f_life_expectancy);
+            } else {
+              return height - y(+d.m_life_expectancy);
+            }
+          })
+          .attr("stroke", "fuchsia")
+          .attr("stroke-width", 2)
+          .attr("fill", "none");
+
+        // Add text label above bar
+        svg
+          .selectAll("labelText")
+          .data(filterData)
+          .join("text")
+          .attr("class", "label")
+          .attr("x", (d) => x(d.age) - 4)
+          .attr("y", function (d) {
+            if (inputGender === "Female") {
+              return y(+d.f_life_expectancy) - 15;
+            } else {
+              return y(+d.m_life_expectancy) - 17;
+            }
+          })
+          .attr("fill", "rgb(50, 50, 50")
+          .attr("font-size", "0.8em")
+          .text(function (d) {
+            if (inputGender === "Female") {
+              return Math.round(d.f_life_expectancy);
+            } else {
+              return Math.round(d.m_life_expectancy);
+            }
+          });
+
+        // End of update function
+      }
+
+      // Remove existing outline on input update
+      function removeOutline() {
+        d3.select(".outline").remove();
+        d3.select(".label").remove();
+      }
+
+      // Declare global variables
+      let margin, svgWidth, svgHeight, width, height, svg, x, y;
+
+      // Function for static chart elements
+      function draw() {
+        // Assign globals
+        // Set the dimensions and margins of the graph
+        margin = { top: 100, right: 100, bottom: 100, left: 100 };
+
+        svgWidth = 800;
+        svgHeight = svgWidth * 0.5;
+
+        width = svgWidth - margin.left - margin.right;
+        height = svgHeight - margin.top - margin.bottom;
+
+        // Append the svg object to the body of the page
+        svg = d3
+          .select("#barChart")
+          .append("svg")
+          .attr("preserveAspectRatio", "xMidYMid meet")
+          .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`) // responsive width & height
+          .append("g")
+          .attr(
+            "transform",
+            "translate(" + margin.left + "," + margin.top + ")"
+          );
+
+        // X scale and axis
+        x = d3
+          .scaleBand()
+          .range([0, width])
+          .domain(
+            data.map(function (d) {
+              return d.age;
+            })
+          )
+          .padding(0.2);
+
+        svg
+          .append("g")
+          .attr("transform", "translate(" + 0 + "," + height + ")")
+          .call(d3.axisBottom(x));
+
+        //  Y scale and axis
+        y = d3.scaleLinear().domain([0, 80]).range([height, 0]).nice();
+
+        svg.append("g").call(d3.axisLeft(y));
+
+        // Draw female bars
+        svg
+          .selectAll("myBars")
+          .data(data)
+          .join("rect")
+          .attr("x", (d) => x(d.age))
+          .attr("y", (d) => y(+d.f_life_expectancy))
+          .attr("width", x.bandwidth())
+          .attr("height", (d) => height - y(+d.f_life_expectancy))
+          .attr("fill", "darkcyan");
+
+        // Draw male bars
+        svg
+          .selectAll("myBars")
+          .data(data)
+          .join("rect")
+          .attr("x", (d) => x(d.age))
+          .attr("y", (d) => y(+d.m_life_expectancy))
+          .attr("width", x.bandwidth())
+          .attr("height", (d) => height - y(+d.m_life_expectancy))
+          .attr("fill", "turquoise");
+
+        //////////// LEGEND //////////////
+
+        svg
+          .selectAll("legendRects")
+          .data(["Female", "Male"])
+          .join("rect")
+          .attr("x", (d, i) => i * 80)
+          .attr("y", -50)
+          .attr("width", 10)
+          .attr("height", 10)
+          // .attr("fill", "darkcyan")
+          .attr("fill", function (d) {
+            if (d === "Female") {
+              return "darkcyan";
+            } else {
+              return "turquoise";
+            }
+          });
+
+        svg
+          .selectAll("legendText")
+          .data(["Female", "Male"])
+          .join("text")
+          .attr("x", (d, i) => i * 80 + 15)
+          .attr("y", -40)
+          .attr("font-size", "0.75em")
+          .text((d) => d);
+
+        /////////// PERIPHERALS ////////////
+
+        svg
+          .append("text")
+          .attr("x", width / 2)
+          .attr("y", height + 50)
+          .attr("text-anchor", "middle")
+          .attr("font-size", "1em")
+          .text("Age");
+
+        svg
+          .append("text")
+          .attr("x", -90)
+          .attr("y", -50)
+          .attr("transform", "translate(-10,0)rotate(-90)")
+          .attr("text-anchor", "middle")
+          .attr("font-size", "1em")
+          .text("Life Expectancy");
+      }
+    </script>
+  </body>
+</html>
