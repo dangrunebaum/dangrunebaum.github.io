@@ -7,6 +7,7 @@ body {
     line-height: 1.5;
     color: gray;
 }
+
 /* 
 a {
     color: #2D3319;
@@ -93,6 +94,7 @@ header {
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(-359deg);
     }
@@ -114,6 +116,7 @@ _____________________*/
     header {
         text-align: center;
     }
+
     nav a {
         display: inline-block;
         padding: 5px 5px;
@@ -121,20 +124,25 @@ _____________________*/
         font-size: large;
         font-weight: 400;
     }
+
     .content-wrap {
         /* width: 800px; */
         margin: 0 auto;
         padding: 10px;
     }
+
     h3 {
         font-size: medium;
     }
+
     h2 {
         font-size: medium;
     }
+
     .spiral {
         visibility: hidden;
     }
+
     .name {
         position: absolute;
         left: 10px;
@@ -239,12 +247,15 @@ _____________________*/
         font-size: smaller;
         padding-top: 40px;
     }
+
     #card {
         width: 80%;
     }
+
     header {
         text-align: center;
     }
+
     nav a {
         display: inline-block;
         margin: 10px 20px 10px 20px;
@@ -252,6 +263,7 @@ _____________________*/
         font-size: large;
         font-weight: 400;
     }
+
     /* nav a:focus {
         text-decoration: underline;
         display: inline;
@@ -263,9 +275,11 @@ _____________________*/
     .row {
         padding-top: 50px;
     }
+
     .spiral {
         visibility: hidden;
     }
+
     /* .content-wrap {
         margin: 0 auto;
         padding: 5px;
@@ -274,9 +288,14 @@ _____________________*/
         position: absolute;
         left: 20px;
         color: #2D3319; */
-    }
+    /* } */
     iframe {
         max-width: 280px;
         max-height: 200px;
     }
+/* Smaller font for mobile */
+    html body main section.projects div.content-wrap div.row div.column div.hvrbox a div.hvrbox-layer_top div.hvrbox-text {
+        font-size: 6px;
+    }
+
 }
