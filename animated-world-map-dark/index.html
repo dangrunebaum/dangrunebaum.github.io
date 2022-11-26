@@ -17,7 +17,7 @@
       /* The image used */
       background-image: url("Deep+Space-1304140588.jpg");
       /* Full height */
-      height: 100%;
+      width: 100%;
       /* Center and scale the image nicely */
       background-position: center;
       background-repeat: no-repeat;
@@ -55,8 +55,17 @@
       margin: 20px auto 0px auto;
       text-align: center;
       font-size: 3em;
-      color: rgb(100, 100, 100);
-      text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+      color: gray;
+      /* text-shadow: 2px 4px 8px rgba(100, 100, 250, 1); */
+    }
+
+    #subtitle {
+      width: 90%;
+      margin: 0px auto 50px auto;
+      text-align: justify;
+      font-size: 2em;
+      color: gray;
+      /* text-shadow: 2px 4px 8px rgba(100, 100, 250, 1); */
     }
 
     rect {
@@ -133,9 +142,16 @@
 <body>
   <h1 id="title">World Population by Country and Continent</h1>
   <div class="buttonContainer">
-    <button onclick="reset()">Play</button>
+    <button onclick="reset()">Count</button>
   </div>
   <div id="map"></div>
+  <h2 id="subtitle">Created to celebrate the earth’s population reaching 8 billion humans, this globe visualizes the
+    planet’s populace by country and continent, helping users to understand the distribution of people around the
+    earth’s many regions. On the right, a population counter bar keeps a running total that grows as the population of
+    countries and continents accumulates. On the left, filters highlight nations with populations of under 1 million,
+    1-10 million, 10-100 million, and over 100 million. Built with GEOJSON map data from Natural Earth, downloaded
+    from <a href="https://geojson-maps.ash.ms/">GEOJSON Maps</a>. Population figures are from 2019.
+  </h2>
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/d3-geo-projection@4"></script>
   <script>
@@ -164,8 +180,13 @@
       ///////////// SVG SETUP ////////////
 
       const svgWidth = 1000;
-      const svgHeight = svgWidth;
-
+      const svgHeight = svgWidth * 0.6;
+      // For rotate
+      const config = {
+        speed: 0.004,
+        verticalTilt: -20,
+        horizontalTilt: 0
+      }
       // Append svg to map div
       mapSvg = d3
         .select("#map")
@@ -178,9 +199,9 @@
 
       // Define projection
       const projection = d3
-        .geoWinkel3()
-        .translate([svgWidth / 2, svgHeight / 2 - 230]) // Translate to center of screen
-        .scale([110]); // Scale
+        .geoOrthographic()
+        .translate([svgWidth / 2, svgHeight / 2 - 30]) // Translate to center of screen
+        .scale([180]); // Scale
 
       // Define path generator to convert geojson to svgs
       const path = d3.geoPath().projection(projection);
@@ -229,6 +250,15 @@
         .attr("class", "fill")
         .attr("xlink:href", "#sphere");
 
+      ///////// ROTATE ///////////
+      function enableRotation() {
+        d3.timer(function (elapsed) {
+          projection.rotate([config.speed * elapsed - 120, config.verticalTilt, config.horizontalTilt]);
+          mapSvg.selectAll("path").attr("d", path);
+        });
+      }
+
+      enableRotation();
       ///////// SCALES /////////////////
 
       // Population scale for bar's X axis
@@ -427,13 +457,13 @@
         .attr("fill", "darkgray")
         .text((d) => d);
 
-        // CTA for population filter
-        mapSvg.append("text")
-          .attr("x", svgWidth / 2 - 200)
-          .attr("y", 85)
-          .attr("font-size", "0.5em")
-          .attr("fill", "darkgray")
-          .text("Population Filters");
+      // CTA for population filter
+      mapSvg.append("text")
+        .attr("x", svgWidth / 2 - 200)
+        .attr("y", 85)
+        .attr("font-size", "0.5em")
+        .attr("fill", "darkgray")
+        .text("Population Filters");
 
       function mouseover2() {
         // highlight countries with pop < 1m
