@@ -68,8 +68,20 @@
       /* text-shadow: 2px 4px 8px rgba(100, 100, 250, 1); */
     }
 
+    /* Population counter bar */
     rect {
       shape-rendering: crispEdges;
+    }
+
+    g.tick line {
+      color: white;
+      opacity: 0;
+    }
+
+    g.tick text {
+      color: white;
+      font-weight: 700;
+      font-size: 1.5em;
     }
 
     .tooltip {
@@ -159,6 +171,7 @@
     (async () => {
 
       ////////////// DATA WRANGLING /////////////
+
       // Map sourced from https://geojson-maps.ash.ms/
       const map = await d3.json("./custom.geo.json");
 
@@ -221,8 +234,7 @@
         .enter()
         .append("path")
         .attr("d", path)
-        .attr("fill", "none")
-        // .attr("fill", "rgb(20,20,20")
+        // .attr("fill", "black")
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
         .on("mouseout", mouseout);
@@ -252,14 +264,15 @@
         .attr("xlink:href", "#sphere");
 
       ///////// ROTATE ///////////
+
       function enableRotation() {
         d3.timer(function (elapsed) {
           projection.rotate([config.speed * elapsed - 120, config.verticalTilt, config.horizontalTilt]);
           mapSvg.selectAll("path").attr("d", path);
         });
       }
-
       enableRotation();
+
       ///////// SCALES /////////////////
 
       // Population scale for bar's X axis
@@ -273,12 +286,12 @@
       const formatNumber = d3.format(".1s");
       g.append("g")
         .attr("transform", "translate(600,60)")
-        .call(d3.axisBottom(xScale).ticks(5, "~s"));
+        .call(d3.axisBottom(xScale).ticks(5, "~s")).attr("fill", "white");
 
       ////////// ANIMATE FUNCTION ////////////
 
       // Interval function triggers callback
-      // that animates countries in, stepping up with n
+      // that animates countries in, incrementing by n
       let n = 0;
       const interval = setInterval(stepThruCountries, 200);
       function stepThruCountries() {
