@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+<style>
+    svg {
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+    /* Style scales */
+    
+    .x.axis path {
+        display: none;
+    }
+    
+    .y.axis path {
+        display: none;
+    }
+    
+    .domain {
+        opacity: 0;
+    }
+    
+    g.tick line {
+        opacity: 0;
+    }
+    
+    g.tick text {
+        font-weight: 700;
+        font-size: 1.5em;
+    }
+    /* Scatterplot styles */
+    
+    .regressionLine {
+        stroke-width: 2px;
+        stroke: steelblue;
+        stroke-dasharray: 10, 5;
+    }
+    /* Tooltip materials */
+    
+    .tooltip2 {
+        width: auto;
+        height: fit-content;
+        padding: 4px 10px;
+        border: 1px solid lightgray;
+        border-radius: 4px;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        position: absolute;
+        background-color: white;
+        font-size: 14px;
+        font-family: "Proxima Nova";
+        text-align: left;
+        pointer-events: none;
+        -webkit-transition: all 0.25s;
+        -moz-transition: all 0.25s;
+        -ms-transition: all 0.25s;
+        -o-transition: all 0.25s;
+        transition: all 0.25s;
+    }
+    
+    .tooltip2 div {
+        margin: 3px 0;
+    }
+    
+    .tooltip-val {
+        font-weight: bold;
+        font-family: 'Trebuchet MS';
+    }
+    /* Map styles */
+    
+    path {
+        stroke: white;
+        transition: fill-opacity 0.2s ease-in-out;
+    }
+    /* On mouse hover, lighten state color */
+    
+    path:hover {
+        fill-opacity: 0.5;
+    }
+    /* Style for Custom Tooltip */
+    
+    .tooltip {
+        position: absolute;
+        text-align: left;
+        max-width: 400px;
+        height: auto;
+        padding: 10px;
+        font-size: 16px;
+        font-family: "Proxima Nova";
+        background-color: whitesmoke;
+        color: black;
+        border: 0px;
+        border-radius: 4px;
+        pointer-events: none;
+        z-index: 1;
+        box-shadow: 4px 8px 20px rgba(0, 0, 0, .5);
+    }
+    /* Legend Position and Style */
+    
+    .legend {
+        position: absolute;
+        left: 75%;
+        top: 15%;
+        font-size: 14px;
+        color: white;
+    }
+    /* Stroke for state outlines */
+    
+    .states {
+        stroke: white;
+        fill: none;
+    }
+</style>
+
+<script src="https://d3js.org/d3.v5.js"></script>
+<script src="https://unpkg.com/simple-statistics@7.7.0/dist/simple-statistics.min.js"></script>
+
+<body>
+    <div id="lineChart"></div>
+    <div id="scatterPlot"></div>
+    <div id="map"></div>
+    <script type="text/javascript">
+        // LINE CHART
+        (async() => {
+
+            const margin = {
+                    top: 100,
+                    right: 100,
+                    bottom: 100,
+                    left: 100
+                },
+                width = 900 - margin.left - margin.right,
+                height = 500 - margin.top - margin.bottom;
+
+            const parseYear = d3.timeParse("%Y");
+
+            const x = d3.scaleTime()
+                .range([0, width]);
+
+            const y = d3.scaleLinear()
+                .range([height, 0]);
+
+            const y2 = d3.scaleLinear()
+                .range([height, 0]);
+
+            const xAxis = d3.axisBottom(x).tickFormat(d3.format("d"));
+            const yAxis = d3.axisLeft(y);
+            const yAxis2 = d3.axisRight(y2);
+
+            const line1 = d3.line().curve(d3.curveNatural)
+                .x(function(d) {
+                    return x(d.Year);
+                })
+                .y(function(d) {
+                    return y(d.MarketShareLargestInsurer);
+                });
+
+            const line2 = d3.line().curve(d3.curveNatural)
+                .x(function(d) {
+                    return x(d.Year);
+                })
+                .y(function(d) {
+                    return y2(d.Premium)
+                });
+
+            // Responsive SVG
+            const svg = d3.select("#lineChart").append("svg")
+                .attr("viewBox", "0 0 900 600")
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            const data = await d3.csv("https://content-static.stg.healthcare.inc/data/aca-market-concentration-2015-2019.csv"); // Load data
+
+            const g = svg.append("g");
+
+
+            data.forEach(function(d) {
+                d.Year = +d.Year,
+                    d.MarketShareLargestInsurer = +d.MarketShareLargestInsurer,
+                    d.Premium = +d.Premium;
+            });
+
+            x.domain(d3.extent(data, function(d) {
+                return d.Year;
+            }));
+
+            y.domain(d3.extent(data, d => d.MarketShareLargestInsurer))
+
+            y2.domain(d3.extent(data, d => d.Premium))
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+            // Append left Y axis = market share
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis.ticks(4, "~s").tickFormat(d => d + "%"))
+                // .call(g => g.select('g.y.axis g.tick text')
+                // .remove()) // Remove 0 from y axis
+
+            // Append right Y axis = premiums
+            svg.append("g")
+                .attr("class", "y axis")
+                .attr("transform", "translate(" + width + "," + 0 + ")")
+                .call(yAxis2.ticks(5, "~s").tickFormat(d => '$' + d));
+
+            // Draw line 1 = concentration
+            const path1 = g.append("path")
+                .datum(data)
+                .attr("class", "line")
+                .attr("d", line1)
+                .style("stroke", "#00AEBB")
+
+            // Draw line 2 = premiums
+            const path2 = g.append("path")
+                .datum(data)
+                .attr("class", "line")
+                .attr("d", line2)
+                .style("stroke", "indianred")
+
+            // Variable to hold total length for line animation
+            const totalLength = path1.node().getTotalLength();
+
+            // Set properties of dash array and dash offset and initiate transition
+            path1.attr("stroke-dasharray", totalLength + " " + totalLength)
+                .attr("stroke-dashoffset", totalLength)
+                .transition() // Call transition method
+                .duration(3000) // Set duration timing (ms)
+                .ease(d3.easeLinear) // Set easing option
+                .attr("stroke-dashoffset", 0) // Set final value of dash-offset for transition
+                .attr("fill", "none")
+                .attr("stroke-width", 4)
+                .attr("stroke", "url(#line-gradient)");
+
+            // Variable to hold total length for line animation
+            const totalLength2 = path2.node().getTotalLength();
+
+            // Set properties of dash array and dash offset and initiate transition
+            path2.attr("stroke-dasharray", totalLength2 + " " + totalLength2)
+                .attr("stroke-dashoffset", totalLength2)
+                .transition() // Call transition method
+                .duration(3000) // Set duration timing (ms)
+                .ease(d3.easeLinear) // Set easing option
+                .attr("stroke-dashoffset", 0) // Set final value of dash-offset for transition
+                .attr("fill", "none")
+                .attr("stroke-width", 4)
+                .attr("stroke", "url(#line-gradient)");
+
+            // Peripherals
+            svg.append("text")
+                .attr("x", width / 2)
+                .attr("y", -60)
+                .attr("dy", ".71em")
+                .style("font-size", 25)
+                .style("font-weight", 700)
+                .style("text-anchor", "middle")
+                .style('font-family', 'Proxima Nova')
+                .text("ACA Marketplace Concentration and Premiums 2015-2019");
+
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -50)
+                .attr("y", -80)
+                .attr("dy", ".71em")
+                .style("font-size", 20)
+                .style("text-anchor", "end")
+                .style('font-family', 'Proxima Nova')
+                .style("fill", "#00AEBB")
+                .text("Top Insurer Market Share");
+
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -130)
+                .attr("y", width + 60)
+                .attr("dy", ".71em")
+                .style("font-size", 20)
+                .style("text-anchor", "end")
+                .style('font-family', 'Proxima Nova')
+                .style("fill", "indianred")
+                .text("Premium");
+
+            svg.append("text")
+                .attr("x", -10)
+                .attr("y", height + 40)
+                .style("font-size", "8px")
+                .style('font-family', 'Proxima Nova')
+                .html("Source: KFF");
+
+            // Legend
+            const legend = svg.append('g')
+                .attr('class', 'legend')
+
+            legend.append('line')
+                .attr('x1', width / 2 - 150)
+                .attr('y1', height + 75)
+                .attr('x2', width / 2 - 100)
+                .attr('y2', height + 75)
+                .style('stroke-width', 4)
+                .style("stroke", "#00AEBB");
+
+            legend.append('text').attr('font-size', '1.25em')
+                .attr('x', width / 2 - 90)
+                .attr('y', height + 75)
+                .style('dominant-baseline', 'middle')
+                .style('text-anchor', 'start')
+                .text('Top Insurer Market Share')
+                .style('font-family', 'Proxima Nova');
+
+            legend.append('line')
+                .attr('x1', width / 2 + 100)
+                .attr('y1', height + 75)
+                .attr('x2', width / 2 + 150)
+                .attr('y2', height + 75)
+                .style('stroke-width', 4)
+                .style("stroke", "indianred");
+
+            legend.append('text').attr('font-size', '1.25em')
+                .attr('x', width / 2 + 160)
+                .attr('y', height + 75)
+                .style('dominant-baseline', 'middle')
+                .style('text-anchor', 'start')
+                .text('Premium')
+                .style('font-family', 'Proxima Nova');
+
+
+            //SCATTERPLOT
+
+            const svgWidth = 1000
+            const svgHeight = svgWidth * 1.0
+
+            const width1 = svgWidth - margin.left - margin.right
+            const height1 = svgHeight - margin.top - margin.bottom
+
+            const svg1 = d3.select('#scatterPlot')
+                .append('svg')
+                .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`) // responsive width & height
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .append('g')
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+            // Load data
+            const data1 = await d3.csv("https://content-static.stg.healthcare.inc/data/aca-market-concentration.csv"); // Load data
+
+            data1.forEach(
+                function(d) {
+                    d.MarketShareLargestInsurer = +d.MarketShareLargestInsurer,
+                        d.Premium = +d.Premium
+                        // console.log(d.MarketShareLargestInsurer
+                })
+
+            // Scales & Axes
+            const color = d3.scaleOrdinal(d3.schemeCategory10)
+                .domain(['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']);
+
+            const xScale1 = d3.scaleLinear()
+                .domain([0, 100])
+                .range([0, width1]);
+
+            const yScale1 = d3.scaleLinear()
+                .domain([300, 900])
+                .range([height1, 0]);
+
+            const xAxis1 = d3.axisBottom(xScale1);
+            const yAxisLeft = d3.axisLeft(yScale1);
+
+            svg1.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height1 + ")")
+                .call(xAxis1.tickFormat(d => d + '%'));
+
+            svg1.append('g')
+                .attr('class', 'yAxisLeft')
+                .call(yAxisLeft.tickFormat(d => '$' + d));
+
+            // Regression line - see example https://observablehq.com/@hydrosquall/simple-linear-regression-scatterplot-with-d3
+
+            // Use Simple-Statistics lib to return an object with m (slope) and b (y intercept).
+            linearRegression = ss.linearRegression(data1.map(d => [d.MarketShareLargestInsurer, d.Premium]))
+                // console.log(linearRegression);
+
+            // Pass object to helper function to get a function that given x, y.
+            linearRegressionLine = ss.linearRegressionLine(linearRegression);
+
+            // Define the 2 points of the regression line to be able to have D3 make a line.
+            // 1 for the start and 1 for the end of line.
+            const firstX = data1[0].MarketShareLargestInsurer;
+            const lastX = data1.slice(-1)[0].MarketShareLargestInsurer;
+            const xCoordinates = [firstX, lastX];
+
+            const regressionPoints = xCoordinates.map(d => ({
+                x: +d, // x and y match d3.line accessors
+                y: linearRegressionLine(d)
+            }));
+
+            // Prepare line generator that knows what to do with each datapoint.
+            line = d3.line()
+                .x(d => xScale1(d.x))
+                .y(d => yScale1(d.y));
+
+            // Draw the regression line
+            svg1.append('path')
+                .classed('regressionLine', true)
+                .datum(regressionPoints)
+                .attr('d', line);
+
+            const mapArray = data1.map(d => d.MarketShareLargestInsurer);
+            // console.log(mapArray);
+
+
+            // Draw state names
+            svg1.append('g').selectAll("text")
+                .data(data1)
+                .enter()
+                .append('text')
+                .attr("class", "state-names")
+                .attr('x', d => xScale1(d.MarketShareLargestInsurer))
+                .attr('y', d => yScale1(d.Premium))
+                .attr("dy", "0.22em")
+                .attr("text-anchor", "end")
+                .style('font-size', '1.25em')
+                // .attr("opacity", 0.7)
+                .attr("fill", d => color(d.State))
+                .text(d => d.State)
+                .on("mouseover", mouseover)
+                .on("mouseout", mouseout);
+
+            // Tooltip materials
+            const tooltip2 = d3.select("body").append("div")
+                .attr("class", "tooltip2")
+                .style("display", "none");
+
+            tooltip2.append("span")
+                .attr("class", "tooltip-val");
+
+            function mouseover(d) {
+
+                d3.select(".tooltip2").style("display", "block")
+                tooltip2.select(".tooltip-val")
+                tooltip2.attr("style", "left:" + (d3.event.pageX + 10) + "px; top:" + (d3.event.pageY - 45) + "px;")
+                    .style('color', color(d.State))
+                    .html('Monthly premium: ' + '$' + d.Premium + '<br>' + 'Market share of largest insurer: ' + d.MarketShareLargestInsurer + '%')
+                d3.select(this)
+                    .attr("opacity", 0.7)
+            };
+
+            function mouseout() {
+
+                d3.select(".tooltip2").style("display", "none")
+
+                d3.select(this)
+                    .attr("opacity", 1)
+            };
+
+            // Peripherals
+            svg1.append("text")
+                .attr('x', -width1 / 2)
+                .attr('y', -70)
+                .style('text-anchor', 'middle')
+                .style('font-size', '1.5em')
+                .attr("transform", "rotate(-90)")
+                .text('Premium');
+
+            svg1.append("text")
+                .attr('x', width1 / 2)
+                .attr('y', height1 + 60)
+                .style('text-anchor', 'middle')
+                .style('font-size', '1.5em')
+                .text('Marketplace Concentration by Share of Largest Insurer');
+
+            svg1.append("text")
+                .attr('x', width1 / 2)
+                .attr('y', -20)
+                .style('text-anchor', 'middle')
+                .style('font-size', '2.0em')
+                .text('ACA Marketplace Concentration and Premiums');
+
+            // MAP
+
+            width2 = 1600 - margin.left - margin.right,
+                height2 = 950 - margin.top - margin.bottom;
+
+            // Create chart 
+            const chart = d3.select("#map")
+                .append("svg")
+                .attr("preserveAspectRatio", "xMinYMin meet")
+                .attr("viewBox", "0 0 1600 950")
+
+            // Set projection type
+            const projection = d3.geoAlbersUsa()
+                .translate([width2 / 2, height2 / 2]) // Translate to center of screen
+                .scale([1700]); // scale map down so see entire US
+
+            // Define path generator
+            const path = d3.geoPath() // Path generator that will convert GeoJSON to SVG paths
+                .projection(projection); // Tell path generator to use albersUsa projection
+
+
+            // Append div for tooltip to SVG
+            const tooltipDiv = d3.select("body")
+                .append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
+            // Array to hold stroke death rates
+            dataValueArray = [];
+
+            const data2 = await d3.csv("https://content-static.stg.healthcare.inc/data/aca-market-concentration.csv"); // Load data
+            const map = await d3.json("https://content-static.stg.healthcare.inc/data/us-states.json"); // Load map
+
+            // Load GeoJSON data and merge with states data
+            // Loop through each state's data value in the .csv file
+            for (let i = 0; i < data2.length; i++) {
+
+                // Grab State name
+                const dataState = data2[i].State;
+
+                // Grab data value for map
+                const marketShare = +data2[i].MarketShareLargestInsurer;
+
+                // Grab data for tooltip
+                const premium = +data2[i].Premium;
+
+                // Find the corresponding state inside the GeoJSON
+                for (var j = 0; j < map.features.length; j++) {
+                    var mapState = map.features[j].properties.name;
+
+                    if (dataState == mapState) {
+
+                        // Copy the data value into the map
+                        map.features[j].properties.premium = premium;
+                        map.features[j].properties.marketShare = marketShare;
+
+                    }
+                }
+                dataValueArray.push(+marketShare)
+            }
+            // console.log(dataValueArray)
+            // console.log(map)
+            const colorScale = d3.scaleLinear()
+                .domain(d3.extent(dataValueArray))
+                // .range(["#E0F3DB", "#084081"])
+                // .range(["#06aebb", "#154e56"])
+                // .range(["#06aebb", "#5c0d47"])
+                .range(["#06aebb", "#33105f"]);
+
+
+            // Bind  data to the SVG and create one path per GeoJSON feature
+            chart.selectAll("path")
+                .data(map.features)
+                .enter()
+                .append("path")
+                .attr("d", path)
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .attr("fill",
+                    d => {
+                        const dataValue = d.properties.marketShare;
+                        return colorScale(dataValue)
+                    })
+                .on("mouseover", function(d) { // Show tooltip
+                    var tooltipState = d.properties.name;
+                    var tooltipMarketShare = d.properties.marketShare;
+                    var tooltipPremium = d.properties.premium;
+
+                    tooltipDiv.transition()
+                        .duration(200)
+                        .style("opacity", .98);
+                    tooltipDiv.html("<strong>" + tooltipState + "</strong>" + "<br>" +
+                            "Market share of top insurer: " + tooltipMarketShare + "%" + "<br>" +
+                            "Premium: " + "$" + tooltipPremium + "<br>"
+                        )
+                        .style("left", (d3.event.pageX) + 30 + "px")
+                        .style("top", (d3.event.pageY) - 48 + "px");
+                })
+
+            // Fade tooltip on mouseout               
+            .on("mouseout", function(d) {
+                tooltipDiv.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
+
+            // Legend
+            const legendGroup = chart.append("g")
+                .attr("transform", `translate(${width2 / 2 + 100},
+            ${100})`)
+
+            const defs = chart.append("defs")
+            const legendGradientId = "legend-gradient"
+
+            const gradient = defs.append("linearGradient")
+                .attr("id", legendGradientId)
+                .selectAll("stop")
+                .data(colorScale.range())
+                .enter().append("stop")
+                .attr("stop-color", d => d)
+                .attr("offset", (d, i) => `${i * 100
+                    }%`)
+
+            const legendWidth = 200
+            const legendHeight = 20
+            const legendGradient = legendGroup.append("rect")
+                .attr("x", -legendWidth / 2)
+                .attr("height", legendHeight)
+                .attr("width", legendWidth)
+                .style("fill", `url(#${legendGradientId})`)
+
+            const legendValueLeft = legendGroup.append("text")
+                .attr("class", "legend-value")
+                .attr("x", -legendWidth / 2 - 10)
+                .attr("y", legendHeight / 2 + 5)
+                .style("font-family", "Proxima Nova")
+                .style("font-size", 24)
+                .style("text-anchor", "end")
+                .style("font-weight", 700)
+                .text("Smallest")
+
+            // Peripherals
+            const legendValueRight = legendGroup.append("text")
+                .attr("class", "legend-value")
+                .attr("x", legendWidth / 2 + 10)
+                .attr("y", legendHeight / 2 + 5)
+                .style("font-family", "Proxima Nova")
+                .style("font-size", 24)
+                .style("font-weight", 700)
+                .text("Greatest")
+
+            chart.append("text")
+                .attr("transform", "translate(100,0)")
+                .attr("x", width2 / 2)
+                .attr("y", 50)
+                .style("font-size", "40px")
+                .style("font-weight", 700)
+                .style("text-anchor", "middle")
+                .style("font-family", "Proxima Nova")
+                .text("Market Share of Top ACA Insurer in Each State, 2019");
+
+            chart.append("text")
+                .attr("transform", "translate(100,0)")
+                .attr("x", width2 / 2)
+                .attr("y", 900)
+                .attr("font-size", "1.5em")
+                .style("text-anchor", "middle")
+                .style("font-family", "Proxima Nova")
+                .text("Source: KFF and Urban Institute.");
+
+        })()
+    </script>
+</body>
+
+</html>
