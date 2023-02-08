@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+      /* ensure fonts render in Safari */
+      body,
+      svg,
+      text,
+      svg text {
+        font-family: "proxima nova", sans-serif;
+      }
+      /* drop shadow */
+      /* circle {
+      filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.1));
+} */
+
+      body {
+        width: 80vw;
+        background-color: #000;
+      }
+
+      /* style scales */
+      .domain {
+        opacity: 0;
+      }
+
+      g.tick line {
+        opacity: 0;
+      }
+
+      g.tick text {
+        font-weight: 300;
+        font-size: 1.5em;
+        opacity: 0.5;
+      }
+
+    </style>
+  </head>
+
+  <body>
+
+    <figure3></figure3>
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <script>
+      ////////////////////////////////////
+      ///////////// SVG Setup ////////////
+      ////////////////////////////////////
+
+      // Margins for SVG
+      const margin = {
+        left: 100,
+        right: 60,
+        top: 100,
+        bottom: 50,
+      };
+
+      const svgWidth = 1000;
+      const svgHeight = svgWidth * 0.5;
+
+      // helper calculated variables for inner width & height
+      const height = svgHeight - margin.top - margin.bottom;
+      const width = svgWidth - margin.left - margin.right;
+
+      // add SVGs
+      function createSvg(figure) {
+        return d3
+          .select(figure)
+          .append("svg")
+          .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`) // responsive width & height
+          .append("g")
+          .attr(
+            "transform",
+            "translate(" + margin.left + "," + margin.top + ")"
+          );
+      }
+
+      const svg1 = createSvg("figure1");
+      const svg2 = createSvg("figure2");
+      const svg3 = createSvg("figure3");
+
+      // create array of svgs
+      const svgs = [];
+      svgs.push(svg1, svg2, svg3);
+
+      (async () => {
+
+        ////////////////////////////////////
+        ///////////// Data Wrangling ///////
+        ////////////////////////////////////
+
+        let data = await d3.csv(
+          "./price-indexes-for-select-conditions-annual-change.csv"
+        );
+
+        // reshape data with arrays of Value and Year
+        data = data.map((val) => ({
+          category: val.CATEGORY,
+          condition: val.CONDITION,
+          values: [
+            {
+              Value: +val["_199901"],
+              Year: "1999",
+            },
+            {
+              Value: +val["_200001"],
+              Year: "2000",
+            },
+            {
+              Value: +val["_200101"],
+              Year: "2001",
+            },
+            {
+              Value: +val["_200201"],
+              Year: "2002",
+            },
+            {
+              Value: +val["_200301"],
+              Year: "2003",
+            },
+            {
+              Value: +val["_200401"],
+              Year: "2004",
+            },
+            {
+              Value: +val["_200501"],
+              Year: "2005",
+            },
+            {
+              Value: +val["_200601"],
+              Year: "2006",
+            },
+            {
+              Value: +val["_200701"],
+              Year: "2007",
+            },
+            {
+              Value: +val["_200801"],
+              Year: "2008",
+            },
+            {
+              Value: +val["_200901"],
+              Year: "2009",
+            },
+            {
+              Value: +val["_201001"],
+              Year: "2010",
+            },
+            {
+              Value: +val["_201101"],
+              Year: "2011",
+            },
+            {
+              Value: +val["_201201"],
+              Year: "2012",
+            },
+            {
+              Value: +val["_201301"],
+              Year: "2013",
+            },
+            {
+              Value: +val["_201401"],
+              Year: "2014",
+            },
+            {
+              Value: +val["_201501"],
+              Year: "2015",
+            },
+            {
+              Value: +val["_201601"],
+              Year: "2016",
+            },
+            {
+              Value: +val["_201701"],
+              Year: "2017",
+            },
+            {
+              Value: +val["_201801"],
+              Year: "2018",
+            },
+            {
+              Value: +val["_201901"],
+              Year: "2019",
+            },
+            {
+              Value: +val["_202001"],
+              Year: "2020",
+            },
+            {
+              Value: +val["_202101"],
+              Year: "2021",
+            },
+          ],
+        }));
+
+        ////////////////////////////////////
+        ///////////// Scales     ///////////
+        ////////////////////////////////////
+
+        const timeRange = [
+          "1999",
+          "2000",
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005",
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010",
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+        ];
+
+        ////////////////////////////////////
+        ///////////// Scales ///////////////
+        ////////////////////////////////////
+
+        const xScale = d3
+          .scaleBand()
+          .domain(
+            timeRange.map(function (d) {
+              return d;
+            })
+          )
+          .range([0, width])
+          .paddingInner(1);
+
+        const yScale = d3
+          .scaleLinear()
+          .domain([0, 5])
+          .range([height, 0])
+          .nice();
+
+        ////////////////////////////////////
+        ///////////// Draw /////////////////
+        ////////////////////////////////////
+
+        const scatterData = data.map((d) => d.values);
+        // console.log(scatterData)
+        const flattenData = scatterData.flat();
+
+        svg3
+          .append("g")
+          .selectAll("dots")
+          .data(flattenData)
+          .join("circle")
+          .attr("class", "dots")
+          .attr("stroke", "none")
+          .attr("cx", function (d) {
+            return xScale(d.Year);
+          })
+          .attr("cy", 0)
+          .attr("opacity", 0.8)
+          .attr("fill", function (d) {
+            return `hsl(${d.Value * 50}, 80%, 50%)`;
+          })
+          .transition()
+          .duration(10000)
+          .attr("fill", function (d) {
+            return `hsl(${60 / d.Value}, 80%, 50%)`;
+          })
+          .attr("cy", function (d) {
+            return yScale(d.Value);
+          })
+          .attr("r", 10)
+          .attr("opacity", 0.0);
+        svg3.select("svg").attr("fill", "white");
+
+      })();
+    </script>
+  </body>
+</html>
