@@ -1,0 +1,203 @@
+body {
+  margin: 0;
+  font-family: 'open sans', sans-serif;
+}
+
+header {
+  width: 100vw;
+  /* background: rgb(230, 230, 230); */
+}
+
+img {
+  width: 100vw;
+  height: auto;
+}
+
+h1 {
+  font-size: 3.5em;
+  text-align: center;
+}
+
+h2 {
+  width: 100vw;
+  margin-bottom: 4em;
+  text-align: center;
+  font-size: 2em;
+  font-weight: 300;
+}
+
+
+/* Style scales */
+.domain {
+  opacity: 0;
+}
+
+g.tick line {
+  opacity: 0.3;
+}
+
+g.tick text {
+  font-weight: 300;
+  font-size: 2em;
+  opacity: 0.9;
+}
+
+#scrolly>figure>svg>g>g:nth-child(15)>g:nth-child(2)>text {
+  opacity: 0;
+}
+
+#outro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 100vh; */
+  width: 100vw;
+  font-size: 1.5em;
+  padding: 2em;
+  /* background: rgb(230, 230, 230); */
+}
+
+/* Scrollama sticky side example styles with some modifications https://github.com/russellgoldenberg/scrollama/blob/master/docs/sticky-side/index.html */
+
+#scrolly {
+  position: relative;
+  display: flex;
+  /* background-color: #f3f3f3; */
+  padding: 5rem 1rem;
+}
+
+article {
+  position: relative;
+  padding: 1rem;
+  flex-basis: 33%;
+  min-width: 20rem;
+}
+
+#data_viz_1 {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 20px;
+  left: 0px;
+  width: 100%;
+  /* height: 800px; */
+  margin: 0;
+  /* background-color: #8a8a8a; */
+  z-index: 0;
+  flex-basis: 67%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.step {
+  margin: 0 auto 2rem auto;
+  padding: 1rem;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* background-color: rgb(233, 233, 233); */
+  font-size: 25px;
+  font-weight: 300;
+}
+
+.step:last-child {
+  margin-bottom: 0;
+}
+
+/* .step.is-active {
+  /* background-color: rgb(222, 212, 224);  */
+/* color: #3b3b3b; */
+/* } */
+
+/* Text color highlights "#1c75ac", "#bda13e" */
+.bold {
+  font-weight: 900;
+}
+
+#weeks {
+  position: relative;
+  top: -100px;
+  background-color: white;
+}
+
+/* Footer styles */
+
+footer {
+  position: relative;
+  display: flex;
+  /* background-color: #f3f3f3; */
+  padding: 5rem 1rem;
+}
+
+#data_viz_2 {
+  margin: 0;
+  z-index: 0;
+  flex-basis: 67%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Responsive scrolly */
+@media only screen and (max-width: 600px) {
+
+  h2 {
+    width: 95vw;
+  }
+
+  #scrolly {
+    display: block;
+    position: relative;
+    top: 0px;
+  }
+
+  #data_viz_1 {
+    display: block;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 250px;
+    left: 0px;
+    min-width: 95vw;
+    margin-bottom: 250px;
+  }
+
+  article {
+    position: relative;
+    padding: 0.2em;
+    margin: 0 auto;
+    z-index: 1;
+  }
+
+  .step {
+    opacity: 98%;
+      }
+
+  .step p {
+    padding: 0.1rem;
+    font-size: 0.75em;
+    background-color: white;
+    /* filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.1)); */
+  }
+
+  /* responsive footer styles */
+footer {
+  display: block;
+  position: relative;
+  padding: 1rem 1rem;
+}
+
+article {
+  position: block;
+  padding: 1rem;
+  min-width: 20rem;
+}
+
+#data_viz_2 {
+  display: block;
+  justify-content: center;
+  align-items: center;
+}
+
+}

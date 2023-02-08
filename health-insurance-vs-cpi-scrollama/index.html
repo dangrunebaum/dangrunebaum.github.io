@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!-- 
+LINE CHART SHOWING COST OF HEALTH INSURANCE VS CPI
+https://www.kff.org/report-section/ehbs-2021-section-1-cost-of-health-insurance/
+https://fred.stlouisfed.org/series/CPIAUCSL#0
+CHART SHOWING WEEKS WORKED TO AFFORD HEALTH INSURANCE
+https://fred.stlouisfed.org/series/MAPAINUSA672N
+LINE CHART SHOWING COST OF HEALTH INSURANCE VS COST OF HEALTHCARE
+https://www.healthsystemtracker.org/chart-collection/u-s-spending-healthcare-changed-time/#Total%20national%20health%20expenditures,%20US%20$%20Billions,%201970-2020
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- our stylsheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header>
+        <img src="./iStock-1351616489.jpg">
+        <h1>The Cost of Health Insurance</h1>
+        <h2>We compared the cost of health insurance to inflation since 1999.</h2>
+    </header>
+    <main>
+      <section id="scrolly">
+                <div id="data_viz_1"></div>
+        <article>
+          <div id="one" class="step" data-step="one">
+            <p>In 1999, Americans paid an average $2,196 a year for typical employer health insurance. By 2005, health insurance cost $4,024 a year, up over <span class="bold">80%</span>. In comparison, inflation gained about <span class="bold">17%</span>. Scroll down to track the cost of health insurance vs. inflation through 2021.</p>
+            <p></p>
+          </div>
+          <div class="step" data-step="two">
+            <p>By 2010, health insurance cost $5,049 a year, up  <span class="bold">130%</span>. Inflation rose about <span class="bold">30%</span>.</p>
+          </div>
+          <div class="step" data-step="three">
+            <p>By 2015, health insurance cost Americans $6,251 a year, a gain of <span class="bold">185%</span>. Inflation was up about <span class="bold">40%</span>.</p>
+          </div>
+          <div class="step" data-step="four">
+            <p>By 2021, health insurance cost $7,739 a year, a rise of over <span class="bold">250%</span>. Inflation was up about <span class="bold">60%</span>.</p>
+          </div>
+          <div class="step" data-step="five" id="weekChart">
+            <p>Looked at another way, in 1999 the average American worked <span class="bold">2</span> weeks to pay for health insurance. In 2021 that grew to about <span class="bold">6 weeks.</span></p>
+          </div>
+          <div class="step">
+            <p>One further chart explains why the cost of health insurance has grown so much faster than inflation. See it below.</p>
+          </div>
+        </article>
+      </section>
+    </main>
+<footer>
+<div id="data_viz_2"></div>
+<article>
+  <div class="step">
+    <p>The rising cost of health insurance is almost entirely accounted for by the growing cost of Americans' healthcare itself. Between 1999 and 2020, the average cost of employer health insurance grew <span class="bold">240%</span>. Over the same period, the cost of healthcare rose <span class="bold">224%</span>.</p>
+  </div>
+</article>
+</footer>
+<div id="outro">
+<p>A large body of research exists on the growing cost America's healthcare. Here is some recommended reading...</p>
+</div>
+    <!-- include d3, intersection observer, and scrollama -->
+    <script src="//d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/intersection-observer"></script>
+    <script src="https://unpkg.com/scrollama"></script>
+    <!-- include our script last -->
+    <script src="script.js"></script>
+  </body>
+</html>
