@@ -1,0 +1,81 @@
+﻿Category,Procedure,City,Lat,Long,Rank
+Dental,Veneers,Bali,-8.340539,115.091949,4
+Dental,Teeth Whitening,Bali,-8.340539,115.091949,3
+All Medical,All Medical,Bangkok,13.756331,100.501762,1
+All Medical,Botox and Fillers,Bangkok,13.756331,100.501762,1
+All Medical,Breast Augmentation,Bangkok,13.756331,100.501762,1
+All Medical,Rhinoplasty,Bangkok,13.756331,100.501762,1
+All Medical,Hair Transplant,Bangkok,13.756331,100.501762,1
+Major Medical,IVF,Bangkok,13.756331,100.501762,2
+Major Medical,Bariatric Surgery,Bangkok,13.756331,100.501762,1
+Major Medical,Laser Eye Surgery,Bangkok,13.756331,100.501762,1
+Major Medical,Knee Replacement,Bangkok,13.756331,100.501762,1
+Major Medical,Hip Replacement,Bangkok,13.756331,100.501762,1
+Dental,All Dental,Bangkok,13.756331,100.501762,5
+Dental,Veneers,Bangkok,13.756331,100.501762,2
+Dental,Teeth Whitening,Bangkok,13.756331,100.501762,4
+All Medical,Breast Augmentation,Bogota,4.624335,-74.063644,4
+All Medical,Rhinoplasty,Bogota,4.624335,-74.063644,4
+All Medical,All Medical,Cancun,21.161907,-86.851524,3
+All Medical,Botox and Fillers,Cancun,21.161907,-86.851524,4
+All Medical,Breast Augmentation,Cancun,21.161907,-86.851524,2
+All Medical,Rhinoplasty,Cancun,21.161907,-86.851524,2
+All Medical,Hair Transplant,Cancun,21.161907,-86.851524,3
+Major Medical,IVF,Cancun,21.161907,-86.851524,3
+Major Medical,Bariatric Surgery,Cancun,21.161907,-86.851524,4
+Major Medical,Laser Eye Surgery,Cancun,21.161907,-86.851524,5
+Dental,All Dental,Cancun,21.161907,-86.851524,4
+Dental,Dental Implants,Cancun,21.161907,-86.851524,3
+Dental,Full Arch Reconstruction,Cancun,21.161907,-86.851524,4
+Dental,Crowns,Cancun,21.161907,-86.851524,5
+Dental,Teeth Whitening,Cancun,21.161907,-86.851524,2
+Major Medical,Bariatric Surgery,Cuilican,24.79032,-107.38782,5
+Major Medical,IVF,Guadalajara,20.659698,-103.349609,4
+Major Medical,Bariatric Surgery,Hermosillo,29.1026,-110.97732,3
+Major Medical,Laser Eye Surgery,Juarez,34.0928092,-118.3286614,3
+Dental,All Dental,Los Algodones,32.713466,-114.733917,1
+Dental,Dental Implants,Los Algodones,32.713466,-114.733917,1
+Dental,Full Arch Reconstruction,Los Algodones,32.713466,-114.733917,1
+Dental,Crowns,Los Algodones,32.713466,-114.733917,1
+Dental,Veneers,Los Algodones,32.713466,-114.733917,1
+Dental,Teeth Whitening,Los Algodones,32.713466,-114.733917,1
+Major Medical,Knee Replacement,Merida,20.96737,-89.592586,5
+Major Medical,Hip Replacement,Merida,20.96737,-89.592586,5
+All Medical,All Medical,Mexico City,19.432608,-99.133209,4
+All Medical,Botox and Fillers,Mexico City,19.432608,-99.133209,3
+All Medical,Breast Augmentation,Mexico City,19.432608,-99.133209,5
+All Medical,Hair Transplant,Mexico City,19.432608,-99.133209,4
+Major Medical,IVF,Mexico City,19.432608,-99.133209,5
+Dental,Full Arch Reconstruction,Mexico City,19.432608,-99.133209,2
+Dental,Dental Implants,Nogales,18.8346283,-97.2017278,5
+Dental,Crowns,Nogales,18.8346283,-97.2017278,3
+Dental,Teeth Whitening,Nogales,18.8346283,-97.2017278,5
+Major Medical,Knee Replacement,Nuevo Laredo,27.477936,-99.549573,3
+Major Medical,Hip Replacement,Nuevo Laredo,27.477936,-99.549573,3
+Dental,All Dental,Nuevo Progreso,17.69109,-93.83275,3
+Dental,Dental Implants,Nuevo Progreso,17.69109,-93.83275,4
+Dental,Crowns,Nuevo Progreso,17.69109,-93.83275,4
+Major Medical,Knee Replacement,Pasay,14.543945,120.993905,4
+Major Medical,Hip Replacement,Pasay,14.543945,120.993905,4
+All Medical,Hair Transplant,Phuket,7.878978,98.398392,5
+Major Medical,Knee Replacement,Phuket,7.878978,98.398392,2
+Major Medical,Hip Replacement,Phuket,7.878978,98.398392,2
+All Medical,All Medical,Puerto Vallarta,20.653406,-105.225334,5
+All Medical,Botox and Fillers,Puerto Vallarta,20.653406,-105.225334,2
+Dental,Veneers,Puerto Vallarta,20.617,-105.23018,5
+Major Medical,Laser Eye Surgery,Rocky Point,31.326822,-113.531184,4
+Dental,Full Arch Reconstruction,San Jose,9.928069,-84.090729,5
+All Medical,Rhinoplasty,Seoul,37.5326,127.024612,3
+All Medical,All Medical,Tijuana,32.514946,-117.038246,2
+All Medical,Botox and Fillers,Tijuana,32.514946,-117.038246,5
+All Medical,Breast Augmentation,Tijuana,32.514946,-117.038246,3
+All Medical,Rhinoplasty,Tijuana,32.514946,-117.038246,5
+All Medical,Hair Transplant,Tijuana,32.514946,-117.038246,2
+Major Medical,IVF,Tijuana,32.514946,-117.038246,1
+Major Medical,Bariatric Surgery,Tijuana,32.514946,-117.038246,2
+Major Medical,Laser Eye Surgery,Tijuana,32.514946,-117.038246,2
+Dental,All Dental,Tijuana,32.514946,-117.03825,2
+Dental,Dental Implants,Tijuana,32.514946,-117.03825,2
+Dental,Full Arch Reconstruction,Tijuana,32.514946,-117.03825,3
+Dental,Crowns,Tijuana,32.514946,-117.03825,2
+Dental,Veneers,Tijuana,32.514946,-117.03825,3
