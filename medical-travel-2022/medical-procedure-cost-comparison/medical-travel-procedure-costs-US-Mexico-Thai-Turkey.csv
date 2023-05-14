@@ -1,0 +1,22 @@
+Procedure,US_avg,Mexico_avg,Mex__savings,Turkey_avg,Turkey__savings,Thailand_avg,Thailand__savings,Category
+All-on-4,24600,9200,62.6,4500,81.71,9200,62.6,Dental
+Dental Crowns,1430,500,65.03,204,85.73,504,64.76,Dental
+Dental Fillings,145,51,64.83,62,57.24,54,62.76,Dental
+Dental Implants,3822,1250,67.29,918,75.98,1650,56.83,Dental
+Dental Veneers,1273,477,62.53,267,79.03,415,67.4,Dental
+Dentures,1826,669,63.36,757,58.54,623,65.88,Dental
+Root Canals,1171,247,78.91,97,91.72,332,71.65,Dental
+Teeth Whitening,650,174,73.23,135,79.23,249,61.69,Dental
+Bariatric Surgery,23000,3500,84.78,5500,76.09,13250,42.39,Medical
+Botox (per unit),16,10,37.5,7,56.25,9,43.75,Medical
+Breast Augmentation,7960,4300,45.98,3600,54.77,4300,45.98,Medical
+Gastric Band,11000,5000,54.55,3500,68.18,7500,31.82,Medical
+Gastric Bypass,23000,7500,67.39,5500,76.09,13250,42.39,Medical
+Hair Transplant,9500,4600,51.58,2400,74.74,5200,45.26,Medical
+Hip Replacement,40000,11000,72.5,8700,78.25,12000,70,Medical
+In Vitro Fertilization,14500,5100,64.83,2700,81.38,6200,57.24,Medical
+Knee Replacement,40000,15000,62.5,8700,78.25,13000,67.5,Medical
+Laser Surgery (per eye),2632,1200,54.41,1600,39.21,2215,15.84,Medical
+Liposuction,6000,2500,58.33,2800,53.33,3000,50,Medical
+Rhinoplasty,8483,5000,41.06,3100,63.46,6500,23.38,Medical
+Sleeve Gastrectomy,16800,7000,58.33,4000,76.19,8000,52.38,Medical

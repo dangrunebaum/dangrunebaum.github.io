@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+    <style>
+        body {
+            font-family: 'Proxima Nova';
+            text-align: center;
+            color: rgb(75, 75, 75);
+            /* padding: 10%; */
+        }
+        
+        h1 {
+            font-size: 3em;
+        }
+        /* Style scales */
+        
+        .domain {
+            opacity: 0;
+        }
+        
+        g.tick line {
+            opacity: 0;
+        }
+        
+        g.tick text {
+            color: #303030;
+            font-weight: 600;
+            font-size: 1.5em;
+        }
+        
+        .bars:hover {
+            opacity: 0.5;
+        }
+        /* Style for tooltip for bars and map */
+        
+        .tooltip {
+            position: absolute;
+            text-align: left;
+            max-width: auto;
+            max-height: auto;
+            font-size: 1.25em;
+            font-family: 'Proxima Nova';
+            background: white;
+            color: black;
+            border-radius: 4px;
+            padding: 12px;
+            pointer-events: none;
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, .5);
+            overflow: hidden;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .tooltip {
+                font-size: 0.75em;
+            }
+        }
+        
+        .bars:hover {
+            /* -webkit-filter: drop-shadow(3px 3px 1px rgba(0, 0, 0, 0.5));
+            filter: drop-shadow(3px 3px 1px rgba(0, 0, 0, 0.25)); */
+            opacity: 0.2;
+            fill: black;
+        }
+        
+        /* figure {
+            width: 80%;
+            margin: auto;
+        } */
+    </style>
+</head>
+
+<body>
+
+
+    <!-- Create a div where the graph will take place -->
+    <figure></figure>
+
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="chart.js"></script>
+</body>

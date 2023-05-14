@@ -1,0 +1,81 @@
+Category,Procedure,City,Rank,Lat,Long
+All Medical,All Medical,Bangkok,4,13.756331,100.501762
+All Medical,All Medical,Cancun,1,21.161907,-86.851524
+All Medical,All Medical,Mexico City,2,19.432608,-99.133209
+All Medical,All Medical,Puerto Vallarta,5,20.653406,-105.225334
+All Medical,All Medical,Tijuana,3,32.514946,-117.038246
+All Medical,Botox/Fillers,Bangkok,5,13.756331,100.501762
+All Medical,Botox/Fillers,Cancun,3,21.161907,-86.851524
+All Medical,Botox/Fillers,Mexico City,2,19.432608,-99.133209
+All Medical,Botox/Fillers,Playa del Carmen,4,20.6295586,-87.0738851
+All Medical,Botox/Fillers,Puerto Vallarta,1,20.653406,-105.225334
+All Medical,Breast Augmentation,Bangkok,2,13.756331,100.501762
+All Medical,Breast Augmentation,Cancun,1,21.161907,-86.851524
+All Medical,Breast Augmentation,Guadalajara,4,20.659698,-103.349609
+All Medical,Breast Augmentation,Mexico City,5,19.432608,-99.133209
+All Medical,Breast Augmentation,Tijuana,3,32.514946,-117.038246
+All Medical,Hair Transplant,Bangkok,2,13.756331,100.501762
+All Medical,Hair Transplant,Cancun,5,21.161907,-86.851524
+All Medical,Hair Transplant,Istanbul,3,41.015137,28.97953
+All Medical,Hair Transplant,Puerto Vallarta,1,20.653406,-105.225334
+All Medical,Hair Transplant,San Jose,4,9.928069,-84.090729
+All Medical,Rhinoplasty,Bangkok,1,13.756331,100.501762
+All Medical,Rhinoplasty,Cancun,2,21.161907,-86.851524
+All Medical,Rhinoplasty,Istanbul,5,41.015137,28.97953
+All Medical,Rhinoplasty,Mexico City,3,19.432608,-99.133209
+All Medical,Rhinoplasty,Tijuana,4,32.514946,-117.038246
+Major Medical,Hip Replacement,Bangkok,1,13.756331,100.501762
+Major Medical,Hip Replacement,Merida,5,20.96737,-89.592586
+Major Medical,Hip Replacement,Nuevo Laredo,3,27.477936,-99.549573
+Major Medical,Hip Replacement,Pasay,4,14.543945,120.993905
+Major Medical,Hip Replacement,Phuket,2,7.878978,98.398392
+Major Medical,IVF,Bangkok,4,13.756331,100.501762
+Major Medical,IVF,Cancun,2,21.161907,-86.851524
+Major Medical,IVF,Istanbul,3,41.015137,28.97953
+Major Medical,IVF,Mexicali,5,32.663334,-115.467781
+Major Medical,IVF,Tijuana,1,32.514946,-117.038246
+Major Medical,Knee Replacement,Bangkok,1,13.756331,100.501762
+Major Medical,Knee Replacement,Merida,5,20.96737,-89.592586
+Major Medical,Knee Replacement,Nuevo Laredo,3,27.477936,-99.549573
+Major Medical,Knee Replacement,Pasay,4,14.543945,120.993905
+Major Medical,Knee Replacement,Phuket,2,7.878978,98.398392
+Major Medical,Laser Eye Surgery,Cancun,2,21.161907,-86.851524
+Major Medical,Laser Eye Surgery,Istanbul,3,41.015137,28.97953
+Major Medical,Laser Eye Surgery,Juarez,5,34.0928092,-118.3286614
+Major Medical,Laser Eye Surgery,Mexico City,4,19.432608,-99.133209
+Major Medical,Laser Eye Surgery,Tijuana,1,32.514946,-117.038246
+All Medical,Top Cities 2022 (not Mexico),Bangkok,1,13.756331,100.501762
+All Medical,Top Cities 2022 (not Mexico),Istanbul,2,41.015137,28.97953
+All Medical,Top Cities 2022 (not Mexico),San Jose,3,9.928069,-84.090729
+All Medical,Top Cities 2022 (not Mexico),Phuket,4,7.878978,98.398392
+All Medical,Top Cities 2022 (not Mexico),Escazu,5,9.91887,-84.13989
+Dental,All Dental,Cancun,2,21.161907,-86.851524
+Dental,All Dental,Los Algodones,1,32.713466,-114.733917
+Dental,All Dental,Nogales,4,18.8346283,-97.2017278
+Dental,All Dental,Nuevo Progreso,5,17.69109,-93.83275
+Dental,All Dental,Tijuana,3,32.514946,-117.038246
+Dental,Crowns,Cancun,2,21.161907,-86.851524
+Dental,Crowns,Los Algodones,1,32.713466,-114.733917
+Dental,Crowns,Nogales,4,18.8346283,-97.2017278
+Dental,Crowns,Nuevo Progreso,5,17.69109,-93.83275
+Dental,Crowns,Tijuana,3,32.514946,-117.038246
+Dental,Dental Implants,Cancun,2,21.161907,-86.851524
+Dental,Dental Implants,Los Algodones,1,32.713466,-114.733917
+Dental,Dental Implants,Nogales,5,18.8346283,-97.2017278
+Dental,Dental Implants,Nuevo Progreso,4,17.69109,-93.83275
+Dental,Dental Implants,Tijuana,3,32.514946,-117.038246
+Dental,Full Arch Reconstruction,Cancun,2,21.161907,-86.851524
+Dental,Full Arch Reconstruction,Istanbul,4,41.015137,28.97953
+Dental,Full Arch Reconstruction,Los Algodones,1,32.713466,-114.733917
+Dental,Full Arch Reconstruction,San Jose,3,9.928069,-84.090729
+Dental,Full Arch Reconstruction,Tijuana,5,32.514946,-117.038246
+Dental,Teeth Whitening,Los Algodones,1,32.713466,-114.733917
+Dental,Teeth Whitening,Mexico City,4,19.432608,-99.133209
+Dental,Teeth Whitening,Playa del Carmen,5,20.6295586,-87.0738851
+Dental,Teeth Whitening,Puerto Vallarta,3,20.653406,-105.225334
+Dental,Teeth Whitening,Tijuana,2,32.514946,-117.038246
+Dental,Veneers,Cancun,2,21.161907,-86.851524
+Dental,Veneers,Istanbul,4,41.015137,28.97953
+Dental,Veneers,Los Algodones,1,32.713466,-114.733917
+Dental,Veneers,Playa del Carmen,5,20.6295586,-87.0738851
+Dental,Veneers,Tijuana,3,32.514946,-117.038246

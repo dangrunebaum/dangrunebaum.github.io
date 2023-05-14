@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<!-- STACKED BARS SHOW SIZE OF PROCEDURES ($) OVER TIME, BUCKETED BY <$500, $500-5000, >$5000. -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+  </head>
+  <style>
+    /* ensure font renders correctly */
+    body,
+    svg,
+    text,
+    svg text {
+      font-family: "proxima nova", sans-serif;
+    }
+    /* Style scales */
+    .domain {
+      opacity: 0;
+    }
+
+    g.tick line {
+      opacity: 0;
+    }
+
+    g.tick text {
+      font-weight: 300;
+      font-size: 1.5em;
+    }
+  </style>
+  <script src="https://d3js.org/d3.v5.js"></script>
+  <body>
+    <h1>Cost of Procedures over Time</h1>
+    <h2>
+      Procedures costing over $5,000 grew as a percentage of all procedures
+    </h2>
+    <div id="procedure-size-breakdown"></div>
+    <script>
+      const data = [
+        {
+          Year: 2017,
+          ">$5,000": 0.05,
+          "$500-4,999": 0.34,
+          "<$500": 0.61,
+        },
+        {
+          Year: 2018,
+          ">$5,000": 0.08,
+          "$500-4,999": 0.35,
+          "<$500": 0.57,
+        },
+        {
+          Year: 2019,
+          ">$5,000": 0.1,
+          "$500-4,999": 0.41,
+          "<$500": 0.49,
+        },
+        {
+          Year: 2020,
+          ">$5,000": 0.07,
+          "$500-4,999": 0.35,
+          "<$500": 0.58,
+        },
+        {
+          Year: 2021,
+          ">$5,000": 0.11,
+          "$500-4,999": 0.34,
+          "<$500": 0.55,
+        },
+        {
+          Year: 2022,
+          ">$5,000": 0.22,
+          "$500-4,999": 0.43,
+          "<$500": 0.35,
+        },
+      ];
+
+      const svgWidth = 800;
+      const svgHeight = 500;
+      // set the dimensions and margins of the graph
+      const margin = { top: 100, right: 10, bottom: 50, left: 100 },
+        width = svgWidth - margin.left - margin.right,
+        height = svgHeight - margin.top - margin.bottom;
+
+      // append the svg object to the body of the page
+      const svg = d3
+        .select("#procedure-size-breakdown")
+        .append("svg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`) // responsive width & height
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+      // List of subgroups = header of the csv files = soil condition here
+      const subgroups = [">$5,000", "$500-4,999", "<$500"];
+
+      // List of groups = species here = value of the first column called group -> I show them on the X axis
+      const groups = data.map((d) => d.Year);
+
+      // Add X axis
+      const x = d3.scaleBand().domain(groups).range([0, width]).padding([0.1]);
+      svg
+        .append("g")
+        .attr("transform", `translate(0, ${height})`)
+        .call(d3.axisBottom(x).tickSizeOuter(0));
+
+      // Add Y axis
+      const y = d3.scaleLinear().domain([0, 100]).range([height, 0]);
+      svg.append("g").call(d3.axisLeft(y).tickFormat((d) => d + "%"));
+
+      // color palette = one color per subgroup
+      const color = d3
+        .scaleOrdinal()
+        .domain(subgroups)
+        .range(["#2b8cbe", "#7bccc4", "#bae4bc"]);
+
+      // Sum of each group must be 100!
+      data.forEach(function (d) {
+        // Now normalize
+        for (i in subgroups) {
+          name = subgroups[i];
+          d[name] = d[name] * 100;
+        }
+      });
+
+      //Stack the data --> stack per subgroup
+      const stackedData = d3.stack().keys(subgroups)(data);
+
+      // Show the bars
+      svg
+        .append("g")
+        .selectAll("g")
+        // Enter in the stack data = loop key per key = group per group
+        .data(stackedData)
+        .join("g")
+        .attr("fill", (d) => color(d.key))
+        .selectAll("rect")
+        // enter a second time = loop subgroup per subgroup to add all rectangles
+        .data((d) => d)
+        .join("rect")
+        .attr("x", (d) => x(d.data.Year))
+        .attr("y", (d) => y(d[1]))
+        .attr("height", (d) => y(d[0]) - y(d[1]))
+        .attr("width", x.bandwidth());
+console.log(stackedData)
+      // Show the data marks
+      svg
+        .append("g")
+        .selectAll("g")
+        // Enter the stack data = loop key per key = group per group
+        .data(stackedData)
+        .join("g")
+        .attr("fill", "white")
+        .selectAll("dataMarks")
+        // enter a second time = loop subgroup per subgroup to add all rectangles
+        .data((d) => d)
+        .join("text")
+        .attr("x", (d) => x(d.data.Year) + 50)
+        .attr("y", (d) => y(d[1]) + 15)
+        .attr("text-anchor", "middle")
+        .attr("font-size", "1em")
+        .text((d) => Math.round(d[1]));
+
+        d3.select("#procedure-size-breakdown > svg > g > g:nth-child(4) > g:nth-child(3) > text:nth-child(1)")
+          .remove()
+      // for (let i = 0; i < stackedData.length; i++) {
+      //   let year2017 = data[0][">$5,000"];
+      //   let year2018 = data[1];
+      //   let year2019 = data[2];
+      //   let year2020 = data[3];
+      //   let year2021 = data[4];
+      //   let year2022 = data[5];
+      //   console.log(year2017);
+      //   console.log(year2022);
+      // }
+
+      // Legend
+      svg
+        .append("g")
+        .selectAll("squares")
+        .data(subgroups.reverse())
+        .join("rect")
+        .attr("x", (d, i) => i * 150 + 20)
+        .attr("y", -50)
+        .attr("width", 20)
+        .attr("height", 20)
+        .attr("fill", (d) => color(d));
+
+      svg
+        .append("g")
+        .selectAll("labels")
+        .data(subgroups)
+        .join("text")
+        .attr("x", (d, i) => i * 150 + 50)
+        .attr("y", -35)
+        .attr("fill", (d) => color(d))
+        .attr("font-weight", 700)
+        .text((d) => d);
+
+      // Y axis label
+      svg
+        .append("text")
+        .attr("y", -70)
+        .attr("x", 0 - height / 2)
+        .attr("font-size", "1em")
+        .attr("transform", "rotate(-90)")
+        .attr("text-anchor", "middle")
+        .text("Procedures");
+
+      svg
+        .append("text")
+        .attr("x", width - 13)
+        .attr("y", -5)
+        .style("font-family", "Proxima Nova,sans-serif")
+        .style("font-size", "10px")
+        .style("font-weight", 300)
+        .style("text-anchor", "end")
+        .style("fill", "dimgray")
+        .text("HealthCare.com analysis of Medical Departures data");
+    </script>
+  </body>
+</html>
