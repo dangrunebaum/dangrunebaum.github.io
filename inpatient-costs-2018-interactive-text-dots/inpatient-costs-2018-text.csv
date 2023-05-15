@@ -1,0 +1,23 @@
+﻿Characteristic,Characteristic level,Year,Number of Inpatient Stays,Cost per Stay,Cost per Stay (Inflation-Adjusted),Length of Stay,In-Hospital Mortality,"Rate per 100,000 Population"
+All Inpatient Stays,All Inpatient Stays,2018,"35,527,481.0",12512,"10,906.1",4.7,2.0,"10,880.2"
+Age,Age 0-17,2018,"5,266,258.3",8202,"7,149.8",4.1,0.4,"7,140.8"
+Age,Age 18-44,2018,"8,438,858.3",9085,"7,918.9",3.8,0.5,"7,228.8"
+Age,Age 45-64,2018,"8,582,643.7",15262,"13,303.6",5.1,1.9,"10,184.7"
+Age,Age 65-74,2018,"5,730,778.2",16068,"14,005.7",5.2,2.8,"18,729.5"
+Age,Age 75+,2018,"7,507,582.5",13523,"11,787.5",5.2,4.3,"35,450.3"
+Sex,Male,2018,"15,593,671.5",14178,"12,358.1",5.1,2.4,"9,699.7"
+Sex,Female,2018,"19,928,899.5",11209,"9,770.7",4.3,1.7,"12,022.1"
+Expected Payer,with Medicare,2018,"14,534,046.1",14431,"12,578.6",5.2,3.1,
+Expected Payer,with Medicaid,2018,"8,064,974.8",10677,"9,307.0",4.6,0.9,
+Expected Payer,with Private Insurance,2018,"10,307,345.5",11556,"10,072.7",3.9,1.2,
+Expected Payer,Self-Pay/No Charge,2018,"1,583,065.1",9822,"8,561.3",4.1,1.5,
+Community-Level Income,Income Level 0-25%,2018,"10,295,751.6",11687,"10,186.9",4.8,2.0,"12,933.7"
+Community-Level Income,Income Level 25-50%,2018,"9,398,243.0",12193,"10,628.3",4.6,2.0,"11,303.6"
+Community-Level Income,Income Level 50-75%,2018,"8,330,567.4",12695,"11,066.0",4.6,1.9,"10,103.0"
+Community-Level Income,Income Level 75-100%,2018,"6,910,994.3",13777,"12,008.7",4.5,1.9,"8,499.7"
+Hospitalization Type,Giving Birth,2018,"3,943,223.8",5340,"4,655.1",2.7,0.0,"1,207.6"
+Hospitalization Type,with Mental Health Problems,2018,"1,940,749.7",6973,"6,078.5",7.0,0.1,594.4
+Hospitalization Type,with an Injury,2018,"1,648,199.9",17795,"15,510.9",5.1,2.5,504.8
+Hospitalization Type,with Surgery,2018,"7,180,602.7",25907,"22,582.4",5.6,1.9,"2,199.0"
+Hospitalization Type,with Medical Problems,2018,"17,063,940.9",10232,"8,919.2",4.6,3.0,"5,225.8"
+Hospitalization Type,with Neonatal Problems,2018,"3,750,764.0",5302,"4,621.9",3.8,0.3,"1,148.7"

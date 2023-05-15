@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+
+<head>
+  <style>
+    /* ensure fonts render in Safari */
+    body,
+    svg,
+    text,
+    svg text {
+      font-family: "proxima nova", sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 5%;
+    }
+
+    h2 {
+      margin: 0 auto;
+      width: 70%;
+      padding: 7%;
+    }
+
+    /* drop shadow */
+    /* circle {
+      filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.1));
+    } */
+
+    /* Style scales */
+    .domain {
+      opacity: 0;
+    }
+
+    g.tick line {
+      opacity: 0;
+    }
+
+    g.tick text {
+      font-weight: 700;
+      font-size: 2em;
+    }
+
+    /* Style dropdown */
+    select {
+      position: relative;
+      font-size: 1em;
+      padding: 0 16px 8px 5px;
+      margin: 0 14px 10px 0;
+      background: #fff;
+      border-bottom: 5px solid #000;
+      border-top: none;
+      border-right: none;
+      border-left: none;
+      cursor: pointer;
+      outline: none;
+      font-weight: 700;
+    }
+
+    /* Style text spans */
+    #days-1 {
+      color: darkred;
+    }
+
+    #cost-1 {
+      color: olive;
+    }
+
+    #percent-1 {
+      color: rebeccapurple;
+    }
+
+    select option {
+      background-color: white;
+    }
+
+    img {
+      width: 10%;
+      position: absolute;
+      top: 2%;
+    }
+  </style>
+</head>
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v5.js"></script>
+
+<body>
+  <h1>
+    The Costs of Hospitalization
+    <img src="iStock-1321017128.jpg" />
+  </h1>
+
+  <h2>
+    On average, someone
+    <select></select>
+    can expect a hospital stay to last <span id="days-1"></span> days and cost
+    <span id="cost-1"></span> dollars, with a
+    <span id="percent-1"></span> percent chance of death.
+  </h2>
+  <!-- Divs where the charts take place -->
+  <figure1></figure1>
+  <figure2></figure2>
+  <figure3></figure3>
+  <script>
+    // 3 dot plots, x scales based on days, dollars, and % chance of death
+    // Update dot positions based on selectedOption
+    // Animate x pos update by saving previous position then transitioning to new position
+
+    ////////////////////////////////////
+    ///////////// SVG Setup ////////////
+    ////////////////////////////////////
+
+    // margins for SVG
+    const margin = {
+      left: 150,
+      right: 50,
+      top: 30,
+      bottom: 0,
+    };
+
+    const svgWidth = 1000;
+    const svgHeight = svgWidth * 0.15;
+
+    // helper calculated variables for inner width & height
+    const width = svgWidth - margin.left - margin.right;
+    const height = svgHeight - margin.top - margin.bottom;
+
+    // add SVGs, one for each chart
+    function createSvg(figure) {
+      return d3
+        .select(figure)
+        .append("svg")
+        .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`) // responsive width & height
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    }
+    const svg1 = createSvg("figure1");
+
+    const svg2 = createSvg("figure2");
+
+    const svg3 = createSvg("figure3");
+
+    // create array of svgs
+    const svgs = [];
+    svgs.push(svg1, svg2, svg3);
+
+
+    ////////////////////////////////////
+    ///////// Data Wrangling ///////////
+    ////////////////////////////////////
+
+    // read the data
+    d3.csv("inpatient-costs-2018-text.csv").then(function (data) {
+      // console.log(data);
+
+      ////////////////////////////////////
+      ///////////// Interactions /////////
+      ////////////////////////////////////
+
+      // create dropdown
+      d3.select("select")
+        .selectAll("options")
+        .data([
+          "Age 0-17",
+          "Age 18-44",
+          "Age 45-64",
+          "Age 65-74",
+          "Age 75+",
+          "Male",
+          "Female",
+          "with Medicare",
+          "with Medicaid",
+          "with Private Insurance",
+          "Self-Pay/No Charge",
+          "Income Level 0-25%",
+          "Income Level 25-50%",
+          "Income Level 50-75%",
+          "Income Level 75-100%",
+          "Giving Birth",
+          "with Mental Health Problems",
+          "with an Injury",
+          "with Surgery",
+          "with Medical Problems",
+          "with Neonatal Problems",
+        ])
+        .join("option")
+        .text((d) => d)
+        .attr("value", (d) => d);
+
+      // listener function sets selectedOption to value property
+      d3.select("select").on("change", function (d) {
+        let selectedOption = d3.select(this).property("value");
+
+        update(selectedOption);
+      });
+
+      ////////////////////////////////////
+      ///////////// Scales ///////////////
+      ////////////////////////////////////
+
+      // add X axes and scales - one each for days, cost and mortality
+      const xScale1 = d3.scaleLinear().domain([0, 7]).range([0, width]);
+      svg1
+        .append("g")
+        .attr("transform", "translate(0," + margin.top + ")")
+        .call(d3.axisBottom(xScale1).ticks(7));
+
+      const xScale2 = d3.scaleLinear().domain([0, 30000]).range([0, width]);
+      svg2
+        .append("g")
+        .attr("transform", "translate(0," + margin.top + ")")
+        .call(
+          d3
+            .axisBottom(xScale2)
+            .ticks(7)
+            .tickFormat((d) => "$" + d3.format(",")(d))
+        );
+
+      const xScale3 = d3.scaleLinear().domain([0, 5]).range([0, width]);
+      svg3
+        .append("g")
+        .attr("transform", "translate(0," + margin.top + ")")
+        .call(
+          d3
+            .axisBottom(xScale3)
+            .ticks(5)
+            .tickFormat((d) => d + "%")
+        );
+
+      ////////////////////////////////////
+      ///////////// Draw lines ///////////
+      ////////////////////////////////////
+
+      svgs.forEach((svg) =>
+        svg
+          .append("line")
+          .attr("x1", 0)
+          .attr("x2", width)
+          .attr("y1", 0)
+          .attr("y2", 0)
+          .attr("stroke", "dimgray")
+          .attr("stroke-width", 1)
+      );
+
+      ////////////////////////////////////
+      ///////////// Update ///////////////
+      ////////////////////////////////////
+
+      // variables to hold data
+      let previous = null;
+      let current = null;
+      // axis parameters
+      const measures = [
+        "Length of Stay",
+        "Cost per Stay",
+        "In-Hospital Mortality",
+      ];
+      // create arrays for colors, scales and labels (only things that change when drawing svgs)
+      const colors = ["darkred", "olive", "rebeccapurple"];
+
+      const xScales = [xScale1, xScale2, xScale3];
+
+      const axisLabels = ["Days", "Cost", "Mortality"];
+
+      function update(selectedOption) {
+        // remove old circles
+        d3.selectAll("circle").remove();
+
+        // filter for selected characteristic levels
+        filterData = data.filter(function (d) {
+          return d["Characteristic level"] === selectedOption;
+        });
+
+        // variables for animating transition of circles
+        previous = current; // previous is updated to the existing array
+        current = filterData; // current is updated to the incoming array
+
+        // fill in text with values
+        document.querySelector("#days-1").innerText =
+          filterData[0]["Length of Stay"];
+
+        document.querySelector("#cost-1").innerText = d3.format(",")(
+          filterData[0]["Cost per Stay"]
+        );
+
+        document.querySelector("#percent-1").innerText =
+          filterData[0]["In-Hospital Mortality"];
+
+        // on initial load place circles without animating
+        if (previous === null) {
+          svgs.forEach((svg, index) =>
+            svg
+              .append("circle")
+              .attr("cx", xScales[index](filterData[0][measures[index]]))
+              .transition()
+              .duration(100)
+              .attr("y", 0)
+              .attr("r", 15)
+              .attr("fill", colors[index])
+          );
+
+          // if dropdown is triggered animate between old and new positions
+        } else {
+          svgs.forEach((svg, index) =>
+            svg
+              .append("circle")
+              .attr("y", 0)
+              .attr("r", 15)
+              .attr("fill", colors[index])
+              .attr("cx", xScales[index](previous[0][measures[index]]))
+              .transition()
+              .duration(1000)
+              .attr("cx", xScales[index](current[0][measures[index]]))
+          );
+        }
+      }
+      // initialize
+      update("Age 0-17");
+
+      ////////////////////////////////////
+      ///////////// Peripherals //////////
+      ////////////////////////////////////
+
+      svgs.forEach((svg, index) =>
+        svg
+          .append("text")
+          .attr("x", -10)
+          .attr("y", 0)
+          .attr("fill", colors[index])
+          .attr("alignment-baseline", "middle")
+          .attr("text-anchor", "end")
+          .attr("font-size", "1.5em")
+          .attr("font-weight", 700)
+          .text(axisLabels[index])
+      );
+    });
+  </script>
+</body>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<!-- LOLLIPOP CHART SHOWING DOCTOR AGE PREFERENCES BY DECADE -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    /* Style scales */
+    .domain {
+        opacity: 0;
+    }
+
+    g.tick line {
+        opacity: 0;
+    }
+
+    g.tick text {
+        font-weight: 300;
+        font-size: 1.25em;
+    }
+
+    h1 {
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+</style>
+
+<body>
+    <h1>What age do you prefer your doctor to be?</h1>
+    <figure></figure>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <script>
+        (async () => {
+
+            ////////////////////////////////////
+            ///////////// SVG Setup ////////////
+            ////////////////////////////////////
+
+            // margins for SVG
+            const margin = {
+                left: 50,
+                right: 50,
+                top: 50,
+                bottom: 10
+            }
+
+            const svgWidth = 600
+            const svgHeight = svgWidth * 0.7
+
+            // helper calculated variables for inner width & height
+            const height = svgHeight - margin.top - margin.bottom
+            const width = svgWidth - margin.left - margin.right
+
+            // add SVG
+            const svg = d3.select('figure')
+                .append('svg')
+                .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`) // responsive width & height
+                .append('g')
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+            ////////////////////////////////////
+            ///////// Data Wrangling ///////////
+            ////////////////////////////////////
+
+            let data = await d3.csv('./doctor-selection-age.csv')
+
+            // Sort data from large to small
+            data.sort(function (b, a) {
+                return +a.Response - +b.Response;
+            });
+            console.log(data)
+            ////////////////////////////////////
+            /////////////// Scales /////////////
+            ////////////////////////////////////
+
+            // Add X axis and scale
+            var x = d3.scaleLinear()
+                .domain([0, d3.max(data, d => +d.Response)])
+                .range([0, width]);
+            svg.append("g")
+                .call(d3.axisTop(x).tickFormat(d => d + "%").ticks(5));
+
+            // Add Y axis and scale
+            var y = d3.scaleBand()
+                .domain(data.map(function (d) { return d.Answer; }))
+                .range([0, height])
+                .padding(1)
+            svg.append("g")
+                .call(d3.axisLeft(y));
+
+            ////////////////////////////////////
+            /////////////// Draw items /////////
+            ////////////////////////////////////
+
+            svg.selectAll('myline')
+                .data(data)
+                .enter()
+                .append('line')
+                .attr('x1', x(0))
+                .attr('x2', x(0))
+                .attr('y1', d => y(d.Answer))
+                .attr('y2', d => y(d.Answer))
+                .style("stroke", 'gray');
+
+            svg.selectAll('mycircle')
+                .data(data)
+                .enter()
+                .append('circle')
+                .attr('cx', x(0))
+                .attr('cy', d => y(d.Answer))
+                .style('fill', function (d) {
+                    if (d.Answer === '40-49') { return '#262751' } else { return '#df9c19' }
+                })
+                .attr('r', 8);
+
+            // Change the X coordinates of line and circle
+            svg.selectAll("circle")
+                .transition()
+                .duration(1000)
+                .attr("cx", d => x(+d.Response));
+
+            svg.selectAll("line")
+                .transition()
+                .duration(1000)
+                .attr("x2", d => x(+d.Response));
+
+            // Animate text
+            svg.selectAll('mytext')
+                .data(data)
+                .enter()
+                .append('text')
+                .attr('x', function (d) { return x(+d.Response) + 10; })
+                .attr('y', d => y(d.Answer) + 3)
+                .style('font-size', '0.6em')
+                .style("font-weight", 700)
+                .style('opacity', 0)
+                .style('font-family', 'proxima nova')
+                .transition()
+                .duration(500)
+                .delay(1000)
+                .style('opacity', 1)
+                .style('fill', function (d) {
+                    if (d.Answer === '40-49') { return '#262751' } else { return '#df9c19' }
+                })
+                .text(function (d) { return Math.round((+d.Response)) + '%'; });
+
+        })()
+
+    </script>
+</body>
+
+</html>
