@@ -52,7 +52,7 @@ nav {
     width: 100%;
 }
 
-nav a {
+.button {
     margin: 1rem;
     border-radius: 50%;
     color: #2D3319;
@@ -63,7 +63,7 @@ nav a {
     font-weight: 400;
 }
 
-nav a:hover {
+.button:hover {
     /* text-decoration: underline; */
     /* display: inline; */
     background-color: #ff3333;
