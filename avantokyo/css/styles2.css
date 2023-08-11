@@ -154,6 +154,12 @@ _____________________*/
         font-size: large;
         font-weight: 400;
     }
+
+    .button {
+        margin: 0;
+        padding: 10px;
+    }
+
     iframe {
         width: 90%;
     }

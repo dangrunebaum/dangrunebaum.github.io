@@ -140,6 +140,11 @@ _____________________*/
         font-weight: 400;
     }
 
+    .button {
+        margin: 0;
+        padding: 10px;
+    }
+
         .content-wrap {
         /* width: 800px; */
         margin: 0 auto;
