@@ -68,6 +68,8 @@ nav {
     /* display: inline; */
     background-color: #ff3333;
     color: #ffffff;
+    filter: drop-shadow(0 0 0.75rem lightgray);
+
     transition-timing-function: ease-out;
     transition: 0.5s;
     text-decoration: none;
