@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+  <style>
+    #container {
+      margin-top: 50px;
+    }
+
+    svg {
+      padding: 20px 0 0 20px;
+    }
+
+    .arc {
+      stroke: #fff;
+    }
+
+    h1 {
+      padding: 50px;
+      text-align: center;
+      font-size: 40px;
+      color: dimgray;
+    }
+
+    .legend {
+      position: relative;
+      margin: 0px 20px 0px 20px;
+    }
+
+  </style>
+</head>
+
+<script src="//d3js.org/d3.v5.min.js"></script>
+
+<body>
+
+  <h1>
+    Affordable Care Act: Enrollment by Metal Percentage
+  </h1>
+ 
+  <div id='container'></div>
+<h2>Source: U.S. Centers for Medicare & Medicaid Services, Open Enrollment Period Public Use Files.  
+</h2>
+
+  <script>
+
+    var radius = 74,
+      padding = 10;
+
+    var arc = d3.arc()
+      .outerRadius(radius)
+      .innerRadius(radius - 40);
+
+    var pie = d3.pie()
+      .sort(null)
+      .value(function (d) { return d.enrollment; });
+
+    const dataPromise = d3.csv("https://content-static.healthcare.inc/data/metal-enrollment-state.csv");// Load data
+    Promise.all([dataPromise]).then(function (values) {
+      ready(values)
+    });
+
+    function ready([data]) {
+
+      var color = d3.scaleOrdinal()
+        .range(['#a97142', 'silver', 'gold']);
+
+      // key is state name 
+      color.domain(d3.keys(data[0]).filter(function (key) { return key !== "State_Abrvtn"; }));
+
+      data.forEach(function (d) {
+        d.metals = color.domain().map(function (name) {
+          return {
+            name: name,
+            enrollment: +d[name].replace(",", ""), // insert state enrollment figures into data array
+            // insert state totals into data array
+            total: +d.Bronze.replace(",", "") + +d.Silver.replace(",", "") + +d.Gold.replace(",", ""),
+          };
+        });
+      });
+      // console.log(data)
+
+      var legend = d3.select("#container").append("svg")
+        .attr("class", "legend")
+        .attr("width", radius * 2)
+        .attr("height", radius * 2)
+        .selectAll("g")
+        .data(color.domain().slice().reverse())
+        .enter().append("g")
+        .attr("transform", function (d, i) { return "translate(0," + i * 40 + ")"; });
+
+      legend.append("rect")
+        .attr("width", 38)
+        .attr("height", 38)
+        .style("fill", color);
+
+      legend.append("text")
+        .attr("x", 44)
+        .attr("y", 19)
+        .attr("dy", ".35em")
+        .attr('font-size', 20)
+        .attr('fill', 'dimgray')
+        .attr('font-weight', 700)
+        .text(function (d) { return d; });
+
+      var svg = d3.select("#container").selectAll(".pie")
+        .data(data)
+        .enter().append("svg")
+        .attr("class", "pie")
+        .attr("width", radius * 2)
+        .attr("height", radius * 2)
+        .append("g")
+        .attr("transform", "translate(" + radius + "," + radius + ")");
+
+      var g = svg.selectAll(".arc")
+        .data(function (d) { return pie(d.metals); })
+        .enter()
+        .append('g')
+        .attr("class", "arc");
+
+      g.append("path")
+        .attr("class", "arc")
+        .attr("d", arc)
+        .style("fill", function (d) { return color(d.data.name); })
+      .on('mouseover', mouseover)
+      .on("mouseout", mouseout);
+
+
+      svg.append("text")
+        .attr("dy", "0.3em")
+        .style('font-size', 30)
+        .style("font-weight", 700)
+        .style("text-anchor", "middle")
+        .style("fill", "dimgray")
+        .style("font-family", "'Gill Sans', 'Gill Sans MT'")
+        .text(function (d) { return d.State_Abrvtn; });
+
+      g.append("text")
+        .attr("transform", function (d) {
+          return "translate(" + arc.centroid(d) + ")";
+        })
+        .attr("dy", "0.5em")
+        .style("text-anchor", "middle")
+        .style("stroke", "#363636")
+        .style("font-size", '11')
+        .style("font-weight", "300")
+        .style('opacity', 0)
+        .html(function (d) {
+          const tot = +d.Bronze + +d.Silver + +d.Gold;
+          return Math.round((d.data.enrollment / d.data.total) * 100) + "%";
+        });
+
+      // var totalEnrollment;
+      // var BronzePercent;
+      // var SilverPercent;
+      // var GoldPercent;
+      // data.forEach(function (d) {
+      //   var totalEnrollment = (+d.Bronze.replace(",", "") + +d.Silver.replace(",", "") + +d.Gold.replace(",", ""))
+      //   d.BronzePercent = +d.Bronze.replace(",", "") / totalEnrollment
+      //   d.SilverPercent = +d.Silver.replace(",", "") / totalEnrollment
+      //   d.GoldPercent = +d.Gold.replace(",", "") / totalEnrollment
+      // });
+
+
+
+      // g.append("text")
+      //   .attr("dy", "1.5em")
+      //   .style("text-anchor", "middle")
+      //   .style("fill", "dimgray")
+      //   .html(function (d) { return Math.round(d.SilverPercent * 100) + '% S'; });
+
+      // g.append("text")
+      //   .attr("dy", "2.5em")
+      //   .style("text-anchor", "middle")
+      //   .style("fill", "dimgray")
+      //   .html(function (d) { return Math.round(d.BronzePercent * 100) + '% B'; });
+
+    };
+
+    function mouseover() {
+      d3.selectAll('g.arc text')
+      .style('opacity', 1)
+    }
+
+    function mouseout() {
+      d3.selectAll('g.arc text')
+      .style('opacity', 0)
+    }
+
+  </script>
