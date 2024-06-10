@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title></title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      background-color: rgb(255, 245, 221);
+    }
+
+    circle {
+      filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));
+    }
+
+    /* Style scales */
+    .domain {
+      opacity: 0;
+    }
+
+    g.tick line {
+      opacity: 0;
+    }
+
+    g.tick text {
+      font-size: 1em;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.8.0/d3.min.js"></script>
+
+<body>
+  <div id="content">
+    <figure></figure>
+  </div>
+
+  <script>
+    (async () => {
+
+      ////////////////////////////////////
+      ///////////// SVG Setup ////////////
+      ////////////////////////////////////
+
+      // margins for SVG
+      const margin = {
+        left: 50,
+        right: 150,
+        top: 100,
+        bottom: 50,
+      };
+
+      const svgWidth = 800;
+      const svgHeight = svgWidth * 0.6;
+
+      // helper calculated variables for inner width & height
+      const height = svgHeight - margin.top - margin.bottom;
+      const width = svgWidth - margin.left - margin.right;
+
+      // add SVG
+      const svg = d3
+        .select("figure")
+        .append("svg")
+        .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`) // responsive width & height
+        .append("g")
+        .attr(
+          "transform",
+          "translate(" + margin.left + "," + margin.top + ")"
+        );
+
+      ////////////////////////////////////
+      ///////////// Data wrangling ///////
+      ////////////////////////////////////
+
+      var xCenter = [100, 300, 500];
+
+      const data = await d3.csv("./Medical_Debt_Survey_2021Q1_v3.csv");
+      console.log(data);
+
+      // Create array of objects
+      const nodes = data.map(function (d, i) {
+        return {
+          radius: 4,
+          category: d.Response,
+        };
+      });
+      // console.log(nodes);
+
+      ////////////////////////////////////
+      ///////////// Scales ///////////////
+      ////////////////////////////////////
+
+      var colorScale = d3
+        .scaleOrdinal()
+        .domain([
+          "No, I don't have medical debt.",
+          "Yes, I have medical debt.",
+          "Don’t know / Unsure",
+        ])
+        .range(["olive", "darkred", "peru"]);
+
+      // xScale takes Response categories as domain and xCenter 3points as range
+      xScale = d3
+        .scaleOrdinal()
+        .domain([
+          "No, I don't have medical debt.",
+          "Yes, I have medical debt.",
+          "Don’t know / Unsure",
+        ])
+        .range(xCenter);
+
+      // Create and call xAxis
+      const xAxis = svg
+        .append("g")
+        .attr("transform", "translate(0," + height + ")")
+      // .call(d3.axisBottom(xScale));
+
+      ////////////////////////////////////
+      ///////////// Force setup //////////
+      ////////////////////////////////////
+
+      // Call forceSimulation, passing in the array of objects
+      var simulation = d3
+        .forceSimulation(nodes)
+        .force(
+          "x",
+          d3.forceX().x(function (d) {
+            // ForceX function positions circles at 3 x positions defined by xScale
+            return xScale(d.category);
+          })
+        )
+        // ForceY function positions circles at half of height
+        .force("y", d3.forceY(height / 2))
+        // Collide force function
+        .force(
+          // ForceCollide stops circular elements from overlapping 
+          "collision",
+          d3.forceCollide().radius(function (d) {
+            return d.radius;
+          })
+        )
+        .on("tick", ticked);
+
+      ////////////////////////////////////
+      ///////////// Draw /////////////////
+      ////////////////////////////////////
+
+      // Callback function to update element positions after each tick
+      function ticked() {
+        var circles = d3
+          .select("svg g")
+          .selectAll("circle")
+          .data(nodes)
+          .join("circle")
+          .attr("r", function (d) {
+            return d.radius;
+          })
+          .style("fill", function (d) {
+            return colorScale(d.category);
+          })
+          .attr("cx", function (d) {
+            return d.x;
+          })
+          .attr("cy", function (d) {
+            return d.y;
+          })
+      };
+
+      // Return Response column from csv in order to count each response type
+      let responses = data.map(function (d) {
+        return d.Response;
+      });
+      // Count duplicates
+      const counts = {};
+      responses.forEach((x) => {
+        counts[x] = (counts[x] || 0) + 1;
+      });
+      console.log(counts);
+
+      // Add respondent figures
+      svg
+        .append("text")
+        .attr("x", 100)
+        .attr("y", 10)
+        .attr("font-size", "16px")
+        .attr("font-weight", 700)
+        .attr("font-family", "proxima nova")
+        .attr("text-anchor", "middle")
+        .style("fill", "olive")
+        .html(
+          "No: " +
+          counts["No, I don't have medical debt."]
+        )
+        .attr("opacity", 0)
+        .transition()
+        .duration(3000)
+        .attr("opacity", 1);
+
+      svg
+        .append("text")
+        .attr("x", 300)
+        .attr("y", 10)
+        .attr("font-size", "16px")
+        .attr("font-weight", 700)
+        .attr("font-family", "proxima nova")
+        .attr("text-anchor", "middle")
+        .attr("fill", "darkred")
+        .html(
+          "Yes: " + counts["Yes, I have medical debt."]
+        )
+        .attr("opacity", 0)
+        .transition()
+        .duration(3000)
+        .attr("opacity", 1);
+
+      svg
+        .append("text")
+        .attr("x", 500)
+        .attr("y", 10)
+        .attr("font-size", "16px")
+        .attr("font-weight", 700)
+        .attr("font-family", "proxima nova")
+        .attr("text-anchor", "middle")
+        .attr("fill", "peru")
+        .html("Don’t know: " + counts["Don’t know / Unsure"])
+        .attr("opacity", 0)
+        .transition()
+        .duration(3000)
+        .attr("opacity", 1);
+
+      // Add respondent percents
+      svg
+        .append("text")
+        .attr("x", 100)
+        .attr("y", 60)
+        .attr("font-size", "30px")
+        .attr("font-weight", 700)
+        .attr("font-family", "proxima nova")
+        .attr("text-anchor", "middle")
+        .style("fill", "olive")
+        .html("59%")
+        .attr("opacity", 0)
+        .transition()
+        .duration(3000)
+        .attr("opacity", 1);
+
+      svg
+        .append("text")
+        .attr("x", 300)
+        .attr("y", 60)
+        .attr("font-size", "30px")
+        .attr("font-weight", 700)
+        .attr("font-family", "proxima nova")
+        .attr("text-anchor", "middle")
+        .attr("fill", "darkred")
+        .html("35%")
+        .attr("opacity", 0)
+        .transition()
+        .duration(3000)
+        .attr("opacity", 1);
+
+      svg
+        .append("text")
+        .attr("x", 500)
+        .attr("y", 60)
+        .attr("font-size", "30px")
+        .attr("font-weight", 700)
+        .attr("font-family", "proxima nova")
+        .attr("text-anchor", "middle")
+        .attr("fill", "peru")
+        .html("7%")
+        .attr("opacity", 0)
+        .transition()
+        .duration(3000)
+        .attr("opacity", 1);
+
+      svg
+        .append("text")
+        .attr("x", width / 2)
+        .attr("y", -50)
+        .attr("font-size", "40px")
+        .attr("font-weight", 700)
+        .attr("font-family", "proxima nova")
+        .attr("text-anchor", "middle")
+        .attr("fill", "#303030")
+        .html("Do you have medical debt?")
+        .attr("opacity", 0)
+        .transition()
+        .duration(3000)
+        .attr("opacity", 1);
+
+    })();
+  </script>
+</body>
+
+</html>
